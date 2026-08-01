@@ -63,6 +63,18 @@ set(
 )
 
 set(
+  ANNOTATIONS_DB_ROOT_APP_NAME "ImagesAnnotator"
+  CACHE STRING
+  "The JSON root element name of the annotations project files. Keep the default to stay compatible with the ImagesAnnotator application project files."
+)
+
+set(
+  ANNOTATIONS_DB_APP_VERSION "${CMAKE_PROJECT_VERSION}"
+  CACHE STRING
+  "The version string written under the annotations project files JSON root element"
+)
+
+set(
   MAX_LOG_LEVEL "3"
   CACHE STRING
   "Sets the maximum severity of the compiled log messages. Error=0. Trace=5. By default Info=3"

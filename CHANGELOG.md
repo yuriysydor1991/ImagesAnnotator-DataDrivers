@@ -5,6 +5,81 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0] - 2026-08-01
+
+The first release of `ImagesAnnotatorDataDrivers` as a project of its own. The
+repository started life as the `lib` branch of the
+[cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template) project
+and has now been filled with the annotations database code extracted from the
+[ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator)
+application, so that the application and any other tool can read and write the
+very same annotations project files.
+
+### Added
+
+- The annotations project database, moved out of the ImagesAnnotator
+  `src/annotator-business/dbs/AnnotationsDBs` component: `AnnotationsDirDB`,
+  `AnnotationsJSONSerializator`, the four JSON converters and the
+  `DefaultDBMerger`.
+- The installable public interface under
+  [src/lib/facade/public](/src/lib/facade/public), in the version stamped
+  `ImagesAnnotatorDataDrivers011` namespace: `IAnnotationsDB`,
+  `IImagesPathsDBProvider`, `IRecordsFactory`, `IDBMerger`, `ImageRecord`,
+  `ImageRecordRect`, `IRecord`, `IProvider` and the extended `LibraryFacade`,
+  `LibraryContext` and `ILib`.
+- `LibraryFacade::open_annotations_db()`, `create_annotations_db()`,
+  `create_records_factory()`, `create_db_merger()`, `library_version()`,
+  `default_db_root_app_name()` and `default_db_app_version()` as the single
+  entry point of the library.
+- The `ANNOTATIONS_DB_ROOT_APP_NAME` and `ANNOTATIONS_DB_APP_VERSION` CMake
+  cache variables, plus their run time counterparts
+  `LibraryContext::app_name` / `IAnnotationsDB::set_app_info()`, so that the
+  JSON root element keeps naming the *application* and the produced files stay
+  readable by ImagesAnnotator.
+- `iannotator::records::RecordsFactory`, the default `IRecordsFactory`
+  implementation, replacing the application's `EventsFactory` dependency.
+- Unit tests for every moved component and a `CTEST_AnnotationsDirDB` component
+  test that links the real shared library and drives it through the public
+  headers only.
+
+### Changed
+
+- CMake project renamed from `CppAppTemplate` to `ImagesAnnotatorDataDrivers`;
+  the produced library is `libImagesAnnotatorDataDrivers-0.so` and its headers
+  install under `include/ImagesAnnotatorDataDrivers-0/`.
+- `ENABLE_NLOHMANN_JSON` and `ENABLE_LIBCURL` now default to `ON`: both are
+  mandatory for this library. Both are linked `PRIVATE`, so no third party type
+  leaks through the public headers.
+- The nlohmann json and libcurl enabler modules were each split into an
+  `-enabler` module, which makes the dependency available before `src/` is
+  added so the tests may link it, and a `-linker` module, which links it
+  against the library target afterwards.
+- The nlohmann json dependency is pinned to the `v3.11.3` tag instead of
+  tracking `master`.
+- `LibMain::libcall()` is a real implementation now: it builds the annotations
+  database described by the context, optionally loads
+  `LibraryContext::db_path`, and publishes the result as `LibraryContext::db`.
+- All the documentation, both `en_US` and `uk_UA`, was rewritten to describe
+  this library instead of the template it grew out of.
+
+### Removed
+
+- The template's placeholder `LibMain` demonstration body and the
+  "template project flavors" branch catalogue in the READMEs.
+
+### Not included
+
+- The ImagesAnnotator `src/annotator-business/exporters` component (the plain
+  text, YOLO v4 and PyTorch Vision dataset exporters) is deliberately out of
+  scope here and is to become a separate project.
+
+# Inherited cpp-app-template history
+
+Everything below happened in the
+[cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template) `lib`
+branch, from which this repository was forked. It is kept for the record
+because the git history of this repository still contains those commits.
+
 ## [lib0.10.0] - 2025-09-08
 
 - ea177d5 Including the main Config.cmake file into installation candidates
@@ -245,7 +320,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Releases
 
-[unreleased](https://github.com/yuriysydor1991/cpp-app-template)
+[unreleased](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers)
+
+[0.11.0](https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers/releases/tag/0.11.0)
+
+The tags below belong to the upstream cpp-app-template project this repository
+was forked from:
 
 [lib0.10.0](https://github.com/yuriysydor1991/cpp-app-template/releases/tag/lib0.10.0)
 [lib0.9.0](https://github.com/yuriysydor1991/cpp-app-template/releases/tag/lib0.9.0)

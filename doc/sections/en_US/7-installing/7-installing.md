@@ -5,29 +5,54 @@ Execute available install commands from the project's build directory.
 
 ## Default installation
 
-In order to install generated executable (as shown previous) file into yours system binary default folder, execute next command in the command line (GNU/Linux based):
+In order to install the generated library (as shown previous) into your system default folders, execute next command in the command line (GNU/Linux based):
 
 ```
-# installs generated library under the /usr/local/lib/ for example
-# and installs header include files under the /usr/local/include/libCppAppTemplateLib
+# installs the generated library under the /usr/local/lib/ for example
+# and installs the header include files under the
+# /usr/local/include/ImagesAnnotatorDataDrivers-0/
 
 sudo cmake --install .
 ```
 
-Usually it's the `/usr/local/lib` directory for the library (on the Unix-like OS) which may be inaccessible from the `PATH` environment variable (e.g. can not be started as a regular command).
+Usually it's the `/usr/local/lib` directory for the library (on the Unix-like OS), which is not necessarily on the default loader search path of your distribution - run `sudo ldconfig` afterwards, or install into `/usr` as shown below, should the produced binary not be found at the run time.
 
 ## Custom installation path
 
-To install binary into the system globally available directory add the `--prefix` parameter to the command above as next:
+To install the library into a system globally available directory add the `--prefix` parameter to the command above as next:
 
 ```
-# replace the /usr path with our own if needed
+# replace the /usr path with your own if needed
 # run from the project's build directory
 
 sudo cmake --install . --prefix "/usr"
 ```
 
-Examine the `PATH` environment variable to chose directory best suited for your current OS (execute `echo $PATH` in the terminal). Alternatively, any path may be specified.
+Alternatively, any path may be specified - a local prefix under your home directory works just as well, as long as the consuming project is pointed at it with the `CMAKE_PREFIX_PATH` variable.
+
+## What gets installed
+
+With the `/usr` prefix of the example above the installed tree is:
+
+```
+/usr/lib/libImagesAnnotatorDataDrivers-0.so.0.11.0     the library binary
+/usr/lib/libImagesAnnotatorDataDrivers-0.so.0          the SOVERSION symlink
+/usr/lib/libImagesAnnotatorDataDrivers-0.so            the development symlink
+/usr/lib/cmake/ImagesAnnotatorDataDrivers-0/
+    ImagesAnnotatorDataDrivers-0Config.cmake           the find_package() entry point
+    ImagesAnnotatorDataDrivers-0Config-noconfig.cmake
+    ImagesAnnotatorDataDrivers-0Targets.cmake          the exported imported target
+    ImagesAnnotatorDataDrivers-0Targets-noconfig.cmake
+/usr/include/ImagesAnnotatorDataDrivers-0/*.h          the public headers
+```
+
+The `*.h` files of the last line are the eleven public headers of the [src/lib/facade/public](/src/lib/facade/public) directory: `LibraryFacade.h`, `LibraryContext.h`, `ILib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `IRecord.h` and `IProvider.h`.
+
+The `ImagesAnnotatorDataDrivers-0` name of the binary, of the include sub-directory and of the CMake package is the `PROJECT_LIBRARY_NAME` value, so all of them follow the [customized name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md) should you configure any.
+
+The library binary itself is installed as the `Runtime` component and the `lib...so` development symlink as the `Development` one, which is what a distribution packager needs to split the runtime and the development packages apart.
+
+Once installed, point your own project at the package with `find_package(ImagesAnnotatorDataDrivers-0 REQUIRED)` - see the [Using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) section for a complete, verified example.
 
 ## Documentation install
 

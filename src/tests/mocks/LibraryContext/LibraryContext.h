@@ -1,11 +1,27 @@
-#ifndef YOUR_CPP_APP_TEMPLATE_PROJECT_LIBRARYCONTEXT_CLASS_H
-#define YOUR_CPP_APP_TEMPLATE_PROJECT_LIBRARYCONTEXT_CLASS_H
+#ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_LIBRARYCONTEXT_CLASS_H
+#define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_LIBRARYCONTEXT_CLASS_H
 
 #include <gmock/gmock.h>
 
-namespace templatelib0
+#include <memory>
+#include <string>
+
+#include "IAnnotationsDB.h"
+#include "IDBMerger.h"
+#include "IRecordsFactory.h"
+
+namespace ImagesAnnotatorDataDrivers011
 {
 
+/**
+ * @brief The unit tests stand-in for the real LibraryContext.
+ *
+ * Field for field identical to the installable one, except that the
+ * constructor is inline here. The real context seeds its defaults from the
+ * CMake generated project-global-decls.h through an out-of-line constructor
+ * living in LibraryContext.cpp, and a unit test that only compiles a single
+ * translation unit must not have to drag that object file in.
+ */
 class LibraryContext
 {
  public:
@@ -14,12 +30,24 @@ class LibraryContext
   virtual ~LibraryContext() = default;
   LibraryContext() = default;
 
-  // Introduce here the library required data fields.
-  // Add some fields to pass data from it's users.
+  std::string db_path;
+
+  std::string app_name{"ImagesAnnotator"};
+  std::string app_version{"0.11.0"};
+
+  IRecordsFactoryPtr records_factory;
+  IDBMergerPtr merger;
+
+  IAnnotationsDBPtr db;
+
+  inline static LibraryContextPtr create()
+  {
+    return std::make_shared<LibraryContext>();
+  }
 };
 
 using LibraryContextPtr = LibraryContext::LibraryContextPtr;
 
-}  // namespace templatelib0
+}  // namespace ImagesAnnotatorDataDrivers011
 
-#endif  // YOUR_CPP_APP_TEMPLATE_PROJECT_LIBRARYCONTEXT_CLASS_H
+#endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_LIBRARYCONTEXT_CLASS_H

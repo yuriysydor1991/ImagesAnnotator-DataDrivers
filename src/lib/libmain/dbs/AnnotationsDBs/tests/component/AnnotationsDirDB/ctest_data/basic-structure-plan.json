@@ -1,0 +1,129 @@
+{
+  "ImagesAnnotator": {
+    "version": "0.10.0"
+  },
+  "user": {
+    "time-spent": {
+      "value": 1234,
+      "dimension": "seconds" 
+    }
+  },
+  "annotations": [
+    {
+      "db": {
+        "path": "/absolute/path/to/images/db/dir/1"
+      },
+      "annotations": [
+        {
+          "rel_path": "rel/path/to/image/1.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-1",
+              "rect": {
+                "x": 123, "y": 456, "width": 123, "height": 456
+              },
+              "scale_factor": 1.55
+            },
+            {
+              "name": "annotation-tag-or-class-name-2",
+              "rect": {
+                "x": 654, "y": 321, "width": 654, "height": 321
+              },
+              "scale_factor": 0.55
+            }
+          ]
+        },
+        {
+          "rel_path": "rel/path/to/image/2.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-3",
+              "rect": {
+                "x": 987, "y": 876, "width": 987, "height": 876
+              },
+              "scale_factor": 0.65
+            },
+            {
+              "name": "annotation-tag-or-class-name-1",
+              "rect": {
+                "x": 567, "y": 890, "width": 123, "height": 456
+              },
+              "scale_factor": 0.95
+            }
+          ]
+        },
+        {
+          "rel_path": "rel/path/to/image/3.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-2",
+              "rect": {
+                "x": 321, "y": 654, "width": 987, "height": 654
+              },
+              "scale_factor": 0.75
+            },
+            {
+              "name": "annotation-tag-or-class-name-4",
+              "rect": {
+                "x": 987, "y": 654, "width": 321, "height": 456
+              },
+              "scale_factor": 2.55
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "db": {
+        "path": "/absolute/path/to/images/db/dir/2"
+      },
+      "annotations": [
+        {
+          "rel_path": "rel/path/to/image/1.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-3",
+              "rect": {
+                "x": 123, "y": 456, "width": 123, "height": 456
+              },
+              "scale_factor": 0.25
+            },
+            {
+              "name": "annotation-tag-or-class-name-4",
+              "rect": {
+                "x": 654, "y": 321, "width": 654, "height": 321
+              },
+              "scale_factor": 0.55
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "db": {
+        "path": "/absolute/path/to/images/db/dir/3"
+      },
+      "annotations": [
+        {
+          "rel_path": "rel/path/to/image/1.img",
+          "annotations": [
+            {
+              "name": "annotation-tag-or-class-name-1",
+              "rect": {
+                "x": 123, "y": 456, "width": 123, "height": 456
+              },
+              "scale_factor": 0.55
+            },
+            {
+              "name": "annotation-tag-or-class-name-4",
+              "rect": {
+                "x": 654, "y": 321, "width": 654, "height": 321
+              },
+              "scale_factor": 0.55
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

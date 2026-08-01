@@ -15,6 +15,12 @@ include(template-project-git-enabler)
 include(template-project-GTest-enabler)
 include(template-project-clang-format-target)
 
+# Mandatory library dependencies. They are made available here, before src/ is
+# added, so that both the library target and the test executables declared
+# inside it can be linked against them.
+include(template-project-nlohmann-json-enabler)
+include(template-project-libcurl-enabler)
+
 # packagers
 include(template-project-deb-enabler)
 include(template-project-freebsd-pkg-enabler)

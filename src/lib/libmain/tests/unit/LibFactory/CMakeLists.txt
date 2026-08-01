@@ -4,19 +4,31 @@ add_executable(
   UTEST_LibFactory
   UTEST_LibFactory.cpp
   ${CMAKE_SOURCE_DIR}/src/lib/libmain/LibFactory.cpp
+  ${CMAKE_SOURCE_DIR}/src/lib/libmain/LibMain.cpp
+  ${CMAKE_SOURCE_DIR}/src/lib/facade/LibraryContext.cpp
+  ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsDirDB.cpp
+  ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsJSONSerializator.cpp
+  ${IADD_ANNOTATIONS_DBS_SRC_DIR}/mergers/DefaultDBMerger.cpp
+  ${IADD_CONVERTERS_SRC_DIR}/ImageRecordJSON2RecordConverter.cpp
+  ${IADD_CONVERTERS_SRC_DIR}/ImageRecordRectJSON2RecordConverter.cpp
+  ${IADD_CONVERTERS_SRC_DIR}/ImageRecords2JSONConverter.cpp
+  ${IADD_CONVERTERS_SRC_DIR}/JSON2ImageRecordsConverter.cpp
+  ${IADD_RECORDS_SRC}
+  ${IADD_HELPERS_SRC}
+  ${IADD_CURL_SRC}
 )
 
 target_include_directories(
   UTEST_LibFactory
-  PRIVATE ${GENERAL_MOCKS_ROOT}/LibraryContext
-  PRIVATE ${GENERAL_MOCKS_ROOT}/LibMain
+  PRIVATE ${GENERAL_MOCKS_ROOT}/log
+  PRIVATE ${GENERAL_MOCKS_ROOT}/project-global-decls
   PRIVATE ${CMAKE_SOURCE_DIR}
-  PRIVATE ${CMAKE_SOURCE_DIR}/src/lib/facade/public
+  PRIVATE ${IADD_PUBLIC_INCLUDE_DIR}
 )
 
 target_link_libraries(
   UTEST_LibFactory
-  GTest::gtest_main GTest::gmock
+  GTest::gtest_main GTest::gmock nlohmann_json::nlohmann_json CURL::libcurl
 )
 
 include(GoogleTest)

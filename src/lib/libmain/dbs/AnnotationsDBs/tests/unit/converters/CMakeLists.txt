@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.13)
+
+add_subdirectory(ImageRecords2JSONConverter)
+add_subdirectory(ImageRecordRectJSON2RecordConverter)
+add_subdirectory(ImageRecordJSON2RecordConverter)
+add_subdirectory(JSON2ImageRecordsConverter)

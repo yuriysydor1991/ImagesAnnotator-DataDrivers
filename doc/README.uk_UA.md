@@ -1,111 +1,121 @@
-**Твій охайний шаблон для С++ бібліотеки**
+**Бібліотека бази даних анотацій проекту ImagesAnnotator**
 
-# Ціль проекту-шаблону
+# Що це таке
 
-Проект-шаблон призначений для пришвидшення процесу побудови бібліотеки на стадії започаткування проекту за допомогою готової початкової структури бібліотеки. Отож розробник може одразу перейти до реалізації конкретної бібліотеки з мінімальними затратами на базову структуру.
+`ImagesAnnotatorDataDrivers` - це динамічна бібліотека на C++17, яка зчитує і записує файли проектів анотацій застосунку [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) - JSON-документи, які зберігають анотовані зображення, їхні розміри і іменовані прямокутники, намальовані поверх них.
 
-Полегшує вийти за рамки коду - створюй складні і готові до поставки **програмний продукти** швидко!
+Раніше цей код знаходився всередині самого застосунку. Його було винесено в окрему бібліотеку для того, щоб застосунок ImagesAnnotator і **будь-який інший інструмент** могли читати і записувати один і той самий формат файлу проекту без дублювання розбирача, серіалізатора і правил злиття.
 
-Дозволяє стрімке створення завершеного **програмного продукту** - на противагу звичайного куска коду чи простої програми.
-
-**Створи форк і одразу реалізуй свою бібліотеку!**
-
-Шаблонний проект **не являється фреймворком** у традиційних термінах отож інфраструктурні елементи можна змінювати за бажанням або видалити за непотреби.
+Усе, до чого торкається проект-споживач, приховано за абстрактними інтерфейсами заголовкових підключаємих файлів [src/lib/facade/public](/src/lib/facade/public), отож ані класи реалізації, ані сторонні залежності бібліотеки не потрапляють у код проекту-споживача.
 
 Більше за посиланням [kytok.org.ua](http://www.kytok.org.ua/)
 
 💵 Підтримай проект за посиланням [http://kytok.org.ua/page/pozertvy](http://kytok.org.ua/page/pozertvy)
 
-# Спеціалізації шаблонного проекту
+# Можливості
 
-Переглянь доступні гілки у репозиторії проекту-шаблону і використай найбільш підходящу спеціалізацію або комбінуй декілька гілок щоб створити необхідну структуру шаблону:
+- **Завантаження і збереження JSON-файлу проекту анотацій** - `load_db()` розбирає файл проекту у пам'ять, а `store_db()` записує його назад або за тим самим шляхом, або за новим.
+- **Набір записів зображень у пам'яті** - кожне анотоване зображення є записом `ImageRecord`, який містить власну вихідну директорію (або URL веб-сторінки), відносний шлях, власні ширину і висоту, масштаб перегляду і іменовані прямокутники `ImageRecordRect`.
+- **Відстеження змін** - `changed()` повідомляє, чи записи у пам'яті все ще відповідають збереженим, отож застосунок може пропустити запис або запитати користувача про незбережені дані.
+- **Злиття з урахуванням дублікатів** - `add_images_db()` додає інший набір записів через `IDBMerger`, пропускаючи вже наявні записи і зберігаючи результат відсортованим. Записи, розміщені у мережі, розбираються через URL API бібліотеки libcurl, отож одне й те саме зображення, вказане двома по-різному записаними URL, розпізнається як одне.
+- **Збирання назв анотацій** - `get_available_annotations()` повертає відсортовану множину усіх унікальних назв анотацій (класів), які використовуються у всій базі даних.
+- **Видалення запису** - `delete_image_record()` видаляє запис за його повним шляхом.
+- **Підмінні фабрика записів і об'єкт злиття** - розмісти власного нащадка `IRecordsFactory` і/або `IDBMerger` у `LibraryContext` і десеріалізація створюватиме твої збагачені підкласи записів і зливатиме їх за твоїми власними правилами.
+- **Налаштовувана ідентичність кореневого елемента JSON** - файл проекту має кореневий елемент, названий за іменем *застосунку*, а не бібліотеки, отож назва і версія залишаються налаштовуваними як під час побудови, так і під час виконання.
 
-## Базова структура програми
+# Приклад використання
 
-- гілка `main` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template)] один файл з функцією `main` і з усіма можливими інтеграціями для генерації одного бінарного виконуваного файлу.
-- гілка `app` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/app), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/app)] яка містить загальні інфраструктурні класи програми для генераці одинарного бінарного виконуваного файлу.
-- гілка `applib` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/applib), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/applib)] яка складається з класів банарного виконуваного файлу з додатковими інфраструктурними класами для генерації підключаємої бібліотеки і заголовкових файлів (доступні для встановлення), що призначені для поширення коду бібліотеки для повторного перевикористання іншими бінарнами файлами.
-- гілка `lib` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/lib), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/lib)] (**поточна**) і яка призначена для предоставляння початкової інфраструктури для реалізації бібліотеки разом з заголовковими підключаємими файлами і документацією за необхідності.
-- гілка `appMeson` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appMeson), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appMeson)] яка містить загальні інфраструктурні класи програми для генераці одинарного бінарного виконуваного файлу разом з системою побудови [Meson](https://mesonbuild.com/).
-- гілка `applibMeson` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/applibMeson), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/applibMeson)] - шаблон застосунку з виконуваним файлом та додатковою окремою бібліотекою з заголовковими підключаємими файлами (доступними для встановлення) для повторного використання коду бібліотеки в кількох застосунках, побудований системою [Meson](https://mesonbuild.com/), знаходиться проектами-споживачами на Meson через `dependency()` (pkg-config) з опціональною підтримкою CMake `find_package()`.
-- гілка `libMeson` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/libMeson), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/libMeson)] - шаблон бібліотеки з заголовковими підключаємими файлами і документацією, побудованою системою [Meson](https://mesonbuild.com/), знаходиться проектами-споживачами на Meson через `dependency()` (pkg-config) з опціональною підтримкою CMake `find_package()`.
+Бібліотека використовується через CMake-пакет. Наступна програма була скомпільована, злінкована і запущена зі встановленою бібліотекою:
 
-## Логування
+```cmake
+cmake_minimum_required(VERSION 3.13)
+project(MyTool LANGUAGES CXX)
 
-- гілка `appLog4Cpp5` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appLog4Cpp5), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appLog4Cpp5)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням багатофункціональної бібліотеки логування повідомлень [log4cpp](https://log4cpp.sourceforge.net/)
-- гілка `appBoostLog` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appBoostLog), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appBoostLog)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням бібліотеки логування повідомлень [Boost.Log](https://www.boost.org/doc/libs/latest/libs/log/doc/html/index.html)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-## Віконні системи / GUI
+find_package(ImagesAnnotatorDataDrivers-0 REQUIRED)
 
-- гілка `appQt6` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appQt6), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appQt6)] яка містить загальні класи для генерації бінарного виконуваного файлу разом з структурою заданою для розробки віконної програми на базі [Qt6](https://www.qt.io/development/qt-framework/qt6) разом з [QML](https://doc.qt.io/qt-6/qtqml-index.html).
-- гілка `appGtkmm3` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appGtkmm3), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appGtkmm3)] яка містить загальні класи для генерації бінарного виконуваного файлу разом з структурою заданою для розробки віконної програми на базі [Gtkmm](https://gtkmm.gnome.org/en/index.html)-3.0 з C++.
-- гілка `appGtkmm3Glade` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appGtkmm3Glade), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appGtkmm3Glade)] яка містить загальні класи для генерації бінарного виконуваного файлу разом з структурою заданою для розробки віконної програми на базі C++ з [Gtkmm](https://gtkmm.gnome.org/en/index.html)-3.0 і [Glade](https://en.wikipedia.org/wiki/Glade_Interface_Designer) - програми для створення візульних інтерфейсів.
-- гілка `appGtkmm4` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4)] яка містить загальні класи для генерації бінарного виконуваного файлу разом з структурою заданою для розробки віконної програми на базі [Gtkmm-4](https://gtkmm.gnome.org/en/index.html) з C++.
-- гілка `appwxWidgets` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appwxWidgets), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appwxWidgets)] яка містить загальні класи для генерації бінарного виконуваного файлу разом з структурою заданою для розробки кросплатформної віконної програми на базі [wxWidgets](https://www.wxwidgets.org/) з C++, що надається через CMake FetchContent.
+add_executable(mytool main.cpp)
+target_link_libraries(mytool ImagesAnnotatorDataDrivers-0::ImagesAnnotatorDataDrivers-0)
+```
 
-## 3D / OpenGL / Vulkan
+```cpp
+#include <iostream>
+#include <ImagesAnnotatorDataDrivers-0/LibraryFacade.h>
 
-- гілка `appSDL2` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appSDL2), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appSDL2)] яка містить загальні класи для генераці одинарного бінарного виконуваного файлу разом з початковою інфраструктурою для розробки у [OpenGL](https://www.opengl.org/) 3D разом з [SDL2](https://en.wikipedia.org/wiki/Simple_DirectMedia_Layer) і набагато більше!
-- гілка `appGtkmm4GLArea` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4GLArea), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4GLArea)] яка містить загальні класи для генерації одинарного бінарного виконуваного файлу, що вбудовує рендеринг [OpenGL](https://www.opengl.org/) безпосередньо у вікно [Gtkmm-4](https://gtkmm.gnome.org/en/index.html) за допомогою нативного віджета [Gtk::GLArea](https://docs.gtk.org/gtk4/class.GLArea.html).
-- гілка `appQt6GLArea` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appQt6GLArea), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appQt6GLArea)] яка містить загальні класи для генерації одинарного бінарного виконуваного файлу, що вбудовує рендеринг [OpenGL](https://www.opengl.org/) безпосередньо у вікно [Qt6](https://www.qt.io/development/qt-framework/qt6) [QML](https://doc.qt.io/qt-6/qtqml-index.html) за допомогою елемента сцен-графа [QQuickFramebufferObject](https://doc.qt.io/qt-6/qquickframebufferobject.html).
-- гілка `appSFML` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appSFML), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appSFML)] яка містить загальні класи для генераці одинарного бінарного виконуваного файлу разом з початковою інфраструктурою на базі мультимедійної бібліотеки [SFML](https://www.sfml-dev.org/) (2D графіка, вікна, ввід та доступ до [OpenGL](https://www.opengl.org/)), яка надається системним пакетом або резервним механізмом CMake FetchContent.
-- гілка `appFreeGlut` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appFreeGlut), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appFreeGlut)] яка містить загальні класи для генераці одинарного бінарного виконуваного файлу разом з початковою інфраструктурою для розробки у [OpenGL](https://www.opengl.org/) 3D разом з [FreeGlut](https://freeglut.sourceforge.net/).
-- гілка `appQt6Vulkan` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appQt6Vulkan), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appQt6Vulkan)] яка містить загальні класи для генераці одинарного бінарного виконуваного файлу, що створює інстанс [Vulkan](https://www.vulkan.org/) через нативний [Qt6](https://www.qt.io/development/qt-framework/qt6) [QVulkanInstance](https://doc.qt.io/qt-6/qvulkaninstance.html) (`Qt6::Gui`), перелічує доступні фізичні пристрої (відеокарти), виводить їхні властивості через журнал програми та показує порожнє чорне вікно, відмальоване засобами Vulkan ([QVulkanWindow](https://doc.qt.io/qt-6/qvulkanwindow.html), очищене до чорного кольору) протягом роботи циклу подій Qt (відповідник на базі Qt6 гілки appVulkan, що побудована на гілці app).
-- гілка `appGtkmm4Vulkan` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4Vulkan), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4Vulkan)] яка містить загальні класи для генераці одинарного бінарного виконуваного файлу, що створює інстанс [Vulkan](https://www.vulkan.org/) через сирий завантажувач Vulkan, перелічує доступні фізичні пристрої (відеокарти) та виводить їхні властивості через журнал програми, після чого відмальовує чорний кадр засобами Vulkan у позаекранне зображення та показує його у вікні [Gtkmm-4](https://gtkmm.gnome.org/en/index.html) через Linux dma-buf ([Gdk::DmabufTexture](https://docs.gtk.org/gdk4/class.DmabufTexture.html)), оскільки GTK4 не має нативного віджета для рендерингу Vulkan (відповідник на базі Gtkmm-4 гілки appVulkan, що побудована на гілці app).
+namespace iadd = ImagesAnnotatorDataDrivers011;
 
-## Web / HTTP / Мережа
+int main(int argc, char** argv)
+{
+  if (argc < 2) { return 1; }
 
-- гілка `appWt4` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appWt4), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appWt4)] шаблон з інфраструктурою для швидкого старту реалізації Web-програми на основі [Wt C++](https://www.webtoolkit.eu/wt) фулстек фреймворку.
-- гілка `appBoostBeast` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appBoostBeast), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appBoostBeast)] котра містить інфраструктуру для швидкого старту розробки Web-програми з використанням швидкого HTTP сервера [Beast](https://www.boost.org/libs/beast) від Boost.
-- гілка `appCURL` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appCURL), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appCURL)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням бібліотеки-клієнта [CURL](https://en.wikipedia.org/wiki/CURL) для завантажень даних з мережі і яка підтримує багато протоколів (включаючи HTTP).
+  auto db = iadd::LibraryFacade::open_annotations_db(argv[1]);
 
-## Системи керування базами даних (СУБД) / SQL / NoSQL
+  if (db == nullptr) { return 1; }
 
-- гілка `appPgSQLxx` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appPgSQLxx), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appPgSQLxx)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням СУБД [PostgreSQL](https://en.wikipedia.org/wiki/PostgreSQL)
-- гілка `appFirebird` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appFirebird), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appFirebird)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням СУБД [Firebird](https://firebirdsql.org/) через рідну клієнтську бібліотеку (fbclient)
-- гілка `appMySQLCppConn` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appMySQLCppConn), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appMySQLCppConn)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням СУБД [MySQL](https://uk.wikipedia.org/wiki/MySQL)
-- гілка `appSQLiteCpp3` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appSQLiteCpp3), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appSQLiteCpp3)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням СУБД [SQLite](https://en.wikipedia.org/wiki/SQLite) через бібліотеку [SQLiteCpp](https://github.com/SRombauts/SQLiteCpp)
-- гілка `appMongoDBCpp4` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appMongoDBCpp4), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appMongoDBCpp4)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням NoSQL СУБД [MongoDB](https://en.wikipedia.org/wiki/MongoDB)
+  for (const auto& ir : db->get_images_db()) {
+    std::cout << ir->get_full_path() << " rects=" << ir->rects.size() << "\n";
+  }
 
+  return db->changed() ? (db->store_db() ? 0 : 1) : 0;
+}
+```
 
-## Візуалізація Даних / Графіки / Діаграми
+Назва простору імен `ImagesAnnotatorDataDrivers011` навмисне містить головний і другорядний номери версії бібліотеки: дві версії бібліотеки можуть співіснувати в межах однієї одиниці трансляції без жодного конфлікту символів. Створюй для нього псевдонім, як показано вище, і підняття версії залишатиметься зміною в один рядок на твоєму боці.
 
-- гілка `appMatPlotxx` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appMatPlotxx), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appMatPlotxx)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням [MatPlot++](https://alandefreitas.github.io/matplotplusplus/) - бібліотека для малювання графіків на основі прогарми [gnuplot](http://www.gnuplot.info/) і [Qt6](https://www.qt.io/development/qt-framework/qt6).
-- гілка `appPLplot` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appPLplot), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appPLplot)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням [PLplot](https://plplot.sourceforge.net/) - потужної бібліотеки генерації графіків котра використовується у наукових програмах з багатьма інтерфейсами для різних віконних систем і мов програмування, і можливостями експорту у найпопулярніші формати зображень (PNG, SVG, JPEG, GIF, PDF і інші).
-- гілка `appPGPLOT` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appPGPLOT), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appPGPLOT)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням [PGPLOT](https://sites.astro.caltech.edu/~tjp/pgplot/) - класичної бібліотеки наукової графіки, котра широко використовується у астрономії, інтегрованої через її інтерфейс мови C (cpgplot) і котра підтримує як оригінальну бібліотеку, так і її вільну заміну [giza](https://danieljprice.github.io/giza/).
-- гілка `appQt6ChartView` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appQt6ChartView), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appQt6ChartView)] котра містить інфраструктуру для швидкого старту візуалізації даних і малювання графіків безпосередньо у вікні [Qt6](https://www.qt.io/development/qt-framework/qt6) [QML](https://doc.qt.io/qt-6/qtqml-index.html) за допомогою вбудованого елемента [ChartView](https://doc.qt.io/qt-6/qml-qtcharts-chartview.html) з модуля [QtCharts](https://doc.qt.io/qt-6/qtcharts-index.html).
+Для встановленої бібліотеки працюють як `#include <ImagesAnnotatorDataDrivers-0/LibraryFacade.h>`, так і просте `#include <LibraryFacade.h>`, оскільки бібліотека експортує і корінь директорії підключаємих файлів, і її версіоновану піддиректорію. Рекомендованою є форма з префіксом: назви заголовкових файлів на кшталт `ImageRecord.h` чи `IRecord.h` є достатньо загальними, щоб призвести до конфлікту у завантаженому шляху пошуку підключаємих файлів.
 
-## Карти
+Більше про API і про сам формат файлу у секціях [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md), [формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md) і [використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md).
 
-- гілка `appGtkmm4LeafLet` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4LeafLet), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4LeafLet)] яка містить загальні інфраструктурні класи програми для генераці одинарного бінарного виконуваного файлу з використанням [Gtkmm-4](https://gtkmm.gnome.org/en/index.html) з [WebKitGtk](https://webkitgtk.org/) і картами [LeafLet](https://leafletjs.com/)
-- гілка `appQt6LeafLet` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appQt6LeafLet), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appQt6LeafLet)] яка містить загальні інфраструктурні класи програми для генераці одинарного бінарного виконуваного файлу разом з [Qt6](https://www.qt.io/development/qt-framework/qt6)/[QML](https://doc.qt.io/qt-6/qtqml-index.html) і [WebView QML](https://doc.qt.io/qt-6/qml-qtwebview-webview.html) а також картами [LeafLet](https://leafletjs.com/)
-- гілка `appQt6QtLocation` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appQt6QtLocation), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appQt6QtLocation)] яка містить загальні інфраструктурні класи програми для генераці одинарного бінарного виконуваного файлу що відображає мапу [OpenStreetMap](https://www.openstreetmap.org/) рідними засобами безпосередньо у вікні [Qt6](https://www.qt.io/development/qt-framework/qt6)/[QML](https://doc.qt.io/qt-6/qtqml-index.html) за допомогою елемента [Map](https://doc.qt.io/qt-6/qml-qtlocation-map.html) з модуля [Qt Location](https://doc.qt.io/qt-6/qtlocation-index.html) (рідний відповідник гілки appQt6LeafLet на основі [WebView](https://doc.qt.io/qt-6/qml-qtwebview-webview.html)).
+# Залежності
 
-## Компʼютерний зір / Обробка зображень
+Обидві наступні залежності є **обов'язковими** для побудови бібліотеки і обидві мають значення `ON` за замовчуванням:
 
-- гілка `appOpenCV` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appOpenCV), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appOpenCV)] котра містить інфраструктуру для швидкого старту розробки застосунку з використанням бібліотеки компʼютерного зору [OpenCV](https://opencv.org/).
+| CMake-параметр | Бібліотека | Для чого потрібна |
+| --- | --- | --- |
+| `ENABLE_NLOHMANN_JSON` | [nlohmann/json](https://github.com/nlohmann/json) | файл проекту анотацій є JSON-документом |
+| `ENABLE_LIBCURL` | [libcurl](https://curl.se/libcurl/) | її URL API `CURLU` розбирає і усуває дублікати записів зображень, які вказують на веб-URL замість локального файлу |
 
-## System / DBus
+Кожна з них спершу шукається у системі і, якщо її не знайдено, завантажується засобами CMake `FetchContent` (nlohmann json на тезі `v3.11.3`). Дивись секції [вмикання інтеграції бібліотеки nlohmann JSON](/doc/sections/uk_UA/5-project-build/5-18-enabling-the-nlohmann-json-library.md) і [вмикання інтеграції libcurl](/doc/sections/uk_UA/5-project-build/5-14-enabling-libcurl.md) щодо змінних перевизначення джерела і тегу.
 
-- `appSDBusCxxClient` branch at [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appSDBusCxxClient), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appSDBusCxxClient)] яка містить загальні інфраструктурні класи програми для генераці одинарного бінарного виконуваного файлу з використанням [Kistler-Group's sdbus-c++](https://github.com/Kistler-Group/sdbus-cpp.git) бібліотеки для побудови клієнта сервісів розміщених на шині [DBus](https://uk.wikipedia.org/wiki/D-Bus)
-- `appSDBusCxxServer` branch at [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appSDBusCxxServer), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appSDBusCxxServer)] яка містить загальні інфраструктурні класи програми для генераці одинарного бінарного виконуваного файлу з використанням [Kistler-Group's sdbus-c++](https://github.com/Kistler-Group/sdbus-cpp.git) бібліотеки для побудови сервера на шині [DBus](https://uk.wikipedia.org/wiki/D-Bus).
-- гілка `appQt6QtDBusClient` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appQt6QtDBusClient), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appQt6QtDBusClient)] яка містить загальні інфраструктурні класи програми для генераці одинарного бінарного виконуваного файлу що зчитує загальну системну інформацію зі служби [systemd-hostnamed](https://www.freedesktop.org/software/systemd/man/latest/org.freedesktop.hostname1.html) через шину [DBus](https://uk.wikipedia.org/wiki/D-Bus) за допомогою рідного модуля [Qt6](https://www.qt.io/development/qt-framework/qt6) [QtDBus](https://doc.qt.io/qt-6/qtdbus-index.html) і відображає її у вікні [QML](https://doc.qt.io/qt-6/qtqml-index.html) (відповідник гілки appSDBusCxxClient на основі sdbus-c++ для фреймворку Qt6).
-- гілка `appGtkmm4GDBusClient` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4GDBusClient), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appGtkmm4GDBusClient)] яка містить загальні інфраструктурні класи програми для генераці одинарного бінарного виконуваного файлу що зчитує загальну системну інформацію зі служби [systemd-hostnamed](https://www.freedesktop.org/software/systemd/man/latest/org.freedesktop.hostname1.html) через шину [DBus](https://uk.wikipedia.org/wiki/D-Bus) за допомогою рідного стеку GLib [GDBus](https://docs.gtk.org/gio/) через [Gtkmm-4](https://gtkmm.gnome.org/en/index.html)/giomm `Gio::DBus` і виводить її у журнал застосунку (відповідник гілки appSDBusCxxClient на основі sdbus-c++ для фреймворку gtkmm4).
+Обидві лінкуються **приватно**: жоден публічний заголовковий файл не виставляє назовні тип з nlohmann чи curl, отож проект-споживач не успадковує жодної з них і не потребує жодної з них у своєму шляху пошуку підключаємих файлів. Компонент журналювання також вкомпільовано безпосередньо у динамічну бібліотеку, отож споживач не мусить надавати жодної реалізації логера.
 
-## Стиснення / розпакування даних
+# Побудова і тестування
 
-- гілка `appZlib` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appZlib), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appZlib)] яка містить загальні класи для генераці одинарного бінарного виконуваного файлу, що загортає бібліотеку стиснення [zlib](https://www.zlib.net/) у невеликий контролер з простими методами стиснення / розпакування (у пам'яті та у / з gzip `.gz` файлів) і демонструє цикл стиснення + розпакування у класі Application.
-- гілка `appLZMA` розміщена на [[GitHub](https://github.com/yuriysydor1991/cpp-app-template/tree/appLZMA), [GitLab](https://gitlab.com/yuriysydor1991/cpp-app-template/tree/appLZMA)] яка містить загальні класи для генераці одинарного бінарного виконуваного файлу, що загортає бібліотеку стиснення [liblzma](https://tukaani.org/xz/) (XZ Utils) у невеликий контролер з простими методами стиснення / розпакування у пам'яті над контейнером `.xz` (LZMA2) і демонструє цикл стиснення + розпакування у класі Application.
+Звичайна побудова:
 
+```
+cmake -S . -B build
+cmake --build build -j$(nproc)
+```
 
-Редагуй поточний файл `README.md` і `CHANGELOG.md` щоб документація відповідала впровадженому коду. Для перекладів даного файлу `README.md`:
-- `uk_UA` за відносною адресою doc/README.uk_UA.md
+Тести вимкнені за замовчуванням. Для їх побудови і запуску:
+
+```
+cmake -S . -B build -DENABLE_UNIT_TESTS=ON -DENABLE_COMPONENT_TESTS=ON
+cmake --build build -j$(nproc)
+cd build && ctest --output-on-failure
+```
+
+Цілі `ENABLE_UNIT_TESTS` компілюються безпосередньо з вихідних кодів разом з gmock-замінниками з [src/tests/mocks](/src/tests/mocks), тоді як ціль `CTEST_AnnotationsDirDB` з `ENABLE_COMPONENT_TESTS` лінкує справжню динамічну бібліотеку і працює з нею виключно через публічні заголовкові файли - точно так, як це робить проект-споживач.
+
+Встановлення виконується звичайним `sudo cmake --install build` і детально описане у секції [встановлення](/doc/sections/uk_UA/7-installing/7-installing.md).
+
+# Звідки походить код
+
+Вихідні коди було винесено із застосунку [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git), а саме з його компоненту `src/annotator-business/dbs/AnnotationsDBs`. Застосунок має позбутися власної копії цього коду і використовувати натомість дану бібліотеку.
+
+Експортери наборів даних того застосунку (у простий текст, YOLO v4 і PyTorch-Vision) **не** є частиною даної бібліотеки: вони мають стати окремим власним проектом.
+
+Перегляньте директорію `doc` щодо можливих перекладів поточного md-документа:
+- `en_US` за відносною адресою README.md
 
 # Зміст документації
 
 **Даний документ у процесі покращення**
 
-1. [Клонування С++ проекту-шаблону](/doc/sections/uk_UA/1-cloning-the-cxx-template-project/1-cloning-the-cxx-template-project.md)
+1. [Клонування проекту](/doc/sections/uk_UA/1-cloning-the-project/1-cloning-the-project.md)
 1. [Створення форку і заміна оригінального репозиторію](/doc/sections/uk_UA/2-forking-and-replacing-the-origin/2-forking-and-replacing-the-origin.md)
 1. [Вимоги](/doc/sections/uk_UA/3-requirements/3-requirements.md)
     1. [Обов'язкові інструменти для ОС на базі GNU/Лінукс](/doc/sections/uk_UA/3-requirements/3-1-required-tools-for-the-GNU-Linux-based-OS.md)
@@ -115,10 +125,16 @@
     1. [Необов'язкові пакети для форматування коду](/doc/sections/uk_UA/3-requirements/3-5-optional-for-the-code-formatting.md)
     1. [Необов'язкові пакети для статичного аналізатора коду cppcheck](/doc/sections/uk_UA/3-requirements/3-6-optional-for-the-code-analyzer-cppcheck.md)
     1. [Необов'язкові пакети для статичного аналізатора коду clang-tidy](/doc/sections/uk_UA/3-requirements/3-7-optional-for-the-code-analyzer-with-clang-tidy.md)
+    1. [Необов'язкові пакети для перевірки пам'яті за допомогою Valgrind](/doc/sections/uk_UA/3-requirements/3-8-optional-for-the-memory-checkwith-Valgrind.md)
+    1. [Необов'язкові пакети для пакувальника flatpak](/doc/sections/uk_UA/3-requirements/3-9-optional-for-the-flatpak-packager.md)
+    1. [Необов'язкові пакети для запусків у docker-контейнерах](/doc/sections/uk_UA/3-requirements/3-10-optional-for-docker-container-runs.md)
+    1. [Необов'язкові пакети для пакувальника snap](/doc/sections/uk_UA/3-requirements/3-11-optional-for-snap-packager.md)
 1. [Структура проекту](/doc/sections/uk_UA/4-project-structure/4-project-structure.md)
     1. [Діаграми проекту](/doc/sections/uk_UA/4-project-structure/4-0-project-diagrams.md)
     1. [Реалізуй код одразу!](/doc/sections/uk_UA/4-project-structure/4-1-implement-code-straight-away.md)
     1. [Публічні інтерфейсні файли бібліотеки](/doc/sections/uk_UA/4-project-structure/4-8-the-librarys-installable-include-header-files.md)
+    1. [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md)
+    1. [Формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md)
     1. [Зміна назви проекту і головного виконуваного файлу](/doc/sections/uk_UA/4-project-structure/4-2-changing-the-project-and-executable-name.md)
     1. [Версіювання і інші параметри проекту](/doc/sections/uk_UA/4-project-structure/4-3-version-tracking-and-other-project-parameters.md)
     1. [Мінімально можливі версії](/doc/sections/uk_UA/4-project-structure/4-6-minimal-possible-versions.md)
@@ -127,7 +143,8 @@
     1. [Розширення](/doc/sections/uk_UA/4-project-structure/4-5-extensions.md)
 1. [Побудова проекту](/doc/sections/uk_UA/5-project-build/5-project-build.md)
     1. [Побудова за допомогою IDE](/doc/sections/uk_UA/5-project-build/5-1-IDE-build.md)
-    1. [Побудова проекту-шаблону через командний рядок](/doc/sections/uk_UA/5-project-build/5-2-command-line-build.md)
+    1. [Побудова проекту через командний рядок](/doc/sections/uk_UA/5-project-build/5-2-command-line-build.md)
+    1. [Налаштування ідентичності бази даних анотацій](/doc/sections/uk_UA/5-project-build/5-36-configuring-the-annotations-db-identity.md)
     1. Вмикання тестів
         1. [Вмикання юніт-тестів](/doc/sections/uk_UA/5-project-build/testing/5-3-1-enabling-unit-testing.md)
         1. [Запобігання використання GTest з ОС](/doc/sections/uk_UA/5-project-build/testing/5-3-2-disabling-system-GTest-probe.md)
@@ -138,8 +155,18 @@
         1. [Вмикання підтримки форматування коду](/doc/sections/uk_UA/5-project-build/code-quality/5-6-enabling-and-performing-code-formatting-target.md)
         1. [Вмикання підтримки цілі статичного аналізатора коду cppcheck](/doc/sections/uk_UA/5-project-build/code-quality/5-7-enabling-the-static-code-analyzer-target-with-cppcheck.md)
         1. [Вмикання підтримки статичного аналізатора коду clang-tidy](/doc/sections/uk_UA/5-project-build/code-quality/5-8-enabling-static-code-analyzer-with-clang-tidy.md)
+        1. [Вмикання цілі динамічної перевірки пам'яті за допомогою valgrind](/doc/sections/uk_UA/5-project-build/code-quality/5-9-enabling-the-dynamic-memory-check-target-with-valgrind.md)
+        1. [Вмикання санітайзерів](/doc/sections/uk_UA/5-project-build/code-quality/5-13-enabling-sanitizers.md)
+    1. Контейнери та CI
+        1. [Вмикання побудови і запуску у docker-контейнері](/doc/sections/uk_UA/5-project-build/containers-ci/5-12-enabling-the-docker-container-build-and-run.md)
+        1. [Вмикання конвеєра Jenkins всередині Docker-контейнера](/doc/sections/uk_UA/5-project-build/containers-ci/5-17-enabling-Jenkins-pipeline-inside-Docker-container.md)
+    1. Профайлери
+        1. [Вмикання аналізу профайлером gprof](/doc/sections/uk_UA/5-project-build/profilers/5-15-enabling-gprof-profiler-analysis.md)
+        1. [Вмикання аналізу профайлером callgrind від valgrind](/doc/sections/uk_UA/5-project-build/profilers/5-16-enabling-valgrinds-callgrind-profiler-analysis.md)
     1. Пакувальники
         1. [Вмикання підтримки генерування DEB-пакетів з cpack](/doc/sections/uk_UA/5-project-build/packagers/5-10-enabling-DEB-package-generation-with-cpack.md)
+        1. [Вмикання підтримки генерування пакунків flatpak](/doc/sections/uk_UA/5-project-build/packagers/5-11-enabling-the-flatpak-package-generation-support.md)
+        1. [Вмикання пакетного менеджера snap](/doc/sections/uk_UA/5-project-build/packagers/5-19-enabling-the-snap-package-manager.md)
         1. [Вмикання підтримки генерування пакунків FreeBSD pkg з cpack](/doc/sections/uk_UA/5-project-build/packagers/5-20-enabling-FreeBSD-pkg-package-generation-with-cpack.md)
         1. [Вмикання підтримки генерування WIX MSI-пакетів з cpack](/doc/sections/uk_UA/5-project-build/packagers/5-21-enabling-WIX-MSI-package-generation-with-cpack.md)
         1. [Вмикання підтримки генерування RPM-пакунків з cpack](/doc/sections/uk_UA/5-project-build/packagers/5-22-enabling-RPM-package-generation-with-cpack.md)
@@ -163,7 +190,13 @@
         1. [Вмикання інтеграції libavif (AVIF)](/doc/sections/uk_UA/5-project-build/image-libraries/5-32-enabling-the-libavif-library.md)
         1. [Вмикання інтеграції libheif (HEIF/HEIC)](/doc/sections/uk_UA/5-project-build/image-libraries/5-33-enabling-the-libheif-library.md)
 1. [Запуск доступних виконуваних файлів](/doc/sections/uk_UA/6-run-the-executable/6-run-avaialble-executables.md)
+    1. [Запуск виконуваного файлу](/doc/sections/uk_UA/6-run-the-executable/6-run-the-executable.md)
+        1. [Запуск за допомогою IDE](/doc/sections/uk_UA/6-run-the-executable/6-1-IDE-run.md)
+        1. Запуск через командний рядок
+            1. [Пошук згенерованого виконуваного файлу](/doc/sections/uk_UA/6-run-the-executable/6-2-1-searching-for-the-generated-executable.md)
+            1. [Запуск згенерованого виконуваного файлу](/doc/sections/uk_UA/6-run-the-executable/6-2-2-starting-the-generated-executable.md)
     1. Запуск тестів
         1. [Запуск тестів за допомогою ctest](/doc/sections/uk_UA/6-run-the-executable/6-3-1-run-tests-by-the-ctest.md)
         1. [Ручний запуск тестів](/doc/sections/uk_UA/6-run-the-executable/6-3-2-manual-tests-run.md)
 1. [Встановлення](/doc/sections/uk_UA/7-installing/7-installing.md)
+1. [Використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md)

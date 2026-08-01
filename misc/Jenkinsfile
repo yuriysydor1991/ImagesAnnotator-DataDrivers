@@ -8,14 +8,14 @@ pipeline {
 
   parameters {
     booleanParam(name: 'RUN_CPPCHECK', defaultValue: false, description: 'Run the cppcheck static code check?')
-    // Template project specific: optional packager checks, all disabled by
-    // default and opt-in (e.g. WIX is MS Windows only, FreeBSD pkg is FreeBSD
-    // only). Safe to drop together with the template stages below.
-    booleanParam(name: 'RUN_DEB_PACKAGER', defaultValue: false, description: 'Template: build and check the deb package?')
-    booleanParam(name: 'RUN_RPM_PACKAGER', defaultValue: false, description: 'Template: build and check the RPM package?')
-    booleanParam(name: 'RUN_SNAP_PACKAGER', defaultValue: false, description: 'Template: build and check the snap package?')
-    booleanParam(name: 'RUN_FREEBSD_PACKAGER', defaultValue: false, description: 'Template: build and check the FreeBSD pkg package? (FreeBSD only)')
-    booleanParam(name: 'RUN_WIX_PACKAGER', defaultValue: false, description: 'Template: build and check the WIX MSI package? (MS Windows only)')
+    // The packager checks are optional, all disabled by default and opt-in
+    // (e.g. WIX is MS Windows only, FreeBSD pkg is FreeBSD only), because each
+    // of them needs its own packaging tooling installed on the build agent.
+    booleanParam(name: 'RUN_DEB_PACKAGER', defaultValue: false, description: 'Build and check the deb package?')
+    booleanParam(name: 'RUN_RPM_PACKAGER', defaultValue: false, description: 'Build and check the RPM package?')
+    booleanParam(name: 'RUN_SNAP_PACKAGER', defaultValue: false, description: 'Build and check the snap package?')
+    booleanParam(name: 'RUN_FREEBSD_PACKAGER', defaultValue: false, description: 'Build and check the FreeBSD pkg package? (FreeBSD only)')
+    booleanParam(name: 'RUN_WIX_PACKAGER', defaultValue: false, description: 'Build and check the WIX MSI package? (MS Windows only)')
   }
 
   stages {
@@ -28,8 +28,8 @@ pipeline {
       }
       
       steps {
-        git branch: 'lib',
-            url: 'https://github.com/yuriysydor1991/cpp-app-template.git'
+        git branch: 'main',
+            url: 'https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git'
       }
     }
     
@@ -59,6 +59,10 @@ pipeline {
       }
     }
 
+    // Both test sets are enabled here: the unit tests (compiled straight from
+    // the sources against the mocks) and the component tests, one of which -
+    // CTEST_AnnotationsDirDB - links the produced shared library and drives it
+    // through the installable public headers only.
     stage('Debug configure') {
       steps {
         sh 'rm -fr $BUILDDIR'
@@ -91,30 +95,102 @@ pipeline {
     
     stage('Unit Tests') {
       parallel {
-        stage('UTEST_LibraryFacade') { 
-          steps { 
+        stage('UTEST_LibraryFacade') {
+          steps {
             sh 'cd $BUILDDIR && ctest -R "UTEST_LibraryFacade\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_LibraryFacade.junit.xml'
           }
         }
-        stage('UTEST_LibFactory') { 
-          steps { 
+        stage('UTEST_LibFactory') {
+          steps {
             sh 'cd $BUILDDIR && ctest -R "UTEST_LibFactory\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_LibFactory.junit.xml'
           }
         }
-        stage('UTEST_LibMain') { 
-          steps { 
+        stage('UTEST_LibMain') {
+          steps {
             sh 'cd $BUILDDIR && ctest -R "UTEST_LibMain\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_LibMain.junit.xml'
+          }
+        }
+        stage('UTEST_ImageRecord') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecord\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecord.junit.xml'
+          }
+        }
+        stage('UTEST_ImageRecordRect') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordRect\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordRect.junit.xml'
+          }
+        }
+        stage('UTEST_RecordsFactory') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_RecordsFactory\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_RecordsFactory.junit.xml'
+          }
+        }
+        stage('UTEST_AnnotationsJSONSerializator') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_AnnotationsJSONSerializator\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_AnnotationsJSONSerializator.junit.xml'
+          }
+        }
+        stage('UTEST_DefaultDBMerger') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_DefaultDBMerger\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_DefaultDBMerger.junit.xml'
+          }
+        }
+        stage('UTEST_ImageRecords2JSONConverter') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecords2JSONConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecords2JSONConverter.junit.xml'
+          }
+        }
+        stage('UTEST_JSON2ImageRecordsConverter') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_JSON2ImageRecordsConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_JSON2ImageRecordsConverter.junit.xml'
+          }
+        }
+        stage('UTEST_ImageRecordJSON2RecordConverter') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordJSON2RecordConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordJSON2RecordConverter.junit.xml'
+          }
+        }
+        stage('UTEST_ImageRecordRectJSON2RecordConverter') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordRectJSON2RecordConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordRectJSON2RecordConverter.junit.xml'
           }
         }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }
-    
+
     stage('Component Tests') {
       parallel {
-        stage('CTEST_SimpleLogger') { 
-          steps { 
+        stage('CTEST_AnnotationsDirDB') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "CTEST_AnnotationsDirDB\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_AnnotationsDirDB.junit.xml'
+          }
+        }
+        stage('CTEST_log') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "CTEST_log\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_log.junit.xml'
+          }
+        }
+        stage('CTEST_SimpleLogger') {
+          steps {
             sh 'cd $BUILDDIR && ctest -R "CTEST_SimpleLogger\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_SimpleLogger.junit.xml'
+          }
+        }
+        // The default logger is not a part of the library build - only the
+        // simple logger is compiled into the shared library - so its component
+        // test executable is not always produced. Run it when the build did
+        // register it and report a skip otherwise, instead of failing the whole
+        // pipeline on a "No tests were found!!!" from ctest.
+        stage('CTEST_DefaultLogger') {
+          steps {
+            sh '''
+              cd $BUILDDIR
+              if ctest -N -R "CTEST_DefaultLogger\\." | grep -qE "Test +#"; then
+                ctest -R "CTEST_DefaultLogger\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_DefaultLogger.junit.xml
+              else
+                echo "SKIP: CTEST_DefaultLogger is not registered by this build configuration"
+              fi
+            '''
           }
         }
       }
@@ -165,17 +241,18 @@ pipeline {
     }
 
     // =====================================================================
-    // Template project specific checks.
+    // Repository consistency checks.
     //
-    // Everything below is specific to the cpp-app-template project itself and
-    // is safe to delete in a real project implementation derived from this
-    // template. The stages are written generically - they discover the doc
-    // sections, the enablers, the declared tests and the produced packages
-    // dynamically, with no hardcoded names - so they can be reused as-is on
-    // the other template branches.
+    // Everything below keeps the repository itself honest: the documentation
+    // links resolve, both README languages stay in their own doc tree, every
+    // CMake enabler is registered and every test declared by the CMake files
+    // is actually run by this pipeline. The stages are written generically -
+    // they discover the doc sections, the enablers, the declared tests and the
+    // produced packages dynamically, with no hardcoded names - so a newly
+    // added section, enabler or test is noticed here on its own.
     // =====================================================================
 
-    stage('Template: no git conflict markers') {
+    stage('Repo check: no git conflict markers') {
       steps {
         sh '''
           if git grep -nE "^(<<<<<<<|>>>>>>>)" -- .; then
@@ -187,7 +264,7 @@ pipeline {
       }
     }
 
-    stage('Template: no en_US doc sections in the uk_UA README') {
+    stage('Repo check: no en_US doc sections in the uk_UA README') {
       steps {
         sh '''
           if grep -nE "doc/sections/en_US/" doc/README.uk_UA.md; then
@@ -199,7 +276,7 @@ pipeline {
       }
     }
 
-    stage('Template: no uk_UA doc sections in the top-level README') {
+    stage('Repo check: no uk_UA doc sections in the top-level README') {
       steps {
         sh '''
           if grep -nE "doc/sections/uk_UA/" README.md; then
@@ -211,7 +288,7 @@ pipeline {
       }
     }
 
-    stage('Template: every doc section is linked in its README') {
+    stage('Repo check: every doc section is linked in its README') {
       steps {
         sh '''
           status=0
@@ -242,7 +319,7 @@ pipeline {
       }
     }
 
-    stage('Template: no broken markdown links') {
+    stage('Repo check: no broken markdown links') {
       steps {
         sh '''
           MDLIST=$(mktemp)
@@ -279,7 +356,7 @@ pipeline {
       }
     }
 
-    stage('Template: every enabler is registered') {
+    stage('Repo check: every enabler is registered') {
       steps {
         sh '''
           included="$( { cat cmake/template-project-feature-enabler.cmake cmake/template-project-feature-enabler-post.cmake; find cmake/enablers -name "*.cmake" -exec cat {} +; } | grep "include(" | sed "s/.*include(//; s/).*//" | tr -d " " | sort -u )"
@@ -297,7 +374,7 @@ pipeline {
       }
     }
 
-    stage('Template: every declared test is registered in the pipeline') {
+    stage('Repo check: every declared test is registered in the pipeline') {
       steps {
         sh '''
           declared="$(grep -rA3 "gtest_add_tests" --include=CMakeLists.txt src | grep -oE "TARGET[[:space:]]+[A-Za-z0-9_]+" | awk '{print $2}' | sort -u)"
@@ -318,7 +395,7 @@ pipeline {
     // parallel block): each runs a full CMake configure + build, so running
     // them in parallel could overload the build agent.
 
-    stage('Template: deb package') {
+    stage('Packager: deb package') {
       when { expression { params.RUN_DEB_PACKAGER } }
       steps {
         sh '''
@@ -336,7 +413,7 @@ pipeline {
       }
     }
 
-    stage('Template: rpm package') {
+    stage('Packager: rpm package') {
       when { expression { params.RUN_RPM_PACKAGER } }
       steps {
         sh '''
@@ -354,7 +431,7 @@ pipeline {
       }
     }
 
-    stage('Template: snap package') {
+    stage('Packager: snap package') {
       when { expression { params.RUN_SNAP_PACKAGER } }
       steps {
         sh '''
@@ -372,7 +449,7 @@ pipeline {
       }
     }
 
-    stage('Template: freebsd-pkg package') {
+    stage('Packager: freebsd-pkg package') {
       when { expression { params.RUN_FREEBSD_PACKAGER } }
       steps {
         sh '''
@@ -390,7 +467,7 @@ pipeline {
       }
     }
 
-    stage('Template: wix-msi package') {
+    stage('Packager: wix-msi package') {
       when { expression { params.RUN_WIX_PACKAGER } }
       steps {
         sh '''

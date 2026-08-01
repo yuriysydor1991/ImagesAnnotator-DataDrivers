@@ -1,0 +1,12 @@
+#ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_ANNOTATIONS_DBS_CTEST_DECLS_H
+#define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_ANNOTATIONS_DBS_CTEST_DECLS_H
+
+#include <string>
+
+namespace ctests_decls
+{
+  /// @brief Scratch directory the component tests may write into
+  const std::string tmp_data_path_root = "${ANNOTATIONS_DBS_CTESTS_INCLUDE_DIR}/ctests-data";
+}
+
+#endif // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_ANNOTATIONS_DBS_CTEST_DECLS_H

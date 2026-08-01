@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.13)
 
 include(template-project-dockerers)
-include(template-project-nlohmann-json-enabler)
-include(template-project-libcurl-enabler)
+
+# The mandatory dependencies were made available by the pre-src enabler pass,
+# here they only get linked against the now existing library target.
+include(template-project-nlohmann-json-linker)
+include(template-project-libcurl-linker)
+
 include(template-project-libxml2-enabler)
 include(template-project-OpenCV-enabler)
 

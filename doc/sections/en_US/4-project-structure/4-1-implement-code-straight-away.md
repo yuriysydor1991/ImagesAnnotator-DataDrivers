@@ -1,9 +1,26 @@
-## Implement code straight away!
+## Where the implementation lives
 
-To proceed the library implementation right away look for the `LibMain` class' `LibMain.cpp` file which is designed to accept initial code of the library. Specifically, new code may be placed into the `bool LibMain::libcall(std::shared_ptr<LibraryContext> ctx)` method.
+The library is implemented, so there is no empty method waiting for your code here. This subsection is a short walk from the API surface down to the classes doing the actual work, so that you know where to look when something has to be understood, fixed or extended.
 
-The `LibMain` class will be compiled into destination target library in order to make it's implementation available for other external applications to reuse it.
+### From the facade down to the JSON file
 
-**But do not forget about the SOLID principles and code decomposing!**
+1. [src/lib/facade/public/LibraryFacade.h](/src/lib/facade/public/LibraryFacade.h) is the front door. It is a set of static factory methods only (`create_library_context`, `create_default_lib`, `create_library`, `create_annotations_db`, `open_annotations_db`, `create_records_factory`, `create_db_merger`) plus the `library_version`, `default_db_root_app_name` and `default_db_app_version` reporters. Its implementation in `src/lib/facade/LibraryFacade.cpp` does nothing but forward every call to the internal factory - the facade exists precisely so that no implementation type ever appears in an installed header.
+1. `src/lib/libmain/LibFactory.{h,cpp}` (namespace `lib0impl`) is that internal factory. It is the single place which knows the concrete classes: `LibMain` for the `ILib`, `iannotator::dbs::annotations::AnnotationsDirDB` for the `IAnnotationsDB`, `iannotator::records::RecordsFactory` for the `IRecordsFactory` and `iannotator::dbs::annotations::merger::DefaultDBMerger` for the `IDBMerger`. Its methods are `virtual`, so a descendant may substitute any of them.
+1. `src/lib/libmain/LibMain.{h,cpp}` implements `ILib::libcall(LibraryContextPtr ctx)` - the one shot entry point. It builds the database with the context data and, when the context `db_path` is not empty, loads that project file into it; the resulting instance is handed back through the context `db` field.
+1. `src/lib/libmain/dbs/AnnotationsDBs/AnnotationsDirDB.{h,cpp}` is the annotations database itself and thus the heart of the library. It holds the in-memory `ImageRecordsSet`, the last saved copy of it (that is how `changed()` answers), the current project file path and the application identity written into the files.
+1. `AnnotationsJSONSerializator.{h,cpp}` sitting next to it validates the parsed document: it checks that the JSON root element named after the application is present, warns when the version stored inside the file differs from the configured one and makes sure the `annotations` array is there. All the JSON field name constants of the format are declared in that header.
+1. The `dbs/AnnotationsDBs/converters/` directory performs the translation in both directions: `JSON2ImageRecordsConverter` walks the document and produces the records, delegating to `ImageRecordJSON2RecordConverter` for a single image record and to `ImageRecordRectJSON2RecordConverter` for a single rectangle, while `ImageRecords2JSONConverter` builds the document back out of the records.
+1. `dbs/AnnotationsDBs/mergers/DefaultDBMerger.{h,cpp}` implements the appending of one records set into another, skipping the duplicates. It is what `IAnnotationsDB::add_images_db()` is driven by.
 
-It's preferable to create other directories which would contain implemented components of the library and include them into the `LibMain` class implementation, rather than put all the code inside the `LibMain` class itself (thats may be ok for a trivial library).
+Two supporting components are used along the way: `libmain/records/` holds the `ImageRecord` and `ImageRecordRect` data classes with their `RecordsFactory`, and `libmain/helpers/` holds the `SortHelper` (keeping the records sorted by their full paths) together with the `ImageRecordUrlAndPathHelper`, which recognizes the records pointing at a web URL rather than at a local file and normalizes them through the libcurl URL API of the `libmain/CURL/CURLController`. That is what makes the merging of the web hosted records behave.
+
+### Where to plug your own behaviour in
+
+The intended extension points are all in the public headers, so they are reachable from an installed library with no need to patch anything:
+
+- **Your own records.** Implement [IRecordsFactory](/src/lib/facade/public/IRecordsFactory.h) (or derive from the default one) and hand the instance over through the `LibraryContext::records_factory` field before calling `LibraryFacade::create_annotations_db(ctx)`. The deserialization is going to build every record with your factory, which is the way to get your own `ImageRecord` descendants into the loaded database.
+- **Your own merge policy.** Implement [IDBMerger](/src/lib/facade/public/IDBMerger.h) - a single `merge(ImageRecordsSet& dst, const ImageRecordsSet& append)` method - and pass it through the `LibraryContext::merger` field. Every `IAnnotationsDB::add_images_db()` call is then performed by your merger instead of the default one.
+- **Your own database.** Implement [IAnnotationsDB](/src/lib/facade/public/IAnnotationsDB.h) from scratch when your storage is not a project JSON file at all. Inside the project tree itself the natural move is to derive from `AnnotationsDirDB`: all of its methods, including the protected `serialize()` and `load_the_irs()` ones, are `virtual`.
+- **Your own one shot call.** Implement [ILib](/src/lib/facade/public/ILib.h) when you need a different `libcall()` orchestration, and teach `LibFactory::create_appropriate_lib()` to return it.
+
+And of course, when a new component is added to the library itself, **do not forget about the SOLID principles and code decomposing**: put it into its own directory under `src/lib/libmain` with its own `CMakeLists.txt` and its own tests directory next to it, the way every existing component is arranged, rather than growing an existing class.

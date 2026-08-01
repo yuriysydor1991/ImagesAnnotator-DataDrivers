@@ -1,51 +1,208 @@
 @startuml
 
 package Library-Facade {
+
+  abstract class IProvider {
+  }
+
+  abstract class IImagesPathsDBProvider {
+    +{abstract} ImageRecordsSet& get_images_db()
+    +{abstract} std::string get_db_path()
+    +{abstract} AnnotationsList get_available_annotations()
+    +{abstract} bool changed()
+    +{abstract} bool delete_image_record(const std::string& irFullPath)
+  }
+
+  abstract class IAnnotationsDB {
+    +{abstract} bool load_db(const std::string& fpath)
+    +{abstract} bool store_db()
+    +{abstract} bool store_db(const std::string& fpath)
+    +{abstract} void add_images_db(const ImageRecordsSet& andb)
+    +{abstract} void set_app_info(const std::string& name, const std::string& version)
+    +{abstract} std::string get_app_name()
+    +{abstract} std::string get_app_version()
+  }
+
+  abstract class IRecordsFactory {
+    +{abstract} ImageRecordPtr create_image_record(nirpath, nabsPath)
+    +{abstract} ImageRecordRectPtr create_image_rect_record(ir)
+    +{abstract} ImageRecordRectPtr create_image_rect_record(nname, nx, ny, nwidth, nheight)
+  }
+
+  abstract class IDBMerger {
+    +{abstract} void merge(ImageRecordsSet& dst, const ImageRecordsSet& append)
+  }
+
   abstract class ILib {
     +{abstract} bool libcall(LibraryContextPtr ctx)
   }
 
   class LibraryContext {
+    +std::string db_path
+    +std::string app_name
+    +std::string app_version
+    +IRecordsFactoryPtr records_factory
+    +IDBMergerPtr merger
+    +IAnnotationsDBPtr db
+    +{static} LibraryContextPtr create()
+  }
+
+  class ImageRecord {
+    +std::string abs_dir_path
+    +std::string path
+    +std::filesystem::path tmppath
+    +ImageRecordRectSet rects
+    +ImageRecordRectPtr current_rect
+    +int iwidth
+    +int iheight
+    +double imageScale
+    +std::string get_full_path()
+    +ImageRecordPtr duplicate_shared()
+  }
+
+  class ImageRecordRect {
+    +std::string name
+    +int x
+    +int y
+    +int width
+    +int height
+    +ImageRecordRectPtr duplicate_shared()
   }
 
   class LibraryFacade {
-    +{static} LibraryContextPtr create_library_context();
-    +{static} ILibPtr create_default_lib();
-    +{static} ILibPtr create_library(LibraryContextPtr ctx);
+    +{static} LibraryContextPtr create_library_context()
+    +{static} ILibPtr create_default_lib()
+    +{static} ILibPtr create_library(LibraryContextPtr ctx)
+    +{static} IAnnotationsDBPtr create_annotations_db()
+    +{static} IAnnotationsDBPtr create_annotations_db(LibraryContextPtr ctx)
+    +{static} IAnnotationsDBPtr open_annotations_db(const std::string& fpath)
+    +{static} IRecordsFactoryPtr create_records_factory()
+    +{static} IDBMergerPtr create_db_merger()
+    +{static} std::string library_version()
+    +{static} std::string default_db_root_app_name()
+    +{static} std::string default_db_app_version()
   }
 }
 
 package Library-Implementation {
-  class LibMain {
-    +{abstract} bool libcall(LibraryContextPtr ctx)
+
+  class LibMain <<lib0impl>> {
+    +bool libcall(LibraryContextPtr ctx)
     +{static} LibMainPtr create()
   }
 
-  class LibFactory {
-    +{abstract} ILibPtr create_default_lib()
-    +{abstract} LibraryContextPtr create_default_context()
-    +{abstract} ILibPtr create_appropriate_lib(LibraryContextPtr ctx)
+  class LibFactory <<lib0impl>> {
+    +ILibPtr create_default_lib()
+    +LibraryContextPtr create_default_context()
+    +ILibPtr create_appropriate_lib(LibraryContextPtr ctx)
+    +IAnnotationsDBPtr create_annotations_db()
+    +IAnnotationsDBPtr create_annotations_db(LibraryContextPtr ctx)
+    +IRecordsFactoryPtr create_records_factory()
+    +IDBMergerPtr create_db_merger()
     +{static} LibFactoryPtr create_factory()
+  }
+
+  class AnnotationsDirDB <<iannotator::dbs::annotations>> {
+    +bool load_db(const std::string& fpath)
+    +bool store_db()
+    +bool store_db(const std::string& fpath)
+    +void add_images_db(const ImageRecordsSet& andb)
+    +void set_records_factory(IRecordsFactoryPtr factory)
+    +void set_db_merger(IDBMergerPtr merger)
+    +{static} AnnotationsDirDBPtr create()
+    ..
+    #bool serialize()
+    #ImageRecordsSet load_the_irs()
+    #nlohmann::json json
+    #ImageRecordsSet irdb
+    #ImageRecordsSet last_saved_db
+    #std::string current_db_path
+  }
+
+  class AnnotationsJSONSerializator <<iannotator::dbs::annotations>> {
+    +bool serialize(const nlohmann::json& json)
+    +std::string root_app_name
+    +std::string app_version
+    +{static} default_root_app_name
+    +{static} default_app_version
+    ..
+    #bool serialize_app_info(const nlohmann::json& json)
+    #bool serialize_annotations_records(const nlohmann::json& json)
+  }
+
+  class Converters <<the four JSON converters>> {
+    JSON2ImageRecordsConverter
+    ImageRecords2JSONConverter
+    ImageRecordJSON2RecordConverter
+    ImageRecordRectJSON2RecordConverter
+    ..
+    +ImageRecordsSet fetch_records(const nlohmann::json& allAJSon)
+    +bool store(const ImageRecordsSet& irs, const std::string& filepath)
+    +ImageRecordPtr convert(const nlohmann::json& fan, const std::string& absdirpath)
+    +ImageRecordRectPtr convert(const nlohmann::json& rect)
+  }
+
+  class RecordsFactory <<iannotator::records>> {
+    +ImageRecordPtr create_image_record(nirpath, nabsPath)
+    +ImageRecordRectPtr create_image_rect_record(ir)
+    +ImageRecordRectPtr create_image_rect_record(nname, nx, ny, nwidth, nheight)
+    +{static} RecordsFactoryPtr create()
+  }
+
+  class DefaultDBMerger <<iannotator::dbs::annotations::merger>> {
+    +void merge(ImageRecordsSet& dst, const ImageRecordsSet& append)
+    +{static} DefaultDBMergerPtr create()
   }
 }
 
-note Left of LibraryFacade : The facade for\nthe library implementation.\nCreates instances\nof LibMain through the LibFactory
+note Left of LibraryFacade : The facade of the library implementation.\nThe single entry point of a consuming project:\nevery method is static and hands back\nan abstract interface only.
 
-note Left of LibraryContext : Possible required\ndata placeholder\nto execute some libcalls
-note Bottom of ILib: The particular library\nimplementation interface declearer
+note Left of LibraryContext : The data placeholder passed in and out\nof ILib::libcall. Holds the db path, the\napplication identity and the optional custom\nrecords factory and merger. Filled with the\nANNOTATIONS_DB_ROOT_APP_NAME and the\nANNOTATIONS_DB_APP_VERSION defaults.
+
+note Bottom of ILib : The particular library implementation interface declearer.
+
+note Right of IProvider : IProvider and IRecord are the empty tagging\nbases every provider and every data record\nof the public API is built upon.
 
 note Right of LibMain : The particular library implementation.\nIs created by LibFactory to return\nby LibraryFacade to the end user.
-note Bottom of LibFactory: The factory to create library implementations objects.
+
+note Bottom of LibFactory : The factory to create library implementations objects.\nEvery class of this package is instantiated through it.
+
+note Right of AnnotationsDirDB : The annotations project database itself:\nreads and writes a single project JSON file\nand keeps the in memory records set.
+
+note Bottom of DefaultDBMerger : Appends the not yet present records only.\nThe paths are resolved through\nhelpers::ImageRecordUrlAndPathHelper, which\nasks curli::CURLController about the web URLs.
+
+IProvider <|-- IImagesPathsDBProvider : extends
+IImagesPathsDBProvider <|-- IAnnotationsDB : extends
+
+ImageRecord *-- ImageRecordRect : rects
+IImagesPathsDBProvider ..> ImageRecord : provides the records set of
+IRecordsFactory ..> ImageRecord : creates
+IRecordsFactory ..> ImageRecordRect : creates
+
+LibraryContext o-- IRecordsFactory : in
+LibraryContext o-- IDBMerger : in
+LibraryContext o-- IAnnotationsDB : out
+ILib ..> LibraryContext : takes and fills
+
+LibraryFacade ..> LibraryContext : creates
+LibraryFacade --> LibFactory : delegates every call to
 
 ILib <|-- LibMain : Particular implementation
+IAnnotationsDB <|-- AnnotationsDirDB : implements
+IRecordsFactory <|-- RecordsFactory : implements
+IDBMerger <|-- DefaultDBMerger : implements
 
-LibraryContext <-- ILib
-LibraryContext <-- LibMain
+LibMain --> LibFactory : builds the database through
+LibFactory ..> LibMain : creates
+LibFactory ..> AnnotationsDirDB : creates
+LibFactory ..> RecordsFactory : creates
+LibFactory ..> DefaultDBMerger : creates
 
-LibraryFacade ..> LibraryContext : implicitly creates with LibraryFacade
-LibraryFacade ..> LibMain : Implicitly creates with LibraryFacade
-LibraryFacade --> LibFactory : Creates
+AnnotationsDirDB --> AnnotationsJSONSerializator : validates the file with
+AnnotationsDirDB --> Converters : converts the JSON with
+AnnotationsDirDB --> IDBMerger : add_images_db merges with
+AnnotationsDirDB ..> DefaultDBMerger : the default merger
 
-LibMain --> LibFactory
+Converters --> IRecordsFactory : builds every record through
 
 @enduml

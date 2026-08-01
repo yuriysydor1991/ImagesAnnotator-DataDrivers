@@ -20,7 +20,10 @@ template_project_default_3rdparty_enabler(
   GIT_TAG ${TEMPLATE_APP_LIBXML2_GIT_TAG}
 )
 
+# PRIVATE to stay consistent with the mandatory dependency linkers: CMake
+# refuses to mix the plain and the keyword target_link_libraries signatures on
+# one and the same target.
 target_link_libraries(
   ${PROJECT_LIBRARY_NAME}
-  LibXml2::LibXml2
+  PRIVATE LibXml2::LibXml2
 )

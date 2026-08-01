@@ -5,3 +5,5 @@ if (ENABLE_LOGS_MICROSECONDS_TIME)
 endif()
 
 add_subdirectory(simple-logger)
+
+add_subdirectory(tests)

@@ -1,5 +1,5 @@
-#ifndef YOUR_CPP_APP_TEMPLATE_PROJECT_GLOBAL_DECLS_H
-#define YOUR_CPP_APP_TEMPLATE_PROJECT_GLOBAL_DECLS_H
+#ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_GLOBAL_DECLS_H
+#define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_GLOBAL_DECLS_H
 
 #include <string>
 
@@ -7,7 +7,7 @@
 namespace project_decls
 {
 
-  /// @brief Global project' binary name
+  /// @brief Global project' library name
   const std::string PROJECT_NAME = "${PROJECT_LIBRARY_NAME}";
   /// @brief Global project' build version
   const std::string PROJECT_BUILD_VERSION = "${PROJECT_VERSION}";
@@ -16,6 +16,24 @@ namespace project_decls
   /// @brief Global project' configure date
   const std::string PROJECT_CONFIGURE_DATE = "${PROJECT_CONFIGURE_DATE}";
 
+  /**
+   * @brief The JSON root element name of the annotations project files.
+   *
+   * This is deliberately NOT the library name: the produced files must stay
+   * readable by the ImagesAnnotator application, whose project files carry an
+   * "ImagesAnnotator" root element. Override it through the
+   * ANNOTATIONS_DB_ROOT_APP_NAME CMake cache variable only when the library
+   * is used to drive a differently named application format.
+   */
+  const std::string ANNOTATIONS_DB_ROOT_APP_NAME = "${ANNOTATIONS_DB_ROOT_APP_NAME}";
+
+  /**
+   * @brief The version string written under the JSON root element and checked
+   * against when a project file is read. Controlled by the
+   * ANNOTATIONS_DB_APP_VERSION CMake cache variable.
+   */
+  const std::string ANNOTATIONS_DB_APP_VERSION = "${ANNOTATIONS_DB_APP_VERSION}";
+
 } // namespace project_decls
 
-#endif // YOUR_CPP_APP_TEMPLATE_PROJECT_GLOBAL_DECLS_H
+#endif // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_GLOBAL_DECLS_H

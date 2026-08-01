@@ -1,11 +1,19 @@
 ### Run tests by the ctest
 
-If enabled by the developer through the `ENABLE_UNIT_TESTS` variable and successfully build, the one may run all available test by the `ctest` command from a project build directory (GNU/Linux based):
+If enabled by the developer through the `ENABLE_UNIT_TESTS` and/or the `ENABLE_COMPONENT_TESTS` variables and successfully build, the one may run all available test by the `ctest` command from a project build directory (GNU/Linux based):
 
 ```
 # run from the project build directory
 
 ctest
+```
+
+Add the `--output-on-failure` flag to get the GoogleTest output of the cases that did not pass printed right away instead of a bare list of names:
+
+```
+# run from the project build directory
+
+ctest --output-on-failure
 ```
 
 Alternatively, run the `ctest` command from any location by specifying the test dir (GNU/Linux based):
@@ -21,3 +29,15 @@ In order to run particular test execute the `ctest` command with test's name aft
 
 ctest -R UTEST_LibraryFacade
 ```
+
+The `-R` flag takes a regular expression matched against the registered case name, and the cases here are registered in a `<binary name>.<case>.<arguments>` shape, so the same flag narrows things down as far as you like - a whole binary, or one single case:
+
+```
+# every component test of the annotations directory database
+ctest -R CTEST_AnnotationsDirDB
+
+# one particular case
+ctest -R UTEST_DefaultDBMerger.appends_new_records_and_skips_duplicates
+```
+
+Use `ctest -N` to list what is registered without running anything.
