@@ -4,8 +4,8 @@ include(template-project-dockerers)
 
 # The mandatory dependencies were made available by the pre-src enabler pass,
 # here they only get linked against the now existing library target.
-include(template-project-nlohmann-json-linker)
-include(template-project-libcurl-linker)
+include(ImagesAnnotator-nlohmann-json-linker)
+include(ImagesAnnotator-libcurl-linker)
 
 include(template-project-libxml2-enabler)
 include(template-project-OpenCV-enabler)

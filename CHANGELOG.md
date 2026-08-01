@@ -46,7 +46,7 @@ very same annotations project files.
 
 - CMake project renamed from `CppAppTemplate` to `ImagesAnnotatorDataDrivers`;
   the produced library is `libImagesAnnotatorDataDrivers-0.so` and its headers
-  install under `include/ImagesAnnotatorDataDrivers-0/`.
+  install under `include/ImagesAnnotatorDataDrivers-0.11/`.
 - `ENABLE_NLOHMANN_JSON` and `ENABLE_LIBCURL` now default to `ON`: both are
   mandatory for this library. Both are linked `PRIVATE`, so no third party type
   leaks through the public headers.
@@ -61,6 +61,24 @@ very same annotations project files.
   `LibraryContext::db_path`, and publishes the result as `LibraryContext::db`.
 - All the documentation, both `en_US` and `uk_UA`, was rewritten to describe
   this library instead of the template it grew out of.
+
+### Changed (layout and naming refinement)
+
+- The implementation components moved out of `libmain` and up to the `src`
+  level, so that `libmain` carries only the `LibMain` / `LibFactory` entry
+  pair: `src/records`, `src/helpers` and `src/dbs/AnnotationsDBs`.
+- `curli::CURLController` is gone. Only two of its functions were ever called,
+  so the URL resolution it provided now lives in a ~60 line
+  `helpers::UrlHelper` over the same libcurl CURLU API; the whole download
+  machinery it carried along is dropped.
+- `LIB_INCLUDE_MINOR_IN_NAME` defaults to `ON`, so the installable names carry
+  the minor version and match the `ImagesAnnotatorDataDrivers011` namespace:
+  `libImagesAnnotatorDataDrivers-0.11.so`,
+  `include/ImagesAnnotatorDataDrivers-0.11/` and
+  `find_package(ImagesAnnotatorDataDrivers-0.11)`.
+- The two CMake modules added by this project are named after it rather than
+  after the template: `ImagesAnnotator-nlohmann-json-linker` and
+  `ImagesAnnotator-libcurl-linker`.
 
 ### Removed
 

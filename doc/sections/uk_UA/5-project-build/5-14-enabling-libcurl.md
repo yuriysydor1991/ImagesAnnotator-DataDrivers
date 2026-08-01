@@ -22,7 +22,7 @@ cmake -S . -B build -DENABLE_LIBCURL=ON
 
 Не для завантаження чогось. Тека-джерело бази даних анотацій ідентифікується елементом `db.path` файлу проекту, і тому шляху дозволено бути веб-URL так само добре, як і локальним абсолютним шляхом до директорії. Розрізнити ці два випадки, розділити URL на його частини, приєднати до нього відносний шлях запису і нормалізувати результат назад у порівнюваний рядок - саме для цього й існує **URL-API CURLU** бібліотеки libcurl (`curl_url()`, `curl_url_set()`, `curl_url_get()` і подібні) - а писати коректний парсер URL руками є славнозвісно поганою ідеєю.
 
-Той API загорнутий у `curli::CURLController` у [src/lib/libmain/CURL](/src/lib/libmain/CURL) і використовується `helpers::ImageRecordUrlAndPathHelper` у [src/lib/libmain/helpers](/src/lib/libmain/helpers). Практичний наслідок проявляється у злитті: `DefaultDBMerger` має вирішити, чи вхідний запис зображення є тим самим зображенням, що вже присутнє у базі даних, і для записів, розміщених у вебі, це рішення приймається на основі нормалізованого URL. Без цього помічника два написання одного й того ж віддаленого зображення опинилися б двома окремими записами.
+Той API загорнутий у `helpers::UrlHelper` і використовується `helpers::ImageRecordUrlAndPathHelper`, обидва у [src/helpers](/src/helpers). Обгортка навмисно крихітна - дві статичні функції, `is_url()` і `get_absolute_url()` - бо розвʼязання URL це все, чого ця бібліотека колись просить у libcurl: тут ніщо нічого не завантажує. Практичний наслідок проявляється у злитті: `DefaultDBMerger` має вирішити, чи вхідний запис зображення є тим самим зображенням, що вже присутнє у базі даних, і для записів, розміщених у вебі, це рішення приймається на основі нормалізованого URL. Без цього помічника два написання одного й того ж віддаленого зображення опинилися б двома окремими записами.
 
 ### Звідки береться бібліотека
 
@@ -36,7 +36,7 @@ cmake -S . -B build -DENABLE_LIBCURL=ON
 Так само як і залежність JSON, ця обробляється **двома** CMake-модулями замість одного:
 
 - [cmake/enablers/template-project-libcurl-enabler.cmake](/cmake/enablers/template-project-libcurl-enabler.cmake) оголошує опцію `ENABLE_LIBCURL` і лише робить залежність *доступною*. Він включається з [cmake/template-project-feature-enabler.cmake](/cmake/template-project-feature-enabler.cmake), який виконується **перед** додаванням `src/` до збірки - виконувані файли тестів, оголошені всередині `src/`, компілюють вихідні коди помічників прямо з дерева проекту і мають бути здатні злінкувати libcurl самостійно, у момент, коли цілі бібліотеки ще не існує.
-- [cmake/enablers/template-project-libcurl-linker.cmake](/cmake/enablers/template-project-libcurl-linker.cmake) виконує справжній `target_link_libraries()` до цілі бібліотеки. Він включається з [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), який виконується **після** того, як `src/` було додано.
+- [cmake/enablers/ImagesAnnotator-libcurl-linker.cmake](/cmake/enablers/ImagesAnnotator-libcurl-linker.cmake) виконує справжній `target_link_libraries()` до цілі бібліотеки. Він включається з [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), який виконується **після** того, як `src/` було додано.
 
 ### Лінкування є PRIVATE
 

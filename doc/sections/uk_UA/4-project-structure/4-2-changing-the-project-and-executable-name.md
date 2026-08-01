@@ -4,17 +4,17 @@
 
 Назва проекту оголошується викликом `project()` у кореневому файлі [CMakeLists.txt](/CMakeLists.txt) і є `ImagesAnnotatorDataDrivers`. Її зміна там змінює значення `CMAKE_PROJECT_NAME`, на якому побудована уся решта системи збірки.
 
-Назва бібліотеки, придатної до встановлення, є CMake-змінною кешу `PROJECT_LIBRARY_NAME`, яка виводиться у файлі [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake). За замовчуванням вона бере значення `CMAKE_PROJECT_NAME` і додає до нього мажорну версію проекту, що для поточної версії `0.11.0` дає назву `ImagesAnnotatorDataDrivers-0`. Необов'язкові сегменти (мінорна версія, мікроверсія і довільний хвостовий суфікс) можуть бути додані до неї під час конфігурації - див. підрозділ [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
+Назва бібліотеки, придатної до встановлення, є CMake-змінною кешу `PROJECT_LIBRARY_NAME`, яка виводиться у файлі [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake). За замовчуванням вона бере значення `CMAKE_PROJECT_NAME` і додає до нього мажорну версію проекту, що для поточної версії `0.11.0` дає назву `ImagesAnnotatorDataDrivers-0.11`. Необов'язкові сегменти (мінорна версія, мікроверсія і довільний хвостовий суфікс) можуть бути додані до неї під час конфігурації - див. підрозділ [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
 
 Ця єдина назва одразу керує кожним видимим для користувача артефактом:
 
 | Артефакт | Виводиться з назви | З поточними типовими значеннями |
 |---|---|---|
-| Двійковий файл бібліотеки | `lib<НАЗВА>.so.<версія>` (префікс `lib` додається автоматично) | `libImagesAnnotatorDataDrivers-0.so.0.11.0` із `SOVERSION` `0` |
-| Директорія встановлення публічних заголовкових файлів | `include/<НАЗВА>/` | `include/ImagesAnnotatorDataDrivers-0/` |
-| Директорія CMake-пакунку | `lib/cmake/<НАЗВА>/` | `lib/cmake/ImagesAnnotatorDataDrivers-0/` |
-| Назва для `find_package()` | `find_package(<НАЗВА> REQUIRED)` | `find_package(ImagesAnnotatorDataDrivers-0 REQUIRED)` |
-| Імпортована ціль | `<НАЗВА>::<НАЗВА>` | `ImagesAnnotatorDataDrivers-0::ImagesAnnotatorDataDrivers-0` |
+| Двійковий файл бібліотеки | `lib<НАЗВА>.so.<версія>` (префікс `lib` додається автоматично) | `libImagesAnnotatorDataDrivers-0.11.so.0.11.0` із `SOVERSION` `0` |
+| Директорія встановлення публічних заголовкових файлів | `include/<НАЗВА>/` | `include/ImagesAnnotatorDataDrivers-0.11/` |
+| Директорія CMake-пакунку | `lib/cmake/<НАЗВА>/` | `lib/cmake/ImagesAnnotatorDataDrivers-0.11/` |
+| Назва для `find_package()` | `find_package(<НАЗВА> REQUIRED)` | `find_package(ImagesAnnotatorDataDrivers-0.11 REQUIRED)` |
+| Імпортована ціль | `<НАЗВА>::<НАЗВА>` | `ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11` |
 
 Май на увазі, що перейменування проекту перейменовує також і встановлювану директорію заголовкових файлів, і CMake-пакунок, тому кожного споживача бібліотеки доведеться відповідно підправити.
 

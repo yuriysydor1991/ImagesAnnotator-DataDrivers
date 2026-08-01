@@ -1,6 +1,6 @@
 ## Формат JSON проекту анотацій
 
-Проект анотацій - це єдиний JSON-документ. Ця секція описує його таким, яким його насправді реалізує бібліотека - назви полів походять з [AnnotationsJSONSerializator.h](/src/lib/libmain/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h), правила читання - з конвертерів у [src/lib/libmain/dbs/AnnotationsDBs/converters](/src/lib/libmain/dbs/AnnotationsDBs/converters), а правила перевірки - з [AnnotationsJSONSerializator.cpp](/src/lib/libmain/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp).
+Проект анотацій - це єдиний JSON-документ. Ця секція описує його таким, яким його насправді реалізує бібліотека - назви полів походять з [AnnotationsJSONSerializator.h](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h), правила читання - з конвертерів у [src/dbs/AnnotationsDBs/converters](/src/dbs/AnnotationsDBs/converters), а правила перевірки - з [AnnotationsJSONSerializator.cpp](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp).
 
 Ніщо тут не є приватною деталлю: формат - це і є весь сенс бібліотеки, і файл, який вона пише, має залишатися читабельним для застосунку [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) і для будь-чийого стороннього інструментарію.
 
@@ -77,7 +77,7 @@
 
 ### Розібраний приклад
 
-Файл нижче - це справжня фікстура, якою компонентний тест `CTEST_AnnotationsDirDB` керує бібліотекою, [src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/basic-structure-plan.json](/src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/basic-structure-plan.json). Він успішно завантажується і дає **п'ять** записів зображень - три з першої теки і по одному з кожної з двох інших:
+Файл нижче - це справжня фікстура, якою компонентний тест `CTEST_AnnotationsDirDB` керує бібліотекою, [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/basic-structure-plan.json](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/basic-structure-plan.json). Він успішно завантажується і дає **п'ять** записів зображень - три з першої теки і по одному з кожної з двох інших:
 
 ```json
 {
@@ -247,7 +247,7 @@ Current app version and files's ones missmatch: 0.10.0 != 0.11.0
 
 Останні чотири перевіряються для кожної групи тек, і перша ж група, що не проходить перевірку, перериває усе завантаження - часткова база даних ніколи не повертається назовні.
 
-Тому найменшим можливим недійсним документом є `{}`, і саме це містить друга фікстура компонентного тесту [non_empty_annotation_db_init_serialize_failure.json](/src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/non_empty_annotation_db_init_serialize_failure.json): дійсний JSON, немає кореневого елемента, у завантаженні відмовлено.
+Тому найменшим можливим недійсним документом є `{}`, і саме це містить друга фікстура компонентного тесту [non_empty_annotation_db_init_serialize_failure.json](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/non_empty_annotation_db_init_serialize_failure.json): дійсний JSON, немає кореневого елемента, у завантаженні відмовлено.
 
 Варто зауважити, що невдале завантаження не відкочує базу даних до того, що вона містила раніше - `load_db()` є заміщувальною операцією, і невдача залишає її у невизначеному стані. Трактуйте `false` від нього як "з цим примірником покінчено" і будуйте новий.
 

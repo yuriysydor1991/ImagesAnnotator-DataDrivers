@@ -17,7 +17,7 @@ namespace project_decls
 {
 
 /// @brief Global project' library name
-const std::string PROJECT_NAME = "ImagesAnnotatorDataDrivers-0";
+const std::string PROJECT_NAME = "ImagesAnnotatorDataDrivers-0.11";
 /// @brief Global project' build version
 const std::string PROJECT_BUILD_VERSION = "0.11.0";
 /// @brief Global project' configure git commit hash

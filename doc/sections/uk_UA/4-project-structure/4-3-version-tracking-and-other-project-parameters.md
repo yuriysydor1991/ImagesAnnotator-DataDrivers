@@ -6,7 +6,7 @@
 
 | Константа | Заповнюється з | Значення з поточними типовими налаштуваннями |
 |---|---|---|
-| `project_decls::PROJECT_NAME` | змінної кешу `PROJECT_LIBRARY_NAME` | `ImagesAnnotatorDataDrivers-0` |
+| `project_decls::PROJECT_NAME` | змінної кешу `PROJECT_LIBRARY_NAME` | `ImagesAnnotatorDataDrivers-0.11` |
 | `project_decls::PROJECT_BUILD_VERSION` | `PROJECT_VERSION` кореневого виклику `project()` | `0.11.0` |
 | `project_decls::PROJECT_BUILD_COMMIT` | хешу git-коміту, на якому виконувалась конфігурація | напр. `966341c...` |
 | `project_decls::PROJECT_CONFIGURE_DATE` | мітки часу конфігурації | напр. `2026-08-01 12:00:00` |

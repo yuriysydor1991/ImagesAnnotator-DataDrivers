@@ -1,6 +1,6 @@
 ## The annotations project JSON format
 
-An annotations project is a single JSON document. This section describes it as the library actually implements it - the field names come from [AnnotationsJSONSerializator.h](/src/lib/libmain/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h), the reading rules from the converters under [src/lib/libmain/dbs/AnnotationsDBs/converters](/src/lib/libmain/dbs/AnnotationsDBs/converters), and the validation rules from [AnnotationsJSONSerializator.cpp](/src/lib/libmain/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp).
+An annotations project is a single JSON document. This section describes it as the library actually implements it - the field names come from [AnnotationsJSONSerializator.h](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h), the reading rules from the converters under [src/dbs/AnnotationsDBs/converters](/src/dbs/AnnotationsDBs/converters), and the validation rules from [AnnotationsJSONSerializator.cpp](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp).
 
 Nothing here is a private detail: the format is the whole point of the library, and a file it writes must stay readable by the [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) application and by anybody else's tooling.
 
@@ -77,7 +77,7 @@ The coordinates are in the image own pixel space, never in the scaled preview sp
 
 ### The worked example
 
-The file below is the real fixture the `CTEST_AnnotationsDirDB` component test drives the library with, [src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/basic-structure-plan.json](/src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/basic-structure-plan.json). It loads successfully and yields **five** image records - three from the first folder and one from each of the other two:
+The file below is the real fixture the `CTEST_AnnotationsDirDB` component test drives the library with, [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/basic-structure-plan.json](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/basic-structure-plan.json). It loads successfully and yields **five** image records - three from the first folder and one from each of the other two:
 
 ```json
 {
@@ -247,7 +247,7 @@ That is deliberate. The format has been stable, the version is an informational 
 
 The last four are checked for every folder group, and the first group that fails aborts the whole load - a partial database is never handed back.
 
-The smallest possible invalid document is therefore `{}`, which is precisely what the second component test fixture [non_empty_annotation_db_init_serialize_failure.json](/src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/non_empty_annotation_db_init_serialize_failure.json) holds: valid JSON, no root element, load refused.
+The smallest possible invalid document is therefore `{}`, which is precisely what the second component test fixture [non_empty_annotation_db_init_serialize_failure.json](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/ctest_data/non_empty_annotation_db_init_serialize_failure.json) holds: valid JSON, no root element, load refused.
 
 Note that a failed load does not roll the database back to what it held before - `load_db()` is a replacing operation and a failure leaves it in an unspecified state. Treat a `false` from it as "this instance is done", and build a fresh one.
 

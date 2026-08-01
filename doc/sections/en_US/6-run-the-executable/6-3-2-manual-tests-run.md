@@ -23,7 +23,7 @@ The component test of the annotations directory database is started exactly the 
 ```
 # from the project root
 
-./build/src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/CTEST_AnnotationsDirDB
+./build/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/CTEST_AnnotationsDirDB
 ```
 
 Every one of these binaries is an ordinary GoogleTest executable, so `--gtest_list_tests` shows what is inside it and `--gtest_filter=<pattern>` runs a subset:
@@ -31,6 +31,6 @@ Every one of these binaries is an ordinary GoogleTest executable, so `--gtest_li
 ```
 # from the project root
 
-./build/src/lib/libmain/records/tests/unit/ImageRecord/UTEST_ImageRecord --gtest_list_tests
-./build/src/lib/libmain/records/tests/unit/ImageRecord/UTEST_ImageRecord --gtest_filter='*full_path*'
+./build/src/records/tests/unit/ImageRecord/UTEST_ImageRecord --gtest_list_tests
+./build/src/records/tests/unit/ImageRecord/UTEST_ImageRecord --gtest_filter='*full_path*'
 ```

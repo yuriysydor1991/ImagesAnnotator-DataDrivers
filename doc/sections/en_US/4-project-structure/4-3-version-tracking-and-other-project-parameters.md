@@ -6,7 +6,7 @@ Everything declared in there belongs to the `project_decls` namespace and is an 
 
 | Constant | Filled with | Value with the current defaults |
 |---|---|---|
-| `project_decls::PROJECT_NAME` | the `PROJECT_LIBRARY_NAME` cache variable | `ImagesAnnotatorDataDrivers-0` |
+| `project_decls::PROJECT_NAME` | the `PROJECT_LIBRARY_NAME` cache variable | `ImagesAnnotatorDataDrivers-0.11` |
 | `project_decls::PROJECT_BUILD_VERSION` | the `PROJECT_VERSION` of the root `project()` call | `0.11.0` |
 | `project_decls::PROJECT_BUILD_COMMIT` | the git commit hash the configure was run at | e.g. `966341c...` |
 | `project_decls::PROJECT_CONFIGURE_DATE` | the configure timestamp | e.g. `2026-08-01 12:00:00` |

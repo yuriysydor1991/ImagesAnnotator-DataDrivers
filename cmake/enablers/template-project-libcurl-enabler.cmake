@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.13)
 # target exists, so that the unit and component test executables declared
 # inside src/ may already link against it. The linking against the library
 # target itself is performed later by the companion
-# template-project-libcurl-linker module.
+# ImagesAnnotator-libcurl-linker module.
 option(
   ENABLE_LIBCURL
   "Set to ON to enable the libcurl (by using system wide available or through the Internet). Required by the image records URL helper."

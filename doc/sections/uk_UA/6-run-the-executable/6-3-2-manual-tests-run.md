@@ -23,7 +23,7 @@ find -type f -executable -name 'UTEST_*' -o -type f -executable -name 'CTEST_*'
 ```
 # з кореневої директорії
 
-./build/src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/CTEST_AnnotationsDirDB
+./build/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB/CTEST_AnnotationsDirDB
 ```
 
 Кожен з цих бінарних файлів є звичайним виконуваним файлом GoogleTest, отож `--gtest_list_tests` показує, що всередині нього, а `--gtest_filter=<шаблон>` виконує підмножину:
@@ -31,6 +31,6 @@ find -type f -executable -name 'UTEST_*' -o -type f -executable -name 'CTEST_*'
 ```
 # з кореневої директорії
 
-./build/src/lib/libmain/records/tests/unit/ImageRecord/UTEST_ImageRecord --gtest_list_tests
-./build/src/lib/libmain/records/tests/unit/ImageRecord/UTEST_ImageRecord --gtest_filter='*full_path*'
+./build/src/records/tests/unit/ImageRecord/UTEST_ImageRecord --gtest_list_tests
+./build/src/records/tests/unit/ImageRecord/UTEST_ImageRecord --gtest_filter='*full_path*'
 ```

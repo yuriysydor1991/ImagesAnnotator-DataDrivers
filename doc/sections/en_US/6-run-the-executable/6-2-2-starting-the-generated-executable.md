@@ -15,7 +15,7 @@ They are ordinary GoogleTest executables, so all the usual flags apply, `--gtest
 
 ```
 # from the build dir
-./src/lib/libmain/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger/UTEST_DefaultDBMerger --gtest_list_tests
+./src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger/UTEST_DefaultDBMerger --gtest_list_tests
 ```
 
 Running them one by one is mostly a debugging convenience though - to run the whole suite in one go use the `ctest` command instead, see the [Run tests by the ctest](/doc/sections/en_US/6-run-the-executable/6-3-1-run-tests-by-the-ctest.md) subsection.
@@ -31,7 +31,7 @@ Once the library is installed (see the [Installing](/doc/sections/en_US/7-instal
 
 Two things commonly go wrong on the first attempt, and both are about the dynamic loader rather than about this project:
 
-- `error while loading shared libraries: libImagesAnnotatorDataDrivers-0.so.0` means the loader does not look into the directory the library was installed into. Either refresh the loader cache with `sudo ldconfig` after installing into a system prefix, or point the loader at a custom prefix for the run:
+- `error while loading shared libraries: libImagesAnnotatorDataDrivers-0.11.so.0` means the loader does not look into the directory the library was installed into. Either refresh the loader cache with `sudo ldconfig` after installing into a system prefix, or point the loader at a custom prefix for the run:
 
 ```
 LD_LIBRARY_PATH=/usr/local/lib ./mytool /path/to/the/annotations-project.json

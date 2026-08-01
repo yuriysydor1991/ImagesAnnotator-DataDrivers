@@ -32,7 +32,7 @@ cmake -S . -B build -DENABLE_NLOHMANN_JSON=ON
 На відміну від необов'язкових залежностей проекту, ця обробляється **двома** CMake-модулями замість одного:
 
 - [cmake/enablers/template-project-nlohmann-json-enabler.cmake](/cmake/enablers/template-project-nlohmann-json-enabler.cmake) оголошує опцію `ENABLE_NLOHMANN_JSON` і лише робить залежність *доступною*. Він включається з [cmake/template-project-feature-enabler.cmake](/cmake/template-project-feature-enabler.cmake), який виконується **перед** додаванням `src/` до збірки. Цей порядок має значення: виконувані файли модульних тестів, оголошені всередині `src/`, компілюють компоненти бібліотеки прямо з дерева проекту і тому мають бути здатні злінкувати бібліотеку JSON самостійно, у момент, коли цілі бібліотеки ще не існує.
-- [cmake/enablers/template-project-nlohmann-json-linker.cmake](/cmake/enablers/template-project-nlohmann-json-linker.cmake) виконує справжній `target_link_libraries()` до цілі бібліотеки. Він включається з [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), який виконується **після** того, як `src/` було додано, тож на той момент ціль уже існує, щоб до неї злінкуватись.
+- [cmake/enablers/ImagesAnnotator-nlohmann-json-linker.cmake](/cmake/enablers/ImagesAnnotator-nlohmann-json-linker.cmake) виконує справжній `target_link_libraries()` до цілі бібліотеки. Він включається з [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), який виконується **після** того, як `src/` було додано, тож на той момент ціль уже існує, щоб до неї злінкуватись.
 
 ### Лінкування є PRIVATE
 

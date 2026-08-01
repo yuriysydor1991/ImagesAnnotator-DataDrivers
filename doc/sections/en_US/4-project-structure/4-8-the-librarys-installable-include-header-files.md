@@ -15,14 +15,14 @@ The [src/lib/facade/public](/src/lib/facade/public) directory contains the insta
 | [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | One named rectangle: `name`, `x`, `y`, `width` and `height` |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | The empty tagging base classes of the two hierarchies above |
 
-The contents of the [src/lib/facade/public](/src/lib/facade/public) directory are installed under the `include/<library name>` sub-directory of the chosen install prefix, which with the current project name and major version means `include/ImagesAnnotatorDataDrivers-0/` - see [Changing the project and the library name](/doc/sections/en_US/4-project-structure/4-2-changing-the-project-and-executable-name.md) and [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md).
+The contents of the [src/lib/facade/public](/src/lib/facade/public) directory are installed under the `include/<library name>` sub-directory of the chosen install prefix, which with the current project name and major version means `include/ImagesAnnotatorDataDrivers-0.11/` - see [Changing the project and the library name](/doc/sections/en_US/4-project-structure/4-2-changing-the-project-and-executable-name.md) and [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md).
 
 ### Both include forms work
 
 The library target exports both the plain include root and its versioned sub-directory, so an installed consumer may write either of these:
 
 ```
-#include <ImagesAnnotatorDataDrivers-0/LibraryFacade.h>   // recommended
+#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>   // recommended
 #include <LibraryFacade.h>
 ```
 
@@ -38,6 +38,6 @@ namespace iadd = ImagesAnnotatorDataDrivers011;
 
 ### The CMake package
 
-Alongside the successful installation of the library binary and the header files there is installed an appropriate CMake package to ensure the library visibility for the external projects requiring it: `find_package(ImagesAnnotatorDataDrivers-0 REQUIRED)` brings in the `ImagesAnnotatorDataDrivers-0::ImagesAnnotatorDataDrivers-0` imported target, which carries both of the include directories mentioned above. Examine the [src/lib/cmake/lib-cmake-module-gen.cmake](/src/lib/cmake/lib-cmake-module-gen.cmake) and [src/lib/cmake/TemplateLibraryConfig.cmake.in](/src/lib/cmake/TemplateLibraryConfig.cmake.in) CMake files for the details on the library project CMake package generation, and the [Using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) section for a complete consumer example.
+Alongside the successful installation of the library binary and the header files there is installed an appropriate CMake package to ensure the library visibility for the external projects requiring it: `find_package(ImagesAnnotatorDataDrivers-0.11 REQUIRED)` brings in the `ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11` imported target, which carries both of the include directories mentioned above. Examine the [src/lib/cmake/lib-cmake-module-gen.cmake](/src/lib/cmake/lib-cmake-module-gen.cmake) and [src/lib/cmake/TemplateLibraryConfig.cmake.in](/src/lib/cmake/TemplateLibraryConfig.cmake.in) CMake files for the details on the library project CMake package generation, and the [Using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) section for a complete consumer example.
 
 Note that neither the nlohmann json nor the libcurl dependency appears in any of these headers: both are linked `PRIVATE`, so a downstream project inherits neither of them and needs neither of them on its include path.

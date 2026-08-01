@@ -60,7 +60,7 @@ The last three are plain reporting calls, handy for an about box or for a log li
 One line, one file, done:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
 
 namespace iadd = ImagesAnnotatorDataDrivers011;
 
@@ -262,8 +262,8 @@ A custom factory does not have to reimplement anything - delegate to the library
 #include <memory>
 #include <string>
 
-#include <ImagesAnnotatorDataDrivers-0/IRecordsFactory.h>
-#include <ImagesAnnotatorDataDrivers-0/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.11/IRecordsFactory.h>
+#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
 
 namespace iadd = ImagesAnnotatorDataDrivers011;
 
@@ -319,7 +319,7 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
 Replace it when your rules differ - say you are collecting several partial annotation passes over the same images and want them all kept:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0/IDBMerger.h>
+#include <ImagesAnnotatorDataDrivers-0.11/IDBMerger.h>
 
 namespace iadd = ImagesAnnotatorDataDrivers011;
 
@@ -366,4 +366,4 @@ The same context goes to `ILib::libcall()` if you prefer the one-shot path. Note
 - The on-disk shape of what all of this reads and writes: [the annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md).
 - The identity the produced files carry: [configuring the annotations database identity](/doc/sections/en_US/5-project-build/5-36-configuring-the-annotations-db-identity.md).
 - Building your own program against the installed package: [using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md).
-- The proof that the public headers are enough on their own: the `CTEST_AnnotationsDirDB` component test at [src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) links the real shared library and reaches it through those headers exclusively. It is a fine source of further usage examples.
+- The proof that the public headers are enough on their own: the `CTEST_AnnotationsDirDB` component test at [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) links the real shared library and reaches it through those headers exclusively. It is a fine source of further usage examples.

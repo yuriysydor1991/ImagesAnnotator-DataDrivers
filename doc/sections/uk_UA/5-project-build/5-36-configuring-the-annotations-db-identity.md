@@ -46,7 +46,7 @@ cmake -S . -B build \
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
 
 namespace iadd = ImagesAnnotatorDataDrivers011;
 

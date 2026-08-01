@@ -15,11 +15,11 @@ cmake -B build -S . && cmake --build build
 Головним артефактом побудови є сама динамічна бібліотека, вироблена у директорії `build/src/lib`:
 
 ```
-build/src/lib/libImagesAnnotatorDataDrivers-0.so.0.11.0    справжній двійковий файл бібліотеки
-build/src/lib/libImagesAnnotatorDataDrivers-0.so.0         символьне посилання SONAME
-build/src/lib/libImagesAnnotatorDataDrivers-0.so           символьне посилання для лінкера
+build/src/lib/libImagesAnnotatorDataDrivers-0.11.so.0.11.0    справжній двійковий файл бібліотеки
+build/src/lib/libImagesAnnotatorDataDrivers-0.11.so.0         символьне посилання SONAME
+build/src/lib/libImagesAnnotatorDataDrivers-0.11.so           символьне посилання для лінкера
 ```
 
-Частина `ImagesAnnotatorDataDrivers-0` є назвою бібліотеки, виведеною з назви проекту плюс його мажорної версії, і її можна підлаштувати - див. підрозділ [Налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
+Частина `ImagesAnnotatorDataDrivers-0.11` є назвою бібліотеки, виведеною з назви проекту плюс його мажорної версії, і її можна підлаштувати - див. підрозділ [Налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
 
 Зверни увагу, що проект не будує **жодного виконуваного файлу**: динамічна бібліотека плюс, якщо тести були увімкнені на стадії конфігурації, двійкові файли тестів `UTEST_*` і `CTEST_*` - це усе, що тут будується. Обидві обов'язкові сторонні залежності бібліотеки (бібліотека nlohmann JSON і libcurl) увімкнені за замовчуванням, тож проста команда вище вже є достатньою для отримання повної побудови.

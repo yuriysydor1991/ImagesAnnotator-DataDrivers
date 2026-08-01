@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.13)
 # target exists, so that the unit and component test executables declared
 # inside src/ may already link against it. The linking against the library
 # target itself is performed later by the companion
-# template-project-nlohmann-json-linker module.
+# ImagesAnnotator-nlohmann-json-linker module.
 option(
   ENABLE_NLOHMANN_JSON
   "Set to ON to enable the nlohmann json library (by using system wide available or through Internet). Required by the annotations database."

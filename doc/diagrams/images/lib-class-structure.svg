@@ -12,7 +12,7 @@
 <marker id="open" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#4a5560" stroke-width="1.4"/></marker>
 <marker id="diamond" viewBox="0 0 14 10" refX="0" refY="5" markerWidth="14" markerHeight="10" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,5 L7,0 L14,5 L7,10 Z" fill="#4a5560" stroke="#4a5560" stroke-width="1"/></marker>
 </defs>
-<text x="600" y="30" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="16" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">ImagesAnnotatorDataDrivers-0 - the library class structure</text>
+<text x="600" y="30" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="16" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">ImagesAnnotatorDataDrivers-0.11 - the library class structure</text>
 <rect x="8" y="52" width="588" height="832" fill="#fbfbfc" stroke="#33404d" stroke-width="1.5"/>
 <rect x="8" y="52" width="588" height="28" fill="#eceff3" stroke="#33404d" stroke-width="1.5"/>
 <text x="20" y="71" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13" fill="#22282e" text-anchor="start" font-weight="bold" font-style="normal">Library-Facade</text>

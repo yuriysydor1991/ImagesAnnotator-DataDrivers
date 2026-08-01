@@ -32,7 +32,7 @@ The pinned tag is a deliberate choice: the fallback path must produce reproducib
 Unlike the optional dependencies of the project, this one is handled by **two** CMake modules instead of one:
 
 - [cmake/enablers/template-project-nlohmann-json-enabler.cmake](/cmake/enablers/template-project-nlohmann-json-enabler.cmake) declares the `ENABLE_NLOHMANN_JSON` option and only makes the dependency *available*. It is included from [cmake/template-project-feature-enabler.cmake](/cmake/template-project-feature-enabler.cmake), which runs **before** `src/` is added to the build. That ordering matters: the unit test executables declared inside `src/` compile the library components straight from the tree and therefore have to be able to link the JSON library themselves, at a moment when the library target does not exist yet.
-- [cmake/enablers/template-project-nlohmann-json-linker.cmake](/cmake/enablers/template-project-nlohmann-json-linker.cmake) does the actual `target_link_libraries()` against the library target. It is included from [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), which runs **after** `src/` has been added, so by then the target is there to link to.
+- [cmake/enablers/ImagesAnnotator-nlohmann-json-linker.cmake](/cmake/enablers/ImagesAnnotator-nlohmann-json-linker.cmake) does the actual `target_link_libraries()` against the library target. It is included from [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), which runs **after** `src/` has been added, so by then the target is there to link to.
 
 ### The linkage is PRIVATE
 

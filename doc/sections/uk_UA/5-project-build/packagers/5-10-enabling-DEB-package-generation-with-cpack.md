@@ -26,6 +26,6 @@ cpack
 
 Згенерований пакет повинен згенеруватись всередині кореня директорії побудови проекту. Наприклад, якщо ім'я проекту було не зміненим і його версія `0.11.0` тоді назва пакету може виглядати наступним чином: `ImagesAnnotatorDataDrivers-0.11.0-Linux.deb`.
 
-Пакет несе те, що встановлює проект, а саме динамічну бібліотеку `libImagesAnnotatorDataDrivers-0.so.0.11.0` з її символьними посиланнями, публічні заголовкові файли під `include/ImagesAnnotatorDataDrivers-0/` і файли CMake-пакета - усе, що потрібно виклику `find_package(ImagesAnnotatorDataDrivers-0 REQUIRED)` у проекті-споживачі. Жодного виконуваного файлу у ньому немає, даний проект його не будує.
+Пакет несе те, що встановлює проект, а саме динамічну бібліотеку `libImagesAnnotatorDataDrivers-0.11.so.0.11.0` з її символьними посиланнями, публічні заголовкові файли під `include/ImagesAnnotatorDataDrivers-0.11/` і файли CMake-пакета - усе, що потрібно виклику `find_package(ImagesAnnotatorDataDrivers-0.11 REQUIRED)` у проекті-споживачі. Жодного виконуваного файлу у ньому немає, даний проект його не будує.
 
 Для того щоб переглянути або змінити параметри створення `deb`-пакетів необхідно відвідати файл [cmake/enablers/packagers/template-project-deb-enabler.cmake](/cmake/enablers/packagers/template-project-deb-enabler.cmake).

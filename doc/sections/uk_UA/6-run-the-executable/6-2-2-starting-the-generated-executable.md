@@ -15,7 +15,7 @@
 
 ```
 # з директорії побудови
-./src/lib/libmain/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger/UTEST_DefaultDBMerger --gtest_list_tests
+./src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger/UTEST_DefaultDBMerger --gtest_list_tests
 ```
 
 Однак запуск їх по одному є здебільшого зручністю для налагодження - для запуску усього набору за один раз використовуй натомість команду `ctest`, див. підрозділ [Запуск тестів за допомогою ctest](/doc/sections/uk_UA/6-run-the-executable/6-3-1-run-tests-by-the-ctest.md).
@@ -31,7 +31,7 @@
 
 Дві речі зазвичай ідуть не так з першої спроби, і обидві стосуються динамічного завантажувача, а не даного проекту:
 
-- `error while loading shared libraries: libImagesAnnotatorDataDrivers-0.so.0` означає, що завантажувач не заглядає у директорію, у яку було встановлено бібліотеку. Або онови кеш завантажувача командою `sudo ldconfig` після встановлення у системний префікс, або вкажи завантажувачу на власний префікс для одного запуску:
+- `error while loading shared libraries: libImagesAnnotatorDataDrivers-0.11.so.0` означає, що завантажувач не заглядає у директорію, у яку було встановлено бібліотеку. Або онови кеш завантажувача командою `sudo ldconfig` після встановлення у системний префікс, або вкажи завантажувачу на власний префікс для одного запуску:
 
 ```
 LD_LIBRARY_PATH=/usr/local/lib ./mytool /шлях/до/файлу/проекту-анотацій.json

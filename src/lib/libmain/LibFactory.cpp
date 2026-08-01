@@ -30,10 +30,10 @@
 #include <cassert>
 #include <memory>
 
+#include "src/dbs/AnnotationsDBs/AnnotationsDirDB.h"
+#include "src/dbs/AnnotationsDBs/mergers/DefaultDBMerger.h"
 #include "src/lib/libmain/LibMain.h"
-#include "src/lib/libmain/dbs/AnnotationsDBs/AnnotationsDirDB.h"
-#include "src/lib/libmain/dbs/AnnotationsDBs/mergers/DefaultDBMerger.h"
-#include "src/lib/libmain/records/RecordsFactory.h"
+#include "src/records/RecordsFactory.h"
 
 namespace lib0impl
 {

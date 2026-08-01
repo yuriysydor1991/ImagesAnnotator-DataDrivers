@@ -46,7 +46,7 @@ Every database instance built by that library binary then defaults to the `"MyTo
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
 
 namespace iadd = ImagesAnnotatorDataDrivers011;
 

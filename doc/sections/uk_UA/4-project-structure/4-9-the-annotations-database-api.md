@@ -60,7 +60,7 @@ namespace iadd = ImagesAnnotatorDataDrivers011;
 Один рядок, один файл, і по всьому:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
 
 namespace iadd = ImagesAnnotatorDataDrivers011;
 
@@ -262,8 +262,8 @@ virtual ImageRecordRectPtr create_image_rect_record(const std::string& nname,
 #include <memory>
 #include <string>
 
-#include <ImagesAnnotatorDataDrivers-0/IRecordsFactory.h>
-#include <ImagesAnnotatorDataDrivers-0/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.11/IRecordsFactory.h>
+#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
 
 namespace iadd = ImagesAnnotatorDataDrivers011;
 
@@ -319,7 +319,7 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
 Замінюйте його тоді, коли ваші правила інші - скажімо, ви збираєте кілька часткових проходів анотування тих самих зображень і хочете зберегти їх усі:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0/IDBMerger.h>
+#include <ImagesAnnotatorDataDrivers-0.11/IDBMerger.h>
 
 namespace iadd = ImagesAnnotatorDataDrivers011;
 
@@ -366,4 +366,4 @@ db->add_images_db(another_set);  // а злиті твоїм злиттям ту
 - Вигляд на диску того, що все це читає і пише: [формат JSON проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md).
 - Ідентичність, яку несуть вироблені файли: [налаштування ідентичності бази даних анотацій](/doc/sections/uk_UA/5-project-build/5-36-configuring-the-annotations-db-identity.md).
 - Побудова власної програми проти встановленого пакунка: [використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md).
-- Доказ того, що публічних заголовкових файлів самих по собі достатньо: компонентний тест `CTEST_AnnotationsDirDB` за шляхом [src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/lib/libmain/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) лінкується зі справжньою спільною бібліотекою і дістається до неї виключно через ці заголовкові файли. Це гарне джерело подальших прикладів використання.
+- Доказ того, що публічних заголовкових файлів самих по собі достатньо: компонентний тест `CTEST_AnnotationsDirDB` за шляхом [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) лінкується зі справжньою спільною бібліотекою і дістається до неї виключно через ці заголовкові файли. Це гарне джерело подальших прикладів використання.

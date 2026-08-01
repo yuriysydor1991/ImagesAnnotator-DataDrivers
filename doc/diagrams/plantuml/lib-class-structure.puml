@@ -169,7 +169,7 @@ note Bottom of LibFactory : The factory to create library implementations object
 
 note Right of AnnotationsDirDB : The annotations project database itself:\nreads and writes a single project JSON file\nand keeps the in memory records set.
 
-note Bottom of DefaultDBMerger : Appends the not yet present records only.\nThe paths are resolved through\nhelpers::ImageRecordUrlAndPathHelper, which\nasks curli::CURLController about the web URLs.
+note Bottom of DefaultDBMerger : Appends the not yet present records only.\nThe paths are resolved through\nhelpers::ImageRecordUrlAndPathHelper, which\nasks helpers::UrlHelper about the web URLs.
 
 IProvider <|-- IImagesPathsDBProvider : extends
 IImagesPathsDBProvider <|-- IAnnotationsDB : extends

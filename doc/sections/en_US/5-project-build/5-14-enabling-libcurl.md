@@ -22,7 +22,7 @@ Switching it `OFF` does not produce a leaner library, it produces one that does 
 
 Not for downloading anything. An annotations database source folder is identified by the `db.path` element of the project file, and that path is allowed to be a web URL just as well as a local absolute directory path. Telling those two apart, splitting a URL into its parts, joining a record's relative path onto it and normalizing the result back into a comparable string is exactly what libcurl's **CURLU URL API** (`curl_url()`, `curl_url_set()`, `curl_url_get()` and friends) exists for - and writing a correct URL parser by hand is a famously bad idea.
 
-That API is wrapped by `curli::CURLController` in [src/lib/libmain/CURL](/src/lib/libmain/CURL) and used by `helpers::ImageRecordUrlAndPathHelper` in [src/lib/libmain/helpers](/src/lib/libmain/helpers). The practical consequence is in the merging: `DefaultDBMerger` has to decide whether an incoming image record is the same image as one already in the database, and for web hosted records that decision is made on the normalized URL. Without the helper, two spellings of the same remote image would end up as two separate records.
+That API is wrapped by `helpers::UrlHelper` and used by `helpers::ImageRecordUrlAndPathHelper`, both in [src/helpers](/src/helpers). The wrapper is deliberately tiny - two static functions, `is_url()` and `get_absolute_url()` - because URL resolution is all this library ever asks libcurl for: nothing here downloads anything. The practical consequence is in the merging: `DefaultDBMerger` has to decide whether an incoming image record is the same image as one already in the database, and for web hosted records that decision is made on the normalized URL. Without the helper, two spellings of the same remote image would end up as two separate records.
 
 ### Where the library comes from
 
@@ -36,7 +36,7 @@ The system installed libcurl is probed first with a `find_package(CURL QUIET)`. 
 Just like the JSON dependency, this one is handled by **two** CMake modules instead of one:
 
 - [cmake/enablers/template-project-libcurl-enabler.cmake](/cmake/enablers/template-project-libcurl-enabler.cmake) declares the `ENABLE_LIBCURL` option and only makes the dependency *available*. It is included from [cmake/template-project-feature-enabler.cmake](/cmake/template-project-feature-enabler.cmake), which runs **before** `src/` is added to the build - the test executables declared inside `src/` compile the helper sources straight from the tree and have to be able to link libcurl themselves, at a moment when the library target does not exist yet.
-- [cmake/enablers/template-project-libcurl-linker.cmake](/cmake/enablers/template-project-libcurl-linker.cmake) does the actual `target_link_libraries()` against the library target. It is included from [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), which runs **after** `src/` has been added.
+- [cmake/enablers/ImagesAnnotator-libcurl-linker.cmake](/cmake/enablers/ImagesAnnotator-libcurl-linker.cmake) does the actual `target_link_libraries()` against the library target. It is included from [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), which runs **after** `src/` has been added.
 
 ### The linkage is PRIVATE
 
