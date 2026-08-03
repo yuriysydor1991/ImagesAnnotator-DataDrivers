@@ -35,8 +35,6 @@ cd build && ctest --output-on-failure
 | `UTEST_ImageRecordRectJSON2RecordConverter` | модульний | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordRectJSON2RecordConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordRectJSON2RecordConverter) |
 | `CTEST_AnnotationsDirDB` | компонентний | [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) |
 | `CTEST_log` | компонентний | [src/log/tests/component/log](/src/log/tests/component/log) |
-| `CTEST_SimpleLogger` | компонентний | [src/log/simple-logger/tests/component/SimpleLogger](/src/log/simple-logger/tests/component/SimpleLogger) |
-
-Дерево проекту несе ще один компонентний тест журналювання - `CTEST_DefaultLogger` у [src/log/default-logger/tests/component/DefaultLogger](/src/log/default-logger/tests/component/DefaultLogger). Бібліотека лінкує реалізацію `simple-logger`, тому директорія `default-logger` не додається до збірки файлом [src/log/CMakeLists.txt](/src/log/CMakeLists.txt) і той тест не конфігурується - додай туди рядок `add_subdirectory(default-logger)`, якщо переключиш реалізацію журналювання.
+| `CTEST_DefaultLogger` | компонентний | [src/log/default-logger/tests/component/DefaultLogger](/src/log/default-logger/tests/component/DefaultLogger) |
 
 Кожен сконфігурований виконуваний файл реєструє свої випадки у CTest командою `gtest_add_tests()`, тому `ctest -R UTEST_DefaultDBMerger` і подібні працюють як очікується. Див. підрозділ [Запуск тестів за допомогою ctest](/doc/sections/uk_UA/6-run-the-executable/6-3-1-run-tests-by-the-ctest.md) щодо способів їх запуску і розділ [Побудова проекту](/doc/sections/uk_UA/5-project-build/5-project-build.md) щодо способів їх увімкнення.

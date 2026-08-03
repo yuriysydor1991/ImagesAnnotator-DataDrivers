@@ -61,6 +61,16 @@ very same annotations project files.
   `LibraryContext::db_path`, and publishes the result as `LibraryContext::db`.
 - All the documentation, both `en_US` and `uk_UA`, was rewritten to describe
   this library instead of the template it grew out of.
+- The logging component is the `default-logger` one of the cpp-app-template
+  `lib` branch, and the `simple-logger` implementation is gone. `src/log/log.h`
+  resolves to `default_logger::DefaultLogger`, `src/log/CMakeLists.txt` adds the
+  `default-logger` directory (which until now shipped in the tree without ever
+  being built, and still linked the `PROJECT_BINARY_NAME` of the application
+  branch), and `CTEST_SimpleLogger` gives way to the `CTEST_DefaultLogger` of
+  the same eleven cases. A consuming application built from the same template
+  keeps its own `simple_logger::SimpleLogger`, so the two no longer share a
+  name: before this change the application definition, being the one in the
+  executable, served the library's logging calls and its static state as well.
 
 ### Changed (layout and naming refinement)
 

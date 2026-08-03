@@ -171,26 +171,9 @@ pipeline {
             sh 'cd $BUILDDIR && ctest -R "CTEST_log\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_log.junit.xml'
           }
         }
-        stage('CTEST_SimpleLogger') {
-          steps {
-            sh 'cd $BUILDDIR && ctest -R "CTEST_SimpleLogger\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_SimpleLogger.junit.xml'
-          }
-        }
-        // The default logger is not a part of the library build - only the
-        // simple logger is compiled into the shared library - so its component
-        // test executable is not always produced. Run it when the build did
-        // register it and report a skip otherwise, instead of failing the whole
-        // pipeline on a "No tests were found!!!" from ctest.
         stage('CTEST_DefaultLogger') {
           steps {
-            sh '''
-              cd $BUILDDIR
-              if ctest -N -R "CTEST_DefaultLogger\\." | grep -qE "Test +#"; then
-                ctest -R "CTEST_DefaultLogger\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_DefaultLogger.junit.xml
-              else
-                echo "SKIP: CTEST_DefaultLogger is not registered by this build configuration"
-              fi
-            '''
+            sh 'cd $BUILDDIR && ctest -R "CTEST_DefaultLogger\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_DefaultLogger.junit.xml'
           }
         }
       }

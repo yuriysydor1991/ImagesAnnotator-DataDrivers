@@ -27,7 +27,7 @@ The following unit test executables are produced:
 | `UTEST_ImageRecordJSON2RecordConverter` | a single JSON element -> image record |
 | `UTEST_ImageRecordRectJSON2RecordConverter` | a single JSON element -> rectangle |
 
-There is a second, independent switch for the component tests, `ENABLE_COMPONENT_TESTS`. Those go the other way around: `CTEST_AnnotationsDirDB` links the real produced shared library and drives it through the installable public headers only, with no mocks and no access to the internals, exactly the way a downstream consumer would. `CTEST_SimpleLogger` covers the logger compiled into the library.
+There is a second, independent switch for the component tests, `ENABLE_COMPONENT_TESTS`. Those go the other way around: `CTEST_AnnotationsDirDB` links the real produced shared library and drives it through the installable public headers only, with no mocks and no access to the internals, exactly the way a downstream consumer would. `CTEST_DefaultLogger` covers the logger compiled into the library.
 
 Both switches default to `OFF` and are perfectly happy together - enable both to get the full suite:
 

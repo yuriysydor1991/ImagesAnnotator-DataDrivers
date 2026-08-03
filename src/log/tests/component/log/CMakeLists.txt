@@ -3,12 +3,12 @@ cmake_minimum_required(VERSION 3.13)
 # Top-level log facade component test. It exercises the public log.h facilities
 # only, so the CTEST_log.cpp source is reusable as-is on the branches that swap
 # the underlying logger; only the implementation source linked below changes per
-# branch (here it is the simple logger, the one src/log/log.h resolves to and
+# branch (here it is the default logger, the one src/log/log.h resolves to and
 # the one compiled into the produced library).
 add_executable(
   CTEST_log
   CTEST_log.cpp
-  ${CMAKE_SOURCE_DIR}/src/log/simple-logger/SimpleLogger.cpp
+  ${CMAKE_SOURCE_DIR}/src/log/default-logger/DefaultLogger.cpp
 )
 
 target_compile_definitions(

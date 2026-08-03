@@ -6,16 +6,26 @@ add_library(
 )
 
 target_include_directories(
-  TemplateProjectDefaultLoggerObj 
+  TemplateProjectDefaultLoggerObj
   PRIVATE
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
 )
 
-target_link_libraries(
-  ${PROJECT_BINARY_NAME}
+# The objects end up inside a shared library, so they must be relocatable.
+set_target_properties(
   TemplateProjectDefaultLoggerObj
+  PROPERTIES POSITION_INDEPENDENT_CODE ON
+)
+
+# The library code logs through the src/log macros, which resolve to this
+# logger. Without this link the produced shared object would ship unresolved
+# default_logger::DefaultLogger symbols and every consumer would fail to link
+# against it. PRIVATE because the logger is an implementation detail: no
+# installable public header mentions it.
+target_link_libraries(
+  ${PROJECT_LIBRARY_NAME}
+  PRIVATE TemplateProjectDefaultLoggerObj
 )
 
 add_subdirectory(tests)
-

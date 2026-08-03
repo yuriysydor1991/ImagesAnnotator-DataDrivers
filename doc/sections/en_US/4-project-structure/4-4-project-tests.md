@@ -35,8 +35,6 @@ The two kinds differ in what exactly they are testing, and that difference is vi
 | `UTEST_ImageRecordRectJSON2RecordConverter` | unit | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordRectJSON2RecordConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordRectJSON2RecordConverter) |
 | `CTEST_AnnotationsDirDB` | component | [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) |
 | `CTEST_log` | component | [src/log/tests/component/log](/src/log/tests/component/log) |
-| `CTEST_SimpleLogger` | component | [src/log/simple-logger/tests/component/SimpleLogger](/src/log/simple-logger/tests/component/SimpleLogger) |
-
-The tree carries one more logger component test, the `CTEST_DefaultLogger` one in [src/log/default-logger/tests/component/DefaultLogger](/src/log/default-logger/tests/component/DefaultLogger). The library links the `simple-logger` implementation, so the `default-logger` directory is not added to the build by [src/log/CMakeLists.txt](/src/log/CMakeLists.txt) and that test is not configured - add the `add_subdirectory(default-logger)` line there should you switch the logger implementation.
+| `CTEST_DefaultLogger` | component | [src/log/default-logger/tests/component/DefaultLogger](/src/log/default-logger/tests/component/DefaultLogger) |
 
 Every configured executable registers its cases with CTest through the `gtest_add_tests()` command, so `ctest -R UTEST_DefaultDBMerger` and friends work as expected. See the [Run tests by the ctest](/doc/sections/en_US/6-run-the-executable/6-3-1-run-tests-by-the-ctest.md) subsection for the ways of running them and the [Project build](/doc/sections/en_US/5-project-build/5-project-build.md) subsection for the ways of enabling them.
