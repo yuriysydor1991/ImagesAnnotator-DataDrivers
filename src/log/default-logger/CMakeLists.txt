@@ -12,10 +12,17 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-# The objects end up inside a shared library, so they must be relocatable.
+# The objects end up inside a shared library, so they must be relocatable and
+# they must stay hidden: the logger is an implementation detail and its unique
+# bound inline statics (the default log file name above all) would otherwise be
+# unified with the identically named ones of the application or of any other
+# library built from this template, handing this library log file name to the
+# whole process.
 set_target_properties(
   TemplateProjectDefaultLoggerObj
-  PROPERTIES POSITION_INDEPENDENT_CODE ON
+  PROPERTIES
+  POSITION_INDEPENDENT_CODE ON
+  CXX_VISIBILITY_PRESET hidden
 )
 
 # The library code logs through the src/log macros, which resolve to this
@@ -28,4 +35,5 @@ target_link_libraries(
   PRIVATE TemplateProjectDefaultLoggerObj
 )
 
+add_subdirectory(real-default-logger)
 add_subdirectory(tests)

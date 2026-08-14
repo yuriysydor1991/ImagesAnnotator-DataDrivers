@@ -33,6 +33,7 @@
 
 #include "project-global-decls.h"
 #include "src/lib/libmain/LibFactory.h"
+#include "src/log/log.h"
 
 namespace ImagesAnnotatorDataDrivers011
 {
@@ -132,6 +133,12 @@ std::string LibraryFacade::default_db_root_app_name()
 std::string LibraryFacade::default_db_app_version()
 {
   return project_decls::ANNOTATIONS_DB_APP_VERSION;
+}
+
+void LibraryFacade::accept_real_logger(
+    const std::shared_ptr<logger::ILogger>& realLogger)
+{
+  LOG_INIT_REAL_LOGGER(realLogger);
 }
 
 }  // namespace ImagesAnnotatorDataDrivers011
