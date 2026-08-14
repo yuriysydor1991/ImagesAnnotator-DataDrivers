@@ -41,6 +41,29 @@ very same annotations project files.
 - Unit tests for every moved component and a `CTEST_AnnotationsDirDB` component
   test that links the real shared library and drives it through the public
   headers only.
+- The quick build scripts of the
+  [cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template) `lib`
+  branch in the new `scripts` directory, so a whole `Release` or `Debug` cycle
+  is a single command instead of the separate CMake calls. `scripts/build`
+  holds the three stage scripts of each build type (`*-configure.sh` /
+  `*-build.sh` / `*-install.sh`, keeping their trees at `build/release` and
+  `build/debug`), the two entry points chaining them (`release.sh`, `debug.sh` -
+  the latter configuring with the tests, the documentation, `MAX_LOG_LEVEL=5`
+  and `cppcheck` on) and the five analysis entry points (`debug-cppcheck.sh`,
+  `debug-clang-tidy.sh`, `debug-sanitizers.sh`,
+  `debug-sanitizers-threads.sh`, `debug-compiler-analyzer.sh`);
+  `scripts/docker` holds the two starter scripts of the
+  `jenkins-pipeline-docker-{build,run}` targets. They consume two parameters of
+  their own - `--no-reconfigure`, which keeps the existing build directory
+  instead of erasing it, and `--install`, without which the
+  `sudo cmake --install` step never runs and no password is ever asked - and
+  forward every `-D<variable>=<value>` to the configure step. The `lib` branch
+  set rather than the `main` one: the `valgrind`, the `callgrind` and the
+  `docker-single-{build,run}` scripts of `main` drive targets this project
+  declares for no executable and does not wire in, so `-DENABLE_VALGRIND=ON` /
+  `-DENABLE_CALLGRIND=ON` are unused variables here. Documented in the new
+  `5-37` sections in both languages, with the starter scripts in `5-17` and the
+  `--install` shortcut in `7-installing`.
 
 ### Changed
 

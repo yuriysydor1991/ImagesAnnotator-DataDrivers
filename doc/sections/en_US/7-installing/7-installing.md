@@ -17,6 +17,26 @@ sudo cmake --install .
 
 Usually it's the `/usr/local/lib` directory for the library (on the Unix-like OS), which is not necessarily on the default loader search path of your distribution - run `sudo ldconfig` afterwards, or install into `/usr` as shown below, should the produced binary not be found at the run time.
 
+## Installation by the quick build scripts
+
+The scripts of the [Quick build scripts](/doc/sections/en_US/5-project-build/5-37-quick-build-scripts.md) section perform the install step themselves when the `--install` parameter is given, so the whole configure, build and install cycle takes the single command:
+
+```
+# inside the project root directory
+
+scripts/build/release.sh --install
+```
+
+The install step alone, against the already built `build/release` directory, is performed by its stage script:
+
+```
+# inside the project root directory
+
+scripts/build/release-install.sh --install
+```
+
+Both of them install into the `/usr` prefix by the `sudo cmake --install` call, so the `sudo` password is asked for. Without the `--install` parameter the install step is skipped entirely and no password is ever asked.
+
 ## Custom installation path
 
 To install the library into a system globally available directory add the `--prefix` parameter to the command above as next:
