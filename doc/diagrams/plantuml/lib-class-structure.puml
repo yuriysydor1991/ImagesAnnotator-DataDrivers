@@ -109,14 +109,26 @@ package Library-Implementation {
     +void add_images_db(const ImageRecordsSet& andb)
     +void set_records_factory(IRecordsFactoryPtr factory)
     +void set_db_merger(IDBMergerPtr merger)
+    +void set_library_impl(LibraryImplPtr newImpl)
     +{static} AnnotationsDirDBPtr create()
     ..
-    #bool serialize()
-    #ImageRecordsSet load_the_irs()
-    #nlohmann::json json
+    #LibraryImplPtr impl
     #ImageRecordsSet irdb
     #ImageRecordsSet last_saved_db
     #std::string current_db_path
+  }
+
+  class LibraryImpl <<iannotator::dbs::annotations>> {
+    +bool load(const std::string& fpath, ImageRecordsSet& irdb)
+    +bool store(const std::string& fpath, const ImageRecordsSet& irdb)
+    +void set_app_info(const std::string& name, const std::string& version)
+    +void set_records_factory(IRecordsFactoryPtr factory)
+    +{static} LibraryImplPtr create()
+    ..
+    #bool serialize(const nlohmann::json& json)
+    #ImageRecordsSet load_the_irs(const nlohmann::json& json)
+    #std::string app_name
+    #std::string app_version
   }
 
   class AnnotationsJSONSerializator <<iannotator::dbs::annotations>> {
@@ -167,7 +179,9 @@ note Right of LibMain : The particular library implementation.\nIs created by Li
 
 note Bottom of LibFactory : The factory to create library implementations objects.\nEvery class of this package is instantiated through it.
 
-note Right of AnnotationsDirDB : The annotations project database itself:\nreads and writes a single project JSON file\nand keeps the in memory records set.
+note Right of AnnotationsDirDB : The annotations project database itself:\nkeeps the in memory records set and knows\nnothing of the format they were read from.
+
+note Right of LibraryImpl : The project file driver of the JSON format.\nEverything the library knows about the file\nformat lives here, so another format is a\ndescendant of this class.
 
 note Bottom of DefaultDBMerger : Appends the not yet present records only.\nThe paths are resolved through\nhelpers::ImageRecordUrlAndPathHelper, which\nasks helpers::UrlHelper about the web URLs.
 
@@ -198,8 +212,9 @@ LibFactory ..> AnnotationsDirDB : creates
 LibFactory ..> RecordsFactory : creates
 LibFactory ..> DefaultDBMerger : creates
 
-AnnotationsDirDB --> AnnotationsJSONSerializator : validates the file with
-AnnotationsDirDB --> Converters : converts the JSON with
+AnnotationsDirDB --> LibraryImpl : reads and writes the project file through
+LibraryImpl --> AnnotationsJSONSerializator : validates the file with
+LibraryImpl --> Converters : converts the JSON with
 AnnotationsDirDB --> IDBMerger : add_images_db merges with
 AnnotationsDirDB ..> DefaultDBMerger : the default merger
 

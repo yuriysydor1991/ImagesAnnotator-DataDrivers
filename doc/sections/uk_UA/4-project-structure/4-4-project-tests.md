@@ -28,6 +28,7 @@ cd build && ctest --output-on-failure
 | `UTEST_ImageRecordRect` | модульний | [src/records/tests/unit/ImageRecordRect](/src/records/tests/unit/ImageRecordRect) |
 | `UTEST_RecordsFactory` | модульний | [src/records/tests/unit/RecordsFactory](/src/records/tests/unit/RecordsFactory) |
 | `UTEST_AnnotationsJSONSerializator` | модульний | [src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator](/src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator) |
+| `UTEST_LibraryImpl` | модульний | [src/dbs/AnnotationsDBs/tests/unit/LibraryImpl](/src/dbs/AnnotationsDBs/tests/unit/LibraryImpl) |
 | `UTEST_DefaultDBMerger` | модульний | [src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger](/src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger) |
 | `UTEST_ImageRecords2JSONConverter` | модульний | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter) |
 | `UTEST_JSON2ImageRecordsConverter` | модульний | [src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter) |

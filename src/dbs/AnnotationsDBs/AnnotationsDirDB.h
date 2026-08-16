@@ -29,7 +29,6 @@
 #define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_ANNOTATIONS_DB_CLASS_H
 
 #include <memory>
-#include <nlohmann/json.hpp>
 #include <string>
 
 #include "IAnnotationsDB.h"
@@ -37,7 +36,7 @@
 #include "ImageRecord.h"
 #include "project-global-decls.h"
 #include "src/dbs/AnnotationsDBs/AnnotationsDBTypes.h"
-#include "src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
+#include "src/dbs/AnnotationsDBs/LibraryImpl.h"
 #include "src/helpers/SortHelper.h"
 
 namespace iannotator::dbs::annotations
@@ -45,6 +44,11 @@ namespace iannotator::dbs::annotations
 
 /**
  * @brief The annotator annotations dir db controller.
+ *
+ * The class holds the records in memory and knows nothing of the format they
+ * were read from: the project file reading and writing belongs to the
+ * LibraryImpl driver below, which the load_db() and the store_db() calls are
+ * performed through.
  */
 class AnnotationsDirDB
     : public virtual AnnotationsDBTypes,
@@ -104,27 +108,28 @@ class AnnotationsDirDB
    */
   virtual void set_db_merger(IDBMergerPtr merger);
 
- protected:
-  virtual bool serialize();
-  virtual ImageRecordsSet load_the_irs();
+  /**
+   * @brief Sets the project file driver the load_db() and the store_db()
+   * calls are performed through, which is what a project file format other
+   * than the JSON one is introduced with.
+   *
+   * @param newImpl The driver to use. A nullptr is ignored, since the database
+   * has to keep one.
+   */
+  virtual void set_library_impl(LibraryImplPtr newImpl);
 
+ protected:
   void update_current_last_saved();
   void update_current_last_saved_no_check();
 
-  nlohmann::json json;
   ImageRecordsSet irdb;
   std::string current_db_path;
 
   ImageRecordsSet last_saved_db;
 
-  /// @brief The JSON root element name of the produced project files
-  std::string app_name{AnnotationsJSONSerializator::default_root_app_name};
-  /// @brief The version string written into the produced project files
-  std::string app_version{AnnotationsJSONSerializator::default_app_version};
-
-  /// @brief The injected records factory. A nullptr makes the converters use
-  /// their own default one.
-  IRecordsFactoryPtr records_factory;
+  /// @brief The project file driver every load_db() and store_db() goes
+  /// through. Defaults to the JSON format one.
+  LibraryImplPtr impl;
 
   /// @brief The injected databases merger. A nullptr makes the add_images_db()
   /// use the merger::DefaultDBMerger one.

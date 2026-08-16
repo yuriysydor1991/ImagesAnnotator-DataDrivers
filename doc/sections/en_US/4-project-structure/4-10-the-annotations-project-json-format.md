@@ -1,6 +1,6 @@
 ## The annotations project JSON format
 
-An annotations project is a single JSON document. This section describes it as the library actually implements it - the field names come from [AnnotationsJSONSerializator.h](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h), the reading rules from the converters under [src/dbs/AnnotationsDBs/converters](/src/dbs/AnnotationsDBs/converters), and the validation rules from [AnnotationsJSONSerializator.cpp](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp).
+An annotations project is a single JSON document. This section describes it as the library actually implements it - the field names come from [AnnotationsJSONSerializator.h](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h), the reading rules from the converters under [src/dbs/AnnotationsDBs/converters](/src/dbs/AnnotationsDBs/converters), and the validation rules from [AnnotationsJSONSerializator.cpp](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp). The file reading and writing themselves belong to [LibraryImpl](/src/dbs/AnnotationsDBs/LibraryImpl.h), the project file driver of this format.
 
 Nothing here is a private detail: the format is the whole point of the library, and a file it writes must stay readable by the [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) application and by anybody else's tooling.
 

@@ -1,6 +1,6 @@
 ## The annotations database API
 
-Everything a consuming project is allowed to touch lives in the [src/lib/facade/public](/src/lib/facade/public) directory, and every single one of those headers is installed. There are no other entry points: the implementation classes (`AnnotationsDirDB`, `RecordsFactory`, `DefaultDBMerger` and the rest of [src/lib/libmain](/src/lib/libmain)) stay behind the abstract interfaces and never appear in a downstream translation unit.
+Everything a consuming project is allowed to touch lives in the [src/lib/facade/public](/src/lib/facade/public) directory, and every single one of those headers is installed. There are no other entry points: the implementation classes (`AnnotationsDirDB`, `LibraryImpl`, `RecordsFactory`, `DefaultDBMerger` and the rest of [src/lib/libmain](/src/lib/libmain)) stay behind the abstract interfaces and never appear in a downstream translation unit.
 
 This section is a guided tour of that surface. Read it with the real headers open - they carry the doxygen comments this text is derived from.
 

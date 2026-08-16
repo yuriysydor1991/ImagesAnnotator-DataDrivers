@@ -7,6 +7,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/lib/libmain/LibMain.cpp
   ${CMAKE_SOURCE_DIR}/src/lib/facade/LibraryContext.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsDirDB.cpp
+  ${IADD_ANNOTATIONS_DBS_SRC_DIR}/LibraryImpl.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsJSONSerializator.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/mergers/DefaultDBMerger.cpp
   ${IADD_CONVERTERS_SRC_DIR}/ImageRecordJSON2RecordConverter.cpp

@@ -32,7 +32,7 @@ src/
 │                                                                namespace iannotator::records
 ├── helpers/                             IHelper, SortHelper, UrlHelper,
 │                                        ImageRecordUrlAndPathHelper        namespace helpers
-├── dbs/AnnotationsDBs/                  AnnotationsDirDB, AnnotationsJSONSerializator,
+├── dbs/AnnotationsDBs/                  AnnotationsDirDB, LibraryImpl, AnnotationsJSONSerializator,
 │   │                                    AnnotationsDBTypes
 │   │                                                      namespace iannotator::dbs::annotations
 │   ├── converters/                      the JSON to records and back converters

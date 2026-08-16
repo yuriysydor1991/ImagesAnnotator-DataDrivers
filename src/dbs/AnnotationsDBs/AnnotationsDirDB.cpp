@@ -29,23 +29,19 @@
 
 #include <algorithm>
 #include <cassert>
-#include <cerrno>
-#include <cstring>
-#include <exception>
-#include <fstream>
 #include <memory>
-#include <nlohmann/json.hpp>
 
-#include "src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
-#include "src/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.h"
-#include "src/dbs/AnnotationsDBs/converters/JSON2ImageRecordsConverter.h"
+#include "src/dbs/AnnotationsDBs/LibraryImpl.h"
 #include "src/dbs/AnnotationsDBs/mergers/DefaultDBMerger.h"
 #include "src/log/log.h"
 
 namespace iannotator::dbs::annotations
 {
 
-AnnotationsDirDB::AnnotationsDirDB() { update_current_last_saved_no_check(); }
+AnnotationsDirDB::AnnotationsDirDB() : impl{LibraryImpl::create()}
+{
+  update_current_last_saved_no_check();
+}
 
 AnnotationsDirDB::AnnotationsDirDBPtr AnnotationsDirDB::create()
 {
@@ -55,6 +51,7 @@ AnnotationsDirDB::AnnotationsDirDBPtr AnnotationsDirDB::create()
 bool AnnotationsDirDB::load_db(const std::string& fpath)
 {
   assert(!fpath.empty());
+  assert(impl != nullptr);
 
   if (fpath.empty()) {
     LOGE("No filepath is given");
@@ -63,36 +60,7 @@ bool AnnotationsDirDB::load_db(const std::string& fpath)
 
   current_db_path = fpath;
 
-  try {
-    LOGT("Trying to open the file: " << fpath);
-
-    std::ifstream f(fpath);
-
-    if (!f.is_open()) {
-      const int cerrno = errno;
-      LOGE("Can't open file: " << fpath << " because " << strerror(cerrno));
-      return false;
-    }
-
-    LOGT("Trying to parse the given db json");
-
-    json = nlohmann::json::parse(f);
-
-    LOGT("Trying to serialize retrieved file");
-
-    if (!serialize()) {
-      LOGE("Fail to serialize the JSON: " << json.dump());
-      return false;
-    }
-
-    LOGT("Trying to extract the records");
-
-    irdb = load_the_irs();
-
-    LOGT("Now DB contains " << irdb.size() << " records");
-  }
-  catch (const std::exception& e) {
-    LOGE("Exception occurred: " << e.what());
+  if (!impl->load(fpath, irdb)) {
     return false;
   }
 
@@ -115,28 +83,6 @@ void AnnotationsDirDB::update_current_last_saved_no_check()
   last_saved_db = ImageRecord::duplicate(irdb);
 
   assert(ImageRecord::equal(last_saved_db, irdb));
-}
-
-bool AnnotationsDirDB::serialize()
-{
-  auto s = std::make_shared<AnnotationsJSONSerializator>(app_name, app_version);
-
-  return s->serialize(json);
-}
-
-AnnotationsDirDB::ImageRecordsSet AnnotationsDirDB::load_the_irs()
-{
-  LOGT("Trying to load the ImageRecords into the memory");
-
-  static const auto& fannotations =
-      AnnotationsJSONSerializator::annotations_field_name;
-
-  assert(json.contains(fannotations));
-
-  auto converter =
-      std::make_shared<converters::JSON2ImageRecordsConverter>(records_factory);
-
-  return converter->fetch_records(json[fannotations]);
 }
 
 AnnotationsDirDB::ImageRecordsSet& AnnotationsDirDB::get_images_db()
@@ -162,14 +108,11 @@ bool AnnotationsDirDB::store_db() { return store_db(current_db_path); }
 
 bool AnnotationsDirDB::store_db(const std::string& fpath)
 {
-  auto irsConverter = std::make_shared<converters::ImageRecords2JSONConverter>(
-      app_name, app_version);
-
-  LOGD("Trying to store annotations to " << fpath);
+  assert(impl != nullptr);
 
   current_db_path = fpath;
 
-  const bool sret = irsConverter->store(get_images_db(), fpath);
+  const bool sret = impl->store(fpath, get_images_db());
 
   if (sret) {
     update_current_last_saved();
@@ -218,22 +161,45 @@ bool AnnotationsDirDB::delete_image_record(const std::string& irFullPath)
 void AnnotationsDirDB::set_app_info(const std::string& name,
                                     const std::string& version)
 {
-  app_name = name;
-  app_version = version;
+  assert(impl != nullptr);
+
+  impl->set_app_info(name, version);
 }
 
-std::string AnnotationsDirDB::get_app_name() const { return app_name; }
+std::string AnnotationsDirDB::get_app_name() const
+{
+  assert(impl != nullptr);
 
-std::string AnnotationsDirDB::get_app_version() const { return app_version; }
+  return impl->get_app_name();
+}
+
+std::string AnnotationsDirDB::get_app_version() const
+{
+  assert(impl != nullptr);
+
+  return impl->get_app_version();
+}
 
 void AnnotationsDirDB::set_records_factory(IRecordsFactoryPtr factory)
 {
-  records_factory = factory;
+  assert(impl != nullptr);
+
+  impl->set_records_factory(factory);
 }
 
 void AnnotationsDirDB::set_db_merger(IDBMergerPtr merger)
 {
   db_merger = merger;
+}
+
+void AnnotationsDirDB::set_library_impl(LibraryImplPtr newImpl)
+{
+  if (newImpl == nullptr) {
+    LOGE("No valid project file driver given, keeping the current one");
+    return;
+  }
+
+  impl = newImpl;
 }
 
 }  // namespace iannotator::dbs::annotations

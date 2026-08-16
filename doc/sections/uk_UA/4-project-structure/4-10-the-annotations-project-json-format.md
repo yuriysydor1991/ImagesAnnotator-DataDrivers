@@ -1,6 +1,6 @@
 ## Формат JSON проекту анотацій
 
-Проект анотацій - це єдиний JSON-документ. Ця секція описує його таким, яким його насправді реалізує бібліотека - назви полів походять з [AnnotationsJSONSerializator.h](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h), правила читання - з конвертерів у [src/dbs/AnnotationsDBs/converters](/src/dbs/AnnotationsDBs/converters), а правила перевірки - з [AnnotationsJSONSerializator.cpp](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp).
+Проект анотацій - це єдиний JSON-документ. Ця секція описує його таким, яким його насправді реалізує бібліотека - назви полів походять з [AnnotationsJSONSerializator.h](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h), правила читання - з конвертерів у [src/dbs/AnnotationsDBs/converters](/src/dbs/AnnotationsDBs/converters), а правила перевірки - з [AnnotationsJSONSerializator.cpp](/src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.cpp). Саме читання і запис файлу належать [LibraryImpl](/src/dbs/AnnotationsDBs/LibraryImpl.h) - драйверу файлу проекту цього формату.
 
 Ніщо тут не є приватною деталлю: формат - це і є весь сенс бібліотеки, і файл, який вона пише, має залишатися читабельним для застосунку [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) і для будь-чийого стороннього інструментарію.
 

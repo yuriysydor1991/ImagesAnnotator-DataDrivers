@@ -33,7 +33,7 @@ src/
 │                                                        простір імен iannotator::records
 ├── helpers/                             IHelper, SortHelper, UrlHelper,
 │                                        ImageRecordUrlAndPathHelper    простір імен helpers
-├── dbs/AnnotationsDBs/                  AnnotationsDirDB, AnnotationsJSONSerializator,
+├── dbs/AnnotationsDBs/                  AnnotationsDirDB, LibraryImpl, AnnotationsJSONSerializator,
 │   │                                    AnnotationsDBTypes
 │   │                                        простір імен iannotator::dbs::annotations
 │   ├── converters/                      перетворювачі з JSON у записи і назад

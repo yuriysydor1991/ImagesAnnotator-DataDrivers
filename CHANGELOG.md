@@ -21,6 +21,14 @@ very same annotations project files.
   `src/annotator-business/dbs/AnnotationsDBs` component: `AnnotationsDirDB`,
   `AnnotationsJSONSerializator`, the four JSON converters and the
   `DefaultDBMerger`.
+- `LibraryImpl`, the project file driver holding every method which reads or
+  writes a project file, so that `AnnotationsDirDB` keeps the records in memory
+  and knows nothing of the format they arrived in. It implements the JSON
+  format - the first of the possible ones - and a format other than that is a
+  descendant of it, handed to `AnnotationsDirDB::set_library_impl()`. The
+  application identity of the produced files and the injected records factory
+  moved along with the reading and the writing; the seven case
+  `UTEST_LibraryImpl` drives them over real files.
 - The installable public interface under
   [src/lib/facade/public](/src/lib/facade/public), in the version stamped
   `ImagesAnnotatorDataDrivers011` namespace: `IAnnotationsDB`,

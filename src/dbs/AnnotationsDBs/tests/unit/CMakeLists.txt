@@ -8,5 +8,6 @@ endif()
 add_compile_options(-DNDEBUG=1)
 
 add_subdirectory(AnnotationsJSONSerializator)
+add_subdirectory(LibraryImpl)
 add_subdirectory(converters)
 add_subdirectory(mergers)

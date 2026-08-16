@@ -28,6 +28,7 @@ The two kinds differ in what exactly they are testing, and that difference is vi
 | `UTEST_ImageRecordRect` | unit | [src/records/tests/unit/ImageRecordRect](/src/records/tests/unit/ImageRecordRect) |
 | `UTEST_RecordsFactory` | unit | [src/records/tests/unit/RecordsFactory](/src/records/tests/unit/RecordsFactory) |
 | `UTEST_AnnotationsJSONSerializator` | unit | [src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator](/src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator) |
+| `UTEST_LibraryImpl` | unit | [src/dbs/AnnotationsDBs/tests/unit/LibraryImpl](/src/dbs/AnnotationsDBs/tests/unit/LibraryImpl) |
 | `UTEST_DefaultDBMerger` | unit | [src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger](/src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger) |
 | `UTEST_ImageRecords2JSONConverter` | unit | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter) |
 | `UTEST_JSON2ImageRecordsConverter` | unit | [src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter) |

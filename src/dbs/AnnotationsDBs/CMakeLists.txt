@@ -10,6 +10,7 @@ target_sources(
   PRIVATE
     AnnotationsDirDB.cpp
     AnnotationsJSONSerializator.cpp
+    LibraryImpl.cpp
 )
 
 add_subdirectory(converters)
