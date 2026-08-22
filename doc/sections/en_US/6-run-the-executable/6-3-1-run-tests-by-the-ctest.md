@@ -41,3 +41,11 @@ ctest -R UTEST_DefaultDBMerger.appends_new_records_and_skips_duplicates
 ```
 
 Use `ctest -N` to list what is registered without running anything.
+
+The [debug-test.sh](/scripts/build/debug-test.sh) script of the [Quick build scripts](/doc/sections/en_US/5-project-build/5-37-quick-build-scripts.md) section performs the very same `ctest` call inside the `build/debug` directory, either on its own or as a step of the `Debug` build scripts, whenever the `--test` parameter is given (GNU/Linux based):
+
+```
+# inside the project root directory
+
+scripts/build/debug-test.sh --test
+```

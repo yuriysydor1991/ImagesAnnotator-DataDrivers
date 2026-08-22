@@ -73,6 +73,26 @@ very same annotations project files.
   `5-37` sections in both languages, with the starter scripts in `5-17` and the
   `--install` shortcut in `7-installing`.
 
+- The `ctest` step of the quick build scripts,
+  [scripts/build/debug-test.sh](/scripts/build/debug-test.sh), adapted from the
+  `--test` parameter of the
+  [cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template) this
+  project was started from. It performs the `ctest --output-on-failure` call
+  inside the `build/debug` directory and, like the install step beside it, does
+  nothing at all unless that parameter was given, so a plain build stays a
+  plain build. The five `Debug` entry points which build the whole project -
+  `debug.sh`, `debug-clang-tidy.sh`, `debug-sanitizers.sh`,
+  `debug-sanitizers-threads.sh` and `debug-compiler-analyzer.sh` - chain it in
+  between of their build and install steps, which makes
+  `scripts/build/debug.sh --test` the single command of a configure, a build
+  and a whole test run; `debug-cppcheck.sh` is left alone, since it builds one
+  CMake target the test executables are not a part of. The `--test` parameter
+  joins the `--no-reconfigure` and the `--install` ones in the
+  `filter_script_args()` list of `scripts/build/common.sh`, so it never reaches
+  `cmake` nor `ctest` while every other argument does -
+  `scripts/build/debug-test.sh --test -R "CTEST_AnnotationsDirDB\."` runs a
+  part of the suite inside an already built directory.
+
 ### Changed
 
 - CMake project renamed from `CppAppTemplate` to `ImagesAnnotatorDataDrivers`;
