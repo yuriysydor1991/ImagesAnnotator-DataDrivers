@@ -10,12 +10,12 @@ You may search for all compiled available tests by a next command:
 find -type f -executable -name 'UTEST_*' -o -type f -executable -name 'CTEST_*'
 ```
 
-After that, choose particular test of interest and execute it manually if needed. For example, for the `LibraryFacade` class pass it's UT relative file system path from a project's root directory into the command line and hit enter (GNU/Linux based):
+After that, choose particular test of interest and execute it manually if needed. For example, for the `IADataDriversFacade` class pass it's UT relative file system path from a project's root directory into the command line and hit enter (GNU/Linux based):
 
 ```
 # from the project root
 
-./build/src/lib/facade/tests/unit/LibraryFacade/UTEST_LibraryFacade
+./build/src/lib/facade/tests/unit/IADataDriversFacade/UTEST_IADataDriversFacade
 ```
 
 The component test of the annotations directory database is started exactly the same way. Unlike the unit tests it links the real produced shared library and drives it through the installable public headers only, so what it exercises is the very same code path a downstream consumer of the library would take:

@@ -22,9 +22,9 @@ sudo cmake --install build --prefix "/usr"
 
 | Що встановлено | Шлях (для показаного вище префікса `/usr`) |
 | --- | --- |
-| динамічна бібліотека | `/usr/lib/libImagesAnnotatorDataDrivers-0.11.so.0.11.0` разом із посиланням soname `.so.0` і посиланням для розробки `.so` |
-| публічні заголовкові файли | `/usr/include/ImagesAnnotatorDataDrivers-0.11/` - усі одинадцять |
-| CMake-пакет | `/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.11/` |
+| динамічна бібліотека | `/usr/lib/libImagesAnnotatorDataDrivers-0.12.so.0.12.0` разом із посиланням soname `.so.0` і посиланням для розробки `.so` |
+| публічні заголовкові файли | `/usr/include/ImagesAnnotatorDataDrivers-0.12/` - усі одинадцять |
+| CMake-пакет | `/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.12/` |
 
 Прибери `--prefix` і усе потрапить під `/usr/local` натомість, що є значенням за замовчуванням і є цілком прийнятним доти, доки твій набір інструментів заглядає туди.
 
@@ -39,18 +39,18 @@ project(MyTool LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ImagesAnnotatorDataDrivers-0.11 REQUIRED)
+find_package(ImagesAnnotatorDataDrivers-0.12 REQUIRED)
 
 add_executable(mytool main.cpp)
-target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11)
+target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12)
 ```
 
 Тут відбуваються чотири речі, і усі чотири мають значення:
 
 - **Стандарт C++17 є обов'язковим.** Публічні заголовкові файли використовують `std::filesystem` і вбудовані статичні поля даних. Старіший стандарт їх не скомпілює.
-- **Пакет названий за іменем бібліотеки, включно з головним номером версії** - `ImagesAnnotatorDataDrivers-0.11`. Версія є частиною імені навмисне: майбутній `ImagesAnnotatorDataDrivers-1` встановиться поруч, а не поверх нього.
-- **Імпортована ціль розміщена у просторі імен з тією ж самою назвою**, звідси і дещо надлишковий на вигляд запис `ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11`. Лінкування цілі є усім, що потрібно зробити: вона несе директорії підключаємих файлів разом із собою, отож жодного власного `target_include_directories` не потрібно.
-- **Запитуй пакет без вимоги версії.** Директорія встановленого пакета містить лише файли конфігурації і експортованих цілей, отож `find_package(ImagesAnnotatorDataDrivers-0.11 0.11 REQUIRED)` з версією всередині не розв'яжеться. Саме головний номер версії, вкарбований у назву пакета, розводить несумісні випуски, а `LibraryFacade::library_version()` повідомляє точну версію під час виконання.
+- **Пакет названий за іменем бібліотеки, включно з головним номером версії** - `ImagesAnnotatorDataDrivers-0.12`. Версія є частиною імені навмисне: майбутній `ImagesAnnotatorDataDrivers-1` встановиться поруч, а не поверх нього.
+- **Імпортована ціль розміщена у просторі імен з тією ж самою назвою**, звідси і дещо надлишковий на вигляд запис `ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12`. Лінкування цілі є усім, що потрібно зробити: вона несе директорії підключаємих файлів разом із собою, отож жодного власного `target_include_directories` не потрібно.
+- **Запитуй пакет без вимоги версії.** Директорія встановленого пакета містить лише файли конфігурації і експортованих цілей, отож `find_package(ImagesAnnotatorDataDrivers-0.12 0.12 REQUIRED)` з версією всередині не розв'яжеться. Саме головний номер версії, вкарбований у назву пакета, розводить несумісні випуски, а `IADataDriversFacade::library_version()` повідомляє точну версію під час виконання.
 
 Якщо бібліотека потрапила у префікс, який твій CMake сам не переглядає, вкажи йому на нього під час конфігурації власного проекту:
 
@@ -58,25 +58,25 @@ target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDat
 cmake -S . -B build -DCMAKE_PREFIX_PATH="$HOME/.local"
 ```
 
-І зауваження для екзотичних випадків: встановлювана назва не є висіченою у камені. Параметри побудови бібліотеки `LIB_INCLUDE_MINOR_IN_NAME`, `LIB_INCLUDE_MICRO_IN_NAME` і `LIB_NAME_SUFFIX` змінюють одночасно назву бінарного файлу, піддиректорію заголовкових файлів, директорію CMake-пакета і простір імен імпортованої цілі - див. [налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md). Побудуй бібліотеку з ними - і назва у `find_package` твого проекту має слідувати за ними, наприклад `ImagesAnnotatorDataDrivers-0.11`.
+І зауваження для екзотичних випадків: встановлювана назва не є висіченою у камені. Параметри побудови бібліотеки `LIB_INCLUDE_MINOR_IN_NAME`, `LIB_INCLUDE_MICRO_IN_NAME` і `LIB_NAME_SUFFIX` змінюють одночасно назву бінарного файлу, піддиректорію заголовкових файлів, директорію CMake-пакета і простір імен імпортованої цілі - див. [налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md). Побудуй бібліотеку з ними - і назва у `find_package` твого проекту має слідувати за ними, наприклад `ImagesAnnotatorDataDrivers-0.12`.
 
 ## 3. Підключення заголовкових файлів
 
 Для встановленої бібліотеки працюють обидва наступні варіанти, оскільки пакет експортує корінь директорії підключаємих файлів разом з її версіонованою піддиректорією:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>   // рекомендовано
-#include <LibraryFacade.h>                                // теж працює
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>   // рекомендовано
+#include <IADataDriversFacade.h>                                   // теж працює
 ```
 
-Надавай перевагу формі з префіксом. Назви заголовкових файлів на кшталт `ImageRecord.h`, `IRecord.h` чи `ILib.h` є достатньо загальними, щоб призвести до конфлікту з чимось іншим у завантаженому шляху пошуку підключаємих файлів, а префікс з першого погляду показує, звідки походить заголовковий файл.
+Надавай перевагу формі з префіксом. Назви заголовкових файлів на кшталт `ImageRecord.h`, `IRecord.h` чи `IADataDriversLib.h` є достатньо загальними, щоб призвести до конфлікту з чимось іншим у завантаженому шляху пошуку підключаємих файлів, а префікс з першого погляду показує, звідки походить заголовковий файл.
 
-`LibraryFacade.h` притягує усе, що потрібно звичайному споживачеві - контекст, інтерфейси бази даних і типи записів приходять разом з ним. Підключай окремі заголовкові файли безпосередньо тоді, коли реалізуєш одну з точок розширення, наприклад `<ImagesAnnotatorDataDrivers-0.11/IDBMerger.h>`.
+`IADataDriversFacade.h` притягує усе, що потрібно звичайному споживачеві - контекст, інтерфейси бази даних і типи записів приходять разом з ним. Підключай окремі заголовкові файли безпосередньо тоді, коли реалізуєш одну з точок розширення, наприклад `<ImagesAnnotatorDataDrivers-0.12/IDBMerger.h>`.
 
-І ще простір імен. Кожен публічний тип знаходиться у `ImagesAnnotatorDataDrivers011`, де `011` є склеєними головним і другорядним номерами версії бібліотеки, щоб дві версії бібліотеки могли співіснувати в межах однієї одиниці трансляції. Створи для нього псевдонім один раз:
+І ще простір імен. Кожен публічний тип знаходиться у `ImagesAnnotatorDataDrivers012`, де `012` є склеєними головним і другорядним номерами версії бібліотеки, щоб дві версії бібліотеки могли співіснувати в межах однієї одиниці трансляції. Створи для нього псевдонім один раз:
 
 ```cpp
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 ```
 
 Підняття версії коштуватиме тоді рівно один рядок.
@@ -87,15 +87,15 @@ namespace iadd = ImagesAnnotatorDataDrivers011;
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 int main(int argc, char** argv)
 {
   if (argc < 2) { return 1; }
 
-  auto db = iadd::LibraryFacade::open_annotations_db(argv[1]);
+  auto db = iadd::IADataDriversFacade::open_annotations_db(argv[1]);
 
   if (db == nullptr) { return 1; }
 
@@ -122,21 +122,21 @@ cmake --build build -j$(nproc)
 - `get_images_db()` віддає **змінюване посилання** на записи, отож цикл є також і місцем, де ти редагував би `ir->rects` - записи є розумними вказівниками і жодного окремого кроку "фіксації" немає;
 - `changed()` порівнює живі записи зі знімком, зробленим під час завантаження, отож `store_db()` відбувається лише тоді, коли запис справді дав би щось інше.
 
-Усе інше - побудова через контекст, шлях одного пострілу `ILib::libcall()`, поля записів, точки розширення `IRecordsFactory` і `IDBMerger` - описано у секції [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md), а файл, який зчитує програма, специфіковано у секції [формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md).
+Усе інше - побудова через контекст, шлях одного пострілу `IADataDriversLib::libcall()`, поля записів, точки розширення `IRecordsFactory` і `IDBMerger` - описано у секції [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md), а файл, який зчитує програма, специфіковано у секції [формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md).
 
 ## 5. Запис нового файлу проекту
 
 Інша половина роботи - побудова бази даних з нуля замість зчитування наявної - є так само короткою. Створи записи через фабрику, передай їх, вкажи місце призначення:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 bool write_project(const std::string& outPath)
 {
-  auto factory = iadd::LibraryFacade::create_records_factory();
-  auto db = iadd::LibraryFacade::create_annotations_db();
+  auto factory = iadd::IADataDriversFacade::create_records_factory();
+  auto db = iadd::IADataDriversFacade::create_annotations_db();
 
   if (factory == nullptr || db == nullptr) { return false; }
 
@@ -159,7 +159,7 @@ bool write_project(const std::string& outPath)
 
 Код цієї бібліотеки раніше був компонентом `src/annotator-business/dbs/AnnotationsDBs` застосунку [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git). Застосунок має позбутися тієї копії всередині свого дерева і використовувати натомість встановлену бібліотеку, саме через показані вище `find_package` і ціль у просторі імен.
 
-Міграція є радше справою назв, аніж логіки, оскільки винесені інтерфейси зберегли свої: `IAnnotationsDB`, `IImagesPathsDBProvider`, `ImageRecord`, `ImageRecordRect`, `IRecordsFactory` і `IDBMerger` є тими самими абстракціями, під які застосунок вже був написаний. Змінюється те, звідки вони походять - встановлені заголовкові файли `ImagesAnnotatorDataDrivers-0.11/` замість локального відносного підключення - і те, що вони тепер знаходяться у версіонованому просторі імен `ImagesAnnotatorDataDrivers011`, який поглинається псевдонімом. Конкретна побудова `AnnotationsDirDB` замінюється викликом `LibraryFacade`, а ідентичність кореневого елемента JSON зберігає своє типове значення `"ImagesAnnotator"` саме для того, щоб кожен файл проекту, записаний кожним попереднім випуском застосунку, продовжував відкриватись - див. [налаштування ідентичності бази даних анотацій](/doc/sections/uk_UA/5-project-build/5-36-configuring-the-annotations-db-identity.md).
+Міграція є радше справою назв, аніж логіки, оскільки винесені інтерфейси зберегли свої: `IAnnotationsDB`, `IImagesPathsDBProvider`, `ImageRecord`, `ImageRecordRect`, `IRecordsFactory` і `IDBMerger` є тими самими абстракціями, під які застосунок вже був написаний. Змінюється те, звідки вони походять - встановлені заголовкові файли `ImagesAnnotatorDataDrivers-0.12/` замість локального відносного підключення - і те, що вони тепер знаходяться у версіонованому просторі імен `ImagesAnnotatorDataDrivers012`, який поглинається псевдонімом. Конкретна побудова `AnnotationsDirDB` замінюється викликом `IADataDriversFacade`, а ідентичність кореневого елемента JSON зберігає своє типове значення `"ImagesAnnotator"` саме для того, щоб кожен файл проекту, записаний кожним попереднім випуском застосунку, продовжував відкриватись - див. [налаштування ідентичності бази даних анотацій](/doc/sections/uk_UA/5-project-build/5-36-configuring-the-annotations-db-identity.md).
 
 Експортери наборів даних того застосунку - у простий текст, YOLO v4 і PyTorch-Vision - **не** є частиною даної бібліотеки і не плануються нею: вони мають стати окремим власним проектом.
 
@@ -167,7 +167,7 @@ bool write_project(const std::string& outPath)
 
 Кілька звичних підозрюваних:
 
-- `find_package` не знаходить пакет - префікс не переглядається. Передай `-DCMAKE_PREFIX_PATH=<префікс>` і перевір, що `<префікс>/lib/cmake/ImagesAnnotatorDataDrivers-0.11/ImagesAnnotatorDataDrivers-0.11Config.cmake` справді там є.
-- Назву цілі відхилено - пам'ятай, що вона подвоєна: `ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11`. А якщо бібліотеку було побудовано з параметрами складових імені, то й уся назва відрізняється.
+- `find_package` не знаходить пакет - префікс не переглядається. Передай `-DCMAKE_PREFIX_PATH=<префікс>` і перевір, що `<префікс>/lib/cmake/ImagesAnnotatorDataDrivers-0.12/ImagesAnnotatorDataDrivers-0.12Config.cmake` справді там є.
+- Назву цілі відхилено - пам'ятай, що вона подвоєна: `ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12`. А якщо бібліотеку було побудовано з параметрами складових імені, то й уся назва відрізняється.
 - Заголовкові файли не знаходяться, хоча пакет знайдено - найімовірніше, ти лінкуєш просту назву бібліотеки замість імпортованої цілі у просторі імен і, відповідно, не отримуєш жодної з її вимог використання.
-- Програма будується, але не запускається, скаржачись на `libImagesAnnotatorDataDrivers-0.11.so.0` - директорія `lib` префікса встановлення не входить до шляху пошуку динамічного завантажувача. Виконай `sudo ldconfig` після встановлення або встанови `LD_LIBRARY_PATH` для нестандартного префікса.
+- Програма будується, але не запускається, скаржачись на `libImagesAnnotatorDataDrivers-0.12.so.0` - директорія `lib` префікса встановлення не входить до шляху пошуку динамічного завантажувача. Виконай `sudo ldconfig` після встановлення або встанови `LD_LIBRARY_PATH` для нестандартного префікса.

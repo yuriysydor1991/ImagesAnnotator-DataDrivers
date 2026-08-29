@@ -8,7 +8,7 @@ Should the module be included back into [cmake/template-project-feature-enabler-
 cmake -S . -B build -DENABLE_SNAP=ON
 ```
 
-The target configures the [misc/packagers/snapcraft.yaml.in](/misc/packagers/snapcraft.yaml.in) template into `<build dir>/snap/snapcraft.yaml` and then runs `snapcraft pack` over it, which would produce a bundle named after the snap `name` and `version` fields, e.g. `imagesannotatordatadrivers_0.11.0_amd64.snap`.
+The target configures the [misc/packagers/snapcraft.yaml.in](/misc/packagers/snapcraft.yaml.in) template into `<build dir>/snap/snapcraft.yaml` and then runs `snapcraft pack` over it, which would produce a bundle named after the snap `name` and `version` fields, e.g. `imagesannotatordatadrivers_0.12.0_amd64.snap`.
 
 Two cache variables tune the metadata: `TEMPLATE_PROJECT_SNAP_GRADE` (default `devel`) and `TEMPLATE_PROJECT_SNAP_CONFINEMENT` (default `strict`).
 

@@ -52,12 +52,12 @@ namespace iannotator::dbs::annotations
  */
 class AnnotationsDirDB
     : public virtual AnnotationsDBTypes,
-      virtual public ImagesAnnotatorDataDrivers011::IAnnotationsDB,
+      virtual public ImagesAnnotatorDataDrivers012::IAnnotationsDB,
       virtual public helpers::SortHelper
 {
  public:
   using AnnotationsList =
-      ImagesAnnotatorDataDrivers011::IImagesPathsDBProvider::AnnotationsList;
+      ImagesAnnotatorDataDrivers012::IImagesPathsDBProvider::AnnotationsList;
 
   /// @brief Disambiguates the equal aliases inherited from the several bases
   using ImageRecordPtr = AnnotationsDBTypes::ImageRecordPtr;

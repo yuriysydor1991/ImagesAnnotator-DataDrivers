@@ -8,20 +8,20 @@
 #include <string>
 #include <system_error>
 
+#include "IADataDriversContext.h"
+#include "IADataDriversFacade.h"
+#include "IADataDriversLib.h"
 #include "IAnnotationsDB.h"
 #include "IImagesPathsDBProvider.h"
-#include "ILib.h"
 #include "IRecordsFactory.h"
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
-#include "LibraryContext.h"
-#include "LibraryFacade.h"
 #include "ctests_decls.h"
 
 using namespace testing;
 
 /// @brief The very alias every downstream project is encouraged to introduce
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 namespace
 {
@@ -30,11 +30,11 @@ namespace
  * @brief The EXPECT_EXIT predicate rejecting a successful libcall only.
  *
  * The produced shared library keeps its asserts enabled, so the nullptr
- * context guard of ILib::libcall aborts the process before its false return
- * value may be observed, while an NDEBUG library build returns that false
- * instead. Both outcomes are a refusal of the invalid call and only a success
- * is a defect, hence the child process is merely required not to leave with
- * the zero exit code.
+ * context guard of IADataDriversLib::libcall aborts the process before its
+ * false return value may be observed, while an NDEBUG library build returns
+ * that false instead. Both outcomes are a refusal of the invalid call and only
+ * a success is a defect, hence the child process is merely required not to
+ * leave with the zero exit code.
  */
 class LibcallDidNotSucceed
 {
@@ -107,9 +107,9 @@ class CTEST_AnnotationsDirDB : public Test
   /**
    * @brief Builds a default library context pointed at the given fixture file.
    */
-  static iadd::LibraryContextPtr make_context(const std::string& dbname)
+  static iadd::IADataDriversContextPtr make_context(const std::string& dbname)
   {
-    auto ctx = iadd::LibraryFacade::create_library_context();
+    auto ctx = iadd::IADataDriversFacade::create_library_context();
 
     if (ctx != nullptr && !dbname.empty()) {
       ctx->db_path = ctest_data_path(dbname);
@@ -123,7 +123,7 @@ class CTEST_AnnotationsDirDB : public Test
    */
   static iadd::IAnnotationsDBPtr open_plan_db()
   {
-    return iadd::LibraryFacade::open_annotations_db(
+    return iadd::IADataDriversFacade::open_annotations_db(
         ctest_data_path(ctest_data_json_plan_name));
   }
 
@@ -142,7 +142,7 @@ TEST_F(CTEST_AnnotationsDirDB, no_context_init_failure)
 {
   EXPECT_EXIT(
       {
-        auto lib = iadd::LibraryFacade::create_default_lib();
+        auto lib = iadd::IADataDriversFacade::create_default_lib();
 
         std::exit(lib != nullptr && lib->libcall(nullptr) ? EXIT_SUCCESS
                                                           : EXIT_FAILURE);
@@ -152,11 +152,11 @@ TEST_F(CTEST_AnnotationsDirDB, no_context_init_failure)
 
 TEST_F(CTEST_AnnotationsDirDB, empty_context_init_success)
 {
-  auto lib = iadd::LibraryFacade::create_default_lib();
+  auto lib = iadd::IADataDriversFacade::create_default_lib();
 
   ASSERT_NE(lib, nullptr);
 
-  auto ctx = iadd::LibraryFacade::create_library_context();
+  auto ctx = iadd::IADataDriversFacade::create_library_context();
 
   ASSERT_NE(ctx, nullptr);
   ASSERT_TRUE(ctx->db_path.empty());
@@ -170,7 +170,7 @@ TEST_F(CTEST_AnnotationsDirDB, empty_context_init_success)
 
 TEST_F(CTEST_AnnotationsDirDB, non_empty_invalid_annotation_db_init_failure)
 {
-  auto lib = iadd::LibraryFacade::create_default_lib();
+  auto lib = iadd::IADataDriversFacade::create_default_lib();
 
   ASSERT_NE(lib, nullptr);
 
@@ -183,7 +183,7 @@ TEST_F(CTEST_AnnotationsDirDB, non_empty_invalid_annotation_db_init_failure)
 
 TEST_F(CTEST_AnnotationsDirDB, non_empty_annotation_db_init_serialize_failure)
 {
-  auto lib = iadd::LibraryFacade::create_default_lib();
+  auto lib = iadd::IADataDriversFacade::create_default_lib();
 
   ASSERT_NE(lib, nullptr);
 
@@ -196,7 +196,7 @@ TEST_F(CTEST_AnnotationsDirDB, non_empty_annotation_db_init_serialize_failure)
 
 TEST_F(CTEST_AnnotationsDirDB, basic_json_plan_db_init_success)
 {
-  auto lib = iadd::LibraryFacade::create_default_lib();
+  auto lib = iadd::IADataDriversFacade::create_default_lib();
 
   ASSERT_NE(lib, nullptr);
 
@@ -215,7 +215,7 @@ TEST_F(CTEST_AnnotationsDirDB, opened_plan_db_is_unchanged_and_knows_its_path)
 {
   const std::string dbpath = ctest_data_path(ctest_data_json_plan_name);
 
-  auto db = iadd::LibraryFacade::open_annotations_db(dbpath);
+  auto db = iadd::IADataDriversFacade::open_annotations_db(dbpath);
 
   ASSERT_NE(db, nullptr);
 
@@ -225,9 +225,9 @@ TEST_F(CTEST_AnnotationsDirDB, opened_plan_db_is_unchanged_and_knows_its_path)
 
   EXPECT_EQ(db->get_app_name(), expected_root_app_name);
   EXPECT_EQ(db->get_app_name(),
-            iadd::LibraryFacade::default_db_root_app_name());
+            iadd::IADataDriversFacade::default_db_root_app_name());
   EXPECT_EQ(db->get_app_version(),
-            iadd::LibraryFacade::default_db_app_version());
+            iadd::IADataDriversFacade::default_db_app_version());
 }
 
 TEST_F(CTEST_AnnotationsDirDB, opened_plan_db_lists_every_used_annotation)
@@ -250,7 +250,7 @@ TEST_F(CTEST_AnnotationsDirDB, appended_rectangle_marks_the_db_changed)
   ASSERT_NE(db, nullptr);
   ASSERT_FALSE(db->changed());
 
-  auto factory = iadd::LibraryFacade::create_records_factory();
+  auto factory = iadd::IADataDriversFacade::create_records_factory();
 
   ASSERT_NE(factory, nullptr);
 
@@ -284,7 +284,7 @@ TEST_F(CTEST_AnnotationsDirDB, store_and_reopen_round_trip_keeps_the_records)
   EXPECT_FALSE(db->changed());
   ASSERT_TRUE(std::filesystem::exists(stored_path));
 
-  auto reopened = iadd::LibraryFacade::open_annotations_db(stored_path);
+  auto reopened = iadd::IADataDriversFacade::open_annotations_db(stored_path);
 
   ASSERT_NE(reopened, nullptr);
 
@@ -346,14 +346,14 @@ TEST_F(CTEST_AnnotationsDirDB, delete_image_record_shrinks_the_records_set)
 
 TEST_F(CTEST_AnnotationsDirDB, open_annotations_db_of_a_missing_file_fails)
 {
-  EXPECT_EQ(iadd::LibraryFacade::open_annotations_db(
+  EXPECT_EQ(iadd::IADataDriversFacade::open_annotations_db(
                 ctest_data_path(nonexist_ctest_data_json_plan)),
             nullptr);
 }
 
 TEST_F(CTEST_AnnotationsDirDB, open_annotations_db_of_an_alien_json_fails)
 {
-  EXPECT_EQ(iadd::LibraryFacade::open_annotations_db(
+  EXPECT_EQ(iadd::IADataDriversFacade::open_annotations_db(
                 ctest_data_path(serialize_failure_json_name)),
             nullptr);
 }

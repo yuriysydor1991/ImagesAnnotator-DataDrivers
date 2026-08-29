@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # ON by default: the public API namespace carries the major and the minor
-# version (ImagesAnnotatorDataDrivers011), so the installable names track the
+# version (ImagesAnnotatorDataDrivers012), so the installable names track the
 # same pair. Two minor versions then install completely side by side - their
 # binaries, their header directories and their CMake packages all differ.
 option(

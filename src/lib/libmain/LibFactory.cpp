@@ -38,18 +38,18 @@
 namespace lib0impl
 {
 
-LibFactory::ILibPtr LibFactory::create_default_lib()
+LibFactory::IADataDriversLibPtr LibFactory::create_default_lib()
 {
   return LibMain::create();
 }
 
-LibFactory::LibraryContextPtr LibFactory::create_default_context()
+LibFactory::IADataDriversContextPtr LibFactory::create_default_context()
 {
-  return std::make_shared<LibraryContext>();
+  return std::make_shared<IADataDriversContext>();
 }
 
-LibFactory::ILibPtr LibFactory::create_appropriate_lib(
-    [[maybe_unused]] LibraryContextPtr ctx)
+LibFactory::IADataDriversLibPtr LibFactory::create_appropriate_lib(
+    [[maybe_unused]] IADataDriversContextPtr ctx)
 {
   assert(ctx != nullptr);
 
@@ -62,7 +62,7 @@ LibFactory::IAnnotationsDBPtr LibFactory::create_annotations_db()
 }
 
 LibFactory::IAnnotationsDBPtr LibFactory::create_annotations_db(
-    LibraryContextPtr ctx)
+    IADataDriversContextPtr ctx)
 {
   auto db = std::make_shared<iannotator::dbs::annotations::AnnotationsDirDB>();
 

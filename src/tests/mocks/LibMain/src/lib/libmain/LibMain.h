@@ -5,22 +5,23 @@
 
 #include <memory>
 
-#include "ILib.h"
-#include "LibraryContext.h"
+#include "IADataDriversContext.h"
+#include "IADataDriversLib.h"
 
 namespace lib0impl
 {
 
-class LibMain : public ImagesAnnotatorDataDrivers011::ILib
+class LibMain : public ImagesAnnotatorDataDrivers012::IADataDriversLib
 {
  public:
   using LibMainPtr = std::shared_ptr<LibMain>;
-  using LibraryContextPtr = ImagesAnnotatorDataDrivers011::LibraryContextPtr;
+  using IADataDriversContextPtr =
+      ImagesAnnotatorDataDrivers012::IADataDriversContextPtr;
 
   virtual ~LibMain() = default;
   LibMain() = default;
 
-  MOCK_METHOD(bool, libcall, (LibraryContextPtr ctx), (override));
+  MOCK_METHOD(bool, libcall, (IADataDriversContextPtr ctx), (override));
 
   inline static LibMainPtr create() { return std::make_shared<LibMain>(); }
 };

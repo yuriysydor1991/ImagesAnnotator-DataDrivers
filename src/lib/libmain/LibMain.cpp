@@ -42,10 +42,11 @@ LibMain::LibMain()
   // the application which uses the library, not to the library itself: an
   // application which depends on many derived libraries would otherwise
   // collect a log file per every one of them. Accept the application logger
-  // instance through the LibraryFacade::accept_real_logger method instead.
+  // instance through the IADataDriversFacade::accept_real_logger method
+  // instead.
 }
 
-bool LibMain::libcall(LibraryContextPtr ctx)
+bool LibMain::libcall(IADataDriversContextPtr ctx)
 {
   assert(ctx != nullptr);
 

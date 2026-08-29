@@ -20,7 +20,7 @@
 - **Злиття з урахуванням дублікатів** - `add_images_db()` додає інший набір записів через `IDBMerger`, пропускаючи вже наявні записи і зберігаючи результат відсортованим. Записи, розміщені у мережі, розбираються через URL API бібліотеки libcurl, отож одне й те саме зображення, вказане двома по-різному записаними URL, розпізнається як одне.
 - **Збирання назв анотацій** - `get_available_annotations()` повертає відсортовану множину усіх унікальних назв анотацій (класів), які використовуються у всій базі даних.
 - **Видалення запису** - `delete_image_record()` видаляє запис за його повним шляхом.
-- **Підмінні фабрика записів і об'єкт злиття** - розмісти власного нащадка `IRecordsFactory` і/або `IDBMerger` у `LibraryContext` і десеріалізація створюватиме твої збагачені підкласи записів і зливатиме їх за твоїми власними правилами.
+- **Підмінні фабрика записів і об'єкт злиття** - розмісти власного нащадка `IRecordsFactory` і/або `IDBMerger` у `IADataDriversContext` і десеріалізація створюватиме твої збагачені підкласи записів і зливатиме їх за твоїми власними правилами.
 - **Налаштовувана ідентичність кореневого елемента JSON** - файл проекту має кореневий елемент, названий за іменем *застосунку*, а не бібліотеки, отож назва і версія залишаються налаштовуваними як під час побудови, так і під час виконання.
 
 # Приклад використання
@@ -34,23 +34,23 @@ project(MyTool LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ImagesAnnotatorDataDrivers-0.11 REQUIRED)
+find_package(ImagesAnnotatorDataDrivers-0.12 REQUIRED)
 
 add_executable(mytool main.cpp)
-target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11)
+target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12)
 ```
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 int main(int argc, char** argv)
 {
   if (argc < 2) { return 1; }
 
-  auto db = iadd::LibraryFacade::open_annotations_db(argv[1]);
+  auto db = iadd::IADataDriversFacade::open_annotations_db(argv[1]);
 
   if (db == nullptr) { return 1; }
 
@@ -62,9 +62,9 @@ int main(int argc, char** argv)
 }
 ```
 
-Назва простору імен `ImagesAnnotatorDataDrivers011` навмисне містить головний і другорядний номери версії бібліотеки: дві версії бібліотеки можуть співіснувати в межах однієї одиниці трансляції без жодного конфлікту символів. Створюй для нього псевдонім, як показано вище, і підняття версії залишатиметься зміною в один рядок на твоєму боці.
+Назва простору імен `ImagesAnnotatorDataDrivers012` навмисне містить головний і другорядний номери версії бібліотеки: дві версії бібліотеки можуть співіснувати в межах однієї одиниці трансляції без жодного конфлікту символів. Створюй для нього псевдонім, як показано вище, і підняття версії залишатиметься зміною в один рядок на твоєму боці.
 
-Для встановленої бібліотеки працюють як `#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>`, так і просте `#include <LibraryFacade.h>`, оскільки бібліотека експортує і корінь директорії підключаємих файлів, і її версіоновану піддиректорію. Рекомендованою є форма з префіксом: назви заголовкових файлів на кшталт `ImageRecord.h` чи `IRecord.h` є достатньо загальними, щоб призвести до конфлікту у завантаженому шляху пошуку підключаємих файлів.
+Для встановленої бібліотеки працюють як `#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>`, так і просте `#include <IADataDriversFacade.h>`, оскільки бібліотека експортує і корінь директорії підключаємих файлів, і її версіоновану піддиректорію. Рекомендованою є форма з префіксом: назви заголовкових файлів на кшталт `ImageRecord.h` чи `IRecord.h` є достатньо загальними, щоб призвести до конфлікту у завантаженому шляху пошуку підключаємих файлів.
 
 Більше про API і про сам формат файлу у секціях [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md), [формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md) і [використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md).
 

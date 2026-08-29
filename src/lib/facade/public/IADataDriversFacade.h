@@ -25,17 +25,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_LIBRARYFACADE_CLASS_H
-#define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_LIBRARYFACADE_CLASS_H
+#ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSFACADE_CLASS_H
+#define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSFACADE_CLASS_H
 
 #include <memory>
 #include <string>
 
+#include "IADataDriversContext.h"
+#include "IADataDriversLib.h"
 #include "IAnnotationsDB.h"
 #include "IDBMerger.h"
-#include "ILib.h"
 #include "IRecordsFactory.h"
-#include "LibraryContext.h"
 
 /**
  * @brief The logging subsystem interface every project built from the
@@ -49,7 +49,7 @@ namespace logger
 class ILogger;
 }  // namespace logger
 
-namespace ImagesAnnotatorDataDrivers011
+namespace ImagesAnnotatorDataDrivers012
 {
 
 /**
@@ -62,9 +62,9 @@ namespace ImagesAnnotatorDataDrivers011
  * A typical read - modify - write session looks like this:
  *
  * @code
- * namespace iadd = ImagesAnnotatorDataDrivers011;
+ * namespace iadd = ImagesAnnotatorDataDrivers012;
  *
- * auto db = iadd::LibraryFacade::open_annotations_db("project.json");
+ * auto db = iadd::IADataDriversFacade::open_annotations_db("project.json");
  *
  * if (db == nullptr) {
  *   return false;
@@ -79,19 +79,19 @@ namespace ImagesAnnotatorDataDrivers011
  *
  * Current file is a target for the library header installation.
  */
-class LibraryFacade
+class IADataDriversFacade
 {
  public:
-  virtual ~LibraryFacade() = default;
-  LibraryFacade() = default;
+  virtual ~IADataDriversFacade() = default;
+  IADataDriversFacade() = default;
 
   /**
    * @brief Factory method to create a library context pre-filled with the
    * compile time defaults.
    *
-   * @return Returns a new LibraryContext class instance.
+   * @return Returns a new IADataDriversContext class instance.
    */
-  static LibraryContextPtr create_library_context();
+  static IADataDriversContextPtr create_library_context();
 
   /**
    * @brief Creates the default library implementation.
@@ -99,16 +99,18 @@ class LibraryFacade
    * @return Returns the default library implementation. Currently returns
    * the LibMain class instance.
    */
-  static ILibPtr create_default_lib();
+  static IADataDriversLibPtr create_default_lib();
 
   /**
-   * @brief Creates and returns the appropriate ILib instance.
+   * @brief Creates and returns the appropriate IADataDriversLib instance.
    *
-   * @param ctx Filled LibraryContext to check for an appropriate ILib instance.
+   * @param ctx Filled IADataDriversContext to check for an appropriate
+   * IADataDriversLib instance.
    *
-   * @return Returns a new ILib descendant or a nullptr in case of any error.
+   * @return Returns a new IADataDriversLib descendant or a nullptr in case of
+   * any error.
    */
-  static ILibPtr create_library(LibraryContextPtr ctx);
+  static IADataDriversLibPtr create_library(IADataDriversContextPtr ctx);
 
   /**
    * @brief Creates an empty annotations database carrying the library
@@ -128,7 +130,7 @@ class LibraryFacade
    *
    * @return Returns a new IAnnotationsDB descendant instance.
    */
-  static IAnnotationsDBPtr create_annotations_db(LibraryContextPtr ctx);
+  static IAnnotationsDBPtr create_annotations_db(IADataDriversContextPtr ctx);
 
   /**
    * @brief Creates an annotations database and immediately loads the given
@@ -193,6 +195,6 @@ class LibraryFacade
       const std::shared_ptr<logger::ILogger>& realLogger);
 };
 
-}  // namespace ImagesAnnotatorDataDrivers011
+}  // namespace ImagesAnnotatorDataDrivers012
 
-#endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_LIBRARYFACADE_CLASS_H
+#endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSFACADE_CLASS_H

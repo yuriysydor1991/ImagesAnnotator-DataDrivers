@@ -6,12 +6,12 @@
 
 ### Версійований простір імен
 
-Кожен публічний тип знаходиться у просторі імен `ImagesAnnotatorDataDrivers011`. Суфікс `011` - це склеєні докупи головний і другорядний номери версії бібліотеки, і він там не випадково: дві різні версії бібліотеки можуть бути залучені до однієї й тієї ж одиниці трансляції без жодного конфлікту символів.
+Кожен публічний тип знаходиться у просторі імен `ImagesAnnotatorDataDrivers012`. Суфікс `012` - це склеєні докупи головний і другорядний номери версії бібліотеки, і він там не випадково: дві різні версії бібліотеки можуть бути залучені до однієї й тієї ж одиниці трансляції без жодного конфлікту символів.
 
 Виписувати цю назву повністю усюди було б болісно, тому достатньо один раз оголосити псевдонім:
 
 ```cpp
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 ```
 
 Підняття версії бібліотеки після цього залишається зміною в один рядок на вашому боці. Решта цієї секції користується псевдонімом `iadd`.
@@ -20,28 +20,28 @@ namespace iadd = ImagesAnnotatorDataDrivers011;
 
 | Заголовковий файл | Що він дає |
 | --- | --- |
-| [LibraryFacade.h](/src/lib/facade/public/LibraryFacade.h) | статичний фасад-фабрика - єдиний заголовковий файл, потрібний простому споживачу |
+| [IADataDriversFacade.h](/src/lib/facade/public/IADataDriversFacade.h) | статичний фасад-фабрика - єдиний заголовковий файл, потрібний простому споживачу |
 | [IAnnotationsDB.h](/src/lib/facade/public/IAnnotationsDB.h) | власне база даних анотацій: завантаження, збереження, злиття, ідентичність |
 | [IImagesPathsDBProvider.h](/src/lib/facade/public/IImagesPathsDBProvider.h) | половина бази даних, що відповідає за читання і запити |
 | [ImageRecord.h](/src/lib/facade/public/ImageRecord.h) | одне анотоване зображення |
 | [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | один іменований прямокутник, намальований поверх зображення |
 | [IRecordsFactory.h](/src/lib/facade/public/IRecordsFactory.h) | точка розширення десеріалізації |
 | [IDBMerger.h](/src/lib/facade/public/IDBMerger.h) | точка розширення злиття |
-| [LibraryContext.h](/src/lib/facade/public/LibraryContext.h) | тримач вхідних і вихідних параметрів |
-| [ILib.h](/src/lib/facade/public/ILib.h) | одноразова точка входу `libcall(ctx)` |
+| [IADataDriversContext.h](/src/lib/facade/public/IADataDriversContext.h) | тримач вхідних і вихідних параметрів |
+| [IADataDriversLib.h](/src/lib/facade/public/IADataDriversLib.h) | одноразова точка входу `libcall(ctx)` |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | порожні маркувальні базові класи, від яких походить кожен запис і кожен постачальник |
 
-Кожен інтерфейсний заголовковий файл також оголошує поряд з класом псевдонім `...Ptr` - `iadd::IAnnotationsDBPtr`, `iadd::ImageRecordPtr`, `iadd::ImageRecordRectPtr`, `iadd::IRecordsFactoryPtr`, `iadd::IDBMergerPtr`, `iadd::LibraryContextPtr`, `iadd::ILibPtr` - і всі вони є спеціалізаціями `std::shared_ptr`. Усе, що бібліотека видає назовні, перебуває у спільному володінні; немає нічого, що треба було б звільняти через `delete`, і нічого, що треба було б повертати назад.
+Кожен інтерфейсний заголовковий файл також оголошує поряд з класом псевдонім `...Ptr` - `iadd::IAnnotationsDBPtr`, `iadd::ImageRecordPtr`, `iadd::ImageRecordRectPtr`, `iadd::IRecordsFactoryPtr`, `iadd::IDBMergerPtr`, `iadd::IADataDriversContextPtr`, `iadd::IADataDriversLibPtr` - і всі вони є спеціалізаціями `std::shared_ptr`. Усе, що бібліотека видає назовні, перебуває у спільному володінні; немає нічого, що треба було б звільняти через `delete`, і нічого, що треба було б повертати назад.
 
-### `LibraryFacade` - парадний вхід
+### `IADataDriversFacade` - парадний вхід
 
-`iadd::LibraryFacade` - це клас, що складається виключно зі статичних методів. Він ніколи не створюється як об'єкт, не тримає жодного стану, і кожен його виклик будує цілком новий незалежний об'єкт.
+`iadd::IADataDriversFacade` - це клас, що складається виключно зі статичних методів. Він ніколи не створюється як об'єкт, не тримає жодного стану, і кожен його виклик будує цілком новий незалежний об'єкт.
 
 | Метод | Що повертає |
 | --- | --- |
-| `create_library_context()` | `LibraryContextPtr`, попередньо заповнений значеннями за замовчуванням часу компіляції |
-| `create_default_lib()` | реалізацію `ILib` за замовчуванням |
-| `create_library(ctx)` | реалізацію `ILib`, відповідну наданому контексту |
+| `create_library_context()` | `IADataDriversContextPtr`, попередньо заповнений значеннями за замовчуванням часу компіляції |
+| `create_default_lib()` | реалізацію `IADataDriversLib` за замовчуванням |
+| `create_library(ctx)` | реалізацію `IADataDriversLib`, відповідну наданому контексту |
 | `create_annotations_db()` | порожню базу даних із ідентичністю за замовчуванням часу компіляції |
 | `create_annotations_db(ctx)` | порожню базу даних, налаштовану наданим контекстом |
 | `open_annotations_db(fpath)` | базу даних із вже завантаженим вказаним файлом проекту, або `nullptr` |
@@ -60,11 +60,11 @@ namespace iadd = ImagesAnnotatorDataDrivers011;
 Один рядок, один файл, і по всьому:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
-auto db = iadd::LibraryFacade::open_annotations_db("project.json");
+auto db = iadd::IADataDriversFacade::open_annotations_db("project.json");
 
 if (db == nullptr) {
   // файл був відсутній, нечитабельний, взагалі не JSON-документ
@@ -80,12 +80,12 @@ if (db == nullptr) {
 По варіант із контекстом слід тягнутися одразу, щойно одна з трьох речей, які він несе, має бути іншою: ідентичність застосунку, що записується у файл, фабрика записів, якою десеріалізація будує записи, або об'єднувач, яким `add_images_db()` виконує свою роботу.
 
 ```cpp
-auto ctx = iadd::LibraryFacade::create_library_context();
+auto ctx = iadd::IADataDriversFacade::create_library_context();
 
 ctx->app_name = "MyTool";
 ctx->app_version = "2.0";
 
-auto db = iadd::LibraryFacade::create_annotations_db(ctx);
+auto db = iadd::IADataDriversFacade::create_annotations_db(ctx);
 
 if (db == nullptr || !db->load_db("project.json")) {
   return false;
@@ -96,16 +96,16 @@ if (db == nullptr || !db->load_db("project.json")) {
 
 Варто зважати на одну асиметрію: `create_annotations_db()` створює **порожню** базу даних. Вона ніколи не заглядає у `ctx->db_path` - це поле належить шляху `libcall()`, описаному далі - тож виклик `load_db()` залишається за вами.
 
-#### 3. `ILib::libcall()` - одноразовий шлях
+#### 3. `IADataDriversLib::libcall()` - одноразовий шлях
 
-`ILib` - це односкладовий інтерфейс, за яким ховаються варіанти реалізації бібліотеки. Заповнюємо контекст, передаємо його і отримуємо готову базу даних назад через той самий контекст:
+`IADataDriversLib` - це односкладовий інтерфейс, за яким ховаються варіанти реалізації бібліотеки. Заповнюємо контекст, передаємо його і отримуємо готову базу даних назад через той самий контекст:
 
 ```cpp
-auto ctx = iadd::LibraryFacade::create_library_context();
+auto ctx = iadd::IADataDriversFacade::create_library_context();
 
 ctx->db_path = "project.json";
 
-auto lib = iadd::LibraryFacade::create_library(ctx);
+auto lib = iadd::IADataDriversFacade::create_library(ctx);
 
 if (lib == nullptr || !lib->libcall(ctx)) {
   return false;
@@ -116,7 +116,7 @@ auto db = ctx->db;  // це iadd::IAnnotationsDBPtr
 
 `libcall()` будує базу даних з контексту точно так само, як це робить `create_annotations_db(ctx)`, а потім, **лише якщо `ctx->db_path` не порожній**, завантажує у неї вказаний файл. Порожній `db_path` не є помилкою: ви просто отримаєте налаштовану порожню базу даних у `ctx->db`.
 
-Поля `LibraryContext` відповідно поділяються на вхідну і вихідну половини:
+Поля `IADataDriversContext` відповідно поділяються на вхідну і вихідну половини:
 
 | Поле | Напрямок | Значення |
 | --- | --- | --- |
@@ -223,7 +223,7 @@ if (db->changed() && !db->store_db()) {
 Одна пастка: `store_db()` без аргументів пише за шляхом останнього завантаження чи збереження, а база даних, створена через `create_annotations_db()`, ніколи такого не мала. Виклик там зазнає невдачі. Дайте щойно збудованій базі даних явне призначення один раз:
 
 ```cpp
-auto db = iadd::LibraryFacade::create_annotations_db();
+auto db = iadd::IADataDriversFacade::create_annotations_db();
 
 db->add_images_db(my_records);
 
@@ -262,10 +262,10 @@ virtual ImageRecordRectPtr create_image_rect_record(const std::string& nname,
 #include <memory>
 #include <string>
 
-#include <ImagesAnnotatorDataDrivers-0.11/IRecordsFactory.h>
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IRecordsFactory.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 /// Будує рівно ті записи, що й типова фабрика бібліотеки, але зводить
 /// назву класу кожної анотації до нижнього регістру.
@@ -273,7 +273,7 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
 {
  public:
   LowerCaseRecordsFactory()
-      : defaults{iadd::LibraryFacade::create_records_factory()}
+      : defaults{iadd::IADataDriversFacade::create_records_factory()}
   {
   }
 
@@ -319,9 +319,9 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
 Замінюйте його тоді, коли ваші правила інші - скажімо, ви збираєте кілька часткових проходів анотування тих самих зображень і хочете зберегти їх усі:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.11/IDBMerger.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IDBMerger.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 /// Додає усе, включно з дублікатами, і зберігає заданий порядок.
 class AppendAllMerger : public iadd::IDBMerger
@@ -344,12 +344,12 @@ class AppendAllMerger : public iadd::IDBMerger
 Обидві точки розширення впроваджуються через контекст, і обидві є необов'язковими - залиште поле порожнім, і буде використано бібліотечне значення за замовчуванням:
 
 ```cpp
-auto ctx = iadd::LibraryFacade::create_library_context();
+auto ctx = iadd::IADataDriversFacade::create_library_context();
 
 ctx->records_factory = std::make_shared<LowerCaseRecordsFactory>();
 ctx->merger = std::make_shared<AppendAllMerger>();
 
-auto db = iadd::LibraryFacade::create_annotations_db(ctx);
+auto db = iadd::IADataDriversFacade::create_annotations_db(ctx);
 
 if (db == nullptr || !db->load_db("project.json")) {
   return false;
@@ -359,7 +359,7 @@ if (db == nullptr || !db->load_db("project.json")) {
 db->add_images_db(another_set);  // а злиті твоїм злиттям тут
 ```
 
-Той самий контекст іде до `ILib::libcall()`, якщо вам більше до вподоби одноразовий шлях. Варто ще раз зауважити, що `open_annotations_db()` не приймає контексту і тому завжди користується значеннями бібліотеки за замовчуванням - це скорочення, а не налаштовуваний маршрут.
+Той самий контекст іде до `IADataDriversLib::libcall()`, якщо вам більше до вподоби одноразовий шлях. Варто ще раз зауважити, що `open_annotations_db()` не приймає контексту і тому завжди користується значеннями бібліотеки за замовчуванням - це скорочення, а не налаштовуваний маршрут.
 
 ### Куди рухатися далі
 

@@ -4,14 +4,14 @@
 #include <memory>
 #include <string>
 
+#include "IADataDriversContext.h"
+#include "IADataDriversFacade.h"
 #include "IAnnotationsDB.h"
-#include "LibraryContext.h"
-#include "LibraryFacade.h"
 #include "project-global-decls.h"
 #include "src/lib/libmain/LibFactory.h"
 #include "src/lib/libmain/LibMain.h"
 
-using namespace ImagesAnnotatorDataDrivers011;
+using namespace ImagesAnnotatorDataDrivers012;
 using namespace lib0impl;
 using namespace testing;
 
@@ -56,20 +56,23 @@ using AnnotationsDBMockPtr = std::shared_ptr<NiceMock<AnnotationsDBMock>>;
 
 }  // namespace
 
-class UTEST_LibraryFacade : public Test
+class UTEST_IADataDriversFacade : public Test
 {
  public:
   using LibFactory = lib0impl::LibFactory;
 
-  UTEST_LibraryFacade() : db{std::make_shared<NiceMock<AnnotationsDBMock>>()} {}
-  ~UTEST_LibraryFacade() = default;
+  UTEST_IADataDriversFacade()
+      : db{std::make_shared<NiceMock<AnnotationsDBMock>>()}
+  {
+  }
+  ~UTEST_IADataDriversFacade() = default;
 
   void TearDown() override { LibFactory::onMockCreate = nullptr; }
 
   AnnotationsDBMockPtr db;
 };
 
-TEST_F(UTEST_LibraryFacade, create_default_lib_success)
+TEST_F(UTEST_IADataDriversFacade, create_default_lib_success)
 {
   MockFunction<void(LibFactory&)> mockEnsurer;
 
@@ -81,10 +84,10 @@ TEST_F(UTEST_LibraryFacade, create_default_lib_success)
 
   LibFactory::onMockCreate = mockEnsurer.AsStdFunction();
 
-  auto res = LibraryFacade::create_library({});
+  auto res = IADataDriversFacade::create_library({});
 }
 
-TEST_F(UTEST_LibraryFacade, create_default_lib_direct_success)
+TEST_F(UTEST_IADataDriversFacade, create_default_lib_direct_success)
 {
   MockFunction<void(LibFactory&)> mockEnsurer;
 
@@ -96,10 +99,10 @@ TEST_F(UTEST_LibraryFacade, create_default_lib_direct_success)
 
   LibFactory::onMockCreate = mockEnsurer.AsStdFunction();
 
-  auto res = LibraryFacade::create_default_lib();
+  auto res = IADataDriversFacade::create_default_lib();
 }
 
-TEST_F(UTEST_LibraryFacade, create_library_context_success)
+TEST_F(UTEST_IADataDriversFacade, create_library_context_success)
 {
   MockFunction<void(LibFactory&)> mockEnsurer;
 
@@ -111,10 +114,10 @@ TEST_F(UTEST_LibraryFacade, create_library_context_success)
 
   LibFactory::onMockCreate = mockEnsurer.AsStdFunction();
 
-  auto res = LibraryFacade::create_library_context();
+  auto res = IADataDriversFacade::create_library_context();
 }
 
-TEST_F(UTEST_LibraryFacade, create_annotations_db_success)
+TEST_F(UTEST_IADataDriversFacade, create_annotations_db_success)
 {
   MockFunction<void(LibFactory&)> mockEnsurer;
 
@@ -130,14 +133,14 @@ TEST_F(UTEST_LibraryFacade, create_annotations_db_success)
 
   LibFactory::onMockCreate = mockEnsurer.AsStdFunction();
 
-  EXPECT_EQ(LibraryFacade::create_annotations_db(), db);
+  EXPECT_EQ(IADataDriversFacade::create_annotations_db(), db);
 }
 
-TEST_F(UTEST_LibraryFacade, create_annotations_db_with_context_success)
+TEST_F(UTEST_IADataDriversFacade, create_annotations_db_with_context_success)
 {
   MockFunction<void(LibFactory&)> mockEnsurer;
 
-  auto ctx = LibraryContext::create();
+  auto ctx = IADataDriversContext::create();
 
   ASSERT_NE(ctx, nullptr);
 
@@ -153,10 +156,10 @@ TEST_F(UTEST_LibraryFacade, create_annotations_db_with_context_success)
 
   LibFactory::onMockCreate = mockEnsurer.AsStdFunction();
 
-  EXPECT_EQ(LibraryFacade::create_annotations_db(ctx), db);
+  EXPECT_EQ(IADataDriversFacade::create_annotations_db(ctx), db);
 }
 
-TEST_F(UTEST_LibraryFacade, open_annotations_db_success)
+TEST_F(UTEST_IADataDriversFacade, open_annotations_db_success)
 {
   const std::string dbPath{"/some/where/the-project-db.json"};
 
@@ -176,10 +179,10 @@ TEST_F(UTEST_LibraryFacade, open_annotations_db_success)
 
   EXPECT_CALL(*db, load_db(dbPath)).Times(1).WillOnce(Return(true));
 
-  EXPECT_EQ(LibraryFacade::open_annotations_db(dbPath), db);
+  EXPECT_EQ(IADataDriversFacade::open_annotations_db(dbPath), db);
 }
 
-TEST_F(UTEST_LibraryFacade, open_annotations_db_load_failure)
+TEST_F(UTEST_IADataDriversFacade, open_annotations_db_load_failure)
 {
   const std::string dbPath{"/no/such/the-project-db.json"};
 
@@ -199,10 +202,10 @@ TEST_F(UTEST_LibraryFacade, open_annotations_db_load_failure)
 
   EXPECT_CALL(*db, load_db(dbPath)).Times(1).WillOnce(Return(false));
 
-  EXPECT_EQ(LibraryFacade::open_annotations_db(dbPath), nullptr);
+  EXPECT_EQ(IADataDriversFacade::open_annotations_db(dbPath), nullptr);
 }
 
-TEST_F(UTEST_LibraryFacade, open_annotations_db_no_db_failure)
+TEST_F(UTEST_IADataDriversFacade, open_annotations_db_no_db_failure)
 {
   MockFunction<void(LibFactory&)> mockEnsurer;
 
@@ -216,10 +219,10 @@ TEST_F(UTEST_LibraryFacade, open_annotations_db_no_db_failure)
 
   LibFactory::onMockCreate = mockEnsurer.AsStdFunction();
 
-  EXPECT_EQ(LibraryFacade::open_annotations_db("whatever.json"), nullptr);
+  EXPECT_EQ(IADataDriversFacade::open_annotations_db("whatever.json"), nullptr);
 }
 
-TEST_F(UTEST_LibraryFacade, create_records_factory_success)
+TEST_F(UTEST_IADataDriversFacade, create_records_factory_success)
 {
   MockFunction<void(LibFactory&)> mockEnsurer;
 
@@ -231,10 +234,10 @@ TEST_F(UTEST_LibraryFacade, create_records_factory_success)
 
   LibFactory::onMockCreate = mockEnsurer.AsStdFunction();
 
-  auto res = LibraryFacade::create_records_factory();
+  auto res = IADataDriversFacade::create_records_factory();
 }
 
-TEST_F(UTEST_LibraryFacade, create_db_merger_success)
+TEST_F(UTEST_IADataDriversFacade, create_db_merger_success)
 {
   MockFunction<void(LibFactory&)> mockEnsurer;
 
@@ -246,23 +249,23 @@ TEST_F(UTEST_LibraryFacade, create_db_merger_success)
 
   LibFactory::onMockCreate = mockEnsurer.AsStdFunction();
 
-  auto res = LibraryFacade::create_db_merger();
+  auto res = IADataDriversFacade::create_db_merger();
 }
 
-TEST_F(UTEST_LibraryFacade, library_version_success)
+TEST_F(UTEST_IADataDriversFacade, library_version_success)
 {
-  EXPECT_EQ(LibraryFacade::library_version(),
+  EXPECT_EQ(IADataDriversFacade::library_version(),
             project_decls::PROJECT_BUILD_VERSION);
 }
 
-TEST_F(UTEST_LibraryFacade, default_db_root_app_name_success)
+TEST_F(UTEST_IADataDriversFacade, default_db_root_app_name_success)
 {
-  EXPECT_EQ(LibraryFacade::default_db_root_app_name(),
+  EXPECT_EQ(IADataDriversFacade::default_db_root_app_name(),
             project_decls::ANNOTATIONS_DB_ROOT_APP_NAME);
 }
 
-TEST_F(UTEST_LibraryFacade, default_db_app_version_success)
+TEST_F(UTEST_IADataDriversFacade, default_db_app_version_success)
 {
-  EXPECT_EQ(LibraryFacade::default_db_app_version(),
+  EXPECT_EQ(IADataDriversFacade::default_db_app_version(),
             project_decls::ANNOTATIONS_DB_APP_VERSION);
 }

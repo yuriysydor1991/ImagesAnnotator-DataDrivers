@@ -30,11 +30,11 @@
 
 #include <memory>
 
+#include "IADataDriversContext.h"
+#include "IADataDriversLib.h"
 #include "IAnnotationsDB.h"
 #include "IDBMerger.h"
-#include "ILib.h"
 #include "IRecordsFactory.h"
-#include "LibraryContext.h"
 
 namespace lib0impl
 {
@@ -48,12 +48,15 @@ class LibFactory
 {
  public:
   using LibFactoryPtr = std::shared_ptr<LibFactory>;
-  using ILibPtr = ImagesAnnotatorDataDrivers011::ILibPtr;
-  using LibraryContextPtr = ImagesAnnotatorDataDrivers011::LibraryContextPtr;
-  using LibraryContext = ImagesAnnotatorDataDrivers011::LibraryContext;
-  using IAnnotationsDBPtr = ImagesAnnotatorDataDrivers011::IAnnotationsDBPtr;
-  using IRecordsFactoryPtr = ImagesAnnotatorDataDrivers011::IRecordsFactoryPtr;
-  using IDBMergerPtr = ImagesAnnotatorDataDrivers011::IDBMergerPtr;
+  using IADataDriversLibPtr =
+      ImagesAnnotatorDataDrivers012::IADataDriversLibPtr;
+  using IADataDriversContextPtr =
+      ImagesAnnotatorDataDrivers012::IADataDriversContextPtr;
+  using IADataDriversContext =
+      ImagesAnnotatorDataDrivers012::IADataDriversContext;
+  using IAnnotationsDBPtr = ImagesAnnotatorDataDrivers012::IAnnotationsDBPtr;
+  using IRecordsFactoryPtr = ImagesAnnotatorDataDrivers012::IRecordsFactoryPtr;
+  using IDBMergerPtr = ImagesAnnotatorDataDrivers012::IDBMergerPtr;
 
   virtual ~LibFactory() = default;
   LibFactory() = default;
@@ -65,7 +68,7 @@ class LibFactory
    * @return Returns the default library implementation. Currently returns
    * the LibMain class instance.
    */
-  virtual ILibPtr create_default_lib();
+  virtual IADataDriversLibPtr create_default_lib();
 
   /**
    * @brief Creates the default context to use in libraries implementation
@@ -73,7 +76,7 @@ class LibFactory
    *
    * @return Returns empty library context instance.
    */
-  virtual LibraryContextPtr create_default_context();
+  virtual IADataDriversContextPtr create_default_context();
 
   /**
    * @brief Creates appropriate library implementation instance
@@ -83,7 +86,8 @@ class LibFactory
    * or a nullptr in case of any error. Currently returns the LibMain class
    * instance only.
    */
-  virtual ILibPtr create_appropriate_lib(LibraryContextPtr ctx);
+  virtual IADataDriversLibPtr create_appropriate_lib(
+      IADataDriversContextPtr ctx);
 
   /**
    * @brief Creates the default annotations database implementation carrying
@@ -104,7 +108,7 @@ class LibFactory
    *
    * @return Returns the configured annotations database implementation.
    */
-  virtual IAnnotationsDBPtr create_annotations_db(LibraryContextPtr ctx);
+  virtual IAnnotationsDBPtr create_annotations_db(IADataDriversContextPtr ctx);
 
   /**
    * @brief Creates the default data records factory implementation.

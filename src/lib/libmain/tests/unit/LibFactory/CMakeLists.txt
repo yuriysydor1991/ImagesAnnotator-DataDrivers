@@ -5,7 +5,7 @@ add_executable(
   UTEST_LibFactory.cpp
   ${CMAKE_SOURCE_DIR}/src/lib/libmain/LibFactory.cpp
   ${CMAKE_SOURCE_DIR}/src/lib/libmain/LibMain.cpp
-  ${CMAKE_SOURCE_DIR}/src/lib/facade/LibraryContext.cpp
+  ${CMAKE_SOURCE_DIR}/src/lib/facade/IADataDriversContext.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsDirDB.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/LibraryImpl.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsJSONSerializator.cpp

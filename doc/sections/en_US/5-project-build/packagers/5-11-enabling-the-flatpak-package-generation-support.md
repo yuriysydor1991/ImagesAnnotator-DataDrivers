@@ -20,7 +20,7 @@ And finally to generate the flatpak package run the `flatpak` target for the bui
 cmake --build build --target flatpak
 ```
 
-In case of the success target build, there will be created the flatpak file under the root build directory named, for example, the `ImagesAnnotatorDataDrivers-0.11.0.flatpak`. In order to examine and/or change the flatpak generation target parameters visit the [cmake/enablers/packagers/template-project-flatpak-target.cmake](/cmake/enablers/packagers/template-project-flatpak-target.cmake) or [misc/packagers/flatpak.conf.json.in](/misc/packagers/flatpak.conf.json.in) files.
+In case of the success target build, there will be created the flatpak file under the root build directory named, for example, the `ImagesAnnotatorDataDrivers-0.12.0.flatpak`. In order to examine and/or change the flatpak generation target parameters visit the [cmake/enablers/packagers/template-project-flatpak-target.cmake](/cmake/enablers/packagers/template-project-flatpak-target.cmake) or [misc/packagers/flatpak.conf.json.in](/misc/packagers/flatpak.conf.json.in) files.
 
 Note that both the bundle file name and the application id are composed out of the `PROJECT_BINARY_NAME` variable - the name of the project executable, which this project no longer declares. The id template is `ua.org.kytok.template.${PROJECT_BINARY_NAME}`, so before the target can produce anything meaningful that variable (and a `command` for the sandbox to start) has to be provided by whoever brings the target back.
 
@@ -29,7 +29,7 @@ Refer to the flatpak documentation on how to install and run applications distri
 ```
 # to install (version may change)
 # inside the project build directory
-flatpak install --user ImagesAnnotatorDataDrivers-0.11.0.flatpak
+flatpak install --user ImagesAnnotatorDataDrivers-0.12.0.flatpak
 
 # to run the application
 flatpak run ua.org.kytok.template.ImagesAnnotatorDataDrivers

@@ -8,7 +8,7 @@
 cmake -S . -B build -DENABLE_SNAP=ON
 ```
 
-Ціль конфігурує шаблон [misc/packagers/snapcraft.yaml.in](/misc/packagers/snapcraft.yaml.in) у `<директорія побудови>/snap/snapcraft.yaml` і потім виконує над ним `snapcraft pack`, що створило б пакунок, названий за полями `name` і `version` snap-а, наприклад `imagesannotatordatadrivers_0.11.0_amd64.snap`.
+Ціль конфігурує шаблон [misc/packagers/snapcraft.yaml.in](/misc/packagers/snapcraft.yaml.in) у `<директорія побудови>/snap/snapcraft.yaml` і потім виконує над ним `snapcraft pack`, що створило б пакунок, названий за полями `name` і `version` snap-а, наприклад `imagesannotatordatadrivers_0.12.0_amd64.snap`.
 
 Дві кеш-змінні налаштовують метадані: `TEMPLATE_PROJECT_SNAP_GRADE` (за замовчуванням `devel`) і `TEMPLATE_PROJECT_SNAP_CONFINEMENT` (за замовчуванням `strict`).
 

@@ -8,7 +8,7 @@ If the tests were enabled during the configure stage and compiled successfully, 
 
 ```
 # from the build dir
-./src/lib/facade/tests/unit/LibraryFacade/UTEST_LibraryFacade
+./src/lib/facade/tests/unit/IADataDriversFacade/UTEST_IADataDriversFacade
 ```
 
 They are ordinary GoogleTest executables, so all the usual flags apply, `--gtest_list_tests` to see what is inside and `--gtest_filter=...` to run a subset:
@@ -31,7 +31,7 @@ Once the library is installed (see the [Installing](/doc/sections/en_US/7-instal
 
 Two things commonly go wrong on the first attempt, and both are about the dynamic loader rather than about this project:
 
-- `error while loading shared libraries: libImagesAnnotatorDataDrivers-0.11.so.0` means the loader does not look into the directory the library was installed into. Either refresh the loader cache with `sudo ldconfig` after installing into a system prefix, or point the loader at a custom prefix for the run:
+- `error while loading shared libraries: libImagesAnnotatorDataDrivers-0.12.so.0` means the loader does not look into the directory the library was installed into. Either refresh the loader cache with `sudo ldconfig` after installing into a system prefix, or point the loader at a custom prefix for the run:
 
 ```
 LD_LIBRARY_PATH=/usr/local/lib ./mytool /path/to/the/annotations-project.json

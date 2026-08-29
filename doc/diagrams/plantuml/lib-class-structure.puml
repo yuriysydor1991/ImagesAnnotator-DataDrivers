@@ -33,18 +33,18 @@ package Library-Facade {
     +{abstract} void merge(ImageRecordsSet& dst, const ImageRecordsSet& append)
   }
 
-  abstract class ILib {
-    +{abstract} bool libcall(LibraryContextPtr ctx)
+  abstract class IADataDriversLib {
+    +{abstract} bool libcall(IADataDriversContextPtr ctx)
   }
 
-  class LibraryContext {
+  class IADataDriversContext {
     +std::string db_path
     +std::string app_name
     +std::string app_version
     +IRecordsFactoryPtr records_factory
     +IDBMergerPtr merger
     +IAnnotationsDBPtr db
-    +{static} LibraryContextPtr create()
+    +{static} IADataDriversContextPtr create()
   }
 
   class ImageRecord {
@@ -69,12 +69,12 @@ package Library-Facade {
     +ImageRecordRectPtr duplicate_shared()
   }
 
-  class LibraryFacade {
-    +{static} LibraryContextPtr create_library_context()
-    +{static} ILibPtr create_default_lib()
-    +{static} ILibPtr create_library(LibraryContextPtr ctx)
+  class IADataDriversFacade {
+    +{static} IADataDriversContextPtr create_library_context()
+    +{static} IADataDriversLibPtr create_default_lib()
+    +{static} IADataDriversLibPtr create_library(IADataDriversContextPtr ctx)
     +{static} IAnnotationsDBPtr create_annotations_db()
-    +{static} IAnnotationsDBPtr create_annotations_db(LibraryContextPtr ctx)
+    +{static} IAnnotationsDBPtr create_annotations_db(IADataDriversContextPtr ctx)
     +{static} IAnnotationsDBPtr open_annotations_db(const std::string& fpath)
     +{static} IRecordsFactoryPtr create_records_factory()
     +{static} IDBMergerPtr create_db_merger()
@@ -87,16 +87,16 @@ package Library-Facade {
 package Library-Implementation {
 
   class LibMain <<lib0impl>> {
-    +bool libcall(LibraryContextPtr ctx)
+    +bool libcall(IADataDriversContextPtr ctx)
     +{static} LibMainPtr create()
   }
 
   class LibFactory <<lib0impl>> {
-    +ILibPtr create_default_lib()
-    +LibraryContextPtr create_default_context()
-    +ILibPtr create_appropriate_lib(LibraryContextPtr ctx)
+    +IADataDriversLibPtr create_default_lib()
+    +IADataDriversContextPtr create_default_context()
+    +IADataDriversLibPtr create_appropriate_lib(IADataDriversContextPtr ctx)
     +IAnnotationsDBPtr create_annotations_db()
-    +IAnnotationsDBPtr create_annotations_db(LibraryContextPtr ctx)
+    +IAnnotationsDBPtr create_annotations_db(IADataDriversContextPtr ctx)
     +IRecordsFactoryPtr create_records_factory()
     +IDBMergerPtr create_db_merger()
     +{static} LibFactoryPtr create_factory()
@@ -167,15 +167,15 @@ package Library-Implementation {
   }
 }
 
-note Left of LibraryFacade : The facade of the library implementation.\nThe single entry point of a consuming project:\nevery method is static and hands back\nan abstract interface only.
+note Left of IADataDriversFacade : The facade of the library implementation.\nThe single entry point of a consuming project:\nevery method is static and hands back\nan abstract interface only.
 
-note Left of LibraryContext : The data placeholder passed in and out\nof ILib::libcall. Holds the db path, the\napplication identity and the optional custom\nrecords factory and merger. Filled with the\nANNOTATIONS_DB_ROOT_APP_NAME and the\nANNOTATIONS_DB_APP_VERSION defaults.
+note Left of IADataDriversContext : The data placeholder passed in and out\nof IADataDriversLib::libcall. Holds the db path, the\napplication identity and the optional custom\nrecords factory and merger. Filled with the\nANNOTATIONS_DB_ROOT_APP_NAME and the\nANNOTATIONS_DB_APP_VERSION defaults.
 
-note Bottom of ILib : The particular library implementation interface declearer.
+note Bottom of IADataDriversLib : The particular library implementation interface declearer.
 
 note Right of IProvider : IProvider and IRecord are the empty tagging\nbases every provider and every data record\nof the public API is built upon.
 
-note Right of LibMain : The particular library implementation.\nIs created by LibFactory to return\nby LibraryFacade to the end user.
+note Right of LibMain : The particular library implementation.\nIs created by LibFactory to return\nby IADataDriversFacade to the end user.
 
 note Bottom of LibFactory : The factory to create library implementations objects.\nEvery class of this package is instantiated through it.
 
@@ -193,15 +193,15 @@ IImagesPathsDBProvider ..> ImageRecord : provides the records set of
 IRecordsFactory ..> ImageRecord : creates
 IRecordsFactory ..> ImageRecordRect : creates
 
-LibraryContext o-- IRecordsFactory : in
-LibraryContext o-- IDBMerger : in
-LibraryContext o-- IAnnotationsDB : out
-ILib ..> LibraryContext : takes and fills
+IADataDriversContext o-- IRecordsFactory : in
+IADataDriversContext o-- IDBMerger : in
+IADataDriversContext o-- IAnnotationsDB : out
+IADataDriversLib ..> IADataDriversContext : takes and fills
 
-LibraryFacade ..> LibraryContext : creates
-LibraryFacade --> LibFactory : delegates every call to
+IADataDriversFacade ..> IADataDriversContext : creates
+IADataDriversFacade --> LibFactory : delegates every call to
 
-ILib <|-- LibMain : Particular implementation
+IADataDriversLib <|-- LibMain : Particular implementation
 IAnnotationsDB <|-- AnnotationsDirDB : implements
 IRecordsFactory <|-- RecordsFactory : implements
 IDBMerger <|-- DefaultDBMerger : implements

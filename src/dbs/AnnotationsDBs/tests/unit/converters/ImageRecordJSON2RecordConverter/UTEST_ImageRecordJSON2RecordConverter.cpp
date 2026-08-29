@@ -13,16 +13,16 @@
 
 using namespace testing;
 using iannotator::dbs::annotations::converters::ImageRecordJSON2RecordConverter;
-using ImagesAnnotatorDataDrivers011::ImageRecord;
-using ImagesAnnotatorDataDrivers011::ImageRecordPtr;
-using ImagesAnnotatorDataDrivers011::ImageRecordRectPtr;
+using ImagesAnnotatorDataDrivers012::ImageRecord;
+using ImagesAnnotatorDataDrivers012::ImageRecordPtr;
+using ImagesAnnotatorDataDrivers012::ImageRecordRectPtr;
 using S = iannotator::dbs::annotations::AnnotationsJSONSerializator;
 
 namespace
 {
 
 // The caller supplied records factory stand-in.
-class RecordsFactoryMock : public ImagesAnnotatorDataDrivers011::IRecordsFactory
+class RecordsFactoryMock : public ImagesAnnotatorDataDrivers012::IRecordsFactory
 {
  public:
   MOCK_METHOD(ImageRecordPtr, create_image_record,

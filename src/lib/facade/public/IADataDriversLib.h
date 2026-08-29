@@ -25,14 +25,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_ILIB_ABSTRACT_CLASS_H
-#define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_ILIB_ABSTRACT_CLASS_H
+#ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSLIB_ABSTRACT_CLASS_H
+#define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSLIB_ABSTRACT_CLASS_H
 
 #include <memory>
 
-#include "LibraryContext.h"
+#include "IADataDriversContext.h"
 
-namespace ImagesAnnotatorDataDrivers011
+namespace ImagesAnnotatorDataDrivers012
 {
 
 /**
@@ -43,33 +43,33 @@ namespace ImagesAnnotatorDataDrivers011
  * a filled context, opens the project database named by it and hands the
  * ready to use IAnnotationsDB back through that very same context. Projects
  * that need a finer grained control should rather build the database directly
- * through the LibraryFacade factory methods.
+ * through the IADataDriversFacade factory methods.
  *
  * Current file is a target for the library header installation.
  */
-class ILib
+class IADataDriversLib
 {
  public:
-  using ILibPtr = std::shared_ptr<ILib>;
+  using IADataDriversLibPtr = std::shared_ptr<IADataDriversLib>;
 
-  virtual ~ILib() = default;
-  ILib() = default;
+  virtual ~IADataDriversLib() = default;
+  IADataDriversLib() = default;
 
   /**
-   * @brief The library interface method which every ILib descendant
+   * @brief The library interface method which every IADataDriversLib descendant
    * must implement in order to provide it's functionality.
    *
-   * @param ctx A filled LibraryContext instance. On success the ctx->db field
-   * receives the resulting annotations database instance.
+   * @param ctx A filled IADataDriversContext instance. On success the ctx->db
+   * field receives the resulting annotations database instance.
    *
    * @return Should return a true value on the success and false
    * in case of any error.
    */
-  virtual bool libcall(LibraryContextPtr ctx) = 0;
+  virtual bool libcall(IADataDriversContextPtr ctx) = 0;
 };
 
-using ILibPtr = ILib::ILibPtr;
+using IADataDriversLibPtr = IADataDriversLib::IADataDriversLibPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers011
+}  // namespace ImagesAnnotatorDataDrivers012
 
-#endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_ILIB_ABSTRACT_CLASS_H
+#endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSLIB_ABSTRACT_CLASS_H

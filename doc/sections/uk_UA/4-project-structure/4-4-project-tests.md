@@ -14,14 +14,14 @@ cd build && ctest --output-on-failure
 
 Ці два види відрізняються тим, що саме вони тестують, і ця різниця видима у їхніх файлах `CMakeLists.txt`:
 
-- **Модульні тести** (`-DENABLE_UNIT_TESTS=ON`, назви цілей із префіксом `UTEST_`) взагалі не лінкують вироблену динамічну бібліотеку. Кожен такий виконуваний файл називає саме ті одиниці трансляції компоненту, що тестується, і компілює їх прямо з дерева проекту, тоді як усі його співробітники замінені gmock-замінниками з [src/tests/mocks](/src/tests/mocks) (журналювання, `project-global-decls.h`, `LibraryContext` і `LibMain`) або замінниками окремого компоненту, що зберігаються у власній директорії `tests/mocks` того компоненту. Це дає тестам доступ до внутрішніх заголовкових файлів і дозволяє їм ізолювати єдиний клас.
-- **Компонентні тести** (`-DENABLE_COMPONENT_TESTS=ON`, назви цілей із префіксом `CTEST_`) роблять протилежне: `CTEST_AnnotationsDirDB` лінкує справжню динамічну бібліотеку `ImagesAnnotatorDataDrivers-0.11` і дотягується до неї виключно через встановлювані публічні заголовкові файли - жодного замінника і жодного внутрішнього заголовкового файлу немає на його шляху включень. Отже, це тест бібліотеки рівно таким, яким її бачить споживач, який керує справжніми JSON-файлами проектів, узятими з його директорії `ctest_data`.
+- **Модульні тести** (`-DENABLE_UNIT_TESTS=ON`, назви цілей із префіксом `UTEST_`) взагалі не лінкують вироблену динамічну бібліотеку. Кожен такий виконуваний файл називає саме ті одиниці трансляції компоненту, що тестується, і компілює їх прямо з дерева проекту, тоді як усі його співробітники замінені gmock-замінниками з [src/tests/mocks](/src/tests/mocks) (журналювання, `project-global-decls.h`, `IADataDriversContext` і `LibMain`) або замінниками окремого компоненту, що зберігаються у власній директорії `tests/mocks` того компоненту. Це дає тестам доступ до внутрішніх заголовкових файлів і дозволяє їм ізолювати єдиний клас.
+- **Компонентні тести** (`-DENABLE_COMPONENT_TESTS=ON`, назви цілей із префіксом `CTEST_`) роблять протилежне: `CTEST_AnnotationsDirDB` лінкує справжню динамічну бібліотеку `ImagesAnnotatorDataDrivers-0.12` і дотягується до неї виключно через встановлювані публічні заголовкові файли - жодного замінника і жодного внутрішнього заголовкового файлу немає на його шляху включень. Отже, це тест бібліотеки рівно таким, яким її бачить споживач, який керує справжніми JSON-файлами проектів, узятими з його директорії `ctest_data`.
 
 ### Цілі тестів
 
 | Ціль | Вид | Розміщення |
 |---|---|---|
-| `UTEST_LibraryFacade` | модульний | [src/lib/facade/tests/unit/LibraryFacade](/src/lib/facade/tests/unit/LibraryFacade) |
+| `UTEST_IADataDriversFacade` | модульний | [src/lib/facade/tests/unit/IADataDriversFacade](/src/lib/facade/tests/unit/IADataDriversFacade) |
 | `UTEST_LibFactory` | модульний | [src/lib/libmain/tests/unit/LibFactory](/src/lib/libmain/tests/unit/LibFactory) |
 | `UTEST_LibMain` | модульний | [src/lib/libmain/tests/unit/LibMain](/src/lib/libmain/tests/unit/LibMain) |
 | `UTEST_ImageRecord` | модульний | [src/records/tests/unit/ImageRecord](/src/records/tests/unit/ImageRecord) |

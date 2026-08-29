@@ -5,7 +5,7 @@
 ```json
 {
   "ImagesAnnotator": {
-    "version": "0.11.0"
+    "version": "0.12.0"
   },
   "annotations": [ ... ]
 }
@@ -16,9 +16,9 @@
 | CMake-змінна | За замовчуванням | Чим вона стає |
 | --- | --- | --- |
 | `ANNOTATIONS_DB_ROOT_APP_NAME` | `ImagesAnnotator` | ім'я кореневого елемента JSON у вироблених файлах, і те ім'я, за яким читач шукає кореневий елемент |
-| `ANNOTATIONS_DB_APP_VERSION` | версія проекту, наразі `0.11.0` | рядок версії, що записується під тим кореневим елементом і порівнюється з тим, що знайдено у файлі, який читається |
+| `ANNOTATIONS_DB_APP_VERSION` | версія проекту, наразі `0.12.0` | рядок версії, що записується під тим кореневим елементом і порівнюється з тим, що знайдено у файлі, який читається |
 
-Обидві передаються у згенерований `project-global-decls.h` через [src/project-global-decls.h.in](/src/project-global-decls.h.in), і обидві доступні для читання з програми-споживача через `LibraryFacade::default_db_root_app_name()` і `LibraryFacade::default_db_app_version()`.
+Обидві передаються у згенерований `project-global-decls.h` через [src/project-global-decls.h.in](/src/project-global-decls.h.in), і обидві доступні для читання з програми-споживача через `IADataDriversFacade::default_db_root_app_name()` і `IADataDriversFacade::default_db_app_version()`.
 
 ### Чому значенням за замовчуванням є не ім'я бібліотеки
 
@@ -46,13 +46,13 @@ cmake -S . -B build \
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
-std::cout << iadd::LibraryFacade::library_version() << " writes '"
-          << iadd::LibraryFacade::default_db_root_app_name() << "' rooted files, version "
-          << iadd::LibraryFacade::default_db_app_version() << "\n";
+std::cout << iadd::IADataDriversFacade::library_version() << " writes '"
+          << iadd::IADataDriversFacade::default_db_root_app_name() << "' rooted files, version "
+          << iadd::IADataDriversFacade::default_db_app_version() << "\n";
 ```
 
 Варто мати на увазі, що зміна часу компіляції запікається у спільну бібліотеку і тому впливає на **кожного** споживача того встановленого бінарного файлу. Дистрибутивний пакунок бібліотеки має постачати значення за замовчуванням. Якщо ж вам насправді потрібен один інакше проштампований файл із вашої власної програми - краще скористатися шляхом часу виконання, описаним нижче: він не потребує жодної перебудови і нікому не заважає.
@@ -66,24 +66,24 @@ std::cout << iadd::LibraryFacade::library_version() << " writes '"
 **Через контекст бібліотеки**, перш ніж базу даних буде створено:
 
 ```cpp
-auto ctx = iadd::LibraryFacade::create_library_context();
+auto ctx = iadd::IADataDriversFacade::create_library_context();
 
 ctx->app_name = "MyTool";
 ctx->app_version = "2.0";
 
-auto db = iadd::LibraryFacade::create_annotations_db(ctx);
+auto db = iadd::IADataDriversFacade::create_annotations_db(ctx);
 
 if (db == nullptr || !db->load_db("my-tool-project.json")) {
   return false;
 }
 ```
 
-Щойно створений контекст вже тримає у цих двох полях значення за замовчуванням часу компіляції, тож перезаписуйте лише те, що має бути іншим. Той самий контекст працює і з одноразовим шляхом `ILib::libcall()`.
+Щойно створений контекст вже тримає у цих двох полях значення за замовчуванням часу компіляції, тож перезаписуйте лише те, що має бути іншим. Той самий контекст працює і з одноразовим шляхом `IADataDriversLib::libcall()`.
 
 **Через саму базу даних**, у будь-який момент:
 
 ```cpp
-auto db = iadd::LibraryFacade::create_annotations_db();
+auto db = iadd::IADataDriversFacade::create_annotations_db();
 
 db->set_app_info("MyTool", "2.0");
 
@@ -99,10 +99,10 @@ std::cout << db->get_app_name() << " " << db->get_app_version() << "\n";
 - **Під час завантаження** налаштоване ім'я є ключем, за яким шукається кореневий елемент, а налаштована версія - тим, з чим порівнюється версія з файлу. Тож `set_app_info()` має бути викликаний *до* `load_db()`, щоб мати хоч якийсь вплив на те завантаження.
 - **Під час збереження** налаштовані ім'я і версія записуються такими, якими вони є в ту саму мить. Нічого з того, що ніс раніше завантажений файл, не запам'ятовується.
 
-Другий пункт має практичний наслідок: завантаження файлу зі штампом `0.10.0` і його зворотне збереження зі значеннями за замовчуванням виробляє файл зі штампом `0.11.0`. Коли збереження початкового штампу має значення, вичитайте його і поставте на місце перед збереженням:
+Другий пункт має практичний наслідок: завантаження файлу зі штампом `0.10.0` і його зворотне збереження зі значеннями за замовчуванням виробляє файл зі штампом `0.12.0`. Коли збереження початкового штампу має значення, вичитайте його і поставте на місце перед збереженням:
 
 ```cpp
-auto db = iadd::LibraryFacade::open_annotations_db("project.json");
+auto db = iadd::IADataDriversFacade::open_annotations_db("project.json");
 
 if (db == nullptr) {
   return false;
@@ -116,11 +116,11 @@ db->set_app_info(db->get_app_name(), db->get_app_version());
 І дзеркальне відображення цього: щоб перетворити файл з однієї ідентичності застосунку на іншу, завантажте його під старим іменем і збережіть під новим.
 
 ```cpp
-auto ctx = iadd::LibraryFacade::create_library_context();
+auto ctx = iadd::IADataDriversFacade::create_library_context();
 
 ctx->app_name = "ImagesAnnotator";  // ідентичність, яку несе вхідний файл
 
-auto db = iadd::LibraryFacade::create_annotations_db(ctx);
+auto db = iadd::IADataDriversFacade::create_annotations_db(ctx);
 
 if (db == nullptr || !db->load_db("input.json")) {
   return false;
@@ -134,5 +134,5 @@ return db->store_db("output.json");
 ### Дивись також
 
 - [Формат JSON проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md) - де знаходиться елемент ідентичності і що таке недійсний документ.
-- [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md) - `LibraryContext`, `set_app_info()` і решта поверхні, використаної вище.
+- [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md) - `IADataDriversContext`, `set_app_info()` і решта поверхні, використаної вище.
 - [Версіювання і інші параметри проекту](/doc/sections/uk_UA/4-project-structure/4-3-version-tracking-and-other-project-parameters.md) - інші значення, які крок конфігурації запікає у `project-global-decls.h`.

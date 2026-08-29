@@ -25,24 +25,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "LibraryContext.h"
+#include "IADataDriversContext.h"
 
 #include <memory>
 
 #include "project-global-decls.h"
 
-namespace ImagesAnnotatorDataDrivers011
+namespace ImagesAnnotatorDataDrivers012
 {
 
-LibraryContext::LibraryContext()
+IADataDriversContext::IADataDriversContext()
     : app_name{project_decls::ANNOTATIONS_DB_ROOT_APP_NAME},
       app_version{project_decls::ANNOTATIONS_DB_APP_VERSION}
 {
 }
 
-LibraryContextPtr LibraryContext::create()
+IADataDriversContextPtr IADataDriversContext::create()
 {
-  return std::make_shared<LibraryContext>();
+  return std::make_shared<IADataDriversContext>();
 }
 
-}  // namespace ImagesAnnotatorDataDrivers011
+}  // namespace ImagesAnnotatorDataDrivers012

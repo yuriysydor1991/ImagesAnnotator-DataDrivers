@@ -30,8 +30,8 @@
 
 #include <memory>
 
-#include "ILib.h"
-#include "LibraryContext.h"
+#include "IADataDriversContext.h"
+#include "IADataDriversLib.h"
 
 namespace lib0impl
 {
@@ -43,30 +43,32 @@ namespace lib0impl
  * builds the database in accordance of the given context data and hands it
  * back through that very same context.
  */
-class LibMain : public ImagesAnnotatorDataDrivers011::ILib
+class LibMain : public ImagesAnnotatorDataDrivers012::IADataDriversLib
 {
  public:
   using LibMainPtr = std::shared_ptr<LibMain>;
-  using LibraryContextPtr = ImagesAnnotatorDataDrivers011::LibraryContextPtr;
+  using IADataDriversContextPtr =
+      ImagesAnnotatorDataDrivers012::IADataDriversContextPtr;
 
   virtual ~LibMain() = default;
   LibMain();
 
   /**
-   * @brief The implemented library interface method derived from an ILib
-   * abstract class. Designed to contain the main library code implementation.
+   * @brief The implemented library interface method derived from an
+   * IADataDriversLib abstract class. Designed to contain the main library code
+   * implementation.
    *
    * Creates the annotations database instance with the given context data
    * and, in case the context db_path is not empty, loads the pointed project
    * JSON file into it. The resulting instance is provided back through the
    * context db field.
    *
-   * @param ctx A filled LibraryContext instance with appropriate data
+   * @param ctx A filled IADataDriversContext instance with appropriate data
    * to perform it's actions.
    *
    * @return Returns a true value on the success and false in case of any error.
    */
-  virtual bool libcall(LibraryContextPtr ctx) override;
+  virtual bool libcall(IADataDriversContextPtr ctx) override;
 
   static LibMainPtr create();
 };

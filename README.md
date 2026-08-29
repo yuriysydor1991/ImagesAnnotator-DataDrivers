@@ -20,7 +20,7 @@ See more at the [kytok.org.ua](http://www.kytok.org.ua/)
 - **Duplicate aware merging** - `add_images_db()` appends another records set through an `IDBMerger`, skipping the records already present and keeping the result sorted. Web hosted records are resolved through the libcurl URL API, so the same image referenced by two differently spelled URLs is recognised as one.
 - **Annotation names collection** - `get_available_annotations()` returns the sorted set of every distinct annotation (class) name used across the whole database.
 - **Record deletion** - `delete_image_record()` erases a record by its full path.
-- **A pluggable records factory and merger** - put your own `IRecordsFactory` and/or `IDBMerger` descendant into the `LibraryContext` and the deserialization will build your enriched record subclasses and merge them by your own rules.
+- **A pluggable records factory and merger** - put your own `IRecordsFactory` and/or `IDBMerger` descendant into the `IADataDriversContext` and the deserialization will build your enriched record subclasses and merge them by your own rules.
 - **A configurable JSON root element identity** - the project file is rooted at an element named after the *application*, not after the library, so the name and the version stay configurable both at the build time and at the run time.
 
 # Usage example
@@ -34,23 +34,23 @@ project(MyTool LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ImagesAnnotatorDataDrivers-0.11 REQUIRED)
+find_package(ImagesAnnotatorDataDrivers-0.12 REQUIRED)
 
 add_executable(mytool main.cpp)
-target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11)
+target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12)
 ```
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 int main(int argc, char** argv)
 {
   if (argc < 2) { return 1; }
 
-  auto db = iadd::LibraryFacade::open_annotations_db(argv[1]);
+  auto db = iadd::IADataDriversFacade::open_annotations_db(argv[1]);
 
   if (db == nullptr) { return 1; }
 
@@ -62,9 +62,9 @@ int main(int argc, char** argv)
 }
 ```
 
-The `ImagesAnnotatorDataDrivers011` namespace name carries the library major and minor version numbers on purpose: two library versions may coexist inside a single translation unit without any symbol clash. Alias it, as shown above, and the version bump stays a one line change on your side.
+The `ImagesAnnotatorDataDrivers012` namespace name carries the library major and minor version numbers on purpose: two library versions may coexist inside a single translation unit without any symbol clash. Alias it, as shown above, and the version bump stays a one line change on your side.
 
-Both `#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>` and a plain `#include <LibraryFacade.h>` work for an installed consumer, since the library exports the include root along with its versioned subdirectory. The prefixed form is the recommended one: header names like `ImageRecord.h` or `IRecord.h` are generic enough to collide in a busy include path.
+Both `#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>` and a plain `#include <IADataDriversFacade.h>` work for an installed consumer, since the library exports the include root along with its versioned subdirectory. The prefixed form is the recommended one: header names like `ImageRecord.h` or `IRecord.h` are generic enough to collide in a busy include path.
 
 More on the API and on the file format itself is in the [annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md), the [annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md) and the [using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) documentation sections.
 

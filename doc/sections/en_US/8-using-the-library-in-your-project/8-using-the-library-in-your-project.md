@@ -22,9 +22,9 @@ That leaves the following behind:
 
 | Installed | Path (for the `/usr` prefix above) |
 | --- | --- |
-| the shared library | `/usr/lib/libImagesAnnotatorDataDrivers-0.11.so.0.11.0`, with the `.so.0` soname link and the `.so` development link |
-| the public headers | `/usr/include/ImagesAnnotatorDataDrivers-0.11/` - all eleven of them |
-| the CMake package | `/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.11/` |
+| the shared library | `/usr/lib/libImagesAnnotatorDataDrivers-0.12.so.0.12.0`, with the `.so.0` soname link and the `.so` development link |
+| the public headers | `/usr/include/ImagesAnnotatorDataDrivers-0.12/` - all eleven of them |
+| the CMake package | `/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.12/` |
 
 Drop the `--prefix` and everything lands under `/usr/local` instead, which is the default and is perfectly fine as long as your toolchain looks there.
 
@@ -39,18 +39,18 @@ project(MyTool LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ImagesAnnotatorDataDrivers-0.11 REQUIRED)
+find_package(ImagesAnnotatorDataDrivers-0.12 REQUIRED)
 
 add_executable(mytool main.cpp)
-target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11)
+target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12)
 ```
 
 Four things are going on there, and all four matter:
 
 - **C++17 is required.** The public headers use `std::filesystem` and inline static data members. An older standard will not compile them.
-- **The package is named after the library, major version included** - `ImagesAnnotatorDataDrivers-0.11`. The version is a part of the name on purpose: a future `ImagesAnnotatorDataDrivers-1` installs beside it instead of over it.
-- **The imported target is namespaced with that same name**, hence the slightly redundant looking `ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11`. Linking the target is all you have to do: it carries the include directories along with it, so no `target_include_directories` of your own is needed.
-- **Ask for the package without a version request.** The installed package directory holds the config and the exported targets files only, so a `find_package(ImagesAnnotatorDataDrivers-0.11 0.11 REQUIRED)` with a version in it does not resolve. The major version baked into the package name is what keeps the incompatible releases apart, and `LibraryFacade::library_version()` reports the exact one at the run time.
+- **The package is named after the library, major version included** - `ImagesAnnotatorDataDrivers-0.12`. The version is a part of the name on purpose: a future `ImagesAnnotatorDataDrivers-1` installs beside it instead of over it.
+- **The imported target is namespaced with that same name**, hence the slightly redundant looking `ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12`. Linking the target is all you have to do: it carries the include directories along with it, so no `target_include_directories` of your own is needed.
+- **Ask for the package without a version request.** The installed package directory holds the config and the exported targets files only, so a `find_package(ImagesAnnotatorDataDrivers-0.12 0.12 REQUIRED)` with a version in it does not resolve. The major version baked into the package name is what keeps the incompatible releases apart, and `IADataDriversFacade::library_version()` reports the exact one at the run time.
 
 If the library went into a prefix your CMake does not search by itself, point it there when configuring your own project:
 
@@ -58,25 +58,25 @@ If the library went into a prefix your CMake does not search by itself, point it
 cmake -S . -B build -DCMAKE_PREFIX_PATH="$HOME/.local"
 ```
 
-And a note for the exotic cases: the installed name is not carved in stone. The `LIB_INCLUDE_MINOR_IN_NAME`, `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options of the library build change the binary name, the header sub-directory, the CMake package directory and the imported target namespace all at once - see [customizing the installable library name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md). Build the library with them and the `find_package` name in your project has to follow, e.g. `ImagesAnnotatorDataDrivers-0.11`.
+And a note for the exotic cases: the installed name is not carved in stone. The `LIB_INCLUDE_MINOR_IN_NAME`, `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options of the library build change the binary name, the header sub-directory, the CMake package directory and the imported target namespace all at once - see [customizing the installable library name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md). Build the library with them and the `find_package` name in your project has to follow, e.g. `ImagesAnnotatorDataDrivers-0.12`.
 
 ## 3. Including the headers
 
 Both of these work for an installed consumer, because the package exports the include root together with its versioned sub-directory:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>   // recommended
-#include <LibraryFacade.h>                                // also works
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>   // recommended
+#include <IADataDriversFacade.h>                                   // also works
 ```
 
-Prefer the prefixed form. Header names like `ImageRecord.h`, `IRecord.h` or `ILib.h` are generic enough to collide with something else in a busy include path, and the prefix makes it obvious at a glance where a header came from.
+Prefer the prefixed form. Header names like `ImageRecord.h`, `IRecord.h` or `IADataDriversLib.h` are generic enough to collide with something else in a busy include path, and the prefix makes it obvious at a glance where a header came from.
 
-`LibraryFacade.h` pulls in everything a normal consumer needs - the context, the database interfaces and the record types come along with it. Include the individual headers directly when you implement one of the extension seams, e.g. `<ImagesAnnotatorDataDrivers-0.11/IDBMerger.h>`.
+`IADataDriversFacade.h` pulls in everything a normal consumer needs - the context, the database interfaces and the record types come along with it. Include the individual headers directly when you implement one of the extension seams, e.g. `<ImagesAnnotatorDataDrivers-0.12/IDBMerger.h>`.
 
-Then there is the namespace. Every public type lives in `ImagesAnnotatorDataDrivers011`, where the `011` is the library major and minor version glued together, so that two library versions may coexist inside a single translation unit. Alias it once:
+Then there is the namespace. Every public type lives in `ImagesAnnotatorDataDrivers012`, where the `012` is the library major and minor version glued together, so that two library versions may coexist inside a single translation unit. Alias it once:
 
 ```cpp
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 ```
 
 A version bump then costs you exactly one line.
@@ -87,15 +87,15 @@ A version bump then costs you exactly one line.
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 int main(int argc, char** argv)
 {
   if (argc < 2) { return 1; }
 
-  auto db = iadd::LibraryFacade::open_annotations_db(argv[1]);
+  auto db = iadd::IADataDriversFacade::open_annotations_db(argv[1]);
 
   if (db == nullptr) { return 1; }
 
@@ -122,21 +122,21 @@ Small as it is, the program already shows the whole life cycle:
 - `get_images_db()` hands out a **modifiable reference** to the records, so the loop is also the place where you would edit `ir->rects` - the records are shared pointers and there is no separate "commit" step;
 - `changed()` compares the live records against the snapshot taken at the load, so the `store_db()` only happens when the write would actually produce something different.
 
-Everything else - the context based construction, the `ILib::libcall()` one-shot path, the record fields, the `IRecordsFactory` and `IDBMerger` extension seams - is covered in [the annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md) section, and the file the program reads is specified in [the annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md) one.
+Everything else - the context based construction, the `IADataDriversLib::libcall()` one-shot path, the record fields, the `IRecordsFactory` and `IDBMerger` extension seams - is covered in [the annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md) section, and the file the program reads is specified in [the annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md) one.
 
 ## 5. Writing a fresh project file
 
 The other half of the job - building a database from scratch rather than reading one - is just as short. Build the records through the factory, hand them over, name a destination:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 bool write_project(const std::string& outPath)
 {
-  auto factory = iadd::LibraryFacade::create_records_factory();
-  auto db = iadd::LibraryFacade::create_annotations_db();
+  auto factory = iadd::IADataDriversFacade::create_records_factory();
+  auto db = iadd::IADataDriversFacade::create_annotations_db();
 
   if (factory == nullptr || db == nullptr) { return false; }
 
@@ -159,7 +159,7 @@ Mind the destination: a database that has never been loaded from or stored to a 
 
 The code in this library used to be the `src/annotator-business/dbs/AnnotationsDBs` component of the [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) application. The application is to drop that in-tree copy and to consume the installed library instead, through exactly the `find_package` and namespaced target shown above.
 
-The migration is mostly a matter of names rather than of logic, because the extracted interfaces kept theirs: `IAnnotationsDB`, `IImagesPathsDBProvider`, `ImageRecord`, `ImageRecordRect`, `IRecordsFactory` and `IDBMerger` are the very same abstractions the application was already coded against. What changes is where they come from - the installed `ImagesAnnotatorDataDrivers-0.11/` headers instead of a local relative include - and that they now sit in the versioned `ImagesAnnotatorDataDrivers011` namespace, which an alias absorbs. The concrete `AnnotationsDirDB` construction is replaced by a `LibraryFacade` call, and the JSON root element identity keeps its `"ImagesAnnotator"` default precisely so that every project file written by every previous release of the application keeps opening - see [configuring the annotations database identity](/doc/sections/en_US/5-project-build/5-36-configuring-the-annotations-db-identity.md).
+The migration is mostly a matter of names rather than of logic, because the extracted interfaces kept theirs: `IAnnotationsDB`, `IImagesPathsDBProvider`, `ImageRecord`, `ImageRecordRect`, `IRecordsFactory` and `IDBMerger` are the very same abstractions the application was already coded against. What changes is where they come from - the installed `ImagesAnnotatorDataDrivers-0.12/` headers instead of a local relative include - and that they now sit in the versioned `ImagesAnnotatorDataDrivers012` namespace, which an alias absorbs. The concrete `AnnotationsDirDB` construction is replaced by an `IADataDriversFacade` call, and the JSON root element identity keeps its `"ImagesAnnotator"` default precisely so that every project file written by every previous release of the application keeps opening - see [configuring the annotations database identity](/doc/sections/en_US/5-project-build/5-36-configuring-the-annotations-db-identity.md).
 
 The dataset exporters of that application - the plain text, the YOLO v4 and the PyTorch-Vision ones - are **not** a part of this library and are not planned to be: they are to become a separate project of their own.
 
@@ -167,7 +167,7 @@ The dataset exporters of that application - the plain text, the YOLO v4 and the 
 
 A few of the usual suspects:
 
-- `find_package` cannot find the package - the prefix is not searched. Pass `-DCMAKE_PREFIX_PATH=<prefix>`, and check that `<prefix>/lib/cmake/ImagesAnnotatorDataDrivers-0.11/ImagesAnnotatorDataDrivers-0.11Config.cmake` is really there.
-- The target name is rejected - remember it is doubled: `ImagesAnnotatorDataDrivers-0.11::ImagesAnnotatorDataDrivers-0.11`. And if the library was built with the name segment options, the whole name differs.
+- `find_package` cannot find the package - the prefix is not searched. Pass `-DCMAKE_PREFIX_PATH=<prefix>`, and check that `<prefix>/lib/cmake/ImagesAnnotatorDataDrivers-0.12/ImagesAnnotatorDataDrivers-0.12Config.cmake` is really there.
+- The target name is rejected - remember it is doubled: `ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12`. And if the library was built with the name segment options, the whole name differs.
 - The headers are not found although the package was - you are most probably linking the plain library name instead of the namespaced imported target, and so getting none of its usage requirements.
-- The program builds but does not start, complaining about `libImagesAnnotatorDataDrivers-0.11.so.0` - the install prefix `lib` directory is not in the dynamic loader search path. Run `sudo ldconfig` after the install, or set `LD_LIBRARY_PATH` for a non standard prefix.
+- The program builds but does not start, complaining about `libImagesAnnotatorDataDrivers-0.12.so.0` - the install prefix `lib` directory is not in the dynamic loader search path. Run `sudo ldconfig` after the install, or set `LD_LIBRARY_PATH` for a non standard prefix.

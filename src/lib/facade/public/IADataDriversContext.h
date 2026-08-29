@@ -25,8 +25,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_LIBRARYCONTEXT_CLASS_H
-#define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_LIBRARYCONTEXT_CLASS_H
+#ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSCONTEXT_CLASS_H
+#define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSCONTEXT_CLASS_H
 
 #include <memory>
 #include <string>
@@ -35,7 +35,7 @@
 #include "IDBMerger.h"
 #include "IRecordsFactory.h"
 
-namespace ImagesAnnotatorDataDrivers011
+namespace ImagesAnnotatorDataDrivers012
 {
 
 /**
@@ -50,20 +50,20 @@ namespace ImagesAnnotatorDataDrivers011
  *
  * Current file is a target for the library header installation.
  */
-class LibraryContext
+class IADataDriversContext
 {
  public:
-  using LibraryContextPtr = std::shared_ptr<LibraryContext>;
+  using IADataDriversContextPtr = std::shared_ptr<IADataDriversContext>;
 
-  virtual ~LibraryContext() = default;
+  virtual ~IADataDriversContext() = default;
 
   /**
    * @brief Builds a context filled with the library compile time defaults.
    */
-  LibraryContext();
+  IADataDriversContext();
 
-  /// @brief In: the project JSON db file ILib::libcall is to open. When left
-  /// empty the libcall only creates an empty database instance.
+  /// @brief In: the project JSON db file IADataDriversLib::libcall is to open.
+  /// When left empty the libcall only creates an empty database instance.
   std::string db_path;
 
   /// @brief In: the JSON root element name of the project files. Defaults to
@@ -82,14 +82,15 @@ class LibraryContext
   /// use. The library default one is used when left empty.
   IDBMergerPtr merger;
 
-  /// @brief Out: the database instance produced by the last ILib::libcall.
+  /// @brief Out: the database instance produced by the last
+  /// IADataDriversLib::libcall.
   IAnnotationsDBPtr db;
 
-  static LibraryContextPtr create();
+  static IADataDriversContextPtr create();
 };
 
-using LibraryContextPtr = LibraryContext::LibraryContextPtr;
+using IADataDriversContextPtr = IADataDriversContext::IADataDriversContextPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers011
+}  // namespace ImagesAnnotatorDataDrivers012
 
-#endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_LIBRARYCONTEXT_CLASS_H
+#endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSCONTEXT_CLASS_H

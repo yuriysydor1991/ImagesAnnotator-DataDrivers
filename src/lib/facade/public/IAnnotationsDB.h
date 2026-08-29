@@ -34,7 +34,7 @@
 #include "IImagesPathsDBProvider.h"
 #include "ImageRecord.h"
 
-namespace ImagesAnnotatorDataDrivers011
+namespace ImagesAnnotatorDataDrivers012
 {
 
 /**
@@ -44,8 +44,8 @@ namespace ImagesAnnotatorDataDrivers011
  * backed by a single project JSON file. It extends the read only
  * IImagesPathsDBProvider with the loading, merging and storing operations.
  *
- * Obtain an instance through LibraryFacade::create_annotations_db() or
- * LibraryFacade::open_annotations_db().
+ * Obtain an instance through IADataDriversFacade::create_annotations_db() or
+ * IADataDriversFacade::open_annotations_db().
  *
  * Current file is a target for the library header installation.
  */
@@ -102,8 +102,8 @@ class IAnnotationsDB : virtual public IImagesPathsDBProvider
    *
    * The name becomes the JSON root element of the produced files and the
    * version is stored under it. Both default to the compile time values
-   * described in LibraryContext, which keep the format compatible with the
-   * ImagesAnnotator application files.
+   * described in IADataDriversContext, which keep the format compatible with
+   * the ImagesAnnotator application files.
    *
    * @param name The JSON root element name.
    * @param version The version string to write under the root element.
@@ -128,6 +128,6 @@ class IAnnotationsDB : virtual public IImagesPathsDBProvider
 
 using IAnnotationsDBPtr = IAnnotationsDB::IAnnotationsDBPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers011
+}  // namespace ImagesAnnotatorDataDrivers012
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IANNOTATIONSDB_ABSTRACT_CLASS_H

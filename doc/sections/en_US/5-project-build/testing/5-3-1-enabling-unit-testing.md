@@ -14,7 +14,7 @@ The following unit test executables are produced:
 
 | Target | What it covers |
 |---|---|
-| `UTEST_LibraryFacade` | the static front door of the public API |
+| `UTEST_IADataDriversFacade` | the static front door of the public API |
 | `UTEST_LibFactory` | the factory behind the facade |
 | `UTEST_LibMain` | the one-shot `libcall(ctx)` entry point |
 | `UTEST_ImageRecord` | a single annotated image record |

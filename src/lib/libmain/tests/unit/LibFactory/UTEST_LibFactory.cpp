@@ -4,11 +4,11 @@
 #include <memory>
 #include <string>
 
-#include "LibraryContext.h"
+#include "IADataDriversContext.h"
 #include "project-global-decls.h"
 #include "src/lib/libmain/LibFactory.h"
 
-using namespace ImagesAnnotatorDataDrivers011;
+using namespace ImagesAnnotatorDataDrivers012;
 using namespace lib0impl;
 using namespace testing;
 
@@ -68,7 +68,7 @@ TEST_F(UTEST_LibFactory, create_annotations_db_with_context_success)
   const std::string customName{"TheCustomApplicationName"};
   const std::string customVersion{"7.77.777"};
 
-  auto ctx = LibraryContext::create();
+  auto ctx = IADataDriversContext::create();
 
   ASSERT_NE(ctx, nullptr);
 

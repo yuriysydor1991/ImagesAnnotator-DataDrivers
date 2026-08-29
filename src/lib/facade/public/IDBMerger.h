@@ -32,7 +32,7 @@
 
 #include "ImageRecord.h"
 
-namespace ImagesAnnotatorDataDrivers011
+namespace ImagesAnnotatorDataDrivers012
 {
 
 /**
@@ -63,6 +63,6 @@ class IDBMerger
 
 using IDBMergerPtr = IDBMerger::IDBMergerPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers011
+}  // namespace ImagesAnnotatorDataDrivers012
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IDBMERGER_ABSTRACT_CLASS_H

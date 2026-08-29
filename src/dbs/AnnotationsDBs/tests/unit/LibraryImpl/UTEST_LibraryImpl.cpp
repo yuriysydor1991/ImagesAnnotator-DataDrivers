@@ -13,9 +13,9 @@
 
 using namespace testing;
 using iannotator::dbs::annotations::LibraryImpl;
-using ImagesAnnotatorDataDrivers011::ImageRecord;
-using ImagesAnnotatorDataDrivers011::ImageRecordRect;
-using ImagesAnnotatorDataDrivers011::ImageRecordsSet;
+using ImagesAnnotatorDataDrivers012::ImageRecord;
+using ImagesAnnotatorDataDrivers012::ImageRecordRect;
+using ImagesAnnotatorDataDrivers012::ImageRecordsSet;
 using S = iannotator::dbs::annotations::AnnotationsJSONSerializator;
 
 namespace fs = std::filesystem;

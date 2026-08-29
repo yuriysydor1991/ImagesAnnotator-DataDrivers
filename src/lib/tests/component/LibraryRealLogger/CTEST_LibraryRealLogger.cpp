@@ -6,14 +6,14 @@
 #include <string>
 #include <vector>
 
-#include "LibraryContext.h"
-#include "LibraryFacade.h"
+#include "IADataDriversContext.h"
+#include "IADataDriversFacade.h"
 #include "src/log/ILogger.h"
 #include "src/log/default-logger/real-default-logger/RealDefaultLogger.h"
 #include "src/log/severity-macro-consts.h"
 
 using namespace testing;
-using namespace ImagesAnnotatorDataDrivers011;
+using namespace ImagesAnnotatorDataDrivers012;
 using namespace default_logger;
 
 namespace
@@ -92,8 +92,8 @@ class RecordingLogger : public logger::ILogger
  * owned by the library user is really used by the library code itself.
  *
  * The test links the produced shared library and drives it through the public
- * LibraryFacade only, so the logger crosses the very same boundary it crosses
- * inside a consuming application.
+ * IADataDriversFacade only, so the logger crosses the very same boundary it
+ * crosses inside a consuming application.
  */
 class CTEST_LibraryRealLogger : public Test
 {
@@ -114,7 +114,8 @@ class CTEST_LibraryRealLogger : public Test
     // The instance adopted by the shared library can not be read back through
     // its public interface, so a fresh default logger is handed over instead
     // to keep the tests independent of each other.
-    LibraryFacade::accept_real_logger(std::make_shared<RealDefaultLogger>());
+    IADataDriversFacade::accept_real_logger(
+        std::make_shared<RealDefaultLogger>());
     clear_log_file();
   }
 
@@ -125,13 +126,13 @@ class CTEST_LibraryRealLogger : public Test
    */
   bool perform_libcall()
   {
-    auto lib = LibraryFacade::create_default_lib();
+    auto lib = IADataDriversFacade::create_default_lib();
 
     if (lib == nullptr) {
       return false;
     }
 
-    return lib->libcall(LibraryFacade::create_library_context());
+    return lib->libcall(IADataDriversFacade::create_library_context());
   }
 
   /**
@@ -142,13 +143,13 @@ class CTEST_LibraryRealLogger : public Test
    */
   bool perform_failing_libcall()
   {
-    auto lib = LibraryFacade::create_default_lib();
+    auto lib = IADataDriversFacade::create_default_lib();
 
     if (lib == nullptr) {
       return true;
     }
 
-    auto ctx = LibraryFacade::create_library_context();
+    auto ctx = IADataDriversFacade::create_library_context();
 
     ctx->db_path = CTEST_LibraryRealLogger_DATA_DIR "/no-such-db.json";
 
@@ -184,7 +185,7 @@ TEST_F(CTEST_LibraryRealLogger, library_logs_reach_the_given_real_logger)
 {
   const auto appLogger = std::make_shared<RecordingRealLogger>();
 
-  LibraryFacade::accept_real_logger(appLogger);
+  IADataDriversFacade::accept_real_logger(appLogger);
 
   EXPECT_TRUE(perform_libcall());
 
@@ -196,8 +197,8 @@ TEST_F(CTEST_LibraryRealLogger, null_real_logger_leaves_the_previous_one)
 {
   const auto appLogger = std::make_shared<RecordingRealLogger>();
 
-  LibraryFacade::accept_real_logger(appLogger);
-  LibraryFacade::accept_real_logger(nullptr);
+  IADataDriversFacade::accept_real_logger(appLogger);
+  IADataDriversFacade::accept_real_logger(nullptr);
 
   EXPECT_TRUE(perform_libcall());
 
@@ -208,7 +209,7 @@ TEST_F(CTEST_LibraryRealLogger, library_logs_reach_the_given_interface_logger)
 {
   const auto appLogger = std::make_shared<RecordingLogger>();
 
-  LibraryFacade::accept_real_logger(appLogger);
+  IADataDriversFacade::accept_real_logger(appLogger);
 
   EXPECT_TRUE(perform_libcall());
 
@@ -222,7 +223,7 @@ TEST_F(CTEST_LibraryRealLogger, library_logs_land_in_the_application_log_file)
 
   appLogger->init(app_log_file, MACRO_LVL_ERROR, false);
 
-  LibraryFacade::accept_real_logger(appLogger);
+  IADataDriversFacade::accept_real_logger(appLogger);
 
   EXPECT_FALSE(perform_failing_libcall());
 

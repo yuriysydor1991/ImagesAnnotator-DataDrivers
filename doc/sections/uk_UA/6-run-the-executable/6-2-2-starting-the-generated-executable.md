@@ -8,7 +8,7 @@
 
 ```
 # з директорії побудови
-./src/lib/facade/tests/unit/LibraryFacade/UTEST_LibraryFacade
+./src/lib/facade/tests/unit/IADataDriversFacade/UTEST_IADataDriversFacade
 ```
 
 Це звичайні виконувані файли GoogleTest, отож усі звичні прапорці працюють: `--gtest_list_tests` щоб побачити, що всередині, і `--gtest_filter=...` щоб виконати підмножину:
@@ -31,7 +31,7 @@
 
 Дві речі зазвичай ідуть не так з першої спроби, і обидві стосуються динамічного завантажувача, а не даного проекту:
 
-- `error while loading shared libraries: libImagesAnnotatorDataDrivers-0.11.so.0` означає, що завантажувач не заглядає у директорію, у яку було встановлено бібліотеку. Або онови кеш завантажувача командою `sudo ldconfig` після встановлення у системний префікс, або вкажи завантажувачу на власний префікс для одного запуску:
+- `error while loading shared libraries: libImagesAnnotatorDataDrivers-0.12.so.0` означає, що завантажувач не заглядає у директорію, у яку було встановлено бібліотеку. Або онови кеш завантажувача командою `sudo ldconfig` після встановлення у системний префікс, або вкажи завантажувачу на власний префікс для одного запуску:
 
 ```
 LD_LIBRARY_PATH=/usr/local/lib ./mytool /шлях/до/файлу/проекту-анотацій.json

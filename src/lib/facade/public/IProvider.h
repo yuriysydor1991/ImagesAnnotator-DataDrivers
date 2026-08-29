@@ -28,7 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IPROVIDER_ABSTRACT_CLASS_H
 #define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IPROVIDER_ABSTRACT_CLASS_H
 
-namespace ImagesAnnotatorDataDrivers011
+namespace ImagesAnnotatorDataDrivers012
 {
 
 /**
@@ -43,6 +43,6 @@ class IProvider
   IProvider() = default;
 };
 
-}  // namespace ImagesAnnotatorDataDrivers011
+}  // namespace ImagesAnnotatorDataDrivers012
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IPROVIDER_ABSTRACT_CLASS_H

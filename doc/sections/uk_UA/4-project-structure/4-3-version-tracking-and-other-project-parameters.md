@@ -6,16 +6,16 @@
 
 | Константа | Заповнюється з | Значення з поточними типовими налаштуваннями |
 |---|---|---|
-| `project_decls::PROJECT_NAME` | змінної кешу `PROJECT_LIBRARY_NAME` | `ImagesAnnotatorDataDrivers-0.11` |
-| `project_decls::PROJECT_BUILD_VERSION` | `PROJECT_VERSION` кореневого виклику `project()` | `0.11.0` |
+| `project_decls::PROJECT_NAME` | змінної кешу `PROJECT_LIBRARY_NAME` | `ImagesAnnotatorDataDrivers-0.12` |
+| `project_decls::PROJECT_BUILD_VERSION` | `PROJECT_VERSION` кореневого виклику `project()` | `0.12.0` |
 | `project_decls::PROJECT_BUILD_COMMIT` | хешу git-коміту, на якому виконувалась конфігурація | напр. `966341c...` |
 | `project_decls::PROJECT_CONFIGURE_DATE` | мітки часу конфігурації | напр. `2026-08-01 12:00:00` |
 | `project_decls::ANNOTATIONS_DB_ROOT_APP_NAME` | змінної кешу `ANNOTATIONS_DB_ROOT_APP_NAME` | `ImagesAnnotator` |
-| `project_decls::ANNOTATIONS_DB_APP_VERSION` | змінної кешу `ANNOTATIONS_DB_APP_VERSION` | `0.11.0` (версія проекту) |
+| `project_decls::ANNOTATIONS_DB_APP_VERSION` | змінної кешу `ANNOTATIONS_DB_APP_VERSION` | `0.12.0` (версія проекту) |
 
 Хеш git-коміту отримується модулем [cmake/enablers/template-project-git-enabler.cmake](/cmake/enablers/template-project-git-enabler.cmake), а мітка часу конфігурації разом із двома значеннями бази даних анотацій оголошуються у [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake).
 
-Сам заголовковий файл є деталлю реалізації і **не** встановлюється. Значення, якими споживач може законно цікавитись, повторно експортуються через публічний фасад: `LibraryFacade::library_version()` повертає `PROJECT_BUILD_VERSION`, `LibraryFacade::default_db_root_app_name()` повертає `ANNOTATIONS_DB_ROOT_APP_NAME`, а `LibraryFacade::default_db_app_version()` повертає `ANNOTATIONS_DB_APP_VERSION`.
+Сам заголовковий файл є деталлю реалізації і **не** встановлюється. Значення, якими споживач може законно цікавитись, повторно експортуються через публічний фасад: `IADataDriversFacade::library_version()` повертає `PROJECT_BUILD_VERSION`, `IADataDriversFacade::default_db_root_app_name()` повертає `ANNOTATIONS_DB_ROOT_APP_NAME`, а `IADataDriversFacade::default_db_app_version()` повертає `ANNOTATIONS_DB_APP_VERSION`.
 
 ### Два параметри бази даних анотацій
 
@@ -28,8 +28,8 @@
 | CMake-змінна кешу | Типове значення | Значення |
 |---|---|---|
 | `ANNOTATIONS_DB_ROOT_APP_NAME` | `ImagesAnnotator` | Назва кореневого JSON-елемента файлів проектів: назва, що записується у вироблені файли, і та, що очікується всередині прочитаних |
-| `ANNOTATIONS_DB_APP_VERSION` | версія проекту, `0.11.0` | Рядок версії, що зберігається під тим кореневим елементом і порівнюється з тим, який знайдено всередині прочитаного файлу |
+| `ANNOTATIONS_DB_APP_VERSION` | версія проекту, `0.12.0` | Рядок версії, що зберігається під тим кореневим елементом і порівнюється з тим, який знайдено всередині прочитаного файлу |
 
-Обидві є лише типовими значеннями часу компіляції. Кожен екземпляр може перевизначити їх під час виконання - або через поля `LibraryContext::app_name` і `LibraryContext::app_version` перед створенням бази даних, або опісля через `IAnnotationsDB::set_app_info(name, version)`. Розбіжність версій між файлом і сконфігурованим значенням не є фатальною - вона лише виробляє попередження у журналі - тоді як відсутній кореневий елемент призводить до провалу завантаження.
+Обидві є лише типовими значеннями часу компіляції. Кожен екземпляр може перевизначити їх під час виконання - або через поля `IADataDriversContext::app_name` і `IADataDriversContext::app_version` перед створенням бази даних, або опісля через `IAnnotationsDB::set_app_info(name, version)`. Розбіжність версій між файлом і сконфігурованим значенням не є фатальною - вона лише виробляє попередження у журналі - тоді як відсутній кореневий елемент призводить до провалу завантаження.
 
 Див. підрозділ [Налаштування ідентичності бази даних анотацій](/doc/sections/uk_UA/5-project-build/5-36-configuring-the-annotations-db-identity.md) щодо рецептів часу конфігурації.

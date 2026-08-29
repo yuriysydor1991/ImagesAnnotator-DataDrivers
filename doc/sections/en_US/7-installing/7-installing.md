@@ -10,7 +10,7 @@ In order to install the generated library (as shown previous) into your system d
 ```
 # installs the generated library under the /usr/local/lib/ for example
 # and installs the header include files under the
-# /usr/local/include/ImagesAnnotatorDataDrivers-0.11/
+# /usr/local/include/ImagesAnnotatorDataDrivers-0.12/
 
 sudo cmake --install .
 ```
@@ -55,24 +55,24 @@ Alternatively, any path may be specified - a local prefix under your home direct
 With the `/usr` prefix of the example above the installed tree is:
 
 ```
-/usr/lib/libImagesAnnotatorDataDrivers-0.11.so.0.11.0     the library binary
-/usr/lib/libImagesAnnotatorDataDrivers-0.11.so.0          the SOVERSION symlink
-/usr/lib/libImagesAnnotatorDataDrivers-0.11.so            the development symlink
-/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.11/
-    ImagesAnnotatorDataDrivers-0.11Config.cmake           the find_package() entry point
-    ImagesAnnotatorDataDrivers-0.11Config-noconfig.cmake
-    ImagesAnnotatorDataDrivers-0.11Targets.cmake          the exported imported target
-    ImagesAnnotatorDataDrivers-0.11Targets-noconfig.cmake
-/usr/include/ImagesAnnotatorDataDrivers-0.11/*.h          the public headers
+/usr/lib/libImagesAnnotatorDataDrivers-0.12.so.0.12.0     the library binary
+/usr/lib/libImagesAnnotatorDataDrivers-0.12.so.0          the SOVERSION symlink
+/usr/lib/libImagesAnnotatorDataDrivers-0.12.so            the development symlink
+/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.12/
+    ImagesAnnotatorDataDrivers-0.12Config.cmake           the find_package() entry point
+    ImagesAnnotatorDataDrivers-0.12Config-noconfig.cmake
+    ImagesAnnotatorDataDrivers-0.12Targets.cmake          the exported imported target
+    ImagesAnnotatorDataDrivers-0.12Targets-noconfig.cmake
+/usr/include/ImagesAnnotatorDataDrivers-0.12/*.h          the public headers
 ```
 
-The `*.h` files of the last line are the eleven public headers of the [src/lib/facade/public](/src/lib/facade/public) directory: `LibraryFacade.h`, `LibraryContext.h`, `ILib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `IRecord.h` and `IProvider.h`.
+The `*.h` files of the last line are the eleven public headers of the [src/lib/facade/public](/src/lib/facade/public) directory: `IADataDriversFacade.h`, `IADataDriversContext.h`, `IADataDriversLib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `IRecord.h` and `IProvider.h`.
 
-The `ImagesAnnotatorDataDrivers-0.11` name of the binary, of the include sub-directory and of the CMake package is the `PROJECT_LIBRARY_NAME` value, so all of them follow the [customized name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md) should you configure any.
+The `ImagesAnnotatorDataDrivers-0.12` name of the binary, of the include sub-directory and of the CMake package is the `PROJECT_LIBRARY_NAME` value, so all of them follow the [customized name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md) should you configure any.
 
 The library binary itself is installed as the `Runtime` component and the `lib...so` development symlink as the `Development` one, which is what a distribution packager needs to split the runtime and the development packages apart.
 
-Once installed, point your own project at the package with `find_package(ImagesAnnotatorDataDrivers-0.11 REQUIRED)` - see the [Using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) section for a complete, verified example.
+Once installed, point your own project at the package with `find_package(ImagesAnnotatorDataDrivers-0.12 REQUIRED)` - see the [Using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) section for a complete, verified example.
 
 ## Documentation install
 

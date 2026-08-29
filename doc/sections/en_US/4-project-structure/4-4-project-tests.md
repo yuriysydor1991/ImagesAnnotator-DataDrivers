@@ -14,14 +14,14 @@ cd build && ctest --output-on-failure
 
 The two kinds differ in what exactly they are testing, and that difference is visible in their `CMakeLists.txt` files:
 
-- **The unit tests** (`-DENABLE_UNIT_TESTS=ON`, target names prefixed with `UTEST_`) do not link the produced shared library at all. Every such executable names the very translation units of the component under test and compiles them straight from the tree, while all of its collaborators are replaced by the gmock stand-ins from [src/tests/mocks](/src/tests/mocks) (the logger, the `project-global-decls.h`, the `LibraryContext` and the `LibMain`) or by the per-component mocks kept in the component own `tests/mocks` directory. That gives the tests access to the internal headers and lets them isolate a single class.
-- **The component tests** (`-DENABLE_COMPONENT_TESTS=ON`, target names prefixed with `CTEST_`) do the opposite: `CTEST_AnnotationsDirDB` links the real `ImagesAnnotatorDataDrivers-0.11` shared library and reaches it through the installable public headers only - no mock and no internal header is on its include path. It is therefore a test of the library exactly as a downstream consumer sees it, driving real project JSON files taken from its `ctest_data` directory.
+- **The unit tests** (`-DENABLE_UNIT_TESTS=ON`, target names prefixed with `UTEST_`) do not link the produced shared library at all. Every such executable names the very translation units of the component under test and compiles them straight from the tree, while all of its collaborators are replaced by the gmock stand-ins from [src/tests/mocks](/src/tests/mocks) (the logger, the `project-global-decls.h`, the `IADataDriversContext` and the `LibMain`) or by the per-component mocks kept in the component own `tests/mocks` directory. That gives the tests access to the internal headers and lets them isolate a single class.
+- **The component tests** (`-DENABLE_COMPONENT_TESTS=ON`, target names prefixed with `CTEST_`) do the opposite: `CTEST_AnnotationsDirDB` links the real `ImagesAnnotatorDataDrivers-0.12` shared library and reaches it through the installable public headers only - no mock and no internal header is on its include path. It is therefore a test of the library exactly as a downstream consumer sees it, driving real project JSON files taken from its `ctest_data` directory.
 
 ### The test targets
 
 | Target | Kind | Location |
 |---|---|---|
-| `UTEST_LibraryFacade` | unit | [src/lib/facade/tests/unit/LibraryFacade](/src/lib/facade/tests/unit/LibraryFacade) |
+| `UTEST_IADataDriversFacade` | unit | [src/lib/facade/tests/unit/IADataDriversFacade](/src/lib/facade/tests/unit/IADataDriversFacade) |
 | `UTEST_LibFactory` | unit | [src/lib/libmain/tests/unit/LibFactory](/src/lib/libmain/tests/unit/LibFactory) |
 | `UTEST_LibMain` | unit | [src/lib/libmain/tests/unit/LibMain](/src/lib/libmain/tests/unit/LibMain) |
 | `UTEST_ImageRecord` | unit | [src/records/tests/unit/ImageRecord](/src/records/tests/unit/ImageRecord) |

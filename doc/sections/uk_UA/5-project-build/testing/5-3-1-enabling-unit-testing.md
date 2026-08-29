@@ -14,7 +14,7 @@ mkdir -vp build && cd build && cmake ../ -DENABLE_UNIT_TESTS=ON && cmake --build
 
 | Ціль | Що покриває |
 |---|---|
-| `UTEST_LibraryFacade` | статичні вхідні двері публічного API |
+| `UTEST_IADataDriversFacade` | статичні вхідні двері публічного API |
 | `UTEST_LibFactory` | фабрику позаду фасаду |
 | `UTEST_LibMain` | точку входу одного пострілу `libcall(ctx)` |
 | `UTEST_ImageRecord` | окремий запис анотованого зображення |

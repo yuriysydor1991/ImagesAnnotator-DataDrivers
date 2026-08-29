@@ -4,12 +4,12 @@
 #include <memory>
 #include <string>
 
+#include "IADataDriversContext.h"
 #include "IAnnotationsDB.h"
-#include "LibraryContext.h"
 #include "src/lib/libmain/LibFactory.h"
 #include "src/lib/libmain/LibMain.h"
 
-using namespace ImagesAnnotatorDataDrivers011;
+using namespace ImagesAnnotatorDataDrivers012;
 using namespace lib0impl;
 using namespace testing;
 
@@ -101,7 +101,7 @@ TEST_F(UTEST_LibMain, libcall_no_db_path_success)
 
   EXPECT_CALL(*db, load_db(_)).Times(0);
 
-  auto ctx = std::make_shared<LibraryContext>();
+  auto ctx = std::make_shared<IADataDriversContext>();
 
   EXPECT_TRUE(libmain->libcall(ctx));
   EXPECT_EQ(ctx->db, db);
@@ -117,7 +117,7 @@ TEST_F(UTEST_LibMain, libcall_with_db_path_success)
 
   EXPECT_CALL(*db, load_db(dbPath)).Times(1).WillOnce(Return(true));
 
-  auto ctx = std::make_shared<LibraryContext>();
+  auto ctx = std::make_shared<IADataDriversContext>();
 
   ctx->db_path = dbPath;
 
@@ -135,7 +135,7 @@ TEST_F(UTEST_LibMain, libcall_db_load_failure)
 
   EXPECT_CALL(*db, load_db(dbPath)).Times(1).WillOnce(Return(false));
 
-  auto ctx = std::make_shared<LibraryContext>();
+  auto ctx = std::make_shared<IADataDriversContext>();
 
   ctx->db_path = dbPath;
 
@@ -157,7 +157,7 @@ TEST_F(UTEST_LibMain, libcall_no_db_created_failure)
 
   LibFactory::onMockCreate = mockEnsurer.AsStdFunction();
 
-  auto ctx = std::make_shared<LibraryContext>();
+  auto ctx = std::make_shared<IADataDriversContext>();
 
   EXPECT_FALSE(libmain->libcall(ctx));
   EXPECT_EQ(ctx->db, nullptr);

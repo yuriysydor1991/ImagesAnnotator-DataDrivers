@@ -34,7 +34,7 @@
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
 
-namespace ImagesAnnotatorDataDrivers011
+namespace ImagesAnnotatorDataDrivers012
 {
 
 /**
@@ -98,6 +98,6 @@ class IRecordsFactory
 
 using IRecordsFactoryPtr = IRecordsFactory::IRecordsFactoryPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers011
+}  // namespace ImagesAnnotatorDataDrivers012
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IRECORDSFACTORY_ABSTRACT_CLASS_H

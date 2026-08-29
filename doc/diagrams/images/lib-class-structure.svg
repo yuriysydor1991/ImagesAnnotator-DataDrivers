@@ -12,7 +12,7 @@
 <marker id="open" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#4a5560" stroke-width="1.4"/></marker>
 <marker id="diamond" viewBox="0 0 14 10" refX="0" refY="5" markerWidth="14" markerHeight="10" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,5 L7,0 L14,5 L7,10 Z" fill="#4a5560" stroke="#4a5560" stroke-width="1"/></marker>
 </defs>
-<text x="600" y="30" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="16" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">ImagesAnnotatorDataDrivers-0.11 - the library class structure</text>
+<text x="600" y="30" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="16" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">ImagesAnnotatorDataDrivers-0.12 - the library class structure</text>
 <rect x="8" y="52" width="588" height="832" fill="#fbfbfc" stroke="#33404d" stroke-width="1.5"/>
 <rect x="8" y="52" width="588" height="28" fill="#eceff3" stroke="#33404d" stroke-width="1.5"/>
 <text x="20" y="71" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13" fill="#22282e" text-anchor="start" font-weight="bold" font-style="normal">Library-Facade</text>
@@ -38,7 +38,7 @@
 <g>
 <rect x="30" y="336" width="248" height="148" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
 <rect x="30" y="336" width="248" height="26" fill="#eaeff5" stroke="#33404d" stroke-width="1.2"/>
-<text x="154.0" y="354" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">LibraryContext</text>
+<text x="154.0" y="354" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IADataDriversContext</text>
 <text x="40" y="379" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ db_path : string</text>
 <text x="40" y="395" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ app_name : string</text>
 <text x="40" y="411" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ app_version : string</text>
@@ -59,7 +59,7 @@
 <g>
 <rect x="30" y="656" width="248" height="164" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
 <rect x="30" y="656" width="248" height="26" fill="#eaeff5" stroke="#33404d" stroke-width="1.2"/>
-<text x="154.0" y="674" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">LibraryFacade</text>
+<text x="154.0" y="674" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IADataDriversFacade</text>
 <text x="40" y="699" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="italic">every method is static</text>
 <text x="40" y="715" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_library_context()</text>
 <text x="40" y="731" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_library(ctx)</text>
@@ -72,7 +72,7 @@
 <path d="M336,92 L572,92 L584,104 L584,166 L336,166 Z" fill="#fdf6d8" stroke="#c9ae62" stroke-width="1"/>
 <path d="M572,92 L572,104 L584,104" fill="none" stroke="#c9ae62" stroke-width="1"/>
 <text x="345" y="112" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">The installable public API, namespace</text>
-<text x="345" y="126" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">ImagesAnnotatorDataDrivers011.</text>
+<text x="345" y="126" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">ImagesAnnotatorDataDrivers012.</text>
 <text x="345" y="140" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">IProvider / IRecord are the empty</text>
 <text x="345" y="154" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">tagging bases the API is built upon.</text>
 <g>
@@ -117,7 +117,7 @@
 <g>
 <rect x="336" y="792" width="248" height="52" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
 <rect x="336" y="792" width="248" height="26" fill="#d6e4f7" stroke="#33404d" stroke-width="1.2"/>
-<text x="460.0" y="810" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">ILib</text>
+<text x="460.0" y="810" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IADataDriversLib</text>
 <text x="346" y="835" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ libcall(ctx) : bool</text>
 </g>
 <g>

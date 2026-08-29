@@ -25,7 +25,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "LibraryFacade.h"
+#include "IADataDriversFacade.h"
 
 #include <cassert>
 #include <memory>
@@ -35,10 +35,10 @@
 #include "src/lib/libmain/LibFactory.h"
 #include "src/log/log.h"
 
-namespace ImagesAnnotatorDataDrivers011
+namespace ImagesAnnotatorDataDrivers012
 {
 
-LibraryContextPtr LibraryFacade::create_library_context()
+IADataDriversContextPtr IADataDriversFacade::create_library_context()
 {
   auto libFactory = lib0impl::LibFactory::create_factory();
 
@@ -47,7 +47,7 @@ LibraryContextPtr LibraryFacade::create_library_context()
   return libFactory->create_default_context();
 }
 
-ILibPtr LibraryFacade::create_default_lib()
+IADataDriversLibPtr IADataDriversFacade::create_default_lib()
 {
   auto libFactory = lib0impl::LibFactory::create_factory();
 
@@ -56,7 +56,8 @@ ILibPtr LibraryFacade::create_default_lib()
   return libFactory->create_default_lib();
 }
 
-ILibPtr LibraryFacade::create_library(LibraryContextPtr ctx)
+IADataDriversLibPtr IADataDriversFacade::create_library(
+    IADataDriversContextPtr ctx)
 {
   auto libFactory = lib0impl::LibFactory::create_factory();
 
@@ -65,7 +66,7 @@ ILibPtr LibraryFacade::create_library(LibraryContextPtr ctx)
   return libFactory->create_appropriate_lib(ctx);
 }
 
-IAnnotationsDBPtr LibraryFacade::create_annotations_db()
+IAnnotationsDBPtr IADataDriversFacade::create_annotations_db()
 {
   auto libFactory = lib0impl::LibFactory::create_factory();
 
@@ -74,7 +75,8 @@ IAnnotationsDBPtr LibraryFacade::create_annotations_db()
   return libFactory->create_annotations_db();
 }
 
-IAnnotationsDBPtr LibraryFacade::create_annotations_db(LibraryContextPtr ctx)
+IAnnotationsDBPtr IADataDriversFacade::create_annotations_db(
+    IADataDriversContextPtr ctx)
 {
   auto libFactory = lib0impl::LibFactory::create_factory();
 
@@ -83,7 +85,8 @@ IAnnotationsDBPtr LibraryFacade::create_annotations_db(LibraryContextPtr ctx)
   return libFactory->create_annotations_db(ctx);
 }
 
-IAnnotationsDBPtr LibraryFacade::open_annotations_db(const std::string& fpath)
+IAnnotationsDBPtr IADataDriversFacade::open_annotations_db(
+    const std::string& fpath)
 {
   auto libFactory = lib0impl::LibFactory::create_factory();
 
@@ -102,7 +105,7 @@ IAnnotationsDBPtr LibraryFacade::open_annotations_db(const std::string& fpath)
   return db;
 }
 
-IRecordsFactoryPtr LibraryFacade::create_records_factory()
+IRecordsFactoryPtr IADataDriversFacade::create_records_factory()
 {
   auto libFactory = lib0impl::LibFactory::create_factory();
 
@@ -111,7 +114,7 @@ IRecordsFactoryPtr LibraryFacade::create_records_factory()
   return libFactory->create_records_factory();
 }
 
-IDBMergerPtr LibraryFacade::create_db_merger()
+IDBMergerPtr IADataDriversFacade::create_db_merger()
 {
   auto libFactory = lib0impl::LibFactory::create_factory();
 
@@ -120,25 +123,25 @@ IDBMergerPtr LibraryFacade::create_db_merger()
   return libFactory->create_db_merger();
 }
 
-std::string LibraryFacade::library_version()
+std::string IADataDriversFacade::library_version()
 {
   return project_decls::PROJECT_BUILD_VERSION;
 }
 
-std::string LibraryFacade::default_db_root_app_name()
+std::string IADataDriversFacade::default_db_root_app_name()
 {
   return project_decls::ANNOTATIONS_DB_ROOT_APP_NAME;
 }
 
-std::string LibraryFacade::default_db_app_version()
+std::string IADataDriversFacade::default_db_app_version()
 {
   return project_decls::ANNOTATIONS_DB_APP_VERSION;
 }
 
-void LibraryFacade::accept_real_logger(
+void IADataDriversFacade::accept_real_logger(
     const std::shared_ptr<logger::ILogger>& realLogger)
 {
   LOG_INIT_REAL_LOGGER(realLogger);
 }
 
-}  // namespace ImagesAnnotatorDataDrivers011
+}  // namespace ImagesAnnotatorDataDrivers012

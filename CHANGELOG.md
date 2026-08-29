@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0] - 2026-08-29
+
+### Changed
+
+- **The three generically named public classes are named after the library**: `LibraryFacade` is `IADataDriversFacade`, `LibraryContext` is `IADataDriversContext` and `ILib` is `IADataDriversLib`, each in the header of its own name - `IADataDriversFacade.h`, `IADataDriversContext.h` and `IADataDriversLib.h`. The `LibraryContextPtr` and `ILibPtr` aliases follow as `IADataDriversContextPtr` and `IADataDriversLibPtr`. The sibling [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git) and [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git) libraries used to install a `LibraryFacade.h`, a `LibraryContext.h` and an `ILib.h` of their own, so a consumer of two of the three had three same named headers on one include path and told them apart by the versioned directory prefix alone; each library now installs headers and types no other one carries. Nothing else of the API moves: `IAnnotationsDB`, `IImagesPathsDBProvider`, `IRecordsFactory`, `IDBMerger`, `ImageRecord`, `ImageRecordRect`, `IRecord` and `IProvider` keep their names, and so does every method behind the facade.
+
+- **The installable names carry the `0.12` pair**, which every consumer of this library has to follow: the public namespace is `ImagesAnnotatorDataDrivers012`, the headers install into `<prefix>/include/ImagesAnnotatorDataDrivers-0.12/`, the binary is `libImagesAnnotatorDataDrivers-0.12.so.0.12.0` and the CMake package a consumer resolves is `find_package(ImagesAnnotatorDataDrivers-0.12 REQUIRED CONFIG)`. A 0.11 installation stays on the disk beside the new one instead of being overwritten by it, so a consumer built against the previous names keeps building until it is repointed.
+
 ## [0.11.0] - 2026-08-01
 
 The first release of `ImagesAnnotatorDataDrivers` as a project of its own. The

@@ -6,12 +6,12 @@ This section is a guided tour of that surface. Read it with the real headers ope
 
 ### The versioned namespace
 
-Every public type sits in the `ImagesAnnotatorDataDrivers011` namespace. The `011` suffix is the library major and the minor version glued together, and it is there on purpose: two different library versions may be pulled into one and the same translation unit without a single symbol clash.
+Every public type sits in the `ImagesAnnotatorDataDrivers012` namespace. The `012` suffix is the library major and the minor version glued together, and it is there on purpose: two different library versions may be pulled into one and the same translation unit without a single symbol clash.
 
 Writing that name out in full everywhere would be painful, so alias it once and be done with it:
 
 ```cpp
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 ```
 
 A library version bump then stays a one line change on your side. The rest of this section uses the `iadd` alias.
@@ -20,28 +20,28 @@ A library version bump then stays a one line change on your side. The rest of th
 
 | Header | What it gives you |
 | --- | --- |
-| [LibraryFacade.h](/src/lib/facade/public/LibraryFacade.h) | the static factory front door - the only header a simple consumer needs |
+| [IADataDriversFacade.h](/src/lib/facade/public/IADataDriversFacade.h) | the static factory front door - the only header a simple consumer needs |
 | [IAnnotationsDB.h](/src/lib/facade/public/IAnnotationsDB.h) | the annotations database itself: load, store, merge, identity |
 | [IImagesPathsDBProvider.h](/src/lib/facade/public/IImagesPathsDBProvider.h) | the read and query half of the database |
 | [ImageRecord.h](/src/lib/facade/public/ImageRecord.h) | one annotated image |
 | [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | one named rectangle drawn over an image |
 | [IRecordsFactory.h](/src/lib/facade/public/IRecordsFactory.h) | the extension seam of the deserialization |
 | [IDBMerger.h](/src/lib/facade/public/IDBMerger.h) | the extension seam of the merging |
-| [LibraryContext.h](/src/lib/facade/public/LibraryContext.h) | the in and out parameters holder |
-| [ILib.h](/src/lib/facade/public/ILib.h) | the one-shot `libcall(ctx)` entry point |
+| [IADataDriversContext.h](/src/lib/facade/public/IADataDriversContext.h) | the in and out parameters holder |
+| [IADataDriversLib.h](/src/lib/facade/public/IADataDriversLib.h) | the one-shot `libcall(ctx)` entry point |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | the empty tagging bases every record and every provider derives from |
 
-Each interface header also declares a `...Ptr` alias next to the class - `iadd::IAnnotationsDBPtr`, `iadd::ImageRecordPtr`, `iadd::ImageRecordRectPtr`, `iadd::IRecordsFactoryPtr`, `iadd::IDBMergerPtr`, `iadd::LibraryContextPtr`, `iadd::ILibPtr` - and they are all `std::shared_ptr` specializations. Everything the library hands out is shared owned; there is nothing to `delete` and nothing to hand back.
+Each interface header also declares a `...Ptr` alias next to the class - `iadd::IAnnotationsDBPtr`, `iadd::ImageRecordPtr`, `iadd::ImageRecordRectPtr`, `iadd::IRecordsFactoryPtr`, `iadd::IDBMergerPtr`, `iadd::IADataDriversContextPtr`, `iadd::IADataDriversLibPtr` - and they are all `std::shared_ptr` specializations. Everything the library hands out is shared owned; there is nothing to `delete` and nothing to hand back.
 
-### `LibraryFacade` - the front door
+### `IADataDriversFacade` - the front door
 
-`iadd::LibraryFacade` is a class of static methods only. It is never instantiated, it holds no state and every call to it builds a brand new independent object.
+`iadd::IADataDriversFacade` is a class of static methods only. It is never instantiated, it holds no state and every call to it builds a brand new independent object.
 
 | Method | Returns |
 | --- | --- |
-| `create_library_context()` | a `LibraryContextPtr` pre-filled with the compile time defaults |
-| `create_default_lib()` | the default `ILib` implementation |
-| `create_library(ctx)` | the `ILib` implementation appropriate for the given context |
+| `create_library_context()` | an `IADataDriversContextPtr` pre-filled with the compile time defaults |
+| `create_default_lib()` | the default `IADataDriversLib` implementation |
+| `create_library(ctx)` | the `IADataDriversLib` implementation appropriate for the given context |
 | `create_annotations_db()` | an empty database carrying the compile time identity defaults |
 | `create_annotations_db(ctx)` | an empty database configured by the given context |
 | `open_annotations_db(fpath)` | a database with the given project file already loaded, or a `nullptr` |
@@ -60,11 +60,11 @@ The last three are plain reporting calls, handy for an about box or for a log li
 One line, one file, done:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
-auto db = iadd::LibraryFacade::open_annotations_db("project.json");
+auto db = iadd::IADataDriversFacade::open_annotations_db("project.json");
 
 if (db == nullptr) {
   // the file was missing, unreadable, not a JSON document at all
@@ -80,12 +80,12 @@ It creates a default database and immediately calls `load_db()` on it, returning
 Reach for the context form as soon as one of the three things it carries has to be different: the application identity written into the file, the records factory the deserialization builds the records with, or the merger `add_images_db()` performs its job with.
 
 ```cpp
-auto ctx = iadd::LibraryFacade::create_library_context();
+auto ctx = iadd::IADataDriversFacade::create_library_context();
 
 ctx->app_name = "MyTool";
 ctx->app_version = "2.0";
 
-auto db = iadd::LibraryFacade::create_annotations_db(ctx);
+auto db = iadd::IADataDriversFacade::create_annotations_db(ctx);
 
 if (db == nullptr || !db->load_db("project.json")) {
   return false;
@@ -96,16 +96,16 @@ A freshly created context is already usable: its `app_name` and `app_version` ar
 
 Mind the one asymmetry here: `create_annotations_db()` creates an **empty** database. It never looks at `ctx->db_path` - that field belongs to the `libcall()` path described next - so the `load_db()` call is yours to make.
 
-#### 3. `ILib::libcall()` - the one-shot path
+#### 3. `IADataDriversLib::libcall()` - the one-shot path
 
-`ILib` is the single method interface the library implementation variants are behind. Fill a context, hand it over, and get the ready database back through that very same context:
+`IADataDriversLib` is the single method interface the library implementation variants are behind. Fill a context, hand it over, and get the ready database back through that very same context:
 
 ```cpp
-auto ctx = iadd::LibraryFacade::create_library_context();
+auto ctx = iadd::IADataDriversFacade::create_library_context();
 
 ctx->db_path = "project.json";
 
-auto lib = iadd::LibraryFacade::create_library(ctx);
+auto lib = iadd::IADataDriversFacade::create_library(ctx);
 
 if (lib == nullptr || !lib->libcall(ctx)) {
   return false;
@@ -116,7 +116,7 @@ auto db = ctx->db;  // an iadd::IAnnotationsDBPtr
 
 `libcall()` builds the database out of the context exactly the way `create_annotations_db(ctx)` does, and then, **only when `ctx->db_path` is not empty**, loads that file into it. An empty `db_path` is not an error: you simply get a configured empty database in `ctx->db`.
 
-The `LibraryContext` fields split into the in and the out halves accordingly:
+The `IADataDriversContext` fields split into the in and the out halves accordingly:
 
 | Field | Direction | Meaning |
 | --- | --- | --- |
@@ -223,7 +223,7 @@ if (db->changed() && !db->store_db()) {
 One trap: the argument less `store_db()` writes to the path of the last load or store, and a database created by `create_annotations_db()` has never had one. Calling it there fails. Give a freshly built database an explicit destination once:
 
 ```cpp
-auto db = iadd::LibraryFacade::create_annotations_db();
+auto db = iadd::IADataDriversFacade::create_annotations_db();
 
 db->add_images_db(my_records);
 
@@ -262,10 +262,10 @@ A custom factory does not have to reimplement anything - delegate to the library
 #include <memory>
 #include <string>
 
-#include <ImagesAnnotatorDataDrivers-0.11/IRecordsFactory.h>
-#include <ImagesAnnotatorDataDrivers-0.11/LibraryFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IRecordsFactory.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 /// Builds exactly the records the library default factory builds, but forces
 /// every annotation class name to the lower case.
@@ -273,7 +273,7 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
 {
  public:
   LowerCaseRecordsFactory()
-      : defaults{iadd::LibraryFacade::create_records_factory()}
+      : defaults{iadd::IADataDriversFacade::create_records_factory()}
   {
   }
 
@@ -319,9 +319,9 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
 Replace it when your rules differ - say you are collecting several partial annotation passes over the same images and want them all kept:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.11/IDBMerger.h>
+#include <ImagesAnnotatorDataDrivers-0.12/IDBMerger.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers011;
+namespace iadd = ImagesAnnotatorDataDrivers012;
 
 /// Appends everything, duplicates included, and preserves the given order.
 class AppendAllMerger : public iadd::IDBMerger
@@ -344,12 +344,12 @@ class AppendAllMerger : public iadd::IDBMerger
 Both seams are injected through the context, and both are optional - leave a field empty and the library default is used:
 
 ```cpp
-auto ctx = iadd::LibraryFacade::create_library_context();
+auto ctx = iadd::IADataDriversFacade::create_library_context();
 
 ctx->records_factory = std::make_shared<LowerCaseRecordsFactory>();
 ctx->merger = std::make_shared<AppendAllMerger>();
 
-auto db = iadd::LibraryFacade::create_annotations_db(ctx);
+auto db = iadd::IADataDriversFacade::create_annotations_db(ctx);
 
 if (db == nullptr || !db->load_db("project.json")) {
   return false;
@@ -359,7 +359,7 @@ if (db == nullptr || !db->load_db("project.json")) {
 db->add_images_db(another_set);  // and merged by your merger here
 ```
 
-The same context goes to `ILib::libcall()` if you prefer the one-shot path. Note once more that `open_annotations_db()` takes no context and therefore always uses the library defaults - it is the shorthand, not the configurable route.
+The same context goes to `IADataDriversLib::libcall()` if you prefer the one-shot path. Note once more that `open_annotations_db()` takes no context and therefore always uses the library defaults - it is the shorthand, not the configurable route.
 
 ### Where to go next
 
