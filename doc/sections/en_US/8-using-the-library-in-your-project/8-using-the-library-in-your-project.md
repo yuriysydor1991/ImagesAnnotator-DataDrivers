@@ -28,7 +28,7 @@ That leaves the following behind:
 
 Drop the `--prefix` and everything lands under `/usr/local` instead, which is the default and is perfectly fine as long as your toolchain looks there.
 
-Two things not to worry about: the library needs no logger implementation from you - the logging component is compiled straight into it - and neither of its two dependencies leaks out. nlohmann/json and libcurl are linked **privately**, no public header mentions a type of theirs, so your project puts neither on its include path and calls `find_package` for neither. libcurl does remain an ordinary shared library dependency of the installed binary, so it has to stay present on the host, the same way libstdc++ does.
+Two things not to worry about: the library needs no logger implementation from you - the logging component is compiled straight into it - and none of its three dependencies leaks out. nlohmann/json, libcurl and zlib are linked **privately**, no public header mentions a type of theirs, so your project puts none of them on its include path and calls `find_package` for none of them. libcurl and the system zlib do remain ordinary shared library dependencies of the installed binary, so they have to stay present on the host, the same way libstdc++ does.
 
 ## 2. The consumer `CMakeLists.txt`
 

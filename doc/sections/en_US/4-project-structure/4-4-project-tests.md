@@ -37,5 +37,7 @@ The two kinds differ in what exactly they are testing, and that difference is vi
 | `CTEST_AnnotationsDirDB` | component | [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) |
 | `CTEST_log` | component | [src/log/tests/component/log](/src/log/tests/component/log) |
 | `CTEST_DefaultLogger` | component | [src/log/default-logger/tests/component/DefaultLogger](/src/log/default-logger/tests/component/DefaultLogger) |
+| `UTEST_ZlibController` | unit | [src/zlib/tests/unit/ZlibController](/src/zlib/tests/unit/ZlibController) |
+| `CTEST_ZlibController` | component | [src/zlib/tests/component/ZlibController](/src/zlib/tests/component/ZlibController) |
 
 Every configured executable registers its cases with CTest through the `gtest_add_tests()` command, so `ctest -R UTEST_DefaultDBMerger` and friends work as expected. See the [Run tests by the ctest](/doc/sections/en_US/6-run-the-executable/6-3-1-run-tests-by-the-ctest.md) subsection for the ways of running them and the [Project build](/doc/sections/en_US/5-project-build/5-project-build.md) subsection for the ways of enabling them.

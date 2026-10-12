@@ -37,5 +37,7 @@ cd build && ctest --output-on-failure
 | `CTEST_AnnotationsDirDB` | компонентний | [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) |
 | `CTEST_log` | компонентний | [src/log/tests/component/log](/src/log/tests/component/log) |
 | `CTEST_DefaultLogger` | компонентний | [src/log/default-logger/tests/component/DefaultLogger](/src/log/default-logger/tests/component/DefaultLogger) |
+| `UTEST_ZlibController` | модульний | [src/zlib/tests/unit/ZlibController](/src/zlib/tests/unit/ZlibController) |
+| `CTEST_ZlibController` | компонентний | [src/zlib/tests/component/ZlibController](/src/zlib/tests/component/ZlibController) |
 
 Кожен сконфігурований виконуваний файл реєструє свої випадки у CTest командою `gtest_add_tests()`, тому `ctest -R UTEST_DefaultDBMerger` і подібні працюють як очікується. Див. підрозділ [Запуск тестів за допомогою ctest](/doc/sections/uk_UA/6-run-the-executable/6-3-1-run-tests-by-the-ctest.md) щодо способів їх запуску і розділ [Побудова проекту](/doc/sections/uk_UA/5-project-build/5-project-build.md) щодо способів їх увімкнення.

@@ -33,6 +33,8 @@ src/
 │                                                        простір імен iannotator::records
 ├── helpers/                             IHelper, SortHelper, UrlHelper,
 │                                        ImageRecordUrlAndPathHelper    простір імен helpers
+├── zlib/                                ZlibController, GzipFileStreams шаблону cpp-app-template
+│                                                        простір імен iadd0zlibi
 ├── dbs/AnnotationsDBs/                  AnnotationsDirDB, LibraryImpl, AnnotationsJSONSerializator,
 │   │                                    AnnotationsDBTypes
 │   │                                        простір імен iannotator::dbs::annotations
@@ -45,7 +47,7 @@ src/
 Кілька речей варто знати про дану структуру:
 
 - Усе, що знаходиться у [src/lib/facade/public](/src/lib/facade/public), встановлюється і є єдиним, що коли-небудь включає споживач. Кожне оголошення там належить до простору імен `ImagesAnnotatorDataDrivers012`, назва якого навмисно несе мажорну і мінорну версії бібліотеки - див. [Публічні інтерфейсні файли бібліотеки](/doc/sections/uk_UA/4-project-structure/4-8-the-librarys-installable-include-header-files.md).
-- Усе інше під [src](/src) є реалізацією: [src/lib/libmain](/src/lib/libmain) утримує пару вхідних класів, а компоненти, якими вона керує, лежать поруч як [src/records](/src/records), [src/helpers](/src/helpers) і [src/dbs](/src/dbs). Вона живе у власних просторах імен (`lib0impl`, `iannotator::records`, `iannotator::dbs::annotations`, `helpers`), жоден з її заголовкових файлів не встановлюється і ніщо поза двійковим файлом бібліотеки не здатне до неї дотягнутись.
+- Усе інше під [src](/src) є реалізацією: [src/lib/libmain](/src/lib/libmain) утримує пару вхідних класів, а компоненти, якими вона керує, лежать поруч як [src/records](/src/records), [src/helpers](/src/helpers), [src/zlib](/src/zlib) і [src/dbs](/src/dbs). Вона живе у власних просторах імен (`lib0impl`, `iannotator::records`, `iannotator::dbs::annotations`, `helpers`, `iadd0zlibi`), жоден з її заголовкових файлів не встановлюється і ніщо поза двійковим файлом бібліотеки не здатне до неї дотягнутись.
 - Компонент журналювання [src/log](/src/log) компілюється прямо у вироблену динамічну бібліотеку (його `default-logger` долучається як об'єктна бібліотека), тому споживачеві не потрібно постачати жодної власної реалізації журналювання, щоб злінкуватись із бібліотекою.
 - Вихідні коди тестів розміщені поруч із кодом, який вони покривають, всередині піддиректорій `tests/unit` і `tests/component` кожного компоненту, а спільні для них замінники (mocks) живуть у [src/tests/mocks](/src/tests/mocks). Див. підрозділ [Тести проекту](/doc/sections/uk_UA/4-project-structure/4-4-project-tests.md).
 

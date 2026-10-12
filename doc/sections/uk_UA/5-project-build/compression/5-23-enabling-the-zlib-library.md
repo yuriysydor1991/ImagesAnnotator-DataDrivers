@@ -1,145 +1,56 @@
 ## Вмикання інтеграції zlib
 
-Для того щоб увімкнути бібліотеку стиснення [zlib](https://www.zlib.net/) (deflate, gzip, zip) для проекту, використовуючи встановлену версію або через завантаження з мережі, необхідно встановити значення `ON` для CMake змінної `ENABLE_ZLIB`:
+[zlib](https://zlib.net/) є обов'язковою залежністю цієї бібліотеки: файли
+проекту imgajz1, які бібліотека пише і читає, є стиснутими gzip
+JSON-документами,
+які стискає і розпаковує `ZlibController` з [src/zlib](/src/zlib). Цей
+контролер - це компонент контролера zlib з
+[cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template) (його
+гілки `appZlib`) в адаптації, яку зробив з нього
+[darknetxx](https://github.com/yuriysydor1991/darknetxx) для своїх файлів
+dxxwjz: стиснення в пам'яті і у gzip-файли та потоки gzip-файлів, які читають
+і пишуть файли частина за частиною. Тому CMake-опція `ENABLE_ZLIB` типово має
+значення `ON`, і для звичайної побудови нічого вмикати не потрібно:
 
 ```
 # в середині кореневої директорії проекту
 
-cmake -S . -B build -DENABLE_ZLIB=ON
+cmake -S . -B build
 ```
 
-Дивись модуль `cmake/enablers/compression/template-project-zlib-enabler.cmake` щодо цілей (`ZLIB::ZLIB` для системної версії, `zlibstatic`/`zlib` для побудови через FetchContent), які слід прилінкувати до твоїх цільових об'єктів.
+Значення `ENABLE_ZLIB=OFF` зупиняє конфігурування з помилкою, оскільки без zlib
+бібліотека не будується.
 
-### Стиснення потрібних даних (приклади для копіювання)
+Інтеграція zlib розділена на два CMake-модулі:
 
-Після `ENABLE_ZLIB=ON` та прилінкування цілі zlib (наприклад `target_link_libraries(${PROJECT_BINARY_NAME} ZLIB::ZLIB)`) підключи `<zlib.h>` і скопіюй будь-який зі сніпетів нижче.
+- [cmake/enablers/compression/template-project-zlib-enabler.cmake](/cmake/enablers/compression/template-project-zlib-enabler.cmake)
+  лише робить залежність доступною. Він виконується до додавання `src/`, тож
+  виконувані файли модульних тестів з дерева джерельних кодів уже можуть самі
+  лінкувати `ZLIB::ZLIB`.
+- [cmake/enablers/ImagesAnnotator-zlib-linker.cmake](/cmake/enablers/ImagesAnnotator-zlib-linker.cmake)
+  виконується після `src/` і лінкує zlib з ціллю бібліотеки, яка існує лише
+  тоді. Лінкування `PRIVATE`: жоден публічний заголовок, який встановлюється,
+  не відкриває типів zlib, тож залежність не потрапляє в експортований
+  інтерфейс бібліотеки.
 
-Найшвидший спосіб стиснути потрібний буфер — за один виклик, у пам'яті, з використанням обгортки zlib/deflate (RFC 1950):
+Спершу перевіряється наявність системної zlib за допомогою `find_package`. Коли
+її не знайдено, джерельні коди завантажуються за допомогою `FetchContent` з
+репозиторію і теґу зі змінних кешу `TEMPLATE_APP_ZLIB_GIT` і
+`TEMPLATE_APP_ZLIB_GIT_TAG` (типово теґ `v1.3.1`), і статична бібліотека
+`zlibstatic`, яку вони будують, лінкується під тим самим іменем `ZLIB::ZLIB`:
 
-```cpp
-#include <zlib.h>
+```
+# в середині кореневої директорії проекту
 
-#include <cstddef>
-#include <stdexcept>
-#include <vector>
-
-std::vector<unsigned char> zlib_compress(
-    const std::vector<unsigned char>& input, int level = Z_BEST_COMPRESSION)
-{
-  uLongf bound = compressBound(static_cast<uLong>(input.size()));
-  std::vector<unsigned char> out(bound);
-  if (compress2(out.data(), &bound, input.data(),
-                static_cast<uLong>(input.size()), level) != Z_OK) {
-    throw std::runtime_error("zlib compress2 failed");
-  }
-  out.resize(bound);
-  return out;
-}
-
-// Для розпакування потрібен початковий (нестиснений) розмір, тож зберігай його
-// поряд зі стисненими даними (наприклад, у невеликому заголовку).
-std::vector<unsigned char> zlib_uncompress(
-    const std::vector<unsigned char>& input, std::size_t original_size)
-{
-  std::vector<unsigned char> out(original_size);
-  uLongf out_size = static_cast<uLongf>(original_size);
-  if (uncompress(out.data(), &out_size, input.data(),
-                 static_cast<uLong>(input.size())) != Z_OK) {
-    throw std::runtime_error("zlib uncompress failed");
-  }
-  out.resize(out_size);
-  return out;
-}
+cmake -S . -B build -DTEMPLATE_APP_ZLIB_GIT_TAG=v1.3.1
 ```
 
-### Створення різних типів стиснених архівів
+Встановлення системного пакунка розробки (наприклад, `zlib1g-dev` у
+дистрибутивах на базі Debian) - швидший шлях, який залишає крок конфігурування
+без доступу до мережі.
 
-Той самий модуль створює кілька форматів-контейнерів; обгортка обирається аргументом `windowBits` функції `deflateInit2()`:
-
-| Формат | `windowBits` | Примітки |
-| --- | --- | --- |
-| zlib (RFC 1950) | `15` | типова обгортка `compress()` / `uncompress()` |
-| сирий deflate (RFC 1951) | `-15` | потік без заголовка, наприклад для окремих елементів `.zip` |
-| gzip / `.gz` (RFC 1952) | `15 + 16` (`31`) | формат файлу `.gz` |
-
-Потокове стиснення, що обирає вихідний формат (сирий deflate / zlib / gzip):
-
-```cpp
-#include <zlib.h>
-
-#include <stdexcept>
-#include <vector>
-
-// windowBits: 15 = zlib, -15 = raw deflate, 31 = gzip
-std::vector<unsigned char> deflate_stream(
-    const std::vector<unsigned char>& input, int windowBits,
-    int level = Z_BEST_COMPRESSION)
-{
-  z_stream zs{};
-  if (deflateInit2(&zs, level, Z_DEFLATED, windowBits, 8 /* memLevel */,
-                   Z_DEFAULT_STRATEGY) != Z_OK) {
-    throw std::runtime_error("deflateInit2 failed");
-  }
-  zs.next_in = const_cast<Bytef*>(input.data());
-  zs.avail_in = static_cast<uInt>(input.size());
-
-  std::vector<unsigned char> out;
-  unsigned char buf[16384];
-  int rc = Z_OK;
-  do {
-    zs.next_out = buf;
-    zs.avail_out = sizeof(buf);
-    rc = deflate(&zs, Z_FINISH);
-    out.insert(out.end(), buf, buf + (sizeof(buf) - zs.avail_out));
-  } while (rc == Z_OK);
-  deflateEnd(&zs);
-
-  if (rc != Z_STREAM_END) {
-    throw std::runtime_error("deflate failed");
-  }
-  return out;
-}
-```
-
-Готовий до запису файл `.gz` через високорівневий gzip API (без маніпуляцій з `windowBits`):
-
-```cpp
-#include <zlib.h>
-
-#include <stdexcept>
-#include <string>
-#include <vector>
-
-void write_gz_file(const std::string& path,
-                   const std::vector<unsigned char>& data)
-{
-  gzFile f = gzopen(path.c_str(), "wb9");  // запис, бінарний, рівень стиснення 9
-  if (f == nullptr) {
-    throw std::runtime_error("gzopen (write) failed");
-  }
-  if (!data.empty() &&
-      gzwrite(f, data.data(), static_cast<unsigned>(data.size())) == 0) {
-    gzclose(f);
-    throw std::runtime_error("gzwrite failed");
-  }
-  gzclose(f);
-}
-
-std::vector<unsigned char> read_gz_file(const std::string& path)
-{
-  gzFile f = gzopen(path.c_str(), "rb");
-  if (f == nullptr) {
-    throw std::runtime_error("gzopen (read) failed");
-  }
-  std::vector<unsigned char> out;
-  unsigned char buf[16384];
-  int n = 0;
-  while ((n = gzread(f, buf, sizeof(buf))) > 0) {
-    out.insert(out.end(), buf, buf + n);
-  }
-  gzclose(f);
-  return out;
-}
-```
-
-**Архіви `.zip`.** Ядро zlib надає лише *стиснення* (сирий deflate), що використовується всередині ZIP; сам *контейнер* ZIP створюється за допомогою **minizip**, який постачається разом із zlib у `contrib/minizip`. Типовий потік запису: `zipOpen()` → `zipOpenNewFileInZip()` → `zipWriteInFileInZip()` → `zipCloseFileInZip()` → `zipClose()` (а для читання — `unzOpen()` / `unzGoToFirstFile()` / `unzReadCurrentFile()`). Увімкни/знайди minizip у свого постачальника zlib і прилінкуй його поряд із `ZLIB::ZLIB`.
+Сусідні бібліотеки [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git)
+і [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git)
+містять той самий контролер для файлів dxxwjz darknetxx, кожна у власному
+просторі імен: ця бібліотека експортує всі свої символи, тож її контролер живе
+у просторі імен `iadd0zlibi` замість простору імен `zlibi` шаблону.

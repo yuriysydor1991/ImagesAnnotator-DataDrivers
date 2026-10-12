@@ -70,16 +70,17 @@ More on the API and on the file format itself is in the [annotations database AP
 
 # Dependencies
 
-Both of the following are **mandatory** for the library to build and both default to `ON`:
+All three of the following are **mandatory** for the library to build and all three default to `ON`:
 
 | CMake option | Library | Why it is needed |
 | --- | --- | --- |
 | `ENABLE_NLOHMANN_JSON` | [nlohmann/json](https://github.com/nlohmann/json) | the annotations project file is a JSON document |
 | `ENABLE_LIBCURL` | [libcurl](https://curl.se/libcurl/) | its `CURLU` URL API resolves and de-duplicates the image records that point at a web URL instead of a local file |
+| `ENABLE_ZLIB` | [zlib](https://zlib.net/) | the imgajz1 project files are gzip compressed |
 
-Each of them is first probed system wide and, when it is not found, is pulled by the CMake `FetchContent` (the nlohmann json at the `v3.11.3` tag). See the [enabling the nlohmann json library](/doc/sections/en_US/5-project-build/5-18-enabling-the-nlohmann-json-library.md) and the [enabling the libcurl](/doc/sections/en_US/5-project-build/5-14-enabling-libcurl.md) sections for the source and tag overriding variables.
+Each of them is first probed system wide and, when it is not found, is pulled by the CMake `FetchContent` (the nlohmann json at the `v3.11.3` tag, the zlib at the `v1.3.1` one). See the [enabling the nlohmann json library](/doc/sections/en_US/5-project-build/5-18-enabling-the-nlohmann-json-library.md), the [enabling the libcurl](/doc/sections/en_US/5-project-build/5-14-enabling-libcurl.md) and the [enabling the zlib library](/doc/sections/en_US/5-project-build/compression/5-23-enabling-the-zlib-library.md) sections for the source and tag overriding variables.
 
-Both are linked **privately**: no public header exposes a nlohmann or a curl type, so a downstream project inherits neither of them and needs neither of them on its include path. The logging component is compiled straight into the shared library as well, so no logger implementation has to be supplied by the consumer.
+All three are linked **privately**: no public header exposes a nlohmann, a curl or a zlib type, so a downstream project inherits none of them and needs none of them on its include path. The logging component is compiled straight into the shared library as well, so no logger implementation has to be supplied by the consumer.
 
 # Build and test
 
