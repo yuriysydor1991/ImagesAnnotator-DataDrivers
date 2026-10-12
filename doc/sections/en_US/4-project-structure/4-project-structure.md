@@ -34,8 +34,8 @@ src/
 │                                        ImageRecordUrlAndPathHelper        namespace helpers
 ├── zlib/                                ZlibController, GzipFileStreams of the cpp-app-template
 │                                                                namespace iadd0zlibi
-├── dbs/AnnotationsDBs/                  AnnotationsDirDB, LibraryImpl, AnnotationsJSONSerializator,
-│   │                                    AnnotationsDBTypes
+├── dbs/AnnotationsDBs/                  AnnotationsDirDB, LibraryImpl, Imgajz1LibraryImpl,
+│   │                                    AnnotationsJSONSerializator, AnnotationsDBTypes
 │   │                                                      namespace iannotator::dbs::annotations
 │   ├── converters/                      the JSON to records and back converters
 │   └── mergers/                         DefaultDBMerger
@@ -47,6 +47,7 @@ A few things are worth knowing about that layout:
 
 - Everything under [src/lib/facade/public](/src/lib/facade/public) is installed and is the only thing a consumer ever includes. Every declaration in there belongs to the `ImagesAnnotatorDataDrivers012` namespace, whose name carries the library major and minor version on purpose - see [The library's installable include header files](/doc/sections/en_US/4-project-structure/4-8-the-librarys-installable-include-header-files.md).
 - Everything else under [src](/src) is the implementation: [src/lib/libmain](/src/lib/libmain) holds the entry point pair, and the components it drives sit beside it as [src/records](/src/records), [src/helpers](/src/helpers), [src/zlib](/src/zlib) and [src/dbs](/src/dbs). It lives in its own namespaces (`lib0impl`, `iannotator::records`, `iannotator::dbs::annotations`, `helpers`, `iadd0zlibi`), none of its headers is installed and nothing outside of the library binary is able to reach it.
+- The two project file formats are the two drivers of [src/dbs/AnnotationsDBs](/src/dbs/AnnotationsDBs): `LibraryImpl` of the JSON files and its `Imgajz1LibraryImpl` descendant of the gzip compressed imgajz1 ones, the file name extension of the path telling which one the `AnnotationsDirDB` goes through - see [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md). The [src/zlib](/src/zlib) controller the imgajz1 files are compressed with is the one of the cpp-app-template `appZlib` branch, in the namespace `iadd0zlibi` of this library: the sibling ImagesAnnotator-DataExporters and ImagesAnnotator-DataImporters libraries carry the very same controller in namespaces of their own.
 - The [src/log](/src/log) logging component is compiled straight into the produced shared library (its `default-logger` is linked in as an object library), so a consumer does not have to supply any logger implementation of its own to link against the library.
 - The test sources sit next to the code they cover, inside the per-component `tests/unit` and `tests/component` subdirectories, and the mocks shared between them live in [src/tests/mocks](/src/tests/mocks). See the [Project tests](/doc/sections/en_US/4-project-structure/4-4-project-tests.md) subsection.
 
@@ -57,6 +58,7 @@ The subsections below are walking through the parts of the project in more detai
 1. [The library's installable include header files](/doc/sections/en_US/4-project-structure/4-8-the-librarys-installable-include-header-files.md)
 1. [The annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md)
 1. [The annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md)
+1. [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md)
 1. [Changing the project and the library name](/doc/sections/en_US/4-project-structure/4-2-changing-the-project-and-executable-name.md)
 1. [Version tracking and other project parameters](/doc/sections/en_US/4-project-structure/4-3-version-tracking-and-other-project-parameters.md)
 1. [Minimal possible versions](/doc/sections/en_US/4-project-structure/4-6-minimal-possible-versions.md)

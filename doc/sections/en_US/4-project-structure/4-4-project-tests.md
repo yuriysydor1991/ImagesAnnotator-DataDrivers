@@ -15,7 +15,7 @@ cd build && ctest --output-on-failure
 The two kinds differ in what exactly they are testing, and that difference is visible in their `CMakeLists.txt` files:
 
 - **The unit tests** (`-DENABLE_UNIT_TESTS=ON`, target names prefixed with `UTEST_`) do not link the produced shared library at all. Every such executable names the very translation units of the component under test and compiles them straight from the tree, while all of its collaborators are replaced by the gmock stand-ins from [src/tests/mocks](/src/tests/mocks) (the logger, the `project-global-decls.h`, the `IADataDriversContext` and the `LibMain`) or by the per-component mocks kept in the component own `tests/mocks` directory. That gives the tests access to the internal headers and lets them isolate a single class.
-- **The component tests** (`-DENABLE_COMPONENT_TESTS=ON`, target names prefixed with `CTEST_`) do the opposite: `CTEST_AnnotationsDirDB` links the real `ImagesAnnotatorDataDrivers-0.12` shared library and reaches it through the installable public headers only - no mock and no internal header is on its include path. It is therefore a test of the library exactly as a downstream consumer sees it, driving real project JSON files taken from its `ctest_data` directory.
+- **The component tests** (`-DENABLE_COMPONENT_TESTS=ON`, target names prefixed with `CTEST_`) do the opposite: `CTEST_AnnotationsDirDB` links the real `ImagesAnnotatorDataDrivers-0.12` shared library and reaches it through the installable public headers only - no mock and no internal header is on its include path. It is therefore a test of the library exactly as a downstream consumer sees it, driving real project JSON files taken from its `ctest_data` directory and the imgajz1 files it stores them into.
 
 ### The test targets
 
@@ -29,6 +29,7 @@ The two kinds differ in what exactly they are testing, and that difference is vi
 | `UTEST_RecordsFactory` | unit | [src/records/tests/unit/RecordsFactory](/src/records/tests/unit/RecordsFactory) |
 | `UTEST_AnnotationsJSONSerializator` | unit | [src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator](/src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator) |
 | `UTEST_LibraryImpl` | unit | [src/dbs/AnnotationsDBs/tests/unit/LibraryImpl](/src/dbs/AnnotationsDBs/tests/unit/LibraryImpl) |
+| `UTEST_Imgajz1LibraryImpl` | unit | [src/dbs/AnnotationsDBs/tests/unit/Imgajz1LibraryImpl](/src/dbs/AnnotationsDBs/tests/unit/Imgajz1LibraryImpl) |
 | `UTEST_DefaultDBMerger` | unit | [src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger](/src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger) |
 | `UTEST_ImageRecords2JSONConverter` | unit | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter) |
 | `UTEST_JSON2ImageRecordsConverter` | unit | [src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter) |
