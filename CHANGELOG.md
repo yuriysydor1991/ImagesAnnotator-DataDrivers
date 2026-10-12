@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **The imgajz1 compressed project file format**, the second project file format of the library: the path of the `.imgajz1` file name extension (of any letter case) is the regular JSON project file, gzip compressed by the `ZlibController` - nothing added to the JSON and nothing taken out of it, so `gzip -dc project.imgajz1` prints the very text of the JSON project file of the same project, and `gzip -c project.json > project.imgajz1` makes the imgajz1 file of a JSON one. The project of 20000 images and 60000 rectangles takes 0.99 MB instead of the 16.3 MB of its JSON file, stored in 0.78 seconds instead of 0.64 and opened in 0.72 instead of 0.74. Every other path is the JSON project file as before, so `load_db()`, `store_db()`, `open_annotations_db()` and `IADataDriversLib::libcall()` read and write both with no change of the API, a store under the other name converting the project. The reader refuses the corrupted and the truncated gzip data, while the file of no compression (the JSON project file named `.imgajz1`) is read as it is. See the new [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) section.
+- The `Imgajz1LibraryImpl` of the format, the `LibraryImpl` descendant `AnnotationsDirDB` loads and stores the `.imgajz1` paths through (its new `impl_of()`), configured with the application identity and the records factory of the `LibraryImpl` the database keeps. It overrides the reading and the writing of the JSON text of the file alone, which it decompresses and compresses through the `uncompress_from_file()` and the `compress_to_file()` of the `ZlibController`.
+- The `ZlibController` of the new [src/zlib](/src/zlib) sub-directory, the zlib controller component of the [cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template) `appZlib` branch in the adaptation the darknetxx made of it, through which the imgajz1 files are written and read a chunk at a time. Its namespace is `iadd0zlibi` rather than the `zlibi` of the template: the ImagesAnnotator-DataExporters and the ImagesAnnotator-DataImporters libraries built against this one carry the very same controller, and this library exports every symbol of its own.
+- `LibraryImpl::get_records_factory()`, the `UTEST_Imgajz1LibraryImpl`, `UTEST_ZlibController` and `CTEST_ZlibController` test binaries, the `imgajz1_*`, `the_file_name_extension_tells_the_stored_format` and `open_annotations_db_of_a_truncated_imgajz1_fails` cases of `CTEST_AnnotationsDirDB` and three `UTEST_LibraryImpl` cases; the suite counts 227 test cases. The Jenkins pipeline runs the new binaries in stages of their own, and the `UTEST_LibraryImpl` and `CTEST_LibraryRealLogger` ones it missed so far.
+
+### Changed
+
+- **The library depends on the [zlib](https://zlib.net/)**: the `template-project-zlib-enabler` of the template is mandatory now and runs in the pre-src enabler pass, the new `ImagesAnnotator-zlib-linker` links it `PRIVATE` the way the libcurl is - the system wide zlib is probed first, its `v1.3.1` sources are fetched for none, and `ENABLE_ZLIB=OFF` stops the configure. Install the `zlib1g-dev` package (Debian, Ubuntu) to keep the configure offline; the Jenkins pipeline image installs it. See the rewritten [Enabling the zlib library](/doc/sections/en_US/5-project-build/compression/5-23-enabling-the-zlib-library.md) section.
+- `LibraryImpl` reads and writes the JSON text of the files of its format through the new protected virtual `read_text()` and `write_text()`, which the project file format of another file overrides, while its `load()` and `store()` keep the parse, the validation, the conversion and the printing of the JSON text every format shares. `ImageRecords2JSONConverter` converts the records into the document alone: its file writing `store()` is replaced by the `to_document()` the drivers print the text of.
+
+### Fixed
+
+- A project store of a string of no valid UTF-8 (an image file name of the Latin-1 bytes, for example) threw the nlohmann json exception out of `store_db()` after the project file was already truncated: the store returns `false` now with the file kept as it was, and so does the store of a file unable to be written to the end (a full disk, for example), which used to report success.
+
 ## [0.12.0] - 2026-08-29
 
 ### Changed
