@@ -48,7 +48,10 @@ namespace iannotator::dbs::annotations
  * the produced files. AnnotationsDirDB holds the records in memory and no
  * longer knows the format they arrived in, so a project file format other than
  * the JSON one is a descendant of this class rather than a change of the
- * database.
+ * database: the load() and the store() of every format parse, validate,
+ * convert and print the very JSON project text, the read_text() and the
+ * write_text() of a descendant keep that text in a file of its own format (see
+ * the Imgajz1LibraryImpl of the gzip compressed imgajz1 files).
  */
 class LibraryImpl : public virtual AnnotationsDBTypes
 {
@@ -104,7 +107,40 @@ class LibraryImpl : public virtual AnnotationsDBTypes
    */
   virtual void set_records_factory(IRecordsFactoryPtr factory);
 
+  /**
+   * @brief Reports the records factory the loaded records are built with.
+   *
+   * @return Returns the factory set or a nullptr for the converters own
+   * default one.
+   */
+  virtual IRecordsFactoryPtr get_records_factory() const;
+
  protected:
+  /**
+   * @brief Reads the JSON text of the project out of the given file: the
+   * whole text of the file.
+   *
+   * @param fpath The project file path to read.
+   * @param text Out: the JSON text of the project.
+   *
+   * @return Returns true on the success and false for the file unable to be
+   * read.
+   */
+  virtual bool read_text(const std::string& fpath, std::string& text);
+
+  /**
+   * @brief Writes the JSON text of the project into the given file: the whole
+   * text of the file.
+   *
+   * @param fpath The project file path to write.
+   * @param text The JSON text of the project, pretty printed with the two space
+   * indentation.
+   *
+   * @return Returns true on the success and false for the file unable to be
+   * written.
+   */
+  virtual bool write_text(const std::string& fpath, const std::string& text);
+
   virtual bool serialize(const nlohmann::json& json);
   virtual ImageRecordsSet load_the_irs(const nlohmann::json& json);
 

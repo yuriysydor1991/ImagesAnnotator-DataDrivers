@@ -27,6 +27,14 @@ set(IADD_HELPERS_SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/helpers/UrlHelper.cpp
 )
 
+# The zlib controller of the cpp-app-template the imgajz1 project files are
+# written and read through. Every test executable naming that list links the
+# ZLIB::ZLIB target as well.
+set(IADD_ZLIB_SRC
+  ${CMAKE_CURRENT_SOURCE_DIR}/zlib/GzipFileStreams.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/zlib/ZlibController.cpp
+)
+
 set(IADD_CONVERTERS_SRC_DIR
   ${CMAKE_CURRENT_SOURCE_DIR}/dbs/AnnotationsDBs/converters
 )
@@ -45,6 +53,7 @@ add_subdirectory(lib)
 
 add_subdirectory(records)
 add_subdirectory(helpers)
+add_subdirectory(zlib)
 add_subdirectory(dbs)
 
 add_subdirectory(log)

@@ -2,7 +2,7 @@
 
 # What is it
 
-The `ImagesAnnotatorDataDrivers` is a C++17 shared library which reads and writes the annotations project files of the [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) application - the JSON documents that keep the annotated images, their sizes and the named rectangles drawn over them.
+The `ImagesAnnotatorDataDrivers` is a C++17 shared library which reads and writes the annotations project files of the [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) application - the JSON documents that keep the annotated images, their sizes and the named rectangles drawn over them, either as the plain JSON text or as that very text gzip compressed into the imgajz1 files about 16 times smaller.
 
 The code used to live inside the application itself. It was extracted into a library of its own so that the ImagesAnnotator application and **any other tool** may read and write one and the same project file format without duplicating the parser, the serializer and the merging rules.
 
@@ -15,6 +15,7 @@ See more at the [kytok.org.ua](http://www.kytok.org.ua/)
 # Features
 
 - **Load and store the annotations project JSON file** - `load_db()` parses a project file into the memory, `store_db()` writes it back either to the very same path or to a new one.
+- **The imgajz1 compressed project file** - a path of the `.imgajz1` file name extension is the regular JSON project file, gzip compressed by the `ZlibController` of the [cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template), so `gzip -dc project.imgajz1 > project.json` and `gzip -c project.json > project.imgajz1` convert the two files; every other path is the plain JSON file. The same `load_db()` and `store_db()` read and write both, so a project converts between the two by a store under the other name.
 - **An in-memory image records set** - every annotated image is an `ImageRecord` holding its source directory (or web page URL), the relative path, the intrinsic width and height, the preview scale and the `ImageRecordRect` named rectangles.
 - **Change tracking** - `changed()` tells whether the in-memory records still match the stored ones, so an application may skip the write or ask the user about the unsaved data.
 - **Duplicate aware merging** - `add_images_db()` appends another records set through an `IDBMerger`, skipping the records already present and keeping the result sorted. Web hosted records are resolved through the libcurl URL API, so the same image referenced by two differently spelled URLs is recognised as one.
@@ -66,20 +67,21 @@ The `ImagesAnnotatorDataDrivers012` namespace name carries the library major and
 
 Both `#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>` and a plain `#include <IADataDriversFacade.h>` work for an installed consumer, since the library exports the include root along with its versioned subdirectory. The prefixed form is the recommended one: header names like `ImageRecord.h` or `IRecord.h` are generic enough to collide in a busy include path.
 
-More on the API and on the file format itself is in the [annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md), the [annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md) and the [using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) documentation sections.
+More on the API and on the file format itself is in the [annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md), the [annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md), the [imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) and the [using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) documentation sections.
 
 # Dependencies
 
-Both of the following are **mandatory** for the library to build and both default to `ON`:
+All three of the following are **mandatory** for the library to build and all three default to `ON`:
 
 | CMake option | Library | Why it is needed |
 | --- | --- | --- |
 | `ENABLE_NLOHMANN_JSON` | [nlohmann/json](https://github.com/nlohmann/json) | the annotations project file is a JSON document |
 | `ENABLE_LIBCURL` | [libcurl](https://curl.se/libcurl/) | its `CURLU` URL API resolves and de-duplicates the image records that point at a web URL instead of a local file |
+| `ENABLE_ZLIB` | [zlib](https://zlib.net/) | the imgajz1 project files are gzip compressed |
 
-Each of them is first probed system wide and, when it is not found, is pulled by the CMake `FetchContent` (the nlohmann json at the `v3.11.3` tag). See the [enabling the nlohmann json library](/doc/sections/en_US/5-project-build/5-18-enabling-the-nlohmann-json-library.md) and the [enabling the libcurl](/doc/sections/en_US/5-project-build/5-14-enabling-libcurl.md) sections for the source and tag overriding variables.
+Each of them is first probed system wide and, when it is not found, is pulled by the CMake `FetchContent` (the nlohmann json at the `v3.11.3` tag, the zlib at the `v1.3.1` one). See the [enabling the nlohmann json library](/doc/sections/en_US/5-project-build/5-18-enabling-the-nlohmann-json-library.md), the [enabling the libcurl](/doc/sections/en_US/5-project-build/5-14-enabling-libcurl.md) and the [enabling the zlib library](/doc/sections/en_US/5-project-build/compression/5-23-enabling-the-zlib-library.md) sections for the source and tag overriding variables.
 
-Both are linked **privately**: no public header exposes a nlohmann or a curl type, so a downstream project inherits neither of them and needs neither of them on its include path. The logging component is compiled straight into the shared library as well, so no logger implementation has to be supplied by the consumer.
+All three are linked **privately**: no public header exposes a nlohmann, a curl or a zlib type, so a downstream project inherits none of them and needs none of them on its include path. The logging component is compiled straight into the shared library as well, so no logger implementation has to be supplied by the consumer.
 
 # Build and test
 
@@ -135,6 +137,7 @@ Examine the `doc` directory for possible translations of a current md document:
     1. [The library's installable include header files](/doc/sections/en_US/4-project-structure/4-8-the-librarys-installable-include-header-files.md)
     1. [The annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md)
     1. [The annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md)
+    1. [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md)
     1. [Changing the project and executable name](/doc/sections/en_US/4-project-structure/4-2-changing-the-project-and-executable-name.md)
     1. [Version tracking and other project parameters](/doc/sections/en_US/4-project-structure/4-3-version-tracking-and-other-project-parameters.md)
     1. [Minimal possible versions](/doc/sections/en_US/4-project-structure/4-6-minimal-possible-versions.md)

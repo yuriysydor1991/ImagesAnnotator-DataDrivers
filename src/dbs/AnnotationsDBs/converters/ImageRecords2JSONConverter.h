@@ -42,7 +42,9 @@ namespace iannotator::dbs::annotations::converters
 {
 
 /**
- * @brief The annotator annotations JSON data to ImageRecordsSet converter.
+ * @brief The ImageRecordsSet to the annotations project JSON document
+ * converter. The project file drivers (see the LibraryImpl) write the document
+ * into the files of their formats.
  */
 class ImageRecords2JSONConverter : public virtual AnnotationsDBTypes,
                                    virtual public ConvertersAliases
@@ -66,7 +68,15 @@ class ImageRecords2JSONConverter : public virtual AnnotationsDBTypes,
   /// @brief The version value stored under the JSON root element
   std::string app_version{AnnotationsJSONSerializator::default_app_version};
 
-  virtual bool store(const ImageRecordsSet& irs, const std::string& filepath);
+  /**
+   * @brief Converts the records into the whole project document: the
+   * application identity element and the records grouped by their folders.
+   *
+   * @param irs The records to convert.
+   *
+   * @return Returns the JSON project document of the records.
+   */
+  virtual nlohmann::json to_document(const ImageRecordsSet& irs);
 
  protected:
   virtual nlohmann::json convert(const ImageRecordsSet& irs);

@@ -1,145 +1,59 @@
 ## Enabling the zlib library
 
-In order to enable the [zlib](https://www.zlib.net/) compression library (deflate, gzip, zip) for the project by using the installed system one or by fetching it through the available connection set an `ON` value to the `ENABLE_ZLIB` CMake variable.
+[zlib](https://zlib.net/) is a mandatory dependency of this library: the
+imgajz1 project files the library writes and reads are the gzip compressed
+JSON documents (see [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md)),
+which the `ZlibController` of [src/zlib](/src/zlib) compresses and
+decompresses. The controller is the zlib controller component of the
+[cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template) (its
+`appZlib` branch), in the adaptation the
+[darknetxx](https://github.com/yuriysydor1991/darknetxx) made of it for its
+dxxwjz files: the in memory and the gzip file compression and the gzip file
+streams, which read and write the files a chunk at a time. The `ENABLE_ZLIB`
+CMake option therefore defaults to `ON` and there is nothing to switch on for a
+normal build:
 
 ```
 # Inside the source root directory
 
-cmake -S . -B build -DENABLE_ZLIB=ON
+cmake -S . -B build
 ```
 
-See the `cmake/enablers/compression/template-project-zlib-enabler.cmake` module for the targets (`ZLIB::ZLIB` for a system install, `zlibstatic`/`zlib` for the FetchContent build) to link to your targets of interest.
+Setting `ENABLE_ZLIB=OFF` stops the configure with an error, since the library
+does not build without the zlib.
 
-### Compressing data of interest (copy-paste examples)
+The zlib integration is split into two CMake modules:
 
-After `ENABLE_ZLIB=ON` and linking a zlib target (e.g. `target_link_libraries(${PROJECT_BINARY_NAME} ZLIB::ZLIB)`), include `<zlib.h>` and copy-paste any of the snippets below.
+- [cmake/enablers/compression/template-project-zlib-enabler.cmake](/cmake/enablers/compression/template-project-zlib-enabler.cmake)
+  only makes the dependency available. It runs before `src/` is added, so the
+  unit test executables declared inside the source tree can already link
+  `ZLIB::ZLIB` themselves.
+- [cmake/enablers/ImagesAnnotator-zlib-linker.cmake](/cmake/enablers/ImagesAnnotator-zlib-linker.cmake)
+  runs after `src/` and links the zlib against the library target, which only
+  exists at that point. The link is `PRIVATE`: no installable public header
+  exposes a zlib type, so the dependency does not leak into the exported
+  interface of the library.
 
-The quickest way to compress a buffer of interest — one-shot, in-memory, using the zlib/deflate wrapper (RFC 1950):
+The enabler first probes the system wide zlib with `find_package`. When nothing
+is found it falls back to fetching the sources with `FetchContent` from the
+repository and tag held in the `TEMPLATE_APP_ZLIB_GIT` and
+`TEMPLATE_APP_ZLIB_GIT_TAG` cache variables (the `v1.3.1` tag by default), and
+links the static `zlibstatic` library it builds under the same `ZLIB::ZLIB`
+name:
 
-```cpp
-#include <zlib.h>
+```
+# Inside the source root directory
 
-#include <cstddef>
-#include <stdexcept>
-#include <vector>
-
-std::vector<unsigned char> zlib_compress(
-    const std::vector<unsigned char>& input, int level = Z_BEST_COMPRESSION)
-{
-  uLongf bound = compressBound(static_cast<uLong>(input.size()));
-  std::vector<unsigned char> out(bound);
-  if (compress2(out.data(), &bound, input.data(),
-                static_cast<uLong>(input.size()), level) != Z_OK) {
-    throw std::runtime_error("zlib compress2 failed");
-  }
-  out.resize(bound);
-  return out;
-}
-
-// Decompression needs the original (uncompressed) size, so keep it next to the
-// compressed blob (e.g. as a small header).
-std::vector<unsigned char> zlib_uncompress(
-    const std::vector<unsigned char>& input, std::size_t original_size)
-{
-  std::vector<unsigned char> out(original_size);
-  uLongf out_size = static_cast<uLongf>(original_size);
-  if (uncompress(out.data(), &out_size, input.data(),
-                 static_cast<uLong>(input.size())) != Z_OK) {
-    throw std::runtime_error("zlib uncompress failed");
-  }
-  out.resize(out_size);
-  return out;
-}
+cmake -S . -B build -DTEMPLATE_APP_ZLIB_GIT_TAG=v1.3.1
 ```
 
-### Creating different compressed archive types
+Installing the system development package (for example `zlib1g-dev` on Debian
+based distributions) is the faster route and keeps the configure stage
+offline.
 
-The same module produces several container formats; the wrapper is selected by the `windowBits` argument of `deflateInit2()`:
-
-| Format | `windowBits` | Notes |
-| --- | --- | --- |
-| zlib (RFC 1950) | `15` | the default `compress()` / `uncompress()` wrapper |
-| raw deflate (RFC 1951) | `-15` | headerless stream, e.g. for individual `.zip` members |
-| gzip / `.gz` (RFC 1952) | `15 + 16` (`31`) | the `.gz` file format |
-
-Streaming compression that chooses the output format (raw deflate / zlib / gzip):
-
-```cpp
-#include <zlib.h>
-
-#include <stdexcept>
-#include <vector>
-
-// windowBits: 15 = zlib, -15 = raw deflate, 31 = gzip
-std::vector<unsigned char> deflate_stream(
-    const std::vector<unsigned char>& input, int windowBits,
-    int level = Z_BEST_COMPRESSION)
-{
-  z_stream zs{};
-  if (deflateInit2(&zs, level, Z_DEFLATED, windowBits, 8 /* memLevel */,
-                   Z_DEFAULT_STRATEGY) != Z_OK) {
-    throw std::runtime_error("deflateInit2 failed");
-  }
-  zs.next_in = const_cast<Bytef*>(input.data());
-  zs.avail_in = static_cast<uInt>(input.size());
-
-  std::vector<unsigned char> out;
-  unsigned char buf[16384];
-  int rc = Z_OK;
-  do {
-    zs.next_out = buf;
-    zs.avail_out = sizeof(buf);
-    rc = deflate(&zs, Z_FINISH);
-    out.insert(out.end(), buf, buf + (sizeof(buf) - zs.avail_out));
-  } while (rc == Z_OK);
-  deflateEnd(&zs);
-
-  if (rc != Z_STREAM_END) {
-    throw std::runtime_error("deflate failed");
-  }
-  return out;
-}
-```
-
-A ready-to-write `.gz` file through the high-level gzip API (no `windowBits` juggling required):
-
-```cpp
-#include <zlib.h>
-
-#include <stdexcept>
-#include <string>
-#include <vector>
-
-void write_gz_file(const std::string& path,
-                   const std::vector<unsigned char>& data)
-{
-  gzFile f = gzopen(path.c_str(), "wb9");  // write, binary, compression level 9
-  if (f == nullptr) {
-    throw std::runtime_error("gzopen (write) failed");
-  }
-  if (!data.empty() &&
-      gzwrite(f, data.data(), static_cast<unsigned>(data.size())) == 0) {
-    gzclose(f);
-    throw std::runtime_error("gzwrite failed");
-  }
-  gzclose(f);
-}
-
-std::vector<unsigned char> read_gz_file(const std::string& path)
-{
-  gzFile f = gzopen(path.c_str(), "rb");
-  if (f == nullptr) {
-    throw std::runtime_error("gzopen (read) failed");
-  }
-  std::vector<unsigned char> out;
-  unsigned char buf[16384];
-  int n = 0;
-  while ((n = gzread(f, buf, sizeof(buf))) > 0) {
-    out.insert(out.end(), buf, buf + n);
-  }
-  gzclose(f);
-  return out;
-}
-```
-
-**`.zip` archives.** zlib's core only provides the *compression* (raw deflate) used inside a ZIP; the ZIP *container* itself is produced with **minizip**, which ships together with zlib under `contrib/minizip`. The typical write flow is `zipOpen()` → `zipOpenNewFileInZip()` → `zipWriteInFileInZip()` → `zipCloseFileInZip()` → `zipClose()` (and `unzOpen()` / `unzGoToFirstFile()` / `unzReadCurrentFile()` to read it back). Enable/locate minizip from your zlib provider and link it next to `ZLIB::ZLIB`.
+The sibling [ImagesAnnotator-DataExporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataExporters.git)
+and [ImagesAnnotator-DataImporters](https://github.com/yuriysydor1991/ImagesAnnotator-DataImporters.git)
+libraries carry the very same controller for the darknetxx dxxwjz files, each in
+a namespace of its own: this library exports every symbol of its own, so the
+controller of it lives in the `iadd0zlibi` namespace instead of the `zlibi` one
+of the template.

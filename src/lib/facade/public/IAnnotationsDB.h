@@ -41,8 +41,14 @@ namespace ImagesAnnotatorDataDrivers012
  * @brief The annotations project database interface.
  *
  * This is the central abstraction of the library: an annotations database
- * backed by a single project JSON file. It extends the read only
+ * backed by a single project file. It extends the read only
  * IImagesPathsDBProvider with the loading, merging and storing operations.
+ *
+ * The file name extension of the project file path tells its format: the path
+ * of the .imgajz1 extension (of any letter case) is the gzip compressed imgajz1
+ * file of the JSON project document, any other path is the plain JSON file of
+ * it. So storing a database loaded out of a .json file into a .imgajz1 one
+ * converts the project, and the other way round.
  *
  * Obtain an instance through IADataDriversFacade::create_annotations_db() or
  * IADataDriversFacade::open_annotations_db().
@@ -58,13 +64,14 @@ class IAnnotationsDB : virtual public IImagesPathsDBProvider
   IAnnotationsDB() = default;
 
   /**
-   * @brief Parses the given project JSON file and replaces the in-memory
-   * records with the ones read from it.
+   * @brief Parses the given project file and replaces the in-memory records
+   * with the ones read from it.
    *
    * On success the given path also becomes the default destination of the
    * argument less store_db() overload.
    *
-   * @param fpath The project JSON db file path to read.
+   * @param fpath The project file path to read: the imgajz1 one of the
+   * .imgajz1 file name extension, the JSON one of any other.
    *
    * @return Returns true on the success and false in case of any error.
    */
@@ -82,7 +89,8 @@ class IAnnotationsDB : virtual public IImagesPathsDBProvider
    * @brief Writes the in-memory records into the given project file path,
    * which also becomes the new default destination.
    *
-   * @param fpath The project JSON db file path to write.
+   * @param fpath The project file path to write: the imgajz1 one of the
+   * .imgajz1 file name extension, the JSON one of any other.
    *
    * @return Returns true on the success and false in case of any error.
    */

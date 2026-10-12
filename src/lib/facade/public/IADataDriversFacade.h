@@ -134,9 +134,10 @@ class IADataDriversFacade
 
   /**
    * @brief Creates an annotations database and immediately loads the given
-   * project JSON file into it.
+   * project file into it.
    *
-   * @param fpath The project JSON db file path to read.
+   * @param fpath The project file path to read: the imgajz1 one of the
+   * .imgajz1 file name extension, the JSON one of any other.
    *
    * @return Returns the loaded database or a nullptr when the file could not
    * be read or parsed.

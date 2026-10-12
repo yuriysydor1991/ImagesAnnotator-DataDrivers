@@ -15,7 +15,7 @@ cd build && ctest --output-on-failure
 The two kinds differ in what exactly they are testing, and that difference is visible in their `CMakeLists.txt` files:
 
 - **The unit tests** (`-DENABLE_UNIT_TESTS=ON`, target names prefixed with `UTEST_`) do not link the produced shared library at all. Every such executable names the very translation units of the component under test and compiles them straight from the tree, while all of its collaborators are replaced by the gmock stand-ins from [src/tests/mocks](/src/tests/mocks) (the logger, the `project-global-decls.h`, the `IADataDriversContext` and the `LibMain`) or by the per-component mocks kept in the component own `tests/mocks` directory. That gives the tests access to the internal headers and lets them isolate a single class.
-- **The component tests** (`-DENABLE_COMPONENT_TESTS=ON`, target names prefixed with `CTEST_`) do the opposite: `CTEST_AnnotationsDirDB` links the real `ImagesAnnotatorDataDrivers-0.12` shared library and reaches it through the installable public headers only - no mock and no internal header is on its include path. It is therefore a test of the library exactly as a downstream consumer sees it, driving real project JSON files taken from its `ctest_data` directory.
+- **The component tests** (`-DENABLE_COMPONENT_TESTS=ON`, target names prefixed with `CTEST_`) do the opposite: `CTEST_AnnotationsDirDB` links the real `ImagesAnnotatorDataDrivers-0.12` shared library and reaches it through the installable public headers only - no mock and no internal header is on its include path. It is therefore a test of the library exactly as a downstream consumer sees it, driving real project JSON files taken from its `ctest_data` directory and the imgajz1 files it stores them into.
 
 ### The test targets
 
@@ -29,6 +29,7 @@ The two kinds differ in what exactly they are testing, and that difference is vi
 | `UTEST_RecordsFactory` | unit | [src/records/tests/unit/RecordsFactory](/src/records/tests/unit/RecordsFactory) |
 | `UTEST_AnnotationsJSONSerializator` | unit | [src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator](/src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator) |
 | `UTEST_LibraryImpl` | unit | [src/dbs/AnnotationsDBs/tests/unit/LibraryImpl](/src/dbs/AnnotationsDBs/tests/unit/LibraryImpl) |
+| `UTEST_Imgajz1LibraryImpl` | unit | [src/dbs/AnnotationsDBs/tests/unit/Imgajz1LibraryImpl](/src/dbs/AnnotationsDBs/tests/unit/Imgajz1LibraryImpl) |
 | `UTEST_DefaultDBMerger` | unit | [src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger](/src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger) |
 | `UTEST_ImageRecords2JSONConverter` | unit | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter) |
 | `UTEST_JSON2ImageRecordsConverter` | unit | [src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter) |
@@ -37,5 +38,7 @@ The two kinds differ in what exactly they are testing, and that difference is vi
 | `CTEST_AnnotationsDirDB` | component | [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) |
 | `CTEST_log` | component | [src/log/tests/component/log](/src/log/tests/component/log) |
 | `CTEST_DefaultLogger` | component | [src/log/default-logger/tests/component/DefaultLogger](/src/log/default-logger/tests/component/DefaultLogger) |
+| `UTEST_ZlibController` | unit | [src/zlib/tests/unit/ZlibController](/src/zlib/tests/unit/ZlibController) |
+| `CTEST_ZlibController` | component | [src/zlib/tests/component/ZlibController](/src/zlib/tests/component/ZlibController) |
 
 Every configured executable registers its cases with CTest through the `gtest_add_tests()` command, so `ctest -R UTEST_DefaultDBMerger` and friends work as expected. See the [Run tests by the ctest](/doc/sections/en_US/6-run-the-executable/6-3-1-run-tests-by-the-ctest.md) subsection for the ways of running them and the [Project build](/doc/sections/en_US/5-project-build/5-project-build.md) subsection for the ways of enabling them.

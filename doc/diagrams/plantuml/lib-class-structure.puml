@@ -1,6 +1,6 @@
 @startuml
 
-package Library-Facade {
+package "ImagesAnnotatorDataDrivers012 (installed interface)" {
 
   abstract class IProvider {
   }
@@ -81,10 +81,11 @@ package Library-Facade {
     +{static} std::string library_version()
     +{static} std::string default_db_root_app_name()
     +{static} std::string default_db_app_version()
+    +{static} void accept_real_logger(const std::shared_ptr<logger::ILogger>& realLogger)
   }
 }
 
-package Library-Implementation {
+package "Implementation (not installed)" #F8F8F8 {
 
   class LibMain <<lib0impl>> {
     +bool libcall(IADataDriversContextPtr ctx)
@@ -112,6 +113,7 @@ package Library-Implementation {
     +void set_library_impl(LibraryImplPtr newImpl)
     +{static} AnnotationsDirDBPtr create()
     ..
+    #LibraryImplPtr impl_of(const std::string& fpath)
     #LibraryImplPtr impl
     #ImageRecordsSet irdb
     #ImageRecordsSet last_saved_db
@@ -122,13 +124,36 @@ package Library-Implementation {
     +bool load(const std::string& fpath, ImageRecordsSet& irdb)
     +bool store(const std::string& fpath, const ImageRecordsSet& irdb)
     +void set_app_info(const std::string& name, const std::string& version)
+    +std::string get_app_name()
+    +std::string get_app_version()
     +void set_records_factory(IRecordsFactoryPtr factory)
+    +IRecordsFactoryPtr get_records_factory()
     +{static} LibraryImplPtr create()
     ..
+    #bool read_text(const std::string& fpath, std::string& text)
+    #bool write_text(const std::string& fpath, const std::string& text)
     #bool serialize(const nlohmann::json& json)
     #ImageRecordsSet load_the_irs(const nlohmann::json& json)
     #std::string app_name
     #std::string app_version
+  }
+
+  class Imgajz1LibraryImpl <<iannotator::dbs::annotations>> {
+    +{static} Imgajz1LibraryImplPtr create()
+    +{static} Imgajz1LibraryImplPtr create(const LibraryImpl& like)
+    +{static} bool is_imgajz1_path(const std::string& fpath)
+    +{static} file_extension
+    ..
+    #bool read_text(const std::string& fpath, std::string& text)
+    #bool write_text(const std::string& fpath, const std::string& text)
+  }
+
+  package "src/zlib (iadd0zlibi)" #F8F8F8 {
+    class ZlibController {
+      +bool compress_to_file(const std::string& path, const buffer& input)
+      +buffer uncompress_from_file(const std::string& path)
+      +{static} ZlibControllerPtr create()
+    }
   }
 
   class AnnotationsJSONSerializator <<iannotator::dbs::annotations>> {
@@ -149,7 +174,7 @@ package Library-Implementation {
     ImageRecordRectJSON2RecordConverter
     ..
     +ImageRecordsSet fetch_records(const nlohmann::json& allAJSon)
-    +bool store(const ImageRecordsSet& irs, const std::string& filepath)
+    +nlohmann::json to_document(const ImageRecordsSet& irs)
     +ImageRecordPtr convert(const nlohmann::json& fan, const std::string& absdirpath)
     +ImageRecordRectPtr convert(const nlohmann::json& rect)
   }
@@ -171,7 +196,7 @@ note Left of IADataDriversFacade : The facade of the library implementation.\nTh
 
 note Left of IADataDriversContext : The data placeholder passed in and out\nof IADataDriversLib::libcall. Holds the db path, the\napplication identity and the optional custom\nrecords factory and merger. Filled with the\nANNOTATIONS_DB_ROOT_APP_NAME and the\nANNOTATIONS_DB_APP_VERSION defaults.
 
-note Bottom of IADataDriversLib : The particular library implementation interface declearer.
+note Bottom of IADataDriversLib : The interface of the particular library implementation.
 
 note Right of IProvider : IProvider and IRecord are the empty tagging\nbases every provider and every data record\nof the public API is built upon.
 
@@ -182,6 +207,8 @@ note Bottom of LibFactory : The factory to create library implementations object
 note Right of AnnotationsDirDB : The annotations project database itself:\nkeeps the in memory records set and knows\nnothing of the format they were read from.
 
 note Right of LibraryImpl : The project file driver of the JSON format.\nEverything the library knows about the file\nformat lives here, so another format is a\ndescendant of this class.
+
+note Right of Imgajz1LibraryImpl : The project file driver of the imgajz1 files\nof the .imgajz1 file name extension: the regular\nJSON project file, gzip compressed by the\nZlibController.
 
 note Bottom of DefaultDBMerger : Appends the not yet present records only.\nThe paths are resolved through\nhelpers::ImageRecordUrlAndPathHelper, which\nasks helpers::UrlHelper about the web URLs.
 
@@ -213,6 +240,9 @@ LibFactory ..> RecordsFactory : creates
 LibFactory ..> DefaultDBMerger : creates
 
 AnnotationsDirDB --> LibraryImpl : reads and writes the project file through
+AnnotationsDirDB ..> Imgajz1LibraryImpl : the driver of the .imgajz1 paths
+LibraryImpl <|-- Imgajz1LibraryImpl : the imgajz1 format
+Imgajz1LibraryImpl --> ZlibController : compresses the JSON text with
 LibraryImpl --> AnnotationsJSONSerializator : validates the file with
 LibraryImpl --> Converters : converts the JSON with
 AnnotationsDirDB --> IDBMerger : add_images_db merges with

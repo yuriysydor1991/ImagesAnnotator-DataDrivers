@@ -62,8 +62,10 @@ class IADataDriversContext
    */
   IADataDriversContext();
 
-  /// @brief In: the project JSON db file IADataDriversLib::libcall is to open.
-  /// When left empty the libcall only creates an empty database instance.
+  /// @brief In: the project file IADataDriversLib::libcall is to open, the
+  /// imgajz1 one of the .imgajz1 file name extension, the JSON one of any
+  /// other. When left empty the libcall only creates an empty database
+  /// instance.
   std::string db_path;
 
   /// @brief In: the JSON root element name of the project files. Defaults to

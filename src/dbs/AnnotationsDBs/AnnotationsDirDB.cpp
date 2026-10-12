@@ -31,6 +31,7 @@
 #include <cassert>
 #include <memory>
 
+#include "src/dbs/AnnotationsDBs/Imgajz1LibraryImpl.h"
 #include "src/dbs/AnnotationsDBs/LibraryImpl.h"
 #include "src/dbs/AnnotationsDBs/mergers/DefaultDBMerger.h"
 #include "src/log/log.h"
@@ -60,7 +61,7 @@ bool AnnotationsDirDB::load_db(const std::string& fpath)
 
   current_db_path = fpath;
 
-  if (!impl->load(fpath, irdb)) {
+  if (!impl_of(fpath)->load(fpath, irdb)) {
     return false;
   }
 
@@ -112,7 +113,7 @@ bool AnnotationsDirDB::store_db(const std::string& fpath)
 
   current_db_path = fpath;
 
-  const bool sret = impl->store(fpath, get_images_db());
+  const bool sret = impl_of(fpath)->store(fpath, get_images_db());
 
   if (sret) {
     update_current_last_saved();
@@ -200,6 +201,19 @@ void AnnotationsDirDB::set_library_impl(LibraryImplPtr newImpl)
   }
 
   impl = newImpl;
+}
+
+LibraryImplPtr AnnotationsDirDB::impl_of(const std::string& fpath)
+{
+  assert(impl != nullptr);
+
+  if (!Imgajz1LibraryImpl::is_imgajz1_path(fpath)) {
+    return impl;
+  }
+
+  LOGT("The " << fpath << " path names the imgajz1 project file");
+
+  return Imgajz1LibraryImpl::create(*impl);
 }
 
 }  // namespace iannotator::dbs::annotations

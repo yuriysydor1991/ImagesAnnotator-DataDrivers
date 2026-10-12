@@ -2,7 +2,7 @@
 
 # Що це таке
 
-`ImagesAnnotatorDataDrivers` - це динамічна бібліотека на C++17, яка зчитує і записує файли проектів анотацій застосунку [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) - JSON-документи, які зберігають анотовані зображення, їхні розміри і іменовані прямокутники, намальовані поверх них.
+`ImagesAnnotatorDataDrivers` - це динамічна бібліотека на C++17, яка зчитує і записує файли проектів анотацій застосунку [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) - JSON-документи, які зберігають анотовані зображення, їхні розміри і іменовані прямокутники, намальовані поверх них, або як звичайний JSON-текст, або як той самий текст, стиснений gzip у приблизно в 16 разів менші файли imgajz1.
 
 Раніше цей код знаходився всередині самого застосунку. Його було винесено в окрему бібліотеку для того, щоб застосунок ImagesAnnotator і **будь-який інший інструмент** могли читати і записувати один і той самий формат файлу проекту без дублювання розбирача, серіалізатора і правил злиття.
 
@@ -15,6 +15,7 @@
 # Можливості
 
 - **Завантаження і збереження JSON-файлу проекту анотацій** - `load_db()` розбирає файл проекту у пам'ять, а `store_db()` записує його назад або за тим самим шляхом, або за новим.
+- **Стиснений файл проекту imgajz1** - шлях з розширенням імені файлу `.imgajz1` - це звичайний JSON-файл проекту, стиснений gzip за допомогою `ZlibController` шаблону [cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template), тож `gzip -dc project.imgajz1 > project.json` і `gzip -c project.json > project.imgajz1` перетворюють ці два файли один на одного; будь-який інший шлях - це звичайний файл JSON. Ті самі `load_db()` і `store_db()` читають і пишуть обидва, тож проект перетворюється з одного на інший записом під іншим іменем.
 - **Набір записів зображень у пам'яті** - кожне анотоване зображення є записом `ImageRecord`, який містить власну вихідну директорію (або URL веб-сторінки), відносний шлях, власні ширину і висоту, масштаб перегляду і іменовані прямокутники `ImageRecordRect`.
 - **Відстеження змін** - `changed()` повідомляє, чи записи у пам'яті все ще відповідають збереженим, отож застосунок може пропустити запис або запитати користувача про незбережені дані.
 - **Злиття з урахуванням дублікатів** - `add_images_db()` додає інший набір записів через `IDBMerger`, пропускаючи вже наявні записи і зберігаючи результат відсортованим. Записи, розміщені у мережі, розбираються через URL API бібліотеки libcurl, отож одне й те саме зображення, вказане двома по-різному записаними URL, розпізнається як одне.
@@ -66,20 +67,21 @@ int main(int argc, char** argv)
 
 Для встановленої бібліотеки працюють як `#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>`, так і просте `#include <IADataDriversFacade.h>`, оскільки бібліотека експортує і корінь директорії підключаємих файлів, і її версіоновану піддиректорію. Рекомендованою є форма з префіксом: назви заголовкових файлів на кшталт `ImageRecord.h` чи `IRecord.h` є достатньо загальними, щоб призвести до конфлікту у завантаженому шляху пошуку підключаємих файлів.
 
-Більше про API і про сам формат файлу у секціях [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md), [формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md) і [використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md).
+Більше про API і про сам формат файлу у секціях [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md), [формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md), [стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) і [використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md).
 
 # Залежності
 
-Обидві наступні залежності є **обов'язковими** для побудови бібліотеки і обидві мають значення `ON` за замовчуванням:
+Усі три наступні залежності є **обов'язковими** для побудови бібліотеки і всі три мають значення `ON` за замовчуванням:
 
 | CMake-параметр | Бібліотека | Для чого потрібна |
 | --- | --- | --- |
 | `ENABLE_NLOHMANN_JSON` | [nlohmann/json](https://github.com/nlohmann/json) | файл проекту анотацій є JSON-документом |
 | `ENABLE_LIBCURL` | [libcurl](https://curl.se/libcurl/) | її URL API `CURLU` розбирає і усуває дублікати записів зображень, які вказують на веб-URL замість локального файлу |
+| `ENABLE_ZLIB` | [zlib](https://zlib.net/) | файли проекту imgajz1 стиснені gzip |
 
-Кожна з них спершу шукається у системі і, якщо її не знайдено, завантажується засобами CMake `FetchContent` (nlohmann json на тезі `v3.11.3`). Дивись секції [вмикання інтеграції бібліотеки nlohmann JSON](/doc/sections/uk_UA/5-project-build/5-18-enabling-the-nlohmann-json-library.md) і [вмикання інтеграції libcurl](/doc/sections/uk_UA/5-project-build/5-14-enabling-libcurl.md) щодо змінних перевизначення джерела і тегу.
+Кожна з них спершу шукається у системі і, якщо її не знайдено, завантажується засобами CMake `FetchContent` (nlohmann json на тезі `v3.11.3`, zlib на тезі `v1.3.1`). Дивись секції [вмикання інтеграції бібліотеки nlohmann JSON](/doc/sections/uk_UA/5-project-build/5-18-enabling-the-nlohmann-json-library.md), [вмикання інтеграції libcurl](/doc/sections/uk_UA/5-project-build/5-14-enabling-libcurl.md) і [вмикання інтеграції zlib](/doc/sections/uk_UA/5-project-build/compression/5-23-enabling-the-zlib-library.md) щодо змінних перевизначення джерела і тегу.
 
-Обидві лінкуються **приватно**: жоден публічний заголовковий файл не виставляє назовні тип з nlohmann чи curl, отож проект-споживач не успадковує жодної з них і не потребує жодної з них у своєму шляху пошуку підключаємих файлів. Компонент журналювання також вкомпільовано безпосередньо у динамічну бібліотеку, отож споживач не мусить надавати жодної реалізації логера.
+Усі три лінкуються **приватно**: жоден публічний заголовковий файл не виставляє назовні тип з nlohmann, curl чи zlib, отож проект-споживач не успадковує жодної з них і не потребує жодної з них у своєму шляху пошуку підключаємих файлів. Компонент журналювання також вкомпільовано безпосередньо у динамічну бібліотеку, отож споживач не мусить надавати жодної реалізації логера.
 
 # Побудова і тестування
 
@@ -135,6 +137,7 @@ cd build && ctest --output-on-failure
     1. [Публічні інтерфейсні файли бібліотеки](/doc/sections/uk_UA/4-project-structure/4-8-the-librarys-installable-include-header-files.md)
     1. [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md)
     1. [Формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md)
+    1. [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md)
     1. [Зміна назви проекту і головного виконуваного файлу](/doc/sections/uk_UA/4-project-structure/4-2-changing-the-project-and-executable-name.md)
     1. [Версіювання і інші параметри проекту](/doc/sections/uk_UA/4-project-structure/4-3-version-tracking-and-other-project-parameters.md)
     1. [Мінімально можливі версії](/doc/sections/uk_UA/4-project-structure/4-6-minimal-possible-versions.md)

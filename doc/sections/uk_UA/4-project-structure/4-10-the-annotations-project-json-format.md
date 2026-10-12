@@ -4,6 +4,8 @@
 
 Ніщо тут не є приватною деталлю: формат - це і є весь сенс бібліотеки, і файл, який вона пише, має залишатися читабельним для застосунку [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) і для будь-чийого стороннього інструментарію.
 
+Описаний тут документ - це увесь файл проекту JSON, а стиснений gzip файл проекту imgajz1 - шлях з розширенням імені файлу `.imgajz1` - це той самий файл JSON, стиснений, - дивись [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md).
+
 ### Загальний вигляд одним поглядом
 
 ```
@@ -270,4 +272,5 @@ Current app version and files's ones missmatch: 0.10.0 != 0.12.0
 
 - [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md) - виклики, які читають і пишуть усе вищеописане.
 - [Налаштування ідентичності бази даних анотацій](/doc/sections/uk_UA/5-project-build/5-36-configuring-the-annotations-db-identity.md) - ім'я кореневого елемента і штамп версії.
+- [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) - той самий файл JSON, стиснений gzip.
 - Формати експорту наборів даних (звичайний текст, YOLO v4, PyTorch-Vision) **не** є частиною цієї бібліотеки і тут не описуються: вони належать до окремого власного проекту.

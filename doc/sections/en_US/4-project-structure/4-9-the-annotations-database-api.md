@@ -159,6 +159,8 @@ The loading and storing half, added by `IAnnotationsDB`:
 
 Note that `load_db()` **replaces** rather than appends. Loading a second project file over the first one throws the first one away; `add_images_db()` is the call that combines two sets.
 
+The file name extension of the path tells the project file format to every one of the three: a path of the `.imgajz1` extension (of any letter case) is the gzip compressed imgajz1 project file, any other path is the plain JSON one. So `store_db("project.imgajz1")` of a database loaded out of `project.json` converts the project, and the argument less `store_db()` goes on with the format of the last used path. See [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md).
+
 ### `get_images_db()` hands out a mutable reference
 
 This is the point worth being explicit about. `get_images_db()` returns `ImageRecordsSet&` - a live reference into the database, not a copy:

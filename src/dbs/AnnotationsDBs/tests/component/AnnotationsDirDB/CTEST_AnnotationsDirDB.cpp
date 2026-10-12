@@ -129,12 +129,23 @@ class CTEST_AnnotationsDirDB : public Test
 
   static std::string read_whole_file(const std::string& fpath)
   {
-    std::ifstream file(fpath);
+    std::ifstream file(fpath, std::ios::binary);
     std::stringstream content;
 
     content << file.rdbuf();
 
     return content.str();
+  }
+
+  /**
+   * @brief Tells the gzip file by the ID1 and the ID2 bytes of the RFC 1952
+   * member header it starts with.
+   */
+  static bool is_gzip_file(const std::string& fpath)
+  {
+    const std::string content = read_whole_file(fpath);
+
+    return content.size() > 2U && content[0] == '\x1F' && content[1] == '\x8B';
   }
 };
 
@@ -355,5 +366,130 @@ TEST_F(CTEST_AnnotationsDirDB, open_annotations_db_of_an_alien_json_fails)
 {
   EXPECT_EQ(iadd::IADataDriversFacade::open_annotations_db(
                 ctest_data_path(serialize_failure_json_name)),
+            nullptr);
+}
+
+TEST_F(CTEST_AnnotationsDirDB, imgajz1_store_and_reopen_keeps_the_records)
+{
+  auto db = open_plan_db();
+
+  ASSERT_NE(db, nullptr);
+
+  const std::string stored_path = tmp_data_path("round-trip-db.imgajz1");
+
+  ASSERT_TRUE(db->store_db(stored_path));
+
+  EXPECT_EQ(db->get_db_path(), stored_path);
+  EXPECT_FALSE(db->changed());
+  EXPECT_TRUE(is_gzip_file(stored_path));
+
+  auto reopened = iadd::IADataDriversFacade::open_annotations_db(stored_path);
+
+  ASSERT_NE(reopened, nullptr);
+
+  EXPECT_EQ(reopened->get_db_path(), stored_path);
+  EXPECT_FALSE(reopened->changed());
+  EXPECT_EQ(reopened->get_images_db().size(), plan_records_count);
+
+  EXPECT_TRUE(
+      iadd::ImageRecord::equal(db->get_images_db(), reopened->get_images_db()));
+  EXPECT_EQ(reopened->get_available_annotations(),
+            db->get_available_annotations());
+}
+
+TEST_F(CTEST_AnnotationsDirDB, imgajz1_file_is_smaller_than_the_json_one)
+{
+  auto db = open_plan_db();
+
+  ASSERT_NE(db, nullptr);
+
+  const std::string json_path = tmp_data_path("sized-db.json");
+  const std::string imgajz1_path = tmp_data_path("sized-db.imgajz1");
+
+  ASSERT_TRUE(db->store_db(json_path));
+  ASSERT_TRUE(db->store_db(imgajz1_path));
+
+  EXPECT_LT(std::filesystem::file_size(imgajz1_path),
+            std::filesystem::file_size(json_path));
+}
+
+TEST_F(CTEST_AnnotationsDirDB, the_file_name_extension_tells_the_stored_format)
+{
+  auto db = open_plan_db();
+
+  ASSERT_NE(db, nullptr);
+
+  const std::string imgajz1_path = tmp_data_path("format-db.IMGAJZ1");
+  const std::string json_path = tmp_data_path("format-db.json");
+
+  ASSERT_TRUE(db->store_db(imgajz1_path));
+  EXPECT_TRUE(is_gzip_file(imgajz1_path));
+
+  // the argument less store goes on with the format of the path it writes
+  ASSERT_TRUE(std::filesystem::remove(imgajz1_path));
+  ASSERT_TRUE(db->store_db());
+  EXPECT_TRUE(is_gzip_file(imgajz1_path));
+
+  ASSERT_TRUE(db->store_db(json_path));
+  EXPECT_FALSE(is_gzip_file(json_path));
+  EXPECT_EQ(read_whole_file(json_path).front(), '{');
+
+  auto reopened = iadd::IADataDriversFacade::open_annotations_db(json_path);
+
+  ASSERT_NE(reopened, nullptr);
+  EXPECT_TRUE(
+      iadd::ImageRecord::equal(db->get_images_db(), reopened->get_images_db()));
+}
+
+TEST_F(CTEST_AnnotationsDirDB, imgajz1_file_keeps_the_configured_identity)
+{
+  auto ctx = iadd::IADataDriversFacade::create_library_context();
+
+  ASSERT_NE(ctx, nullptr);
+
+  ctx->app_name = "MyAnnotator";
+  ctx->app_version = "2.0";
+
+  auto db = iadd::IADataDriversFacade::create_annotations_db(ctx);
+  auto plan = open_plan_db();
+
+  ASSERT_NE(db, nullptr);
+  ASSERT_NE(plan, nullptr);
+
+  db->add_images_db(plan->get_images_db());
+
+  const std::string stored_path = tmp_data_path("identity-db.imgajz1");
+
+  ASSERT_TRUE(db->store_db(stored_path));
+
+  // a database of another identity refuses the file
+  EXPECT_EQ(iadd::IADataDriversFacade::open_annotations_db(stored_path),
+            nullptr);
+
+  auto same = iadd::IADataDriversFacade::create_annotations_db(ctx);
+
+  ASSERT_NE(same, nullptr);
+  ASSERT_TRUE(same->load_db(stored_path));
+  EXPECT_EQ(same->get_images_db().size(), plan_records_count);
+}
+
+TEST_F(CTEST_AnnotationsDirDB, open_annotations_db_of_a_truncated_imgajz1_fails)
+{
+  auto db = open_plan_db();
+
+  ASSERT_NE(db, nullptr);
+
+  const std::string stored_path = tmp_data_path("truncated-db.imgajz1");
+
+  ASSERT_TRUE(db->store_db(stored_path));
+
+  const std::string whole = read_whole_file(stored_path);
+
+  {
+    std::ofstream file(stored_path, std::ios::binary | std::ios::trunc);
+    file << whole.substr(0U, whole.size() - 4U);
+  }
+
+  EXPECT_EQ(iadd::IADataDriversFacade::open_annotations_db(stored_path),
             nullptr);
 }

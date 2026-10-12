@@ -4,6 +4,8 @@ An annotations project is a single JSON document. This section describes it as t
 
 Nothing here is a private detail: the format is the whole point of the library, and a file it writes must stay readable by the [ImagesAnnotator](https://github.com/yuriysydor1991/ImagesAnnotator.git) application and by anybody else's tooling.
 
+The document described here is the whole JSON project file, and the gzip compressed imgajz1 project file - the path of the `.imgajz1` file name extension - is that very JSON file compressed - see [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md).
+
 ### The shape in one glance
 
 ```
@@ -270,4 +272,5 @@ That last point is the one that bites: load a `0.10.0` file, store it with the d
 
 - [The annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md) - the calls that read and write all of the above.
 - [Configuring the annotations database identity](/doc/sections/en_US/5-project-build/5-36-configuring-the-annotations-db-identity.md) - the root element name and the version stamp.
+- [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) - the very JSON file, gzip compressed.
 - The dataset export formats (plain text, YOLO v4, PyTorch-Vision) are **not** a part of this library and are not described here: they belong to a separate project of their own.
