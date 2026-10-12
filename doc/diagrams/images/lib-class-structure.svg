@@ -5,238 +5,352 @@
   It is maintained by hand, so keep both files in sync whenever
   the library class structure changes.
 -->
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="ImagesAnnotatorDataDrivers library class structure">
-<rect x="0" y="0" width="1200" height="900" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1510" height="1794" viewBox="0 0 1510 1794" role="img" aria-label="ImagesAnnotatorDataDrivers library class structure">
 <defs>
-<marker id="gen" viewBox="0 0 12 12" refX="12" refY="6" markerWidth="12" markerHeight="12" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L12,6 L0,12 Z" fill="#ffffff" stroke="#4a5560" stroke-width="1.2"/></marker>
-<marker id="open" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#4a5560" stroke-width="1.4"/></marker>
-<marker id="diamond" viewBox="0 0 14 10" refX="0" refY="5" markerWidth="14" markerHeight="10" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,5 L7,0 L14,5 L7,10 Z" fill="#4a5560" stroke="#4a5560" stroke-width="1"/></marker>
+  <marker id="open" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
+    <path d="M 0 0 L 10 4 L 0 8" fill="none" stroke="#3a3a3a" stroke-width="1.3"/>
+  </marker>
+  <marker id="hollow" markerWidth="14" markerHeight="14" refX="12" refY="6" orient="auto">
+    <path d="M 0 0 L 12 6 L 0 12 Z" fill="#ffffff" stroke="#3a3a3a" stroke-width="1.3"/>
+  </marker>
 </defs>
-<text x="600" y="30" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="16" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">ImagesAnnotatorDataDrivers-0.12 - the library class structure</text>
-<rect x="8" y="52" width="588" height="832" fill="#fbfbfc" stroke="#33404d" stroke-width="1.5"/>
-<rect x="8" y="52" width="588" height="28" fill="#eceff3" stroke="#33404d" stroke-width="1.5"/>
-<text x="20" y="71" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13" fill="#22282e" text-anchor="start" font-weight="bold" font-style="normal">Library-Facade</text>
-<rect x="624" y="52" width="564" height="832" fill="#fbfbfc" stroke="#33404d" stroke-width="1.5"/>
-<rect x="624" y="52" width="564" height="28" fill="#eceff3" stroke="#33404d" stroke-width="1.5"/>
-<text x="636" y="71" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13" fill="#22282e" text-anchor="start" font-weight="bold" font-style="normal">Library-Implementation</text>
-<g>
-<rect x="30" y="96" width="248" height="52" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="30" y="96" width="248" height="26" fill="#d6e4f7" stroke="#33404d" stroke-width="1.2"/>
-<text x="154.0" y="114" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IProvider</text>
-<text x="40" y="139" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="italic">empty tagging base</text>
-</g>
-<g>
-<rect x="30" y="180" width="248" height="116" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="30" y="180" width="248" height="26" fill="#d6e4f7" stroke="#33404d" stroke-width="1.2"/>
-<text x="154.0" y="198" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IImagesPathsDBProvider</text>
-<text x="40" y="223" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ get_images_db() : records&amp;</text>
-<text x="40" y="239" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ get_db_path() : string</text>
-<text x="40" y="255" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ get_available_annotations()</text>
-<text x="40" y="271" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ changed() : bool</text>
-<text x="40" y="287" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ delete_image_record(path)</text>
-</g>
-<g>
-<rect x="30" y="336" width="248" height="148" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="30" y="336" width="248" height="26" fill="#eaeff5" stroke="#33404d" stroke-width="1.2"/>
-<text x="154.0" y="354" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IADataDriversContext</text>
-<text x="40" y="379" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ db_path : string</text>
-<text x="40" y="395" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ app_name : string</text>
-<text x="40" y="411" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ app_version : string</text>
-<text x="40" y="427" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ records_factory : ptr</text>
-<text x="40" y="443" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ merger : ptr</text>
-<text x="40" y="459" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ db : ptr   (out)</text>
-<text x="40" y="475" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create() : ptr</text>
-</g>
-<g>
-<rect x="30" y="520" width="248" height="100" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="30" y="520" width="248" height="26" fill="#eaeff5" stroke="#33404d" stroke-width="1.2"/>
-<text x="154.0" y="538" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">ImageRecordRect</text>
-<text x="40" y="563" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ name : string</text>
-<text x="40" y="579" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ x, y : int</text>
-<text x="40" y="595" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ width, height : int</text>
-<text x="40" y="611" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ duplicate_shared()</text>
-</g>
-<g>
-<rect x="30" y="656" width="248" height="164" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="30" y="656" width="248" height="26" fill="#eaeff5" stroke="#33404d" stroke-width="1.2"/>
-<text x="154.0" y="674" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IADataDriversFacade</text>
-<text x="40" y="699" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="italic">every method is static</text>
-<text x="40" y="715" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_library_context()</text>
-<text x="40" y="731" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_library(ctx)</text>
-<text x="40" y="747" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_annotations_db(ctx)</text>
-<text x="40" y="763" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ open_annotations_db(fpath)</text>
-<text x="40" y="779" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_records_factory()</text>
-<text x="40" y="795" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_db_merger()</text>
-<text x="40" y="811" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ library_version()</text>
-</g>
-<path d="M336,92 L572,92 L584,104 L584,166 L336,166 Z" fill="#fdf6d8" stroke="#c9ae62" stroke-width="1"/>
-<path d="M572,92 L572,104 L584,104" fill="none" stroke="#c9ae62" stroke-width="1"/>
-<text x="345" y="112" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">The installable public API, namespace</text>
-<text x="345" y="126" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">ImagesAnnotatorDataDrivers012.</text>
-<text x="345" y="140" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">IProvider / IRecord are the empty</text>
-<text x="345" y="154" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">tagging bases the API is built upon.</text>
-<g>
-<rect x="336" y="180" width="248" height="148" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="336" y="180" width="248" height="26" fill="#d6e4f7" stroke="#33404d" stroke-width="1.2"/>
-<text x="460.0" y="198" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IAnnotationsDB</text>
-<text x="346" y="223" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ load_db(fpath) : bool</text>
-<text x="346" y="239" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ store_db() : bool</text>
-<text x="346" y="255" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ store_db(fpath) : bool</text>
-<text x="346" y="271" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ add_images_db(records)</text>
-<text x="346" y="287" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ set_app_info(name, version)</text>
-<text x="346" y="303" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ get_app_name() : string</text>
-<text x="346" y="319" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ get_app_version() : string</text>
-</g>
-<g>
-<rect x="336" y="364" width="248" height="52" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="336" y="364" width="248" height="26" fill="#d6e4f7" stroke="#33404d" stroke-width="1.2"/>
-<text x="460.0" y="382" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IDBMerger</text>
-<text x="346" y="407" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ merge(dst, append)</text>
-</g>
-<g>
-<rect x="336" y="472" width="248" height="84" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="336" y="472" width="248" height="26" fill="#d6e4f7" stroke="#33404d" stroke-width="1.2"/>
-<text x="460.0" y="490" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IRecordsFactory</text>
-<text x="346" y="515" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_image_record(rel,abs)</text>
-<text x="346" y="531" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_image_rect_record(ir)</text>
-<text x="346" y="547" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_image_rect_record(...)</text>
-</g>
-<g>
-<rect x="336" y="592" width="248" height="164" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="336" y="592" width="248" height="26" fill="#eaeff5" stroke="#33404d" stroke-width="1.2"/>
-<text x="460.0" y="610" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">ImageRecord</text>
-<text x="346" y="635" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ abs_dir_path : string</text>
-<text x="346" y="651" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ path : string</text>
-<text x="346" y="667" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ tmppath : fs::path</text>
-<text x="346" y="683" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ rects : ImageRecordRectSet</text>
-<text x="346" y="699" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ current_rect</text>
-<text x="346" y="715" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ iwidth, iheight : int</text>
-<text x="346" y="731" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ imageScale : double</text>
-<text x="346" y="747" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ get_full_path() : string</text>
-</g>
-<g>
-<rect x="336" y="792" width="248" height="52" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="336" y="792" width="248" height="26" fill="#d6e4f7" stroke="#33404d" stroke-width="1.2"/>
-<text x="460.0" y="810" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">IADataDriversLib</text>
-<text x="346" y="835" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ libcall(ctx) : bool</text>
-</g>
-<g>
-<rect x="644" y="180" width="248" height="132" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="644" y="180" width="248" height="26" fill="#dcecd8" stroke="#33404d" stroke-width="1.2"/>
-<text x="768.0" y="198" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">AnnotationsDirDB</text>
-<text x="654" y="223" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ load_db(fpath) / store_db()</text>
-<text x="654" y="239" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ add_images_db(records)</text>
-<text x="654" y="255" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ set_records_factory(f)</text>
-<text x="654" y="271" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ set_db_merger(m)</text>
-<text x="654" y="287" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal"># serialize() / load_the_irs()</text>
-<text x="654" y="303" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal"># json, irdb, last_saved_db</text>
-</g>
-<g>
-<rect x="644" y="364" width="248" height="68" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="644" y="364" width="248" height="26" fill="#dcecd8" stroke="#33404d" stroke-width="1.2"/>
-<text x="768.0" y="382" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">DefaultDBMerger</text>
-<text x="654" y="407" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ merge(dst, append)</text>
-<text x="654" y="423" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create() : ptr</text>
-</g>
-<g>
-<rect x="644" y="472" width="248" height="84" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="644" y="472" width="248" height="26" fill="#dcecd8" stroke="#33404d" stroke-width="1.2"/>
-<text x="768.0" y="490" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">RecordsFactory</text>
-<text x="654" y="515" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_image_record(rel,abs)</text>
-<text x="654" y="531" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_image_rect_record(...)</text>
-<text x="654" y="547" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create() : ptr</text>
-</g>
-<g>
-<rect x="644" y="592" width="248" height="148" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="644" y="592" width="248" height="26" fill="#dcecd8" stroke="#33404d" stroke-width="1.2"/>
-<text x="768.0" y="610" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">LibFactory</text>
-<text x="654" y="635" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_default_lib()</text>
-<text x="654" y="651" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_default_context()</text>
-<text x="654" y="667" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_appropriate_lib(ctx)</text>
-<text x="654" y="683" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_annotations_db(ctx)</text>
-<text x="654" y="699" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_records_factory()</text>
-<text x="654" y="715" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_db_merger()</text>
-<text x="654" y="731" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create_factory() : ptr</text>
-</g>
-<g>
-<rect x="644" y="792" width="248" height="68" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="644" y="792" width="248" height="26" fill="#dcecd8" stroke="#33404d" stroke-width="1.2"/>
-<text x="768.0" y="810" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">LibMain</text>
-<text x="654" y="835" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ libcall(ctx) : bool</text>
-<text x="654" y="851" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ create() : ptr</text>
-</g>
-<g>
-<rect x="930" y="180" width="248" height="100" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="930" y="180" width="248" height="26" fill="#dcecd8" stroke="#33404d" stroke-width="1.2"/>
-<text x="1054.0" y="198" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">AnnotationsJSONSerializator</text>
-<text x="940" y="223" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ serialize(json) : bool</text>
-<text x="940" y="239" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ root_app_name : string</text>
-<text x="940" y="255" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">+ app_version : string</text>
-<text x="940" y="271" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal"># serialize_app_info(json)</text>
-</g>
-<g>
-<rect x="930" y="320" width="248" height="116" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="930" y="320" width="248" height="26" fill="#dcecd8" stroke="#33404d" stroke-width="1.2"/>
-<text x="1054.0" y="338" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">JSON converters</text>
-<text x="940" y="363" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="italic">the four converter classes</text>
-<text x="940" y="379" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9.5" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">JSON2ImageRecordsConverter</text>
-<text x="940" y="395" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9.5" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">ImageRecords2JSONConverter</text>
-<text x="940" y="411" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9.5" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">ImageRecordJSON2RecordConverter</text>
-<text x="940" y="427" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9.5" fill="#22282e" text-anchor="start" font-weight="normal" font-style="normal">ImageRecordRectJSON2RecordConverter</text>
-</g>
-<path d="M930,470 L1166,470 L1178,482 L1178,600 L930,600 Z" fill="#fdf6d8" stroke="#c9ae62" stroke-width="1"/>
-<path d="M1166,470 L1166,482 L1178,482" fill="none" stroke="#c9ae62" stroke-width="1"/>
-<text x="939" y="490" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">Nothing here is installed. LibFactory</text>
-<text x="939" y="504" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">is the single creation point of every</text>
-<text x="939" y="518" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">implementation class of this package.</text>
-<text x="939" y="532" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">Namespaces: lib0impl (LibMain,</text>
-<text x="939" y="546" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">LibFactory), iannotator::records</text>
-<text x="939" y="560" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">(RecordsFactory), iannotator::dbs::</text>
-<text x="939" y="574" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">annotations (the db, the converters,</text>
-<text x="939" y="588" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">the serializator, the merger).</text>
-<path d="M154,180 L154,148" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#gen)"/>
-<text x="162" y="168" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">extends</text>
-<path d="M336,214 L278,214" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#gen)"/>
-<text x="307" y="206" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">extends</text>
-<path d="M644,262 L584,262" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#gen)"/>
-<text x="614" y="254" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">implements</text>
-<path d="M644,392 L584,392" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#gen)"/>
-<text x="614" y="384" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">implements</text>
-<path d="M644,528 L584,528" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#gen)"/>
-<text x="614" y="520" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">implements</text>
-<path d="M644,812 L584,812" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#gen)"/>
-<text x="614" y="804" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">implements</text>
-<path d="M278,270 L307,270 L307,576 L450,576 L450,592" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#open)"/>
-<text x="315" y="570" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">provides</text>
-<path d="M520,556 L520,592" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#open)"/>
-<text x="528" y="578" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">creates</text>
-<path d="M336,606 L278,606" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#open)" marker-start="url(#diamond)"/>
-<text x="307" y="598" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">rects</text>
-<path d="M30,730 L19,730 L19,410 L30,410" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#open)"/>
-<text x="26" y="505" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">creates</text>
-<path d="M278,774 L610,774 L610,700 L644,700" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#open)"/>
-<text x="430" y="768" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">delegates every call to</text>
-<path d="M768,312 L768,364" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="776" y="344" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">merges with</text>
-<path d="M760,180 L760,168 L1054,168 L1054,180" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="907" y="162" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">validates the file with</text>
-<path d="M892,302 L1054,302 L1054,320" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="985" y="296" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">converts with</text>
-<path d="M1010,436 L1010,458 L610,458 L610,500 L584,500" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="800" y="450" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="middle" font-weight="normal" font-style="normal">builds every record through</text>
-<path d="M768,792 L768,740" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="776" y="768" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="9" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">builds the db through</text>
-<rect x="930" y="630" width="248" height="148" fill="#ffffff" stroke="#33404d" stroke-width="1.2"/>
-<rect x="930" y="630" width="248" height="26" fill="#eceff3" stroke="#33404d" stroke-width="1.2"/>
-<text x="1054.0" y="648" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12" fill="#22282e" text-anchor="middle" font-weight="bold" font-style="normal">Legend</text>
-<path d="M942,674 L992,674" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#gen)"/>
-<text x="1006" y="678" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">extends</text>
-<path d="M942,696 L992,696" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#gen)"/>
-<text x="1006" y="700" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">implements</text>
-<path d="M942,718 L992,718" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#open)"/>
-<text x="1006" y="722" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">uses / drives</text>
-<path d="M942,740 L992,740" fill="none" stroke="#4a5560" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#open)"/>
-<text x="1006" y="744" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">creates</text>
-<path d="M942,762 L992,762" fill="none" stroke="#4a5560" stroke-width="1.3" marker-end="url(#open)" marker-start="url(#diamond)"/>
-<text x="1006" y="766" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" fill="#5c6773" text-anchor="start" font-weight="normal" font-style="normal">owns (composition)</text>
+<style>
+  text { font-family: "DejaVu Sans", Verdana, sans-serif; fill: #1a1a1a; }
+  .pkg { font-size: 14px; font-weight: bold; fill: #333333; }
+  .cname { font-size: 13px; font-weight: bold; }
+  .italic { font-style: italic; }
+  .stereo { font-size: 10px; fill: #666666; }
+  .member { font-size: 11px; font-family: "DejaVu Sans Mono", monospace; }
+  .edge { font-size: 10px; fill: #444444; }
+  .note { font-size: 11px; fill: #4a4300; }
+</style>
+<rect width="1510" height="1794" fill="#ffffff"/>
+<rect x="20" y="20" width="1470" height="824" rx="4" fill="#ffffff" stroke="#8a8a8a" stroke-width="1.5"/>
+<text x="32" y="40" class="pkg">ImagesAnnotatorDataDrivers012 (installed interface)</text>
+<rect x="20" y="864" width="1470" height="910" rx="4" fill="#f8f8f8" stroke="#8a8a8a" stroke-width="1.5"/>
+<text x="32" y="884" class="pkg">Implementation (not installed)</text>
+<rect x="770" y="1600" width="350" height="128" rx="4" fill="#f8f8f8" stroke="#8a8a8a" stroke-width="1.5"/>
+<text x="782" y="1620" class="pkg">src/zlib (iadd0zlibi)</text>
+<path d="M 534 330 L 534 290" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#hollow)"/>
+<path d="M 534 650 L 534 458" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#hollow)"/>
+<path d="M 698 400 L 784 400" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 844 512 L 844 528" fill="none" stroke="#3a3a3a" stroke-width="1.3"/>
+<path d="M 974 650 L 974 610" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 1092 650 L 1092 498" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 571 178 L 190 178 L 190 650" fill="none" stroke="#3a3a3a" stroke-width="1.3"/>
+<path d="M 571 194 L 356 194 L 356 680 L 370 680" fill="none" stroke="#3a3a3a" stroke-width="1.3"/>
+<path d="M 939 178 L 1128 178 L 1128 680 L 1120 680" fill="none" stroke="#3a3a3a" stroke-width="1.3"/>
+<path d="M 1150 670 L 1140 670 L 1140 122 L 925 122" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 1150 82 L 925 82" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 155 904 L 155 730" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#hollow)"/>
+<path d="M 555 904 L 555 810" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#hollow)"/>
+<path d="M 945 904 L 945 762" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#hollow)"/>
+<path d="M 1310 904 L 1310 714" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#hollow)"/>
+<path d="M 370 920 L 361 920 L 361 714 L 340 714" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<path d="M 370 938 L 270 938" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 557 1168 L 557 1208" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<path d="M 380 1168 L 380 1552 L 404 1552" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 557 1528 L 557 1488" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#hollow)"/>
+<path d="M 710 1268 L 784 1268" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<path d="M 710 1416 L 784 1416" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<path d="M 710 1588 L 1020 1588 L 1020 1630" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<path d="M 784 1184 L 755 1184 L 755 742 L 770 742" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<path d="M 1440 984 L 1440 1091" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<path d="M 1470 96 L 1478 96 L 1478 1121 L 1470 1121" fill="none" stroke="#3a3a3a" stroke-width="1.3" marker-end="url(#open)"/>
+<path d="M 1150 1151 L 1137 1151 L 1137 1012 L 1120 1012" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 1137 1012 L 1137 964 L 1150 964" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 1137 1151 L 1137 1754 L 351 1754 L 351 1054 L 370 1054" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 351 1054 L 351 970 L 270 970" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="6,5" marker-end="url(#open)"/>
+<path d="M 40 56 L 334 56 L 346 68 L 346 158 L 40 158 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 334 56 L 334 68 L 346 68" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="48" y="78" class="note">The data placeholder passed in and out of</text>
+<text x="48" y="93" class="note">IADataDriversLib::libcall. Holds the db path,</text>
+<text x="48" y="108" class="note">the application identity and the optional</text>
+<text x="48" y="123" class="note">custom records factory and merger. Filled</text>
+<text x="48" y="138" class="note">with the ANNOTATIONS_DB_ROOT_APP_NAME and</text>
+<text x="48" y="153" class="note">the ANNOTATIONS_DB_APP_VERSION defaults.</text>
+<rect x="585" y="56" width="340" height="146" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="755.0" y="75" class="cname" text-anchor="middle">IADataDriversContext</text>
+<line x1="585" y1="83" x2="925" y2="83" stroke="#3a3a3a" stroke-width="1"/>
+<text x="593" y="98" class="member">+ std::string db_path</text>
+<text x="593" y="114" class="member">+ std::string app_name</text>
+<text x="593" y="130" class="member">+ std::string app_version</text>
+<text x="593" y="146" class="member">+ IRecordsFactoryPtr records_factory</text>
+<text x="593" y="162" class="member">+ IDBMergerPtr merger</text>
+<text x="593" y="178" class="member">+ IAnnotationsDBPtr db</text>
+<text x="593" y="194" class="member">+ {static} IADataDriversContextPtr create()</text>
+<rect x="1150" y="56" width="320" height="226" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="1310.0" y="75" class="cname" text-anchor="middle">IADataDriversFacade</text>
+<line x1="1150" y1="83" x2="1470" y2="83" stroke="#3a3a3a" stroke-width="1"/>
+<text x="1158" y="98" class="member">+ {static} create_library_context()</text>
+<text x="1158" y="114" class="member">+ {static} create_default_lib()</text>
+<text x="1158" y="130" class="member">+ {static} create_library(ctx)</text>
+<text x="1158" y="146" class="member">+ {static} create_annotations_db()</text>
+<text x="1158" y="162" class="member">+ {static} create_annotations_db(ctx)</text>
+<text x="1158" y="178" class="member">+ {static} open_annotations_db(fpath)</text>
+<text x="1158" y="194" class="member">+ {static} create_records_factory()</text>
+<text x="1158" y="210" class="member">+ {static} create_db_merger()</text>
+<text x="1158" y="226" class="member">+ {static} std::string library_version()</text>
+<text x="1158" y="242" class="member">+ {static} default_db_root_app_name()</text>
+<text x="1158" y="258" class="member">+ {static} default_db_app_version()</text>
+<text x="1158" y="274" class="member">+ {static} accept_real_logger(realLogger)</text>
+<path d="M 1150 302 L 1458 302 L 1470 314 L 1470 374 L 1150 374 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 1458 302 L 1458 314 L 1470 314" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="1158" y="324" class="note">The facade of the library implementation.</text>
+<text x="1158" y="339" class="note">The single entry point of a consuming</text>
+<text x="1158" y="354" class="note">project: every method is static and</text>
+<text x="1158" y="369" class="note">hands back an abstract interface only.</text>
+<path d="M 1150 394 L 1458 394 L 1470 406 L 1470 436 L 1150 436 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 1458 394 L 1458 406 L 1470 406" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="1158" y="416" class="note">The interface of the particular</text>
+<text x="1158" y="431" class="note">library implementation.</text>
+<rect x="459" y="242" width="150" height="48" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="534.0" y="258" class="stereo" text-anchor="middle">&#171;abstract&#187;</text>
+<text x="534.0" y="275" class="cname italic" text-anchor="middle">IProvider</text>
+<line x1="459" y1="283" x2="609" y2="283" stroke="#3a3a3a" stroke-width="1"/>
+<path d="M 629 242 L 917 242 L 929 254 L 929 299 L 629 299 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 917 242 L 917 254 L 929 254" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="637" y="264" class="note">IProvider and IRecord are the empty tagging</text>
+<text x="637" y="279" class="note">bases every provider and every data record</text>
+<text x="637" y="294" class="note">of the public API is built upon.</text>
+<rect x="370" y="330" width="328" height="128" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="534.0" y="346" class="stereo" text-anchor="middle">&#171;abstract&#187;</text>
+<text x="534.0" y="363" class="cname italic" text-anchor="middle">IImagesPathsDBProvider</text>
+<line x1="370" y1="371" x2="698" y2="371" stroke="#3a3a3a" stroke-width="1"/>
+<text x="378" y="386" class="member">+ ImageRecordsSet&amp; get_images_db()</text>
+<text x="378" y="402" class="member">+ std::string get_db_path()</text>
+<text x="378" y="418" class="member">+ AnnotationsList get_available_annotations()</text>
+<text x="378" y="434" class="member">+ bool changed()</text>
+<text x="378" y="450" class="member">+ bool delete_image_record(irFullPath)</text>
+<rect x="784" y="320" width="336" height="178" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="952.0" y="339" class="cname" text-anchor="middle">ImageRecord</text>
+<line x1="784" y1="347" x2="1120" y2="347" stroke="#3a3a3a" stroke-width="1"/>
+<text x="792" y="362" class="member">+ std::string abs_dir_path</text>
+<text x="792" y="378" class="member">+ std::string path</text>
+<text x="792" y="394" class="member">+ std::filesystem::path tmppath</text>
+<text x="792" y="410" class="member">+ ImageRecordRectSet rects</text>
+<text x="792" y="426" class="member">+ ImageRecordRectPtr current_rect</text>
+<text x="792" y="442" class="member">+ int iwidth, iheight</text>
+<text x="792" y="458" class="member">+ double imageScale</text>
+<text x="792" y="474" class="member">+ std::string get_full_path()</text>
+<text x="792" y="490" class="member">+ ImageRecordPtr duplicate_shared()</text>
+<rect x="784" y="528" width="290" height="82" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="929.0" y="547" class="cname" text-anchor="middle">ImageRecordRect</text>
+<line x1="784" y1="555" x2="1074" y2="555" stroke="#3a3a3a" stroke-width="1"/>
+<text x="792" y="570" class="member">+ std::string name</text>
+<text x="792" y="586" class="member">+ int x, y, width, height</text>
+<text x="792" y="602" class="member">+ ImageRecordRectPtr duplicate_shared()</text>
+<rect x="40" y="650" width="300" height="80" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="190.0" y="666" class="stereo" text-anchor="middle">&#171;abstract&#187;</text>
+<text x="190.0" y="683" class="cname italic" text-anchor="middle">IDBMerger</text>
+<line x1="40" y1="691" x2="340" y2="691" stroke="#3a3a3a" stroke-width="1"/>
+<text x="48" y="706" class="member">+ void merge(ImageRecordsSet&amp; dst,</text>
+<text x="74.5" y="722" class="member">const ImageRecordsSet&amp; append)</text>
+<rect x="370" y="650" width="370" height="160" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="555.0" y="666" class="stereo" text-anchor="middle">&#171;abstract&#187;</text>
+<text x="555.0" y="683" class="cname italic" text-anchor="middle">IAnnotationsDB</text>
+<line x1="370" y1="691" x2="740" y2="691" stroke="#3a3a3a" stroke-width="1"/>
+<text x="378" y="706" class="member">+ bool load_db(const std::string&amp; fpath)</text>
+<text x="378" y="722" class="member">+ bool store_db()</text>
+<text x="378" y="738" class="member">+ bool store_db(const std::string&amp; fpath)</text>
+<text x="378" y="754" class="member">+ void add_images_db(const ImageRecordsSet&amp; andb)</text>
+<text x="378" y="770" class="member">+ void set_app_info(name, version)</text>
+<text x="378" y="786" class="member">+ std::string get_app_name()</text>
+<text x="378" y="802" class="member">+ std::string get_app_version()</text>
+<rect x="770" y="650" width="350" height="112" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="945.0" y="666" class="stereo" text-anchor="middle">&#171;abstract&#187;</text>
+<text x="945.0" y="683" class="cname italic" text-anchor="middle">IRecordsFactory</text>
+<line x1="770" y1="691" x2="1120" y2="691" stroke="#3a3a3a" stroke-width="1"/>
+<text x="778" y="706" class="member">+ create_image_record(nirpath, nabsPath)</text>
+<text x="778" y="722" class="member">+ create_image_rect_record(ir)</text>
+<text x="778" y="738" class="member">+ create_image_rect_record(nname, nx, ny,</text>
+<text x="804.5" y="754" class="member">nwidth, nheight)</text>
+<rect x="1150" y="650" width="320" height="64" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="1310.0" y="666" class="stereo" text-anchor="middle">&#171;abstract&#187;</text>
+<text x="1310.0" y="683" class="cname italic" text-anchor="middle">IADataDriversLib</text>
+<line x1="1150" y1="691" x2="1470" y2="691" stroke="#3a3a3a" stroke-width="1"/>
+<text x="1158" y="706" class="member">+ bool libcall(IADataDriversContextPtr ctx)</text>
+<path d="M 844 498 L 839 505 L 844 512 L 849 505 Z" fill="#3a3a3a" stroke="#3a3a3a" stroke-width="1.2"/>
+<path d="M 585 178 L 578 173 L 571 178 L 578 183 Z" fill="#ffffff" stroke="#3a3a3a" stroke-width="1.2"/>
+<path d="M 585 194 L 578 189 L 571 194 L 578 199 Z" fill="#ffffff" stroke="#3a3a3a" stroke-width="1.2"/>
+<path d="M 925 178 L 932 183 L 939 178 L 932 173 Z" fill="#ffffff" stroke="#3a3a3a" stroke-width="1.2"/>
+<rect x="40" y="904" width="230" height="80" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="155.0" y="920" class="stereo" text-anchor="middle">&#171;iannotator::dbs::annotations::merger&#187;</text>
+<text x="155.0" y="937" class="cname" text-anchor="middle">DefaultDBMerger</text>
+<line x1="40" y1="945" x2="270" y2="945" stroke="#3a3a3a" stroke-width="1"/>
+<text x="48" y="960" class="member">+ void merge(dst, append)</text>
+<text x="48" y="976" class="member">+ {static} create()</text>
+<rect x="370" y="904" width="370" height="264" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="555.0" y="920" class="stereo" text-anchor="middle">&#171;iannotator::dbs::annotations&#187;</text>
+<text x="555.0" y="937" class="cname" text-anchor="middle">AnnotationsDirDB</text>
+<line x1="370" y1="945" x2="740" y2="945" stroke="#3a3a3a" stroke-width="1"/>
+<text x="378" y="960" class="member">+ bool load_db(const std::string&amp; fpath)</text>
+<text x="378" y="976" class="member">+ bool store_db()</text>
+<text x="378" y="992" class="member">+ bool store_db(const std::string&amp; fpath)</text>
+<text x="378" y="1008" class="member">+ void add_images_db(const ImageRecordsSet&amp; andb)</text>
+<text x="378" y="1024" class="member">+ void set_records_factory(factory)</text>
+<text x="378" y="1040" class="member">+ void set_db_merger(IDBMergerPtr merger)</text>
+<text x="378" y="1056" class="member">+ void set_library_impl(LibraryImplPtr newImpl)</text>
+<text x="378" y="1072" class="member">+ {static} AnnotationsDirDBPtr create()</text>
+<line x1="370" y1="1078" x2="740" y2="1078" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="378" y="1096" class="member"># LibraryImplPtr impl_of(const std::string&amp; fpath)</text>
+<text x="378" y="1112" class="member"># LibraryImplPtr impl</text>
+<text x="378" y="1128" class="member"># ImageRecordsSet irdb</text>
+<text x="378" y="1144" class="member"># ImageRecordsSet last_saved_db</text>
+<text x="378" y="1160" class="member"># std::string current_db_path</text>
+<rect x="770" y="904" width="350" height="128" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="945.0" y="920" class="stereo" text-anchor="middle">&#171;iannotator::records&#187;</text>
+<text x="945.0" y="937" class="cname" text-anchor="middle">RecordsFactory</text>
+<line x1="770" y1="945" x2="1120" y2="945" stroke="#3a3a3a" stroke-width="1"/>
+<text x="778" y="960" class="member">+ create_image_record(nirpath, nabsPath)</text>
+<text x="778" y="976" class="member">+ create_image_rect_record(ir)</text>
+<text x="778" y="992" class="member">+ create_image_rect_record(nname, nx, ny,</text>
+<text x="804.5" y="1008" class="member">nwidth, nheight)</text>
+<text x="778" y="1024" class="member">+ {static} RecordsFactoryPtr create()</text>
+<rect x="1150" y="904" width="320" height="80" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="1310.0" y="920" class="stereo" text-anchor="middle">&#171;lib0impl&#187;</text>
+<text x="1310.0" y="937" class="cname" text-anchor="middle">LibMain</text>
+<line x1="1150" y1="945" x2="1470" y2="945" stroke="#3a3a3a" stroke-width="1"/>
+<text x="1158" y="960" class="member">+ bool libcall(IADataDriversContextPtr ctx)</text>
+<text x="1158" y="976" class="member">+ {static} LibMainPtr create()</text>
+<path d="M 40 1004 L 328 1004 L 340 1016 L 340 1076 L 40 1076 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 328 1004 L 328 1016 L 340 1016" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="48" y="1026" class="note">Appends the not yet present records only.</text>
+<text x="48" y="1041" class="note">The paths are resolved through</text>
+<text x="48" y="1056" class="note">helpers::ImageRecordUrlAndPathHelper, which</text>
+<text x="48" y="1071" class="note">asks helpers::UrlHelper about the web URLs.</text>
+<path d="M 770 1052 L 1108 1052 L 1120 1064 L 1120 1109 L 770 1109 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 1108 1052 L 1108 1064 L 1120 1064" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="778" y="1074" class="note">The annotations project database itself:</text>
+<text x="778" y="1089" class="note">keeps the in memory records set and knows</text>
+<text x="778" y="1104" class="note">nothing of the format they were read from.</text>
+<path d="M 1150 1004 L 1400 1004 L 1412 1016 L 1412 1061 L 1150 1061 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 1400 1004 L 1400 1016 L 1412 1016" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="1158" y="1026" class="note">The particular library implementation.</text>
+<text x="1158" y="1041" class="note">Is created by LibFactory to return by</text>
+<text x="1158" y="1056" class="note">IADataDriversFacade to the end user.</text>
+<rect x="1150" y="1091" width="320" height="176" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="1310.0" y="1107" class="stereo" text-anchor="middle">&#171;lib0impl&#187;</text>
+<text x="1310.0" y="1124" class="cname" text-anchor="middle">LibFactory</text>
+<line x1="1150" y1="1132" x2="1470" y2="1132" stroke="#3a3a3a" stroke-width="1"/>
+<text x="1158" y="1147" class="member">+ create_default_lib()</text>
+<text x="1158" y="1163" class="member">+ create_default_context()</text>
+<text x="1158" y="1179" class="member">+ create_appropriate_lib(ctx)</text>
+<text x="1158" y="1195" class="member">+ create_annotations_db()</text>
+<text x="1158" y="1211" class="member">+ create_annotations_db(ctx)</text>
+<text x="1158" y="1227" class="member">+ create_records_factory()</text>
+<text x="1158" y="1243" class="member">+ create_db_merger()</text>
+<text x="1158" y="1259" class="member">+ {static} LibFactoryPtr create_factory()</text>
+<path d="M 1150 1287 L 1458 1287 L 1470 1299 L 1470 1344 L 1150 1344 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 1458 1287 L 1458 1299 L 1470 1299" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="1158" y="1309" class="note">The factory to create library implementations</text>
+<text x="1158" y="1324" class="note">objects. Every class of this package is</text>
+<text x="1158" y="1339" class="note">instantiated through it.</text>
+<rect x="404" y="1208" width="306" height="280" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="557.0" y="1224" class="stereo" text-anchor="middle">&#171;iannotator::dbs::annotations&#187;</text>
+<text x="557.0" y="1241" class="cname" text-anchor="middle">LibraryImpl</text>
+<line x1="404" y1="1249" x2="710" y2="1249" stroke="#3a3a3a" stroke-width="1"/>
+<text x="412" y="1264" class="member">+ bool load(fpath, ImageRecordsSet&amp; irdb)</text>
+<text x="412" y="1280" class="member">+ bool store(fpath, irdb)</text>
+<text x="412" y="1296" class="member">+ void set_app_info(name, version)</text>
+<text x="412" y="1312" class="member">+ std::string get_app_name()</text>
+<text x="412" y="1328" class="member">+ std::string get_app_version()</text>
+<text x="412" y="1344" class="member">+ void set_records_factory(factory)</text>
+<text x="412" y="1360" class="member">+ IRecordsFactoryPtr get_records_factory()</text>
+<text x="412" y="1376" class="member">+ {static} LibraryImplPtr create()</text>
+<line x1="404" y1="1382" x2="710" y2="1382" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="412" y="1400" class="member"># bool read_text(fpath, std::string&amp; text)</text>
+<text x="412" y="1416" class="member"># bool write_text(fpath,</text>
+<text x="438.5" y="1432" class="member">const std::string&amp; text)</text>
+<text x="412" y="1448" class="member"># bool serialize(json)</text>
+<text x="412" y="1464" class="member"># ImageRecordsSet load_the_irs(json)</text>
+<text x="412" y="1480" class="member"># std::string app_name, app_version</text>
+<path d="M 40 1208 L 328 1208 L 340 1220 L 340 1280 L 40 1280 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 328 1208 L 328 1220 L 340 1220" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="48" y="1230" class="note">The project file driver of the JSON format.</text>
+<text x="48" y="1245" class="note">Everything the library knows about the file</text>
+<text x="48" y="1260" class="note">format lives here, so another format is a</text>
+<text x="48" y="1275" class="note">descendant of this class.</text>
+<rect x="784" y="1168" width="336" height="184" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="952.0" y="1184" class="stereo" text-anchor="middle">&#171;the four JSON converters&#187;</text>
+<text x="952.0" y="1201" class="cname" text-anchor="middle">Converters</text>
+<line x1="784" y1="1209" x2="1120" y2="1209" stroke="#3a3a3a" stroke-width="1"/>
+<text x="792" y="1224" class="member">JSON2ImageRecordsConverter</text>
+<text x="792" y="1240" class="member">ImageRecords2JSONConverter</text>
+<text x="792" y="1256" class="member">ImageRecordJSON2RecordConverter</text>
+<text x="792" y="1272" class="member">ImageRecordRectJSON2RecordConverter</text>
+<line x1="784" y1="1278" x2="1120" y2="1278" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="792" y="1296" class="member">+ ImageRecordsSet fetch_records(allAJSon)</text>
+<text x="792" y="1312" class="member">+ nlohmann::json to_document(irs)</text>
+<text x="792" y="1328" class="member">+ ImageRecordPtr convert(fan, absdirpath)</text>
+<text x="792" y="1344" class="member">+ ImageRecordRectPtr convert(rect)</text>
+<rect x="784" y="1382" width="336" height="168" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="952.0" y="1398" class="stereo" text-anchor="middle">&#171;iannotator::dbs::annotations&#187;</text>
+<text x="952.0" y="1415" class="cname" text-anchor="middle">AnnotationsJSONSerializator</text>
+<line x1="784" y1="1423" x2="1120" y2="1423" stroke="#3a3a3a" stroke-width="1"/>
+<text x="792" y="1438" class="member">+ bool serialize(const nlohmann::json&amp; json)</text>
+<text x="792" y="1454" class="member">+ std::string root_app_name</text>
+<text x="792" y="1470" class="member">+ std::string app_version</text>
+<text x="792" y="1486" class="member">+ {static} default_root_app_name</text>
+<text x="792" y="1502" class="member">+ {static} default_app_version</text>
+<line x1="784" y1="1508" x2="1120" y2="1508" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="792" y="1526" class="member"># bool serialize_app_info(json)</text>
+<text x="792" y="1542" class="member"># bool serialize_annotations_records(json)</text>
+<rect x="404" y="1528" width="306" height="168" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="557.0" y="1544" class="stereo" text-anchor="middle">&#171;iannotator::dbs::annotations&#187;</text>
+<text x="557.0" y="1561" class="cname" text-anchor="middle">Imgajz1LibraryImpl</text>
+<line x1="404" y1="1569" x2="710" y2="1569" stroke="#3a3a3a" stroke-width="1"/>
+<text x="412" y="1584" class="member">+ {static} Imgajz1LibraryImplPtr create()</text>
+<text x="412" y="1600" class="member">+ {static} create(const LibraryImpl&amp; like)</text>
+<text x="412" y="1616" class="member">+ {static} bool is_imgajz1_path(fpath)</text>
+<text x="412" y="1632" class="member">+ {static} file_extension (".imgajz1")</text>
+<line x1="404" y1="1638" x2="710" y2="1638" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="2,3"/>
+<text x="412" y="1656" class="member"># bool read_text(fpath, std::string&amp; text)</text>
+<text x="412" y="1672" class="member"># bool write_text(fpath,</text>
+<text x="438.5" y="1688" class="member">const std::string&amp; text)</text>
+<path d="M 40 1528 L 328 1528 L 340 1540 L 340 1600 L 40 1600 Z" fill="#fffbe6" stroke="#b8a54a" stroke-width="1.1"/>
+<path d="M 328 1528 L 328 1540 L 340 1540" fill="none" stroke="#b8a54a" stroke-width="1.1"/>
+<text x="48" y="1550" class="note">The project file driver of the imgajz1</text>
+<text x="48" y="1565" class="note">files of the .imgajz1 file name extension:</text>
+<text x="48" y="1580" class="note">the regular JSON project file, gzip</text>
+<text x="48" y="1595" class="note">compressed by the ZlibController.</text>
+<rect x="790" y="1630" width="310" height="82" fill="#fdfdf6" stroke="#3a3a3a" stroke-width="1.2"/>
+<text x="945.0" y="1649" class="cname" text-anchor="middle">ZlibController</text>
+<line x1="790" y1="1657" x2="1100" y2="1657" stroke="#3a3a3a" stroke-width="1"/>
+<text x="798" y="1672" class="member">+ bool compress_to_file(path, input)</text>
+<text x="798" y="1688" class="member">+ buffer uncompress_from_file(path)</text>
+<text x="798" y="1704" class="member">+ {static} ZlibControllerPtr create()</text>
+<text x="542.0" y="316" class="edge">extends</text>
+<text x="542.0" y="636" class="edge">extends</text>
+<text x="703" y="382" class="edge">provides the</text>
+<text x="703" y="394" class="edge">records set of</text>
+<text x="852" y="518" class="edge">rects</text>
+<text x="982" y="636" class="edge">creates</text>
+<text x="1086" y="636" class="edge" text-anchor="end">creates</text>
+<text x="198" y="642" class="edge">in</text>
+<text x="351.0" y="620" class="edge" text-anchor="end">out</text>
+<text x="1124.0" y="590" class="edge" text-anchor="end">in</text>
+<text x="933" y="116" class="edge">takes and fills</text>
+<text x="933" y="76" class="edge">creates</text>
+<text x="163.0" y="750" class="edge">implements</text>
+<text x="563.0" y="830" class="edge">implements</text>
+<text x="953.0" y="782" class="edge">implements</text>
+<text x="1318.0" y="734" class="edge">particular implementation</text>
+<text x="347.0" y="750" class="edge" text-anchor="end">add_images_db</text>
+<text x="347.0" y="762" class="edge" text-anchor="end">merges with</text>
+<text x="278" y="917" class="edge">the default</text>
+<text x="278" y="929" class="edge">merger</text>
+<text x="565.0" y="1184" class="edge">reads and writes the</text>
+<text x="565.0" y="1196" class="edge">project file through</text>
+<text x="395" y="1408" class="edge" transform="rotate(-90 395 1408)">the driver of the .imgajz1 paths</text>
+<text x="565.0" y="1512" class="edge">the imgajz1 format</text>
+<text x="715" y="1250" class="edge">converts the</text>
+<text x="715" y="1262" class="edge">JSON with</text>
+<text x="715" y="1398" class="edge">validates the</text>
+<text x="715" y="1410" class="edge">file with</text>
+<text x="716" y="1582" class="edge">compresses the JSON text with</text>
+<text x="761.0" y="1160" class="edge">builds every record through</text>
+<text x="1434" y="1083" class="edge" text-anchor="end">builds the database through</text>
+<text x="1473" y="620" class="edge" transform="rotate(-90 1473 620)">delegates every call to</text>
+<text x="357.0" y="1748" class="edge">creates</text>
 </svg>
