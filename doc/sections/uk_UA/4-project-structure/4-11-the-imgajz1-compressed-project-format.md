@@ -16,9 +16,9 @@
 Тож проект, відкритий з файлу `.json` і записаний у файл `.imgajz1`, далі продовжується у форматі imgajz1 - `store_db()` без аргументу пише формат шляху останнього завантаження чи запису, - і навпаки. В API нічого не змінюється: `load_db()`, `store_db()`, `open_annotations_db()` і `IADataDriversLib::libcall()` приймають будь-який із цих шляхів.
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers012;
+namespace iadd = ImagesAnnotatorDataDrivers013;
 
 auto db = iadd::IADataDriversFacade::open_annotations_db("cars.json");
 

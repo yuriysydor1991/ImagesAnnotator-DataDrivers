@@ -15,7 +15,7 @@ target_include_directories(
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/facade/public>
     # Both the plain include root and the versioned sub-directory are exported,
     # so a consumer may write either
-    #   #include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>  (recommended)
+    #   #include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>  (recommended)
     # or the short
     #   #include <IADataDriversFacade.h>
     # The prefixed form is the safe one: header names such as ImageRecord.h or

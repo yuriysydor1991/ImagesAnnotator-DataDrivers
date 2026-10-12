@@ -10,8 +10,8 @@
 
 using namespace testing;
 using iannotator::dbs::annotations::converters::JSON2ImageRecordsConverter;
-using ImagesAnnotatorDataDrivers012::ImageRecord;
-using ImagesAnnotatorDataDrivers012::ImageRecordsSet;
+using ImagesAnnotatorDataDrivers013::ImageRecord;
+using ImagesAnnotatorDataDrivers013::ImageRecordsSet;
 using S = iannotator::dbs::annotations::AnnotationsJSONSerializator;
 
 namespace

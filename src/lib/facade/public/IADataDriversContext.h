@@ -35,7 +35,7 @@
 #include "IDBMerger.h"
 #include "IRecordsFactory.h"
 
-namespace ImagesAnnotatorDataDrivers012
+namespace ImagesAnnotatorDataDrivers013
 {
 
 /**
@@ -93,6 +93,6 @@ class IADataDriversContext
 
 using IADataDriversContextPtr = IADataDriversContext::IADataDriversContextPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers012
+}  // namespace ImagesAnnotatorDataDrivers013
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSCONTEXT_CLASS_H

@@ -49,7 +49,7 @@ namespace logger
 class ILogger;
 }  // namespace logger
 
-namespace ImagesAnnotatorDataDrivers012
+namespace ImagesAnnotatorDataDrivers013
 {
 
 /**
@@ -62,7 +62,7 @@ namespace ImagesAnnotatorDataDrivers012
  * A typical read - modify - write session looks like this:
  *
  * @code
- * namespace iadd = ImagesAnnotatorDataDrivers012;
+ * namespace iadd = ImagesAnnotatorDataDrivers013;
  *
  * auto db = iadd::IADataDriversFacade::open_annotations_db("project.json");
  *
@@ -196,6 +196,6 @@ class IADataDriversFacade
       const std::shared_ptr<logger::ILogger>& realLogger);
 };
 
-}  // namespace ImagesAnnotatorDataDrivers012
+}  // namespace ImagesAnnotatorDataDrivers013
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSFACADE_CLASS_H

@@ -21,7 +21,7 @@
 using namespace testing;
 
 /// @brief The very alias every downstream project is encouraged to introduce
-namespace iadd = ImagesAnnotatorDataDrivers012;
+namespace iadd = ImagesAnnotatorDataDrivers013;
 
 namespace
 {

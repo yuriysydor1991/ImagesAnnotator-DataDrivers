@@ -10,7 +10,7 @@
 #include "IDBMerger.h"
 #include "IRecordsFactory.h"
 
-namespace ImagesAnnotatorDataDrivers012
+namespace ImagesAnnotatorDataDrivers013
 {
 
 /**
@@ -33,7 +33,7 @@ class IADataDriversContext
   std::string db_path;
 
   std::string app_name{"ImagesAnnotator"};
-  std::string app_version{"0.12.0"};
+  std::string app_version{"0.13.0"};
 
   IRecordsFactoryPtr records_factory;
   IDBMergerPtr merger;
@@ -48,6 +48,6 @@ class IADataDriversContext
 
 using IADataDriversContextPtr = IADataDriversContext::IADataDriversContextPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers012
+}  // namespace ImagesAnnotatorDataDrivers013
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSCONTEXT_CLASS_H

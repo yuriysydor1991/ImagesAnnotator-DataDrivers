@@ -33,18 +33,18 @@
  * library.
  *
  * The namespace name carries the library major and minor version numbers
- * (0.12 gives the 012 suffix) so that several library versions may coexist
+ * (0.13 gives the 013 suffix) so that several library versions may coexist
  * inside a single translation unit without any symbol clash. Downstream
  * projects that want to stay version agnostic are encouraged to introduce
  * their own short namespace alias, for example:
  *
  * @code
- * namespace iadd = ImagesAnnotatorDataDrivers012;
+ * namespace iadd = ImagesAnnotatorDataDrivers013;
  * @endcode
  *
  * Current file is a target for the library header installation.
  */
-namespace ImagesAnnotatorDataDrivers012
+namespace ImagesAnnotatorDataDrivers013
 {
 
 /**
@@ -57,6 +57,6 @@ class IRecord
   IRecord() = default;
 };
 
-}  // namespace ImagesAnnotatorDataDrivers012
+}  // namespace ImagesAnnotatorDataDrivers013
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IRECORD_ABSTRACT_CLASS_H

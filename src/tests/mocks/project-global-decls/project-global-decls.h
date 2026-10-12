@@ -17,9 +17,9 @@ namespace project_decls
 {
 
 /// @brief Global project' library name
-const std::string PROJECT_NAME = "ImagesAnnotatorDataDrivers-0.12";
+const std::string PROJECT_NAME = "ImagesAnnotatorDataDrivers-0.13";
 /// @brief Global project' build version
-const std::string PROJECT_BUILD_VERSION = "0.12.0";
+const std::string PROJECT_BUILD_VERSION = "0.13.0";
 /// @brief Global project' configure git commit hash
 const std::string PROJECT_BUILD_COMMIT =
     "0000000000000000000000000000000000000000";
@@ -29,7 +29,7 @@ const std::string PROJECT_CONFIGURE_DATE = "2025-01-01 00:00:00";
 /// @brief The JSON root element name of the annotations project files
 const std::string ANNOTATIONS_DB_ROOT_APP_NAME = "ImagesAnnotator";
 /// @brief The version string written under the JSON root element
-const std::string ANNOTATIONS_DB_APP_VERSION = "0.12.0";
+const std::string ANNOTATIONS_DB_APP_VERSION = "0.13.0";
 
 }  // namespace project_decls
 

@@ -43,7 +43,7 @@ namespace iannotator::dbs::annotations::merger
  * @brief The annotator annotations dbs merger class.
  */
 class DefaultDBMerger : public virtual AnnotationsDBTypes,
-                        virtual public ImagesAnnotatorDataDrivers012::IDBMerger,
+                        virtual public ImagesAnnotatorDataDrivers013::IDBMerger,
                         public virtual helpers::SortHelper
 {
  public:

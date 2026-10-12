@@ -20,7 +20,7 @@ mkdir -vp build && cd build && cmake ../ -DENABLE_FLATPAK=ON
 cmake --build . --target flatpak
 ```
 
-У разі успішної побудови цілі буде створено файл під назвою, наприклад, `ImagesAnnotatorDataDrivers-0.12.0.flatpak` у кореневій директорії побудови проекту. Для того щоб преглянути або/і змінити ціль побудови пакету flatpak необхідно відвідати файли [cmake/enablers/packagers/template-project-flatpak-target.cmake](/cmake/enablers/packagers/template-project-flatpak-target.cmake) або [misc/packagers/flatpak.conf.json.in](/misc/packagers/flatpak.conf.json.in).
+У разі успішної побудови цілі буде створено файл під назвою, наприклад, `ImagesAnnotatorDataDrivers-0.13.0.flatpak` у кореневій директорії побудови проекту. Для того щоб преглянути або/і змінити ціль побудови пакету flatpak необхідно відвідати файли [cmake/enablers/packagers/template-project-flatpak-target.cmake](/cmake/enablers/packagers/template-project-flatpak-target.cmake) або [misc/packagers/flatpak.conf.json.in](/misc/packagers/flatpak.conf.json.in).
 
 Зауваж, що і назва файлу пакунку, і ідентифікатор застосунку складаються зі змінної `PROJECT_BINARY_NAME` - назви виконуваного файлу проекту, якої даний проект більше не оголошує. Шаблоном ідентифікатора є `ua.org.kytok.template.${PROJECT_BINARY_NAME}`, отож перш ніж ціль зможе створити щось осмислене, ту змінну (і команду `command` для запуску у пісочниці) має надати той, хто повертатиме ціль назад.
 
@@ -29,7 +29,7 @@ cmake --build . --target flatpak
 ```
 # для встановлення (версія може змінитись)
 # всередині директорії побудови проекту 
-flatpak install --user ImagesAnnotatorDataDrivers-0.12.0.flatpak
+flatpak install --user ImagesAnnotatorDataDrivers-0.13.0.flatpak
 
 # для запуску встановленої програми
 flatpak run ua.org.kytok.template.ImagesAnnotatorDataDrivers

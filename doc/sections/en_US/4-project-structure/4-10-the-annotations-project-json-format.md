@@ -215,7 +215,7 @@ The file below is the real fixture the `CTEST_AnnotationsDirDB` component test d
 
 What is worth pointing at in it:
 
-- **The identity element says `0.10.0` while the library default is `0.12.0`.** The file still loads. The mismatch is a warning, see below.
+- **The identity element says `0.10.0` while the library default is `0.13.0`.** The file still loads. The mismatch is a warning, see below.
 - **The top level `"user"` object is not a part of the format.** The library ignores it entirely, which is exactly the point of having it in the fixture: an unknown key must never break a load. Be aware though that it does not survive a store either - see the round-trip note.
 - **Every image record here omits `scale_factor`, `width` and `height`** at its own level. All three are optional, and the records come out with `imageScale`, `iwidth` and `iheight` at `0`.
 - **The `"scale_factor"` keys inside the rectangle objects are ignored.** A rectangle is read for its `name` and its `rect` only; the image scale is an image record level field. The fixture carries them precisely because a real world file may hold junk in a place the format does not define one.
@@ -227,7 +227,7 @@ When the identity element version differs from the version the database is confi
 
 ```
 file's ImagesAnnotator app version is: 0.10.0
-Current app version and files's ones missmatch: 0.10.0 != 0.12.0
+Current app version and files's ones missmatch: 0.10.0 != 0.13.0
 ```
 
 That is deliberate. The format has been stable, the version is an informational stamp, and refusing a file written by a slightly older or slightly newer application would be a much worse failure mode than a log line. Do not build your own logic on top of the version string expecting the library to enforce anything about it.
@@ -266,7 +266,7 @@ Storing is not "editing the file you loaded", it is writing a fresh document out
 - the output is pretty printed with a two space indentation;
 - the identity element is written with the name and the version the database is configured with **at the moment of the store**, which is not necessarily the ones the loaded file carried.
 
-That last point is the one that bites: load a `0.10.0` file, store it with the defaults, and the stored one says `0.12.0`. Call `set_app_info()` with what you read back from `get_app_name()` / `get_app_version()` if preserving the original stamp matters to you.
+That last point is the one that bites: load a `0.10.0` file, store it with the defaults, and the stored one says `0.13.0`. Call `set_app_info()` with what you read back from `get_app_name()` / `get_app_version()` if preserving the original stamp matters to you.
 
 ### See also
 

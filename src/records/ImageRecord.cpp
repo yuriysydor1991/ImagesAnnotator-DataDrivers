@@ -34,7 +34,7 @@
 #include "IRecord.h"
 #include "src/log/log.h"
 
-namespace ImagesAnnotatorDataDrivers012
+namespace ImagesAnnotatorDataDrivers013
 {
 
 ImageRecord::ImageRecord(const std::string& npath, const std::string& nabspath)
@@ -169,4 +169,4 @@ ImageRecordPtr ImageRecord::create(const std::string& npath,
   return std::make_shared<ImageRecord>(npath, nabspath);
 }
 
-}  // namespace ImagesAnnotatorDataDrivers012
+}  // namespace ImagesAnnotatorDataDrivers013

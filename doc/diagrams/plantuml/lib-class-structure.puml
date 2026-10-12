@@ -1,6 +1,6 @@
 @startuml
 
-package "ImagesAnnotatorDataDrivers012 (installed interface)" {
+package "ImagesAnnotatorDataDrivers013 (installed interface)" {
 
   abstract class IProvider {
   }

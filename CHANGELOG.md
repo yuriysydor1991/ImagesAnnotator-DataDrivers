@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.13.0] - 2026-10-12
 
 ### Added
 
@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **The installable names carry the `0.13` pair**, which every consumer of this library has to follow: the public namespace is `ImagesAnnotatorDataDrivers013`, the headers install into `<prefix>/include/ImagesAnnotatorDataDrivers-0.13/`, the binary is `libImagesAnnotatorDataDrivers-0.13.so.0.13.0` and the CMake package a consumer resolves is `find_package(ImagesAnnotatorDataDrivers-0.13 REQUIRED CONFIG)`. A 0.12 installation stays on the disk beside the new one instead of being overwritten by it, so a consumer built against the previous names keeps building until it is repointed.
 - **The library depends on the [zlib](https://zlib.net/)**: the `template-project-zlib-enabler` of the template is mandatory now and runs in the pre-src enabler pass, the new `ImagesAnnotator-zlib-linker` links it `PRIVATE` the way the libcurl is - the system wide zlib is probed first, its `v1.3.1` sources are fetched for none, and `ENABLE_ZLIB=OFF` stops the configure. Install the `zlib1g-dev` package (Debian, Ubuntu) to keep the configure offline; the Jenkins pipeline image installs it. See the rewritten [Enabling the zlib library](/doc/sections/en_US/5-project-build/compression/5-23-enabling-the-zlib-library.md) section.
 - `LibraryImpl` reads and writes the JSON text of the files of its format through the new protected virtual `read_text()` and `write_text()`, which the project file format of another file overrides, while its `load()` and `store()` keep the parse, the validation, the conversion and the printing of the JSON text every format shares. `ImageRecords2JSONConverter` converts the records into the document alone: its file writing `store()` is replaced by the `to_document()` the drivers print the text of.
 

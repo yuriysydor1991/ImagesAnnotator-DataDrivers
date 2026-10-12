@@ -1,6 +1,6 @@
 ## Публічні інтерфейсні файли бібліотеки
 
-Директорія [src/lib/facade/public](/src/lib/facade/public) містить публічні заголовкові підключаємі файли, придатні до встановлення. Вони визначають усю поверхню API бібліотеки - ніщо інше з проекту не є досяжним ззовні - і кожне оголошення всередині них належить до простору імен `ImagesAnnotatorDataDrivers012`.
+Директорія [src/lib/facade/public](/src/lib/facade/public) містить публічні заголовкові підключаємі файли, придатні до встановлення. Вони визначають усю поверхню API бібліотеки - ніщо інше з проекту не є досяжним ззовні - і кожне оголошення всередині них належить до простору імен `ImagesAnnotatorDataDrivers013`.
 
 | Заголовковий файл | Що оголошує |
 |---|---|
@@ -15,14 +15,14 @@
 | [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | Один іменований прямокутник: `name`, `x`, `y`, `width` і `height` |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | Порожні базові класи-мітки двох ієрархій вище |
 
-Вміст директорії [src/lib/facade/public](/src/lib/facade/public) встановлюється у піддиректорію `include/<назва бібліотеки>` обраного кореня інсталяції, що з поточною назвою проекту і мажорною версією означає `include/ImagesAnnotatorDataDrivers-0.12/` - див. [Зміна назви проекту і назви бібліотеки](/doc/sections/uk_UA/4-project-structure/4-2-changing-the-project-and-executable-name.md) і [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
+Вміст директорії [src/lib/facade/public](/src/lib/facade/public) встановлюється у піддиректорію `include/<назва бібліотеки>` обраного кореня інсталяції, що з поточною назвою проекту і мажорною версією означає `include/ImagesAnnotatorDataDrivers-0.13/` - див. [Зміна назви проекту і назви бібліотеки](/doc/sections/uk_UA/4-project-structure/4-2-changing-the-project-and-executable-name.md) і [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
 
 ### Обидві форми включення працюють
 
 Ціль бібліотеки експортує як звичайний корінь включень, так і його версійовану піддиректорію, тож встановлений споживач може написати будь-що з цього:
 
 ```
-#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>   // рекомендовано
+#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>   // рекомендовано
 #include <IADataDriversFacade.h>
 ```
 
@@ -30,14 +30,14 @@
 
 ### Простір імен несе версію
 
-Публічний простір імен є `ImagesAnnotatorDataDrivers012` - мажорна і мінорна версії бібліотеки навмисно вштамповані у його назву, щоб дві версії бібліотеки могли бути присутніми в одній одиниці трансляції без зіткнення їхніх типів. Коду споживача рекомендується створити для нього псевдонім:
+Публічний простір імен є `ImagesAnnotatorDataDrivers013` - мажорна і мінорна версії бібліотеки навмисно вштамповані у його назву, щоб дві версії бібліотеки могли бути присутніми в одній одиниці трансляції без зіткнення їхніх типів. Коду споживача рекомендується створити для нього псевдонім:
 
 ```
-namespace iadd = ImagesAnnotatorDataDrivers012;
+namespace iadd = ImagesAnnotatorDataDrivers013;
 ```
 
 ### CMake-пакунок
 
-Окрім успішного встановлення двійкового файлу бібліотеки і заголовкових файлів, у систему встановлюється відповідний CMake-пакунок для забезпечення доступності бібліотеки для усіх зовнішніх зацікавлених проектів: `find_package(ImagesAnnotatorDataDrivers-0.12 REQUIRED)` приносить імпортовану ціль `ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12`, яка несе обидві згадані вище директорії включень. Переглянь CMake-файли [src/lib/cmake/lib-cmake-module-gen.cmake](/src/lib/cmake/lib-cmake-module-gen.cmake) і [src/lib/cmake/TemplateLibraryConfig.cmake.in](/src/lib/cmake/TemplateLibraryConfig.cmake.in) щодо подробиць генерації CMake-пакунку бібліотеки, а розділ [Використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) - щодо повного прикладу споживача.
+Окрім успішного встановлення двійкового файлу бібліотеки і заголовкових файлів, у систему встановлюється відповідний CMake-пакунок для забезпечення доступності бібліотеки для усіх зовнішніх зацікавлених проектів: `find_package(ImagesAnnotatorDataDrivers-0.13 REQUIRED)` приносить імпортовану ціль `ImagesAnnotatorDataDrivers-0.13::ImagesAnnotatorDataDrivers-0.13`, яка несе обидві згадані вище директорії включень. Переглянь CMake-файли [src/lib/cmake/lib-cmake-module-gen.cmake](/src/lib/cmake/lib-cmake-module-gen.cmake) і [src/lib/cmake/TemplateLibraryConfig.cmake.in](/src/lib/cmake/TemplateLibraryConfig.cmake.in) щодо подробиць генерації CMake-пакунку бібліотеки, а розділ [Використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) - щодо повного прикладу споживача.
 
 Зверни увагу, що жодна із залежностей nlohmann json, libcurl і zlib не з'являється у жодному з цих заголовкових файлів: усі три злінковані як `PRIVATE`, тож проект-споживач не успадковує жодної з них і не потребує жодної з них у своєму шляху включень.

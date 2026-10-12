@@ -24,8 +24,8 @@ Finally, execute the `cpack` command inside the project build directory:
 cpack
 ```
 
-The package file should be generated inside the project build root directory. For example, if project name wasn't changed and it's version is `0.12.0` so the package name may look like `ImagesAnnotatorDataDrivers-0.12.0-Linux.deb`.
+The package file should be generated inside the project build root directory. For example, if project name wasn't changed and it's version is `0.13.0` so the package name may look like `ImagesAnnotatorDataDrivers-0.13.0-Linux.deb`.
 
-The package carries what the project installs, that is the shared library `libImagesAnnotatorDataDrivers-0.12.so.0.12.0` with its symlinks, the public headers under `include/ImagesAnnotatorDataDrivers-0.12/` and the CMake package files - everything a downstream `find_package(ImagesAnnotatorDataDrivers-0.12 REQUIRED)` needs. There is no executable in it, this project does not build one.
+The package carries what the project installs, that is the shared library `libImagesAnnotatorDataDrivers-0.13.so.0.13.0` with its symlinks, the public headers under `include/ImagesAnnotatorDataDrivers-0.13/` and the CMake package files - everything a downstream `find_package(ImagesAnnotatorDataDrivers-0.13 REQUIRED)` needs. There is no executable in it, this project does not build one.
 
 In order to examine details of the `deb` package configuration visit the [cmake/enablers/packagers/template-project-deb-enabler.cmake](/cmake/enablers/packagers/template-project-deb-enabler.cmake) file.

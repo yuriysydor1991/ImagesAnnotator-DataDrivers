@@ -35,7 +35,7 @@
 #include "src/lib/libmain/LibFactory.h"
 #include "src/log/log.h"
 
-namespace ImagesAnnotatorDataDrivers012
+namespace ImagesAnnotatorDataDrivers013
 {
 
 IADataDriversContextPtr IADataDriversFacade::create_library_context()
@@ -144,4 +144,4 @@ void IADataDriversFacade::accept_real_logger(
   LOG_INIT_REAL_LOGGER(realLogger);
 }
 
-}  // namespace ImagesAnnotatorDataDrivers012
+}  // namespace ImagesAnnotatorDataDrivers013

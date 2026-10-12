@@ -8,9 +8,9 @@
 cmake -B build -S . -DENABLE_DOC_DOXYGEN=ON -DDOXYGEN_DO_INSTALL=ON
 ```
 
-Змінна `DOXYGEN_OUT_HTML_NAME` сконфігурує назву для директорії HTML документації (передається до файлу `Doxyfile`). Її типовим значенням є `${PROJECT_LIBRARY_NAME}-html`, що для незміненого проекту означає `ImagesAnnotatorDataDrivers-0.12-html`.
+Змінна `DOXYGEN_OUT_HTML_NAME` сконфігурує назву для директорії HTML документації (передається до файлу `Doxyfile`). Її типовим значенням є `${PROJECT_LIBRARY_NAME}-html`, що для незміненого проекту означає `ImagesAnnotatorDataDrivers-0.13-html`.
 
-З увімкненими обома змінними згенерована директорія `doc/ImagesAnnotatorDataDrivers-0.12-html` встановлюється цілком у піддиректорію `share/docs` префікса встановлення, під компонентом встановлення `Documentation`:
+З увімкненими обома змінними згенерована директорія `doc/ImagesAnnotatorDataDrivers-0.13-html` встановлюється цілком у піддиректорію `share/docs` префікса встановлення, під компонентом встановлення `Documentation`:
 
 ```
 # всередині кореневої директорії проекту
@@ -19,7 +19,7 @@ cmake --build build --target Doxygen-doc
 cmake --install build --prefix /usr/local
 
 # документація тоді потрапляє у
-# /usr/local/share/docs/ImagesAnnotatorDataDrivers-0.12-html/index.html
+# /usr/local/share/docs/ImagesAnnotatorDataDrivers-0.13-html/index.html
 ```
 
 Зауваж, що документація має бути згенерована ціллю `Doxygen-doc` *перед* виконанням команди встановлення - правило встановлення лише копіює вже наявну директорію.

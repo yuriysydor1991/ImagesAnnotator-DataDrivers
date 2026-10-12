@@ -35,17 +35,17 @@ project(MyTool LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ImagesAnnotatorDataDrivers-0.12 REQUIRED)
+find_package(ImagesAnnotatorDataDrivers-0.13 REQUIRED)
 
 add_executable(mytool main.cpp)
-target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.12::ImagesAnnotatorDataDrivers-0.12)
+target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.13::ImagesAnnotatorDataDrivers-0.13)
 ```
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers012;
+namespace iadd = ImagesAnnotatorDataDrivers013;
 
 int main(int argc, char** argv)
 {
@@ -63,9 +63,9 @@ int main(int argc, char** argv)
 }
 ```
 
-Назва простору імен `ImagesAnnotatorDataDrivers012` навмисне містить головний і другорядний номери версії бібліотеки: дві версії бібліотеки можуть співіснувати в межах однієї одиниці трансляції без жодного конфлікту символів. Створюй для нього псевдонім, як показано вище, і підняття версії залишатиметься зміною в один рядок на твоєму боці.
+Назва простору імен `ImagesAnnotatorDataDrivers013` навмисне містить головний і другорядний номери версії бібліотеки: дві версії бібліотеки можуть співіснувати в межах однієї одиниці трансляції без жодного конфлікту символів. Створюй для нього псевдонім, як показано вище, і підняття версії залишатиметься зміною в один рядок на твоєму боці.
 
-Для встановленої бібліотеки працюють як `#include <ImagesAnnotatorDataDrivers-0.12/IADataDriversFacade.h>`, так і просте `#include <IADataDriversFacade.h>`, оскільки бібліотека експортує і корінь директорії підключаємих файлів, і її версіоновану піддиректорію. Рекомендованою є форма з префіксом: назви заголовкових файлів на кшталт `ImageRecord.h` чи `IRecord.h` є достатньо загальними, щоб призвести до конфлікту у завантаженому шляху пошуку підключаємих файлів.
+Для встановленої бібліотеки працюють як `#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>`, так і просте `#include <IADataDriversFacade.h>`, оскільки бібліотека експортує і корінь директорії підключаємих файлів, і її версіоновану піддиректорію. Рекомендованою є форма з префіксом: назви заголовкових файлів на кшталт `ImageRecord.h` чи `IRecord.h` є достатньо загальними, щоб призвести до конфлікту у завантаженому шляху пошуку підключаємих файлів.
 
 Більше про API і про сам формат файлу у секціях [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md), [формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md), [стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) і [використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md).
 

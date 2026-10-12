@@ -49,14 +49,14 @@ class LibFactory
  public:
   using LibFactoryPtr = std::shared_ptr<LibFactory>;
   using IADataDriversLibPtr =
-      ImagesAnnotatorDataDrivers012::IADataDriversLibPtr;
+      ImagesAnnotatorDataDrivers013::IADataDriversLibPtr;
   using IADataDriversContextPtr =
-      ImagesAnnotatorDataDrivers012::IADataDriversContextPtr;
+      ImagesAnnotatorDataDrivers013::IADataDriversContextPtr;
   using IADataDriversContext =
-      ImagesAnnotatorDataDrivers012::IADataDriversContext;
-  using IAnnotationsDBPtr = ImagesAnnotatorDataDrivers012::IAnnotationsDBPtr;
-  using IRecordsFactoryPtr = ImagesAnnotatorDataDrivers012::IRecordsFactoryPtr;
-  using IDBMergerPtr = ImagesAnnotatorDataDrivers012::IDBMergerPtr;
+      ImagesAnnotatorDataDrivers013::IADataDriversContext;
+  using IAnnotationsDBPtr = ImagesAnnotatorDataDrivers013::IAnnotationsDBPtr;
+  using IRecordsFactoryPtr = ImagesAnnotatorDataDrivers013::IRecordsFactoryPtr;
+  using IDBMergerPtr = ImagesAnnotatorDataDrivers013::IDBMergerPtr;
 
   virtual ~LibFactory() = default;
   LibFactory() = default;
