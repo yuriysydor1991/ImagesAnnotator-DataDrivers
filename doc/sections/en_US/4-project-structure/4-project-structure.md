@@ -1,6 +1,6 @@
 # Project structure
 
-The repository holds a single CMake project named `ImagesAnnotatorDataDrivers` which produces exactly one binary artefact - the `ImagesAnnotatorDataDrivers-0.13` shared library - along with its installable public headers and its CMake package files. No executable is generated here.
+The repository holds a single CMake project named `ImagesAnnotatorDataDrivers` which produces exactly one binary artefact - the `ImagesAnnotatorDataDrivers-0.14` shared library - along with its installable public headers and its CMake package files. No executable is generated here.
 
 A bird's eye view of the tree:
 
@@ -45,7 +45,7 @@ src/
 
 A few things are worth knowing about that layout:
 
-- Everything under [src/lib/facade/public](/src/lib/facade/public) is installed and is the only thing a consumer ever includes. Every declaration in there belongs to the `ImagesAnnotatorDataDrivers013` namespace, whose name carries the library major and minor version on purpose - see [The library's installable include header files](/doc/sections/en_US/4-project-structure/4-8-the-librarys-installable-include-header-files.md).
+- Everything under [src/lib/facade/public](/src/lib/facade/public) is installed and is the only thing a consumer ever includes. Every declaration in there belongs to the `ImagesAnnotatorDataDrivers014` namespace, whose name carries the library major and minor version on purpose - see [The library's installable include header files](/doc/sections/en_US/4-project-structure/4-8-the-librarys-installable-include-header-files.md).
 - Everything else under [src](/src) is the implementation: [src/lib/libmain](/src/lib/libmain) holds the entry point pair, and the components it drives sit beside it as [src/records](/src/records), [src/helpers](/src/helpers), [src/zlib](/src/zlib) and [src/dbs](/src/dbs). It lives in its own namespaces (`lib0impl`, `iannotator::records`, `iannotator::dbs::annotations`, `helpers`, `iadd0zlibi`), none of its headers is installed and nothing outside of the library binary is able to reach it.
 - The two project file formats are the two drivers of [src/dbs/AnnotationsDBs](/src/dbs/AnnotationsDBs): `LibraryImpl` of the JSON files and its `Imgajz1LibraryImpl` descendant of the gzip compressed imgajz1 ones, the file name extension of the path telling which one the `AnnotationsDirDB` goes through - see [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md). The [src/zlib](/src/zlib) controller the imgajz1 files are compressed with is the one of the cpp-app-template `appZlib` branch, in the namespace `iadd0zlibi` of this library: the sibling ImagesAnnotator-DataExporters and ImagesAnnotator-DataImporters libraries carry the very same controller in namespaces of their own.
 - The [src/log](/src/log) logging component is compiled straight into the produced shared library (its `default-logger` is linked in as an object library), so a consumer does not have to supply any logger implementation of its own to link against the library.

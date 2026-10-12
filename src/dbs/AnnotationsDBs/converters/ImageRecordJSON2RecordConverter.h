@@ -48,7 +48,7 @@ class ImageRecordJSON2RecordConverter : public virtual AnnotationsDBTypes,
                                         virtual public ConvertersAliases
 {
  public:
-  using ImageRecordRectPtr = ImagesAnnotatorDataDrivers013::ImageRecordRectPtr;
+  using ImageRecordRectPtr = ImagesAnnotatorDataDrivers014::ImageRecordRectPtr;
 
   virtual ~ImageRecordJSON2RecordConverter() = default;
   ImageRecordJSON2RecordConverter();

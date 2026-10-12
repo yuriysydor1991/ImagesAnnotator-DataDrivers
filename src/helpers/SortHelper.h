@@ -42,7 +42,7 @@ namespace helpers
 class SortHelper : virtual public IHelper
 {
  public:
-  using ImageRecordPtr = ImagesAnnotatorDataDrivers013::ImageRecordPtr;
+  using ImageRecordPtr = ImagesAnnotatorDataDrivers014::ImageRecordPtr;
   using ImageRecordSorterFcn =
       std::function<bool(const ImageRecordPtr& l, const ImageRecordPtr& r)>;
 

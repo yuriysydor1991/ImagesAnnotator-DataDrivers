@@ -6,12 +6,12 @@
 
 ### Версійований простір імен
 
-Кожен публічний тип знаходиться у просторі імен `ImagesAnnotatorDataDrivers013`. Суфікс `013` - це склеєні докупи головний і другорядний номери версії бібліотеки, і він там не випадково: дві різні версії бібліотеки можуть бути залучені до однієї й тієї ж одиниці трансляції без жодного конфлікту символів.
+Кожен публічний тип знаходиться у просторі імен `ImagesAnnotatorDataDrivers014`. Суфікс `014` - це склеєні докупи головний і другорядний номери версії бібліотеки, і він там не випадково: дві різні версії бібліотеки можуть бути залучені до однієї й тієї ж одиниці трансляції без жодного конфлікту символів.
 
 Виписувати цю назву повністю усюди було б болісно, тому достатньо один раз оголосити псевдонім:
 
 ```cpp
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 ```
 
 Підняття версії бібліотеки після цього залишається зміною в один рядок на вашому боці. Решта цієї секції користується псевдонімом `iadd`.
@@ -60,9 +60,9 @@ namespace iadd = ImagesAnnotatorDataDrivers013;
 Один рядок, один файл, і по всьому:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 
 auto db = iadd::IADataDriversFacade::open_annotations_db("project.json");
 
@@ -264,10 +264,10 @@ virtual ImageRecordRectPtr create_image_rect_record(const std::string& nname,
 #include <memory>
 #include <string>
 
-#include <ImagesAnnotatorDataDrivers-0.13/IRecordsFactory.h>
-#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IRecordsFactory.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 
 /// Будує рівно ті записи, що й типова фабрика бібліотеки, але зводить
 /// назву класу кожної анотації до нижнього регістру.
@@ -321,9 +321,9 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
 Замінюйте його тоді, коли ваші правила інші - скажімо, ви збираєте кілька часткових проходів анотування тих самих зображень і хочете зберегти їх усі:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.13/IDBMerger.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IDBMerger.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 
 /// Додає усе, включно з дублікатами, і зберігає заданий порядок.
 class AppendAllMerger : public iadd::IDBMerger

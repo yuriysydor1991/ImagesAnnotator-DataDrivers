@@ -40,7 +40,7 @@ namespace helpers
 class ImageRecordUrlAndPathHelper : virtual public IHelper
 {
  public:
-  using ImageRecordPtr = ImagesAnnotatorDataDrivers013::ImageRecordPtr;
+  using ImageRecordPtr = ImagesAnnotatorDataDrivers014::ImageRecordPtr;
 
   virtual ~ImageRecordUrlAndPathHelper() = default;
   ImageRecordUrlAndPathHelper() = default;

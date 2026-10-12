@@ -4,21 +4,21 @@
 
 Назва проекту оголошується викликом `project()` у кореневому файлі [CMakeLists.txt](/CMakeLists.txt) і є `ImagesAnnotatorDataDrivers`. Її зміна там змінює значення `CMAKE_PROJECT_NAME`, на якому побудована уся решта системи збірки.
 
-Назва бібліотеки, придатної до встановлення, є CMake-змінною кешу `PROJECT_LIBRARY_NAME`, яка виводиться у файлі [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake). За замовчуванням вона бере значення `CMAKE_PROJECT_NAME` і додає до нього мажорну версію проекту, що для поточної версії `0.13.0` дає назву `ImagesAnnotatorDataDrivers-0.13`. Необов'язкові сегменти (мінорна версія, мікроверсія і довільний хвостовий суфікс) можуть бути додані до неї під час конфігурації - див. підрозділ [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
+Назва бібліотеки, придатної до встановлення, є CMake-змінною кешу `PROJECT_LIBRARY_NAME`, яка виводиться у файлі [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake). За замовчуванням вона бере значення `CMAKE_PROJECT_NAME` і додає до нього мажорну версію проекту, що для поточної версії `0.14.0` дає назву `ImagesAnnotatorDataDrivers-0.14`. Необов'язкові сегменти (мінорна версія, мікроверсія і довільний хвостовий суфікс) можуть бути додані до неї під час конфігурації - див. підрозділ [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
 
 Ця єдина назва одразу керує кожним видимим для користувача артефактом:
 
 | Артефакт | Виводиться з назви | З поточними типовими значеннями |
 |---|---|---|
-| Двійковий файл бібліотеки | `lib<НАЗВА>.so.<версія>` (префікс `lib` додається автоматично) | `libImagesAnnotatorDataDrivers-0.13.so.0.13.0` із `SOVERSION` `0` |
-| Директорія встановлення публічних заголовкових файлів | `include/<НАЗВА>/` | `include/ImagesAnnotatorDataDrivers-0.13/` |
-| Директорія CMake-пакунку | `lib/cmake/<НАЗВА>/` | `lib/cmake/ImagesAnnotatorDataDrivers-0.13/` |
-| Назва для `find_package()` | `find_package(<НАЗВА> REQUIRED)` | `find_package(ImagesAnnotatorDataDrivers-0.13 REQUIRED)` |
-| Імпортована ціль | `<НАЗВА>::<НАЗВА>` | `ImagesAnnotatorDataDrivers-0.13::ImagesAnnotatorDataDrivers-0.13` |
+| Двійковий файл бібліотеки | `lib<НАЗВА>.so.<версія>` (префікс `lib` додається автоматично) | `libImagesAnnotatorDataDrivers-0.14.so.0.14.0` із `SOVERSION` `0` |
+| Директорія встановлення публічних заголовкових файлів | `include/<НАЗВА>/` | `include/ImagesAnnotatorDataDrivers-0.14/` |
+| Директорія CMake-пакунку | `lib/cmake/<НАЗВА>/` | `lib/cmake/ImagesAnnotatorDataDrivers-0.14/` |
+| Назва для `find_package()` | `find_package(<НАЗВА> REQUIRED)` | `find_package(ImagesAnnotatorDataDrivers-0.14 REQUIRED)` |
+| Імпортована ціль | `<НАЗВА>::<НАЗВА>` | `ImagesAnnotatorDataDrivers-0.14::ImagesAnnotatorDataDrivers-0.14` |
 
 Май на увазі, що перейменування проекту перейменовує також і встановлювану директорію заголовкових файлів, і CMake-пакунок, тому кожного споживача бібліотеки доведеться відповідно підправити.
 
 Дві речі, на які назва проекту навмисно **не** впливає:
 
-- Публічний простір імен C++ `ImagesAnnotatorDataDrivers013` виписаний безпосередньо у самих публічних заголовкових файлах і несе мажорну і мінорну версії, щоб дві версії бібліотеки могли співіснувати в одній одиниці трансляції.
+- Публічний простір імен C++ `ImagesAnnotatorDataDrivers014` виписаний безпосередньо у самих публічних заголовкових файлах і несе мажорну і мінорну версії, щоб дві версії бібліотеки могли співіснувати в одній одиниці трансляції.
 - Назва кореневого JSON-елемента, яка записується у файли проектів анотацій. Це окрема змінна кешу `ANNOTATIONS_DB_ROOT_APP_NAME` зі значенням за замовчуванням `ImagesAnnotator`, бо вироблені файли мають залишатись придатними до читання програмою, а не бібліотекою - див. [Версіювання і інші параметри проекту](/doc/sections/uk_UA/4-project-structure/4-3-version-tracking-and-other-project-parameters.md).

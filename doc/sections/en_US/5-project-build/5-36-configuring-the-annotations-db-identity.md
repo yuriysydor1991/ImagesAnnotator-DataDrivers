@@ -5,7 +5,7 @@ Every annotations project file is rooted at an element named after the **applica
 ```json
 {
   "ImagesAnnotator": {
-    "version": "0.13.0"
+    "version": "0.14.0"
   },
   "annotations": [ ... ]
 }
@@ -16,7 +16,7 @@ That pair - the root element name and the version string - is what this section 
 | CMake variable | Default | What it becomes |
 | --- | --- | --- |
 | `ANNOTATIONS_DB_ROOT_APP_NAME` | `ImagesAnnotator` | the JSON root element name of the produced files, and the name a reader looks the root element up by |
-| `ANNOTATIONS_DB_APP_VERSION` | the project version, currently `0.13.0` | the version string written under that root element and compared against the one found in a file being read |
+| `ANNOTATIONS_DB_APP_VERSION` | the project version, currently `0.14.0` | the version string written under that root element and compared against the one found in a file being read |
 
 Both are forwarded into the generated `project-global-decls.h` through [src/project-global-decls.h.in](/src/project-global-decls.h.in), and both are readable from a consuming program through `IADataDriversFacade::default_db_root_app_name()` and `IADataDriversFacade::default_db_app_version()`.
 
@@ -46,9 +46,9 @@ Every database instance built by that library binary then defaults to the `"MyTo
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 
 std::cout << iadd::IADataDriversFacade::library_version() << " writes '"
           << iadd::IADataDriversFacade::default_db_root_app_name() << "' rooted files, version "
@@ -99,7 +99,7 @@ Timing matters here, because the identity is read at the operation, not stored w
 - **On loading**, the configured name is the key the root element is searched for, and the configured version is what the file version is compared against. So `set_app_info()` has to be called *before* `load_db()` for it to have any effect on that load.
 - **On storing**, the configured name and version are written out as they are at that very moment. Nothing of what a previously loaded file carried is remembered.
 
-The second point has a practical consequence: loading a `0.10.0` stamped file and storing it back with the defaults produces a `0.13.0` stamped one. When preserving the original stamp matters, read it back and put it in place before storing:
+The second point has a practical consequence: loading a `0.10.0` stamped file and storing it back with the defaults produces a `0.14.0` stamped one. When preserving the original stamp matters, read it back and put it in place before storing:
 
 ```cpp
 auto db = iadd::IADataDriversFacade::open_annotations_db("project.json");

@@ -7,18 +7,18 @@ To find the produced library in the project build directory execute the `find` c
 ```
 # from the project build directory
 
-find . -name 'libImagesAnnotatorDataDrivers-0.13.so*'
+find . -name 'libImagesAnnotatorDataDrivers-0.14.so*'
 ```
 
 Which with the default configure options gives three entries, all of them living in the `src/lib` subdirectory of the build tree:
 
 ```
-./src/lib/libImagesAnnotatorDataDrivers-0.13.so.0.13.0    the real library binary
-./src/lib/libImagesAnnotatorDataDrivers-0.13.so.0         the SONAME symlink
-./src/lib/libImagesAnnotatorDataDrivers-0.13.so           the linker name symlink
+./src/lib/libImagesAnnotatorDataDrivers-0.14.so.0.14.0    the real library binary
+./src/lib/libImagesAnnotatorDataDrivers-0.14.so.0         the SONAME symlink
+./src/lib/libImagesAnnotatorDataDrivers-0.14.so           the linker name symlink
 ```
 
-The `ImagesAnnotatorDataDrivers-0.13` part is the library name derived from the project name plus its major version. Replace it with your custom one if you change the name of the project in the root `CMakeLists.txt` file (the `CMAKE_PROJECT_NAME` variable) or if you tune the name segments through the `LIB_INCLUDE_MINOR_IN_NAME` / `LIB_INCLUDE_MICRO_IN_NAME` / `LIB_NAME_SUFFIX` options - see the [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md) subsection. The configure stage prints the effective name as a `PROJECT_LIBRARY_NAME: ...` status line, so when in doubt just look there.
+The `ImagesAnnotatorDataDrivers-0.14` part is the library name derived from the project name plus its major version. Replace it with your custom one if you change the name of the project in the root `CMakeLists.txt` file (the `CMAKE_PROJECT_NAME` variable) or if you tune the name segments through the `LIB_INCLUDE_MINOR_IN_NAME` / `LIB_INCLUDE_MICRO_IN_NAME` / `LIB_NAME_SUFFIX` options - see the [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md) subsection. The configure stage prints the effective name as a `PROJECT_LIBRARY_NAME: ...` status line, so when in doubt just look there.
 
 To find the compiled test binaries, look for the `UTEST_*` (unit tests) and `CTEST_*` (component tests) patterns:
 

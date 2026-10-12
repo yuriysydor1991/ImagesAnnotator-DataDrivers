@@ -7,18 +7,18 @@
 ```
 # з директорії побудови проекту
 
-find . -name 'libImagesAnnotatorDataDrivers-0.13.so*'
+find . -name 'libImagesAnnotatorDataDrivers-0.14.so*'
 ```
 
 Що за типових параметрів конфігурації дає три записи, і усі вони знаходяться у піддиректорії `src/lib` дерева побудови:
 
 ```
-./src/lib/libImagesAnnotatorDataDrivers-0.13.so.0.13.0    справжній бінарний файл бібліотеки
-./src/lib/libImagesAnnotatorDataDrivers-0.13.so.0         символьне посилання SONAME
-./src/lib/libImagesAnnotatorDataDrivers-0.13.so           символьне посилання для лінкувальника
+./src/lib/libImagesAnnotatorDataDrivers-0.14.so.0.14.0    справжній бінарний файл бібліотеки
+./src/lib/libImagesAnnotatorDataDrivers-0.14.so.0         символьне посилання SONAME
+./src/lib/libImagesAnnotatorDataDrivers-0.14.so           символьне посилання для лінкувальника
 ```
 
-Частина `ImagesAnnotatorDataDrivers-0.13` є назвою бібліотеки, похідною від назви проекту разом з його головним номером версії. Заміни її власною, якщо змінюєш назву проекту у кореневому файлі `CMakeLists.txt` (змінна `CMAKE_PROJECT_NAME`) або якщо налаштовуєш складові імені параметрами `LIB_INCLUDE_MINOR_IN_NAME` / `LIB_INCLUDE_MICRO_IN_NAME` / `LIB_NAME_SUFFIX` - див. підрозділ [Налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md). Стадія конфігурації друкує чинну назву рядком стану `PROJECT_LIBRARY_NAME: ...`, отож у разі сумніву просто зазирни туди.
+Частина `ImagesAnnotatorDataDrivers-0.14` є назвою бібліотеки, похідною від назви проекту разом з його головним номером версії. Заміни її власною, якщо змінюєш назву проекту у кореневому файлі `CMakeLists.txt` (змінна `CMAKE_PROJECT_NAME`) або якщо налаштовуєш складові імені параметрами `LIB_INCLUDE_MINOR_IN_NAME` / `LIB_INCLUDE_MICRO_IN_NAME` / `LIB_NAME_SUFFIX` - див. підрозділ [Налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md). Стадія конфігурації друкує чинну назву рядком стану `PROJECT_LIBRARY_NAME: ...`, отож у разі сумніву просто зазирни туди.
 
 Для того щоб знайти скомпільовані бінарні файли тестів, шукай за шаблонами `UTEST_*` (юніт-тести) і `CTEST_*` (компонентні тести):
 

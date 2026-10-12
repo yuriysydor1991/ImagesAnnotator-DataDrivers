@@ -5,7 +5,7 @@
 ```json
 {
   "ImagesAnnotator": {
-    "version": "0.13.0"
+    "version": "0.14.0"
   },
   "annotations": [ ... ]
 }
@@ -16,7 +16,7 @@
 | CMake-змінна | За замовчуванням | Чим вона стає |
 | --- | --- | --- |
 | `ANNOTATIONS_DB_ROOT_APP_NAME` | `ImagesAnnotator` | ім'я кореневого елемента JSON у вироблених файлах, і те ім'я, за яким читач шукає кореневий елемент |
-| `ANNOTATIONS_DB_APP_VERSION` | версія проекту, наразі `0.13.0` | рядок версії, що записується під тим кореневим елементом і порівнюється з тим, що знайдено у файлі, який читається |
+| `ANNOTATIONS_DB_APP_VERSION` | версія проекту, наразі `0.14.0` | рядок версії, що записується під тим кореневим елементом і порівнюється з тим, що знайдено у файлі, який читається |
 
 Обидві передаються у згенерований `project-global-decls.h` через [src/project-global-decls.h.in](/src/project-global-decls.h.in), і обидві доступні для читання з програми-споживача через `IADataDriversFacade::default_db_root_app_name()` і `IADataDriversFacade::default_db_app_version()`.
 
@@ -46,9 +46,9 @@ cmake -S . -B build \
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 
 std::cout << iadd::IADataDriversFacade::library_version() << " writes '"
           << iadd::IADataDriversFacade::default_db_root_app_name() << "' rooted files, version "
@@ -99,7 +99,7 @@ std::cout << db->get_app_name() << " " << db->get_app_version() << "\n";
 - **Під час завантаження** налаштоване ім'я є ключем, за яким шукається кореневий елемент, а налаштована версія - тим, з чим порівнюється версія з файлу. Тож `set_app_info()` має бути викликаний *до* `load_db()`, щоб мати хоч якийсь вплив на те завантаження.
 - **Під час збереження** налаштовані ім'я і версія записуються такими, якими вони є в ту саму мить. Нічого з того, що ніс раніше завантажений файл, не запам'ятовується.
 
-Другий пункт має практичний наслідок: завантаження файлу зі штампом `0.10.0` і його зворотне збереження зі значеннями за замовчуванням виробляє файл зі штампом `0.13.0`. Коли збереження початкового штампу має значення, вичитайте його і поставте на місце перед збереженням:
+Другий пункт має практичний наслідок: завантаження файлу зі штампом `0.10.0` і його зворотне збереження зі значеннями за замовчуванням виробляє файл зі штампом `0.14.0`. Коли збереження початкового штампу має значення, вичитайте його і поставте на місце перед збереженням:
 
 ```cpp
 auto db = iadd::IADataDriversFacade::open_annotations_db("project.json");

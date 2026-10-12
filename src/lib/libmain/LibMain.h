@@ -43,12 +43,12 @@ namespace lib0impl
  * builds the database in accordance of the given context data and hands it
  * back through that very same context.
  */
-class LibMain : public ImagesAnnotatorDataDrivers013::IADataDriversLib
+class LibMain : public ImagesAnnotatorDataDrivers014::IADataDriversLib
 {
  public:
   using LibMainPtr = std::shared_ptr<LibMain>;
   using IADataDriversContextPtr =
-      ImagesAnnotatorDataDrivers013::IADataDriversContextPtr;
+      ImagesAnnotatorDataDrivers014::IADataDriversContextPtr;
 
   virtual ~LibMain() = default;
   LibMain();

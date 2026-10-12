@@ -1,6 +1,6 @@
 # Структура проекту
 
-Репозиторій утримує єдиний CMake-проект із назвою `ImagesAnnotatorDataDrivers`, який виробляє рівно один двійковий артефакт - динамічну бібліотеку `ImagesAnnotatorDataDrivers-0.13` - разом із її публічними заголовковими файлами, придатними до встановлення, і файлами її CMake-пакунку. Жодного виконуваного файлу тут не генерується.
+Репозиторій утримує єдиний CMake-проект із назвою `ImagesAnnotatorDataDrivers`, який виробляє рівно один двійковий артефакт - динамічну бібліотеку `ImagesAnnotatorDataDrivers-0.14` - разом із її публічними заголовковими файлами, придатними до встановлення, і файлами її CMake-пакунку. Жодного виконуваного файлу тут не генерується.
 
 Погляд на дерево проекту з висоти пташиного польоту:
 
@@ -46,7 +46,7 @@ src/
 
 Кілька речей варто знати про дану структуру:
 
-- Усе, що знаходиться у [src/lib/facade/public](/src/lib/facade/public), встановлюється і є єдиним, що коли-небудь включає споживач. Кожне оголошення там належить до простору імен `ImagesAnnotatorDataDrivers013`, назва якого навмисно несе мажорну і мінорну версії бібліотеки - див. [Публічні інтерфейсні файли бібліотеки](/doc/sections/uk_UA/4-project-structure/4-8-the-librarys-installable-include-header-files.md).
+- Усе, що знаходиться у [src/lib/facade/public](/src/lib/facade/public), встановлюється і є єдиним, що коли-небудь включає споживач. Кожне оголошення там належить до простору імен `ImagesAnnotatorDataDrivers014`, назва якого навмисно несе мажорну і мінорну версії бібліотеки - див. [Публічні інтерфейсні файли бібліотеки](/doc/sections/uk_UA/4-project-structure/4-8-the-librarys-installable-include-header-files.md).
 - Усе інше під [src](/src) є реалізацією: [src/lib/libmain](/src/lib/libmain) утримує пару вхідних класів, а компоненти, якими вона керує, лежать поруч як [src/records](/src/records), [src/helpers](/src/helpers), [src/zlib](/src/zlib) і [src/dbs](/src/dbs). Вона живе у власних просторах імен (`lib0impl`, `iannotator::records`, `iannotator::dbs::annotations`, `helpers`, `iadd0zlibi`), жоден з її заголовкових файлів не встановлюється і ніщо поза двійковим файлом бібліотеки не здатне до неї дотягнутись.
 - Два формати файлу проекту - це два драйвери з [src/dbs/AnnotationsDBs](/src/dbs/AnnotationsDBs): `LibraryImpl` файлів JSON і його нащадок `Imgajz1LibraryImpl` стиснених gzip файлів imgajz1, а через котрий із них іде `AnnotationsDirDB`, визначає розширення імені файлу у шляху - дивись [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md). Контролер [src/zlib](/src/zlib), яким стискаються файли imgajz1, - це контролер гілки `appZlib` шаблону cpp-app-template у просторі імен `iadd0zlibi` цієї бібліотеки: сусідні бібліотеки ImagesAnnotator-DataExporters і ImagesAnnotator-DataImporters містять той самий контролер у власних просторах імен.
 - Компонент журналювання [src/log](/src/log) компілюється прямо у вироблену динамічну бібліотеку (його `default-logger` долучається як об'єктна бібліотека), тому споживачеві не потрібно постачати жодної власної реалізації журналювання, щоб злінкуватись із бібліотекою.

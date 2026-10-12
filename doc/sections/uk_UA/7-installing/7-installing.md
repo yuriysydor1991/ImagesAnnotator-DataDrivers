@@ -9,7 +9,7 @@
 ```
 # встановлює побудовану бібліотеку у /usr/local/lib/ наприклад
 # і встановлює заголовкові підключаємі файли у
-# /usr/local/include/ImagesAnnotatorDataDrivers-0.13/
+# /usr/local/include/ImagesAnnotatorDataDrivers-0.14/
 
 sudo cmake --install .
 ```
@@ -54,24 +54,24 @@ sudo cmake --install . --prefix "/usr"
 Для префікса `/usr` з прикладу вище встановлене дерево виглядає так:
 
 ```
-/usr/lib/libImagesAnnotatorDataDrivers-0.13.so.0.13.0     бінарний файл бібліотеки
-/usr/lib/libImagesAnnotatorDataDrivers-0.13.so.0          символьне посилання SOVERSION
-/usr/lib/libImagesAnnotatorDataDrivers-0.13.so            символьне посилання для розробки
-/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.13/
-    ImagesAnnotatorDataDrivers-0.13Config.cmake           точка входу для find_package()
-    ImagesAnnotatorDataDrivers-0.13Config-noconfig.cmake
-    ImagesAnnotatorDataDrivers-0.13Targets.cmake          експортована імпортована ціль
-    ImagesAnnotatorDataDrivers-0.13Targets-noconfig.cmake
-/usr/include/ImagesAnnotatorDataDrivers-0.13/*.h          публічні заголовкові файли
+/usr/lib/libImagesAnnotatorDataDrivers-0.14.so.0.14.0     бінарний файл бібліотеки
+/usr/lib/libImagesAnnotatorDataDrivers-0.14.so.0          символьне посилання SOVERSION
+/usr/lib/libImagesAnnotatorDataDrivers-0.14.so            символьне посилання для розробки
+/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.14/
+    ImagesAnnotatorDataDrivers-0.14Config.cmake           точка входу для find_package()
+    ImagesAnnotatorDataDrivers-0.14Config-noconfig.cmake
+    ImagesAnnotatorDataDrivers-0.14Targets.cmake          експортована імпортована ціль
+    ImagesAnnotatorDataDrivers-0.14Targets-noconfig.cmake
+/usr/include/ImagesAnnotatorDataDrivers-0.14/*.h          публічні заголовкові файли
 ```
 
 Файли `*.h` останнього рядка є одинадцятьма публічними заголовковими файлами директорії [src/lib/facade/public](/src/lib/facade/public): `IADataDriversFacade.h`, `IADataDriversContext.h`, `IADataDriversLib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `IRecord.h` і `IProvider.h`.
 
-Назва `ImagesAnnotatorDataDrivers-0.13` бінарного файлу, піддиректорії підключаємих файлів і CMake-пакета є значенням `PROJECT_LIBRARY_NAME`, отож усі вони слідують за [налаштованими складовими імені](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md), якщо ти якісь із них сконфігуруєш.
+Назва `ImagesAnnotatorDataDrivers-0.14` бінарного файлу, піддиректорії підключаємих файлів і CMake-пакета є значенням `PROJECT_LIBRARY_NAME`, отож усі вони слідують за [налаштованими складовими імені](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md), якщо ти якісь із них сконфігуруєш.
 
 Сам бінарний файл бібліотеки встановлюється як компонент `Runtime`, а символьне посилання для розробки `lib...so` - як компонент `Development`, що і потрібно пакувальнику дистрибутиву для розділення пакунків часу виконання і пакунків для розробки.
 
-Після встановлення спрямуй власний проект на пакет за допомогою `find_package(ImagesAnnotatorDataDrivers-0.13 REQUIRED)` - див. секцію [Використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) щодо повного перевіреного прикладу.
+Після встановлення спрямуй власний проект на пакет за допомогою `find_package(ImagesAnnotatorDataDrivers-0.14 REQUIRED)` - див. секцію [Використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) щодо повного перевіреного прикладу.
 
 ## Встановлення документації
 

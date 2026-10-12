@@ -6,12 +6,12 @@ This section is a guided tour of that surface. Read it with the real headers ope
 
 ### The versioned namespace
 
-Every public type sits in the `ImagesAnnotatorDataDrivers013` namespace. The `013` suffix is the library major and the minor version glued together, and it is there on purpose: two different library versions may be pulled into one and the same translation unit without a single symbol clash.
+Every public type sits in the `ImagesAnnotatorDataDrivers014` namespace. The `014` suffix is the library major and the minor version glued together, and it is there on purpose: two different library versions may be pulled into one and the same translation unit without a single symbol clash.
 
 Writing that name out in full everywhere would be painful, so alias it once and be done with it:
 
 ```cpp
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 ```
 
 A library version bump then stays a one line change on your side. The rest of this section uses the `iadd` alias.
@@ -60,9 +60,9 @@ The last three are plain reporting calls, handy for an about box or for a log li
 One line, one file, done:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 
 auto db = iadd::IADataDriversFacade::open_annotations_db("project.json");
 
@@ -264,10 +264,10 @@ A custom factory does not have to reimplement anything - delegate to the library
 #include <memory>
 #include <string>
 
-#include <ImagesAnnotatorDataDrivers-0.13/IRecordsFactory.h>
-#include <ImagesAnnotatorDataDrivers-0.13/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IRecordsFactory.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 
 /// Builds exactly the records the library default factory builds, but forces
 /// every annotation class name to the lower case.
@@ -321,9 +321,9 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
 Replace it when your rules differ - say you are collecting several partial annotation passes over the same images and want them all kept:
 
 ```cpp
-#include <ImagesAnnotatorDataDrivers-0.13/IDBMerger.h>
+#include <ImagesAnnotatorDataDrivers-0.14/IDBMerger.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers013;
+namespace iadd = ImagesAnnotatorDataDrivers014;
 
 /// Appends everything, duplicates included, and preserves the given order.
 class AppendAllMerger : public iadd::IDBMerger

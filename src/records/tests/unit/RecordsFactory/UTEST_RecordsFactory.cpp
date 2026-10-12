@@ -11,10 +11,10 @@
 
 using namespace testing;
 using iannotator::records::RecordsFactory;
-using ImagesAnnotatorDataDrivers013::ImageRecordPtr;
-using ImagesAnnotatorDataDrivers013::ImageRecordRect;
-using ImagesAnnotatorDataDrivers013::IRecordsFactory;
-using ImagesAnnotatorDataDrivers013::IRecordsFactoryPtr;
+using ImagesAnnotatorDataDrivers014::ImageRecordPtr;
+using ImagesAnnotatorDataDrivers014::ImageRecordRect;
+using ImagesAnnotatorDataDrivers014::IRecordsFactory;
+using ImagesAnnotatorDataDrivers014::IRecordsFactoryPtr;
 
 class UTEST_RecordsFactory : public Test
 {
@@ -163,8 +163,8 @@ TEST_F(UTEST_RecordsFactory, the_produced_records_match_directly_built_ones)
   ASSERT_NE(ir, nullptr);
   ASSERT_NE(rct, nullptr);
 
-  EXPECT_TRUE(ImagesAnnotatorDataDrivers013::ImageRecord::equal(
-      ir, ImagesAnnotatorDataDrivers013::ImageRecord::create("a.png", "/abs")));
+  EXPECT_TRUE(ImagesAnnotatorDataDrivers014::ImageRecord::equal(
+      ir, ImagesAnnotatorDataDrivers014::ImageRecord::create("a.png", "/abs")));
   EXPECT_TRUE(ImageRecordRect::equal(
       rct, std::make_shared<ImageRecordRect>("cat", 1, 2, 3, 4)));
 }
