@@ -130,6 +130,11 @@ pipeline {
             sh 'cd $BUILDDIR && ctest -R "UTEST_AnnotationsJSONSerializator\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_AnnotationsJSONSerializator.junit.xml'
           }
         }
+        stage('UTEST_LibraryImpl') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_LibraryImpl\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_LibraryImpl.junit.xml'
+          }
+        }
         stage('UTEST_DefaultDBMerger') {
           steps {
             sh 'cd $BUILDDIR && ctest -R "UTEST_DefaultDBMerger\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_DefaultDBMerger.junit.xml'
@@ -174,6 +179,11 @@ pipeline {
         stage('CTEST_DefaultLogger') {
           steps {
             sh 'cd $BUILDDIR && ctest -R "CTEST_DefaultLogger\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_DefaultLogger.junit.xml'
+          }
+        }
+        stage('CTEST_LibraryRealLogger') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "CTEST_LibraryRealLogger\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_LibraryRealLogger.junit.xml'
           }
         }
       }
