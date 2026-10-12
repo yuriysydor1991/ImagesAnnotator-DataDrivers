@@ -7,6 +7,7 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/lib/libmain/LibMain.cpp
   ${CMAKE_SOURCE_DIR}/src/lib/facade/IADataDriversContext.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsDirDB.cpp
+  ${IADD_ANNOTATIONS_DBS_SRC_DIR}/Imgajz1LibraryImpl.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/LibraryImpl.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsJSONSerializator.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/mergers/DefaultDBMerger.cpp
@@ -17,6 +18,7 @@ add_executable(
   ${IADD_RECORDS_SRC}
   ${IADD_HELPERS_SRC}
   ${IADD_CURL_SRC}
+  ${IADD_ZLIB_SRC}
 )
 
 target_include_directories(
@@ -30,6 +32,7 @@ target_include_directories(
 target_link_libraries(
   UTEST_LibFactory
   GTest::gtest_main GTest::gmock nlohmann_json::nlohmann_json CURL::libcurl
+  ZLIB::ZLIB
 )
 
 include(GoogleTest)

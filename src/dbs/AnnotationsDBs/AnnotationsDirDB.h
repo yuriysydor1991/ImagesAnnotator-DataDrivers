@@ -47,8 +47,9 @@ namespace iannotator::dbs::annotations
  *
  * The class holds the records in memory and knows nothing of the format they
  * were read from: the project file reading and writing belongs to the
- * LibraryImpl driver below, which the load_db() and the store_db() calls are
- * performed through.
+ * LibraryImpl drivers below, which the load_db() and the store_db() calls are
+ * performed through - the driver of the file name extension of the path: the
+ * Imgajz1LibraryImpl one of the .imgajz1 files, the impl one of the rest.
  */
 class AnnotationsDirDB
     : public virtual AnnotationsDBTypes,
@@ -110,8 +111,10 @@ class AnnotationsDirDB
 
   /**
    * @brief Sets the project file driver the load_db() and the store_db()
-   * calls are performed through, which is what a project file format other
-   * than the JSON one is introduced with.
+   * calls of the paths of no .imgajz1 file name extension are performed
+   * through, which is what a project file format other than the JSON one is
+   * introduced with. The imgajz1 files take its application identity and its
+   * records factory.
    *
    * @param newImpl The driver to use. A nullptr is ignored, since the database
    * has to keep one.
@@ -122,13 +125,26 @@ class AnnotationsDirDB
   void update_current_last_saved();
   void update_current_last_saved_no_check();
 
+  /**
+   * @brief The project file driver of the given path: the imgajz1 one of the
+   * application identity and of the records factory of the impl one for the
+   * .imgajz1 file name extension, the impl one for the rest.
+   *
+   * @param fpath The project file path to read or to write.
+   *
+   * @return Returns the driver to perform the call through.
+   */
+  virtual LibraryImplPtr impl_of(const std::string& fpath);
+
   ImageRecordsSet irdb;
   std::string current_db_path;
 
   ImageRecordsSet last_saved_db;
 
-  /// @brief The project file driver every load_db() and store_db() goes
-  /// through. Defaults to the JSON format one.
+  /// @brief The project file driver every load_db() and store_db() of a path
+  /// of no .imgajz1 file name extension goes through. Defaults to the JSON
+  /// format one. Keeps the application identity and the records factory of
+  /// the database.
   LibraryImplPtr impl;
 
   /// @brief The injected databases merger. A nullptr makes the add_images_db()

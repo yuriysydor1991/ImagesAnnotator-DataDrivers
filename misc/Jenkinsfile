@@ -135,6 +135,11 @@ pipeline {
             sh 'cd $BUILDDIR && ctest -R "UTEST_LibraryImpl\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_LibraryImpl.junit.xml'
           }
         }
+        stage('UTEST_Imgajz1LibraryImpl') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_Imgajz1LibraryImpl\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_Imgajz1LibraryImpl.junit.xml'
+          }
+        }
         stage('UTEST_DefaultDBMerger') {
           steps {
             sh 'cd $BUILDDIR && ctest -R "UTEST_DefaultDBMerger\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_DefaultDBMerger.junit.xml'

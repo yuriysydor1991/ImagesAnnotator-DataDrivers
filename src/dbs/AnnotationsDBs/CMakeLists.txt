@@ -3,13 +3,16 @@ cmake_minimum_required(VERSION 3.13)
 # The nlohmann_json library is made available (system wide or through the
 # Internet via FetchContent) by the template-project-nlohmann-json-enabler
 # module and linked against the library by its
-# ImagesAnnotator-nlohmann-json-linker companion.
+# ImagesAnnotator-nlohmann-json-linker companion. The zlib of the imgajz1
+# project files comes the same way, through the template-project-zlib-enabler
+# and the ImagesAnnotator-zlib-linker modules.
 
 target_sources(
   ${PROJECT_LIBRARY_NAME}
   PRIVATE
     AnnotationsDirDB.cpp
     AnnotationsJSONSerializator.cpp
+    Imgajz1LibraryImpl.cpp
     LibraryImpl.cpp
 )
 

@@ -50,7 +50,8 @@ namespace iannotator::dbs::annotations
  * the JSON one is a descendant of this class rather than a change of the
  * database: the load() and the store() of every format parse, validate,
  * convert and print the very JSON project text, the read_text() and the
- * write_text() of a descendant keep that text in a file of its own format.
+ * write_text() of a descendant keep that text in a file of its own format (see
+ * the Imgajz1LibraryImpl of the gzip compressed imgajz1 files).
  */
 class LibraryImpl : public virtual AnnotationsDBTypes
 {
