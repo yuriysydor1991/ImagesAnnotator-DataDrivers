@@ -160,6 +160,11 @@ pipeline {
             sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordRectJSON2RecordConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordRectJSON2RecordConverter.junit.xml'
           }
         }
+        stage('UTEST_ZlibController') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_ZlibController\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ZlibController.junit.xml'
+          }
+        }
       }
       post { always { junit "$BUILDDIR/$BDJUNITOUT/UTEST_*.xml" } }
     }
@@ -184,6 +189,11 @@ pipeline {
         stage('CTEST_LibraryRealLogger') {
           steps {
             sh 'cd $BUILDDIR && ctest -R "CTEST_LibraryRealLogger\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_LibraryRealLogger.junit.xml'
+          }
+        }
+        stage('CTEST_ZlibController') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "CTEST_ZlibController\\." --output-on-failure --output-junit $BDJUNITOUT/CTEST_ZlibController.junit.xml'
           }
         }
       }

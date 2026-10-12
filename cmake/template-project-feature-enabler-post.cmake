@@ -6,12 +6,12 @@ include(template-project-dockerers)
 # here they only get linked against the now existing library target.
 include(ImagesAnnotator-nlohmann-json-linker)
 include(ImagesAnnotator-libcurl-linker)
+include(ImagesAnnotator-zlib-linker)
 
 include(template-project-libxml2-enabler)
 include(template-project-OpenCV-enabler)
 
-# compression
-include(template-project-zlib-enabler)
+# compression (the mandatory zlib is made available by the pre-src pass)
 include(template-project-liblzma-enabler)
 
 # images

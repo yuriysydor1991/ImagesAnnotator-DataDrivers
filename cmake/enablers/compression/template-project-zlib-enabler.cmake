@@ -1,17 +1,31 @@
 cmake_minimum_required(VERSION 3.13)
 
+# The imgajz1 project files the library writes and reads are the gzip
+# compressed JSON documents, which the zlib compresses and decompresses (see
+# the ZlibController of src/zlib, the one of the cpp-app-template appZlib
+# branch), so unlike in the original template this dependency is mandatory for
+# the library to build.
+#
+# This module only makes the dependency AVAILABLE. It runs before the library
+# target exists, so that the unit and component test executables declared
+# inside src/ may already link against it. The linking against the library
+# target itself is performed later by the companion
+# ImagesAnnotator-zlib-linker module.
 option(
-    ENABLE_ZLIB
-    "Enables the zlib compression library (deflate, gzip, zip) for the project usage through system installed one or FetchContent by internet"
-    OFF
+  ENABLE_ZLIB
+  "Set to ON to enable the zlib compression library (by using system wide available or through the Internet). Required by the imgajz1 project files."
+  ON
 )
 
 if (NOT ENABLE_ZLIB)
-    return()
+  message(FATAL_ERROR "The zlib is mandatory: the imgajz1 project files are gzip compressed")
 endif()
 
 set(TEMPLATE_APP_ZLIB_GIT "https://github.com/madler/zlib.git" CACHE STRING "The zlib library git source repository")
 set(TEMPLATE_APP_ZLIB_GIT_TAG "v1.3.1" CACHE STRING "The zlib project git repository tag of interest")
+
+# the fetched zlib is linked statically, so its examples are of no use
+set(ZLIB_BUILD_EXAMPLES OFF CACHE BOOL "Build the zlib examples" FORCE)
 
 template_project_default_3rdparty_enabler(
   NAME ZLIB
@@ -19,14 +33,14 @@ template_project_default_3rdparty_enabler(
   GIT_TAG ${TEMPLATE_APP_ZLIB_GIT_TAG}
 )
 
-# Link one of the following zlib targets to your target(s) of interest (e.g. the
-# ${PROJECT_BINARY_NAME} executable or any of your own libraries):
-#   - system install, via find_package(ZLIB): ZLIB::ZLIB
-#   - FetchContent source build:              zlibstatic (static) or zlib (shared)
-# For example:
-#   target_link_libraries(${PROJECT_BINARY_NAME} ZLIB::ZLIB)
-#
-# See doc/sections/en_US/5-23-enabling-the-zlib-library.md (and the uk_UA copy)
-# for copy-paste C++ usage examples: one-shot in-memory compression, gzip (.gz)
-# files, raw deflate / zlib / gzip stream selection via windowBits, and a note
-# on .zip archives via minizip.
+# The system zlib comes as the ZLIB::ZLIB target, while the fetched one
+# declares the zlibstatic (static) and the zlib (shared) targets. The alias
+# gives the project the single ZLIB::ZLIB target to link for both of them.
+if (NOT TARGET ZLIB::ZLIB AND TARGET zlibstatic)
+  set_target_properties(zlibstatic PROPERTIES POSITION_INDEPENDENT_CODE ON)
+  add_library(ZLIB::ZLIB ALIAS zlibstatic)
+endif()
+
+if (NOT TARGET ZLIB::ZLIB)
+  message(FATAL_ERROR "The zlib library made available provides no ZLIB::ZLIB target")
+endif()

@@ -20,6 +20,7 @@ include(template-project-clang-format-target)
 # inside it can be linked against them.
 include(template-project-nlohmann-json-enabler)
 include(template-project-libcurl-enabler)
+include(template-project-zlib-enabler)
 
 # packagers
 include(template-project-deb-enabler)
