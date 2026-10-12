@@ -32,6 +32,7 @@
 #include <cstring>
 #include <exception>
 #include <fstream>
+#include <iterator>
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
@@ -53,19 +54,15 @@ bool LibraryImpl::load(const std::string& fpath, ImageRecordsSet& irdb)
   nlohmann::json json;
 
   try {
-    LOGT("Trying to open the file: " << fpath);
+    std::string text;
 
-    std::ifstream f(fpath);
-
-    if (!f.is_open()) {
-      const int cerrno = errno;
-      LOGE("Can't open file: " << fpath << " because " << strerror(cerrno));
+    if (!read_text(fpath, text)) {
       return false;
     }
 
     LOGT("Trying to parse the given db json");
 
-    json = nlohmann::json::parse(f);
+    json = nlohmann::json::parse(text);
 
     LOGT("Trying to serialize retrieved file");
 
@@ -90,12 +87,75 @@ bool LibraryImpl::load(const std::string& fpath, ImageRecordsSet& irdb)
 
 bool LibraryImpl::store(const std::string& fpath, const ImageRecordsSet& irdb)
 {
+  assert(!fpath.empty());
+
+  if (fpath.empty()) {
+    LOGE("Given filepath is empty");
+    return false;
+  }
+
   auto irsConverter = std::make_shared<converters::ImageRecords2JSONConverter>(
       app_name, app_version);
 
   LOGD("Trying to store annotations to " << fpath);
 
-  return irsConverter->store(irdb, fpath);
+  std::string text;
+
+  try {
+    // the text first, so the failed print of a string of no valid UTF-8 (a
+    // file name of the Latin-1 bytes, for example) leaves the file as it was
+    text = irsConverter->to_document(irdb).dump(2);
+  }
+  catch (const std::exception& e) {
+    LOGE("Exception occurred: " << e.what());
+    return false;
+  }
+
+  return write_text(fpath, text);
+}
+
+bool LibraryImpl::read_text(const std::string& fpath, std::string& text)
+{
+  LOGT("Trying to open the file: " << fpath);
+
+  std::ifstream f(fpath);
+
+  if (!f.is_open()) {
+    const int cerrno = errno;
+    LOGE("Can't open file: " << fpath << " because " << strerror(cerrno));
+    return false;
+  }
+
+  text.assign(std::istreambuf_iterator<char>{f},
+              std::istreambuf_iterator<char>{});
+
+  if (f.bad()) {
+    LOGE("Fail to read the file: " << fpath);
+    return false;
+  }
+
+  return true;
+}
+
+bool LibraryImpl::write_text(const std::string& fpath, const std::string& text)
+{
+  std::ofstream file(fpath);
+
+  if (!file.is_open()) {
+    LOGE("Fail to open file: " << fpath);
+    return false;
+  }
+
+  file << text;
+
+  file.close();
+
+  if (!file) {
+    LOGE("Fail to write the file: " << fpath);
+    return false;
+  }
+
+  return true;
 }
 
 bool LibraryImpl::serialize(const nlohmann::json& json)
@@ -135,6 +195,11 @@ std::string LibraryImpl::get_app_version() const { return app_version; }
 void LibraryImpl::set_records_factory(IRecordsFactoryPtr factory)
 {
   records_factory = factory;
+}
+
+LibraryImpl::IRecordsFactoryPtr LibraryImpl::get_records_factory() const
+{
+  return records_factory;
 }
 
 }  // namespace iannotator::dbs::annotations

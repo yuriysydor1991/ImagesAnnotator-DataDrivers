@@ -1,8 +1,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <filesystem>
-#include <fstream>
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
@@ -29,21 +27,6 @@ class TestableConverter : public ImageRecords2JSONConverter
  public:
   using ImageRecords2JSONConverter::convert;
 };
-
-nlohmann::json read_json(const std::filesystem::path& from)
-{
-  std::ifstream file(from.string().c_str());
-
-  if (!file.is_open()) {
-    return nlohmann::json{};
-  }
-
-  nlohmann::json parsed;
-
-  file >> parsed;
-
-  return parsed;
-}
 
 }  // namespace
 
@@ -102,16 +85,10 @@ TEST(UTEST_ImageRecords2JSONConverter, groups_records_by_absolute_directory)
   EXPECT_EQ(j[0][S::annotations_field_name].size(), 2U);
 }
 
-TEST(UTEST_ImageRecords2JSONConverter, stores_the_configured_app_identity)
+TEST(UTEST_ImageRecords2JSONConverter, documents_the_configured_app_identity)
 {
   const std::string customName{"MyOwnAnnotator"};
   const std::string customVersion{"9.9.9-custom"};
-
-  const std::filesystem::path tmpFile =
-      std::filesystem::temp_directory_path() /
-      "UTEST_ImageRecords2JSONConverter_identity.json";
-
-  std::filesystem::remove(tmpFile);
 
   const ImageRecordsSet irs{ImageRecord::create("a.png", "/d1")};
 
@@ -120,9 +97,7 @@ TEST(UTEST_ImageRecords2JSONConverter, stores_the_configured_app_identity)
   EXPECT_EQ(customized.app_name, customName);
   EXPECT_EQ(customized.app_version, customVersion);
 
-  ASSERT_TRUE(customized.store(irs, tmpFile.string()));
-
-  const auto customJson = read_json(tmpFile);
+  const auto customJson = customized.to_document(irs);
 
   ASSERT_TRUE(customJson.contains(customName));
   EXPECT_EQ(
@@ -135,15 +110,26 @@ TEST(UTEST_ImageRecords2JSONConverter, stores_the_configured_app_identity)
   EXPECT_EQ(defaulted.app_name, "ImagesAnnotator");
   EXPECT_EQ(defaulted.app_version, "0.12.0");
 
-  ASSERT_TRUE(defaulted.store(irs, tmpFile.string()));
-
-  const auto defaultJson = read_json(tmpFile);
+  const auto defaultJson = defaulted.to_document(irs);
 
   ASSERT_TRUE(defaultJson.contains("ImagesAnnotator"));
   EXPECT_EQ(defaultJson["ImagesAnnotator"][S::file_version_field_name]
                 .get<std::string>(),
             "0.12.0");
   EXPECT_FALSE(defaultJson.contains(customName));
+}
 
-  EXPECT_TRUE(std::filesystem::remove(tmpFile));
+TEST(UTEST_ImageRecords2JSONConverter, documents_the_records_of_their_folders)
+{
+  const ImageRecordsSet irs{ImageRecord::create("a.png", "/d1"),
+                            ImageRecord::create("b.png", "/d2")};
+
+  ImageRecords2JSONConverter conv;
+
+  const auto j = conv.to_document(irs);
+
+  ASSERT_TRUE(j.contains(S::annotations_field_name));
+  ASSERT_TRUE(j[S::annotations_field_name].is_array());
+  EXPECT_EQ(j[S::annotations_field_name].size(), 2U);
+  EXPECT_EQ(j.size(), 2U);
 }

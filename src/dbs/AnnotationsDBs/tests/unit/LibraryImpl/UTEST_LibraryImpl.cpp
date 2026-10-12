@@ -10,6 +10,7 @@
 #include "ImageRecordRect.h"
 #include "src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
 #include "src/dbs/AnnotationsDBs/LibraryImpl.h"
+#include "src/records/RecordsFactory.h"
 
 using namespace testing;
 using iannotator::dbs::annotations::LibraryImpl;
@@ -176,4 +177,42 @@ TEST_F(UTEST_LibraryImpl, refuses_a_file_which_is_not_a_json)
 
   EXPECT_FALSE(impl->load(project.string(), loaded));
   EXPECT_TRUE(loaded.empty());
+}
+
+TEST_F(UTEST_LibraryImpl, reports_the_records_factory_it_was_given)
+{
+  auto impl = LibraryImpl::create();
+
+  EXPECT_EQ(impl->get_records_factory(), nullptr);
+
+  auto factory = iannotator::records::RecordsFactory::create();
+
+  impl->set_records_factory(factory);
+
+  EXPECT_EQ(impl->get_records_factory(), factory);
+}
+
+TEST_F(UTEST_LibraryImpl, keeps_the_file_of_a_string_of_no_utf8)
+{
+  auto impl = LibraryImpl::create();
+
+  ASSERT_TRUE(impl->store(project.string(), one_record()));
+
+  const std::string before = read_project();
+
+  ImageRecordsSet latin1 = one_record();
+
+  latin1.front()->rects.front()->name = "caf\xE9";
+
+  EXPECT_FALSE(impl->store(project.string(), latin1));
+  EXPECT_EQ(read_project(), before);
+}
+
+TEST_F(UTEST_LibraryImpl, refuses_a_destination_unable_to_be_written)
+{
+  auto impl = LibraryImpl::create();
+
+  EXPECT_FALSE(impl->store((root / "absent-dir" / "project.json").string(),
+                           one_record()));
+  EXPECT_FALSE(fs::exists(root / "absent-dir"));
 }

@@ -27,8 +27,6 @@
 
 #include "src/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.h"
 
-#include <cassert>
-#include <fstream>
 #include <nlohmann/json.hpp>
 
 #include "IRecordsFactory.h"
@@ -51,33 +49,15 @@ ImageRecords2JSONConverter::ImageRecords2JSONConverter(
 {
 }
 
-bool ImageRecords2JSONConverter::store(const ImageRecordsSet& irs,
-                                       const std::string& filepath)
+nlohmann::json ImageRecords2JSONConverter::to_document(
+    const ImageRecordsSet& irs)
 {
-  assert(!filepath.empty());
-
-  if (filepath.empty()) {
-    LOGE("Given filepath is empty");
-    return false;
-  }
-
-  std::ofstream file(filepath.c_str());
-
-  if (!file.is_open()) {
-    LOGE("Fail to open file: " << filepath);
-    return false;
-  }
-
   nlohmann::json j;
 
   j[fann] = convert(irs);
   j[app_name][fversion] = app_version;
 
-  file << j.dump(2);
-
-  file.close();
-
-  return true;
+  return j;
 }
 
 nlohmann::json ImageRecords2JSONConverter::convert(const ImageRecordsSet& irs)
