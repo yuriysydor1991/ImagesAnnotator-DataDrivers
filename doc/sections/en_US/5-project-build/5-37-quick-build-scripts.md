@@ -30,7 +30,7 @@ A complete `Release` build takes the single command:
 scripts/build/release.sh
 ```
 
-There is no script for the `valgrind` and the `callgrind` targets, because this project declares neither: both of them run the project main binary and this project builds no executable, so the enablers behind the [dynamic memory check](/doc/sections/en_US/5-project-build/code-quality/5-9-enabling-the-dynamic-memory-check-target-with-valgrind.md) and the [callgrind profiler](/doc/sections/en_US/5-project-build/profilers/5-16-enabling-valgrinds-callgrind-profiler-analysis.md) sections are not wired into this project and a `-DENABLE_VALGRIND=ON` / `-DENABLE_CALLGRIND=ON` of its own is an unused variable here.
+There is no script for the `valgrind` and the `callgrind` targets of the application template, because this project declares neither: both of them run the project main binary and this project builds no executable.
 
 ### Stage scripts
 

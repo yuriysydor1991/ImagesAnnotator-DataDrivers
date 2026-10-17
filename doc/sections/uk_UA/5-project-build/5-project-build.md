@@ -24,15 +24,3 @@
     1. [Вмикання інтеграції бібліотеки nlohmann JSON](/doc/sections/uk_UA/5-project-build/5-18-enabling-the-nlohmann-json-library.md)
 1. Стиснення даних
     1. [Вмикання інтеграції zlib](/doc/sections/uk_UA/5-project-build/compression/5-23-enabling-the-zlib-library.md)
-    1. [Вмикання інтеграції liblzma](/doc/sections/uk_UA/5-project-build/compression/5-34-enabling-the-liblzma-library.md)
-1. Зображення
-    1. [Вмикання інтеграції libpng](/doc/sections/uk_UA/5-project-build/image-libraries/5-24-enabling-the-libpng-library.md)
-    1. [Вмикання інтеграції libjpeg](/doc/sections/uk_UA/5-project-build/image-libraries/5-25-enabling-the-libjpeg-library.md)
-    1. [Вмикання інтеграції libwebp](/doc/sections/uk_UA/5-project-build/image-libraries/5-26-enabling-the-libwebp-library.md)
-    1. [Вмикання інтеграції lunasvg (SVG)](/doc/sections/uk_UA/5-project-build/image-libraries/5-27-enabling-the-lunasvg-library.md)
-    1. [Вмикання інтеграції giflib (GIF)](/doc/sections/uk_UA/5-project-build/image-libraries/5-28-enabling-the-giflib-library.md)
-    1. [Вмикання інтеграції libtiff (TIFF)](/doc/sections/uk_UA/5-project-build/image-libraries/5-29-enabling-the-libtiff-library.md)
-    1. [Вмикання інтеграції OpenEXR (EXR / HDR)](/doc/sections/uk_UA/5-project-build/image-libraries/5-30-enabling-the-openexr-library.md)
-    1. [Вмикання інтеграції OpenJPEG (JPEG 2000)](/doc/sections/uk_UA/5-project-build/image-libraries/5-31-enabling-the-openjpeg-library.md)
-    1. [Вмикання інтеграції libavif (AVIF)](/doc/sections/uk_UA/5-project-build/image-libraries/5-32-enabling-the-libavif-library.md)
-    1. [Вмикання інтеграції libheif (HEIF/HEIC)](/doc/sections/uk_UA/5-project-build/image-libraries/5-33-enabling-the-libheif-library.md)

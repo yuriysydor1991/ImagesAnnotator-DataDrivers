@@ -1,6 +1,6 @@
 ## Необов'язкові пакети для запуску контейнера Docker
 
-Для того щоб мати змогу будувати і запускати контейнери Docker разом з побудовою проекту шаблону його необхідно встановити за допомогою команди (ОС на базі GNU/Linux):
+Для того щоб мати змогу будувати і запускати контейнер Docker конвеєра Jenkins його необхідно встановити за допомогою команди (ОС на базі GNU/Linux):
 
 ```
 sudo apt install -y docker.io docker-buildx
@@ -40,4 +40,4 @@ DOCKER_HOST="tcp://127.0.0.1:2375" docker run hello-world
 echo 'export DOCKER_HOST="tcp://127.0.0.1:2375"' >> ~/.bashrc
 ```
 
-Деталі у секції [Вмикання підтримки запуску Docker-контейнера](/doc/sections/uk_UA/5-project-build/containers-ci/5-12-enabling-the-docker-container-build-and-run.md).
+Деталі у секції [Вмикання конвеєра Jenkins всередині Docker контейнера](/doc/sections/uk_UA/5-project-build/containers-ci/5-17-enabling-Jenkins-pipeline-inside-Docker-container.md).
