@@ -58,7 +58,7 @@ target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.14::ImagesAnnotatorDat
 cmake -S . -B build -DCMAKE_PREFIX_PATH="$HOME/.local"
 ```
 
-І зауваження для екзотичних випадків: встановлювана назва не є висіченою у камені. Параметри побудови бібліотеки `LIB_INCLUDE_MINOR_IN_NAME`, `LIB_INCLUDE_MICRO_IN_NAME` і `LIB_NAME_SUFFIX` змінюють одночасно назву бінарного файлу, піддиректорію заголовкових файлів, директорію CMake-пакета і простір імен імпортованої цілі - див. [налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md). Побудуй бібліотеку з ними - і назва у `find_package` твого проекту має слідувати за ними, наприклад `ImagesAnnotatorDataDrivers-0.14`.
+І зауваження для екзотичних випадків: встановлювана назва не є висіченою у камені. Параметри побудови бібліотеки `LIB_INCLUDE_MINOR_IN_NAME`, `LIB_INCLUDE_MICRO_IN_NAME` і `LIB_NAME_SUFFIX` змінюють одночасно назву бінарного файлу, піддиректорію заголовкових файлів, директорію CMake-пакета і простір імен імпортованої цілі - див. [налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md). Побудуй бібліотеку з ними - і назва у `find_package` твого проекту має слідувати за ними, наприклад `ImagesAnnotatorDataDrivers-0.14`.
 
 ## 3. Підключення заголовкових файлів
 

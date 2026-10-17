@@ -4,7 +4,7 @@
 
 Назва проекту оголошується викликом `project()` у кореневому файлі [CMakeLists.txt](/CMakeLists.txt) і є `ImagesAnnotatorDataDrivers`. Її зміна там змінює значення `CMAKE_PROJECT_NAME`, на якому побудована уся решта системи збірки.
 
-Назва бібліотеки, придатної до встановлення, є CMake-змінною кешу `PROJECT_LIBRARY_NAME`, яка виводиться у файлі [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake). За замовчуванням вона бере значення `CMAKE_PROJECT_NAME` і додає до нього мажорну версію проекту, що для поточної версії `0.14.0` дає назву `ImagesAnnotatorDataDrivers-0.14`. Необов'язкові сегменти (мінорна версія, мікроверсія і довільний хвостовий суфікс) можуть бути додані до неї під час конфігурації - див. підрозділ [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
+Назва бібліотеки, придатної до встановлення, є CMake-змінною кешу `PROJECT_LIBRARY_NAME`, яка виводиться у файлі [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake). За замовчуванням вона бере значення `CMAKE_PROJECT_NAME` і додає до нього мажорну версію проекту, що для поточної версії `0.14.0` дає назву `ImagesAnnotatorDataDrivers-0.14`. Необов'язкові сегменти (мінорна версія, мікроверсія і довільний хвостовий суфікс) можуть бути додані до неї під час конфігурації - див. підрозділ [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md).
 
 Ця єдина назва одразу керує кожним видимим для користувача артефактом:
 

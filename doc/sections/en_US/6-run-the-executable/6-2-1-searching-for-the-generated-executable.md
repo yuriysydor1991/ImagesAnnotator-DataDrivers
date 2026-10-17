@@ -18,7 +18,7 @@ Which with the default configure options gives three entries, all of them living
 ./src/lib/libImagesAnnotatorDataDrivers-0.14.so           the linker name symlink
 ```
 
-The `ImagesAnnotatorDataDrivers-0.14` part is the library name derived from the project name plus its major version. Replace it with your custom one if you change the name of the project in the root `CMakeLists.txt` file (the `CMAKE_PROJECT_NAME` variable) or if you tune the name segments through the `LIB_INCLUDE_MINOR_IN_NAME` / `LIB_INCLUDE_MICRO_IN_NAME` / `LIB_NAME_SUFFIX` options - see the [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md) subsection. The configure stage prints the effective name as a `PROJECT_LIBRARY_NAME: ...` status line, so when in doubt just look there.
+The `ImagesAnnotatorDataDrivers-0.14` part is the library name derived from the project name plus its major version. Replace it with your custom one if you change the name of the project in the root `CMakeLists.txt` file (the `CMAKE_PROJECT_NAME` variable) or if you tune the name segments through the `LIB_INCLUDE_MINOR_IN_NAME` / `LIB_INCLUDE_MICRO_IN_NAME` / `LIB_NAME_SUFFIX` options - see the [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md) subsection. The configure stage prints the effective name as a `PROJECT_LIBRARY_NAME: ...` status line, so when in doubt just look there.
 
 To find the compiled test binaries, look for the `UTEST_*` (unit tests) and `CTEST_*` (component tests) patterns:
 

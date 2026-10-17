@@ -58,7 +58,7 @@ If the library went into a prefix your CMake does not search by itself, point it
 cmake -S . -B build -DCMAKE_PREFIX_PATH="$HOME/.local"
 ```
 
-And a note for the exotic cases: the installed name is not carved in stone. The `LIB_INCLUDE_MINOR_IN_NAME`, `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options of the library build change the binary name, the header sub-directory, the CMake package directory and the imported target namespace all at once - see [customizing the installable library name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md). Build the library with them and the `find_package` name in your project has to follow, e.g. `ImagesAnnotatorDataDrivers-0.14`.
+And a note for the exotic cases: the installed name is not carved in stone. The `LIB_INCLUDE_MINOR_IN_NAME`, `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options of the library build change the binary name, the header sub-directory, the CMake package directory and the imported target namespace all at once - see [customizing the installable library name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md). Build the library with them and the `find_package` name in your project has to follow, e.g. `ImagesAnnotatorDataDrivers-0.14`.
 
 ## 3. Including the headers
 

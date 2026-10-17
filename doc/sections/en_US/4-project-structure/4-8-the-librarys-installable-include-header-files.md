@@ -15,7 +15,7 @@ The [src/lib/facade/public](/src/lib/facade/public) directory contains the insta
 | [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | One named rectangle: `name`, `x`, `y`, `width` and `height` |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | The empty tagging base classes of the two hierarchies above |
 
-The contents of the [src/lib/facade/public](/src/lib/facade/public) directory are installed under the `include/<library name>` sub-directory of the chosen install prefix, which with the current project name and major version means `include/ImagesAnnotatorDataDrivers-0.14/` - see [Changing the project and the library name](/doc/sections/en_US/4-project-structure/4-2-changing-the-project-and-executable-name.md) and [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/compression/5-23-customizing-library-name-segments.md).
+The contents of the [src/lib/facade/public](/src/lib/facade/public) directory are installed under the `include/<library name>` sub-directory of the chosen install prefix, which with the current project name and major version means `include/ImagesAnnotatorDataDrivers-0.14/` - see [Changing the project and the library name](/doc/sections/en_US/4-project-structure/4-2-changing-the-project-and-executable-name.md) and [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md).
 
 ### Both include forms work
 
