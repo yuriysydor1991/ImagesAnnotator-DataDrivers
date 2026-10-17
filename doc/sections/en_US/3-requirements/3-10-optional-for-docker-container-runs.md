@@ -1,6 +1,6 @@
 ## Optional for the Docker container runs
 
-In order to be able to start the Docker containers with the built template application install it with the next command:
+In order to be able to start the Docker container of the Jenkins pipeline install it with the next command:
 
 ```
 sudo apt install -y docker.io docker-buildx
@@ -40,4 +40,4 @@ You may add the `export DOCKER_HOST="tcp://127.0.0.1:2375"` to your `.bashrc` fi
 echo 'export DOCKER_HOST="tcp://127.0.0.1:2375"' >> ~/.bashrc
 ```
 
-Details at the section [Enabling the Docker container build and run](/doc/sections/en_US/5-project-build/containers-ci/5-12-enabling-the-docker-container-build-and-run.md).
+Details at the section [Enabling Jenkins pipeline inside Docker container](/doc/sections/en_US/5-project-build/containers-ci/5-17-enabling-Jenkins-pipeline-inside-Docker-container.md).

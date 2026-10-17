@@ -30,7 +30,7 @@
 scripts/build/release.sh
 ```
 
-Для цілей `valgrind` і `callgrind` скриптів немає, бо цей проект не оголошує жодної з них: обидві запускають головний бінарний файл проекту, а цей проект не будує виконуваного файлу, отож засоби з секцій [перевірки динамічної пам'яті](/doc/sections/uk_UA/5-project-build/code-quality/5-9-enabling-the-dynamic-memory-check-target-with-valgrind.md) і [профілювання callgrind](/doc/sections/uk_UA/5-project-build/profilers/5-16-enabling-valgrinds-callgrind-profiler-analysis.md) не підключені до цього проекту, а власні `-DENABLE_VALGRIND=ON` / `-DENABLE_CALLGRIND=ON` є тут невикористаними змінними.
+Для цілей `valgrind` і `callgrind` шаблону застосунку скриптів немає, бо цей проект не оголошує жодної з них: обидві запускають головний бінарний файл проекту, а цей проект не будує виконуваного файлу.
 
 ### Скрипти окремих кроків
 

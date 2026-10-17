@@ -7,24 +7,3 @@ include(template-project-dockerers)
 include(ImagesAnnotator-nlohmann-json-linker)
 include(ImagesAnnotator-libcurl-linker)
 include(ImagesAnnotator-zlib-linker)
-
-include(template-project-libxml2-enabler)
-include(template-project-OpenCV-enabler)
-
-# compression (the mandatory zlib is made available by the pre-src pass)
-include(template-project-liblzma-enabler)
-
-# images
-include(template-project-libpng-enabler)
-include(template-project-libjpeg-enabler)
-include(template-project-libwebp-enabler)
-include(template-project-lunasvg-enabler)
-include(template-project-giflib-enabler)
-include(template-project-libtiff-enabler)
-include(template-project-openexr-enabler)
-include(template-project-openjpeg-enabler)
-include(template-project-libavif-enabler)
-include(template-project-libheif-enabler)
-
-# security / cryptography
-include(template-project-openssl-enabler)

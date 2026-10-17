@@ -15,7 +15,7 @@
 | [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | Один іменований прямокутник: `name`, `x`, `y`, `width` і `height` |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | Порожні базові класи-мітки двох ієрархій вище |
 
-Вміст директорії [src/lib/facade/public](/src/lib/facade/public) встановлюється у піддиректорію `include/<назва бібліотеки>` обраного кореня інсталяції, що з поточною назвою проекту і мажорною версією означає `include/ImagesAnnotatorDataDrivers-0.14/` - див. [Зміна назви проекту і назви бібліотеки](/doc/sections/uk_UA/4-project-structure/4-2-changing-the-project-and-executable-name.md) і [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/compression/5-23-customizing-library-name-segments.md).
+Вміст директорії [src/lib/facade/public](/src/lib/facade/public) встановлюється у піддиректорію `include/<назва бібліотеки>` обраного кореня інсталяції, що з поточною назвою проекту і мажорною версією означає `include/ImagesAnnotatorDataDrivers-0.14/` - див. [Зміна назви проекту і назви бібліотеки](/doc/sections/uk_UA/4-project-structure/4-2-changing-the-project-and-executable-name.md) і [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md).
 
 ### Обидві форми включення працюють
 
