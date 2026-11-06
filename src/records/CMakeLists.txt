@@ -9,6 +9,7 @@ target_sources(
   PRIVATE
     ImageRecord.cpp
     ImageRecordRect.cpp
+    ImageRecordSegment.cpp
     RecordsFactory.cpp
 )
 

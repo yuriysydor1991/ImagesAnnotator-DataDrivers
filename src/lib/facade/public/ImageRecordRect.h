@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,6 +30,7 @@
 
 #include <memory>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include "IRecord.h"
@@ -53,6 +54,10 @@ class ImageRecordRect : virtual public IRecord,
   using ImageRecordRectPtr = std::shared_ptr<ImageRecordRect>;
   using ImageRecordRectSet = std::vector<ImageRecordRectPtr>;
 
+  /// @brief A point of an annotation outline: its x and its y
+  using Point = std::tuple<double, double>;
+  using Points = std::vector<Point>;
+
   virtual ~ImageRecordRect() = default;
   ImageRecordRect();
   ImageRecordRect(const std::string& nname, const int& nx, const int& ny,
@@ -69,9 +74,16 @@ class ImageRecordRect : virtual public IRecord,
   /**
    * @brief Creates a detached deep copy of the current rectangle.
    *
-   * @return Returns a new instance holding the same values.
+   * @return Returns a new instance of the same type holding the same values.
    */
-  ImageRecordRectPtr duplicate_shared() const;
+  virtual ImageRecordRectPtr duplicate_shared() const;
+
+  /**
+   * @brief Reports the outline of the annotation in the image pixel space.
+   *
+   * @return Returns the four corners, clockwise from the top left one.
+   */
+  virtual Points outline() const;
 
   /**
    * @brief Compares two rectangle sets value wise.
@@ -83,9 +95,14 @@ class ImageRecordRect : virtual public IRecord,
   /**
    * @brief Compares two rectangles value wise.
    *
-   * @return Returns true when both rectangles hold the same name and geometry.
+   * @return Returns true when both annotations are of the same type and
+   * hold the same data.
    */
   static bool equal(const ImageRecordRectPtr& l, const ImageRecordRectPtr& r);
+
+ protected:
+  /// @brief Compares the data of the own type with the given annotation ones
+  virtual bool equals(const ImageRecordRect& r) const;
 };
 
 using ImageRecordRectPtr = ImageRecordRect::ImageRecordRectPtr;

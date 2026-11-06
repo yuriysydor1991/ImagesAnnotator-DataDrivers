@@ -7,12 +7,14 @@
 #include "IRecordsFactory.h"
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
+#include "ImageRecordSegment.h"
 #include "src/records/RecordsFactory.h"
 
 using namespace testing;
 using iannotator::records::RecordsFactory;
 using ImagesAnnotatorDataDrivers015::ImageRecordPtr;
 using ImagesAnnotatorDataDrivers015::ImageRecordRect;
+using ImagesAnnotatorDataDrivers015::ImageRecordSegment;
 using ImagesAnnotatorDataDrivers015::IRecordsFactory;
 using ImagesAnnotatorDataDrivers015::IRecordsFactoryPtr;
 
@@ -167,4 +169,32 @@ TEST_F(UTEST_RecordsFactory, the_produced_records_match_directly_built_ones)
       ir, ImagesAnnotatorDataDrivers015::ImageRecord::create("a.png", "/abs")));
   EXPECT_TRUE(ImageRecordRect::equal(
       rct, std::make_shared<ImageRecordRect>("cat", 1, 2, 3, 4)));
+}
+
+TEST_F(UTEST_RecordsFactory, create_segment_is_named_the_way_a_rect_is)
+{
+  const auto ir = factory->create_image_record("a.png", "/abs");
+
+  ir->rects.emplace_back(factory->create_image_rect_record(ir));
+
+  const auto sgm = factory->create_image_segment_record(ir);
+
+  ASSERT_NE(sgm, nullptr);
+  EXPECT_EQ(sgm->name,
+            IRecordsFactory::default_numbered_name_record_prefix + "1");
+  EXPECT_TRUE(sgm->points.empty());
+  EXPECT_EQ(factory->create_image_segment_record()->name,
+            IRecordsFactory::default_name_record);
+}
+
+TEST_F(UTEST_RecordsFactory, create_segment_with_geometry_fills_every_field)
+{
+  const ImageRecordSegment::Points points{{0, 0}, {1, 0}, {0, 1}};
+
+  const auto sgm =
+      factory->create_image_segment_record("cat", 1, 2, 3, 4, points);
+
+  ASSERT_NE(sgm, nullptr);
+  EXPECT_TRUE(ImageRecordRect::equal(
+      sgm, std::make_shared<ImageRecordSegment>("cat", 1, 2, 3, 4, points)));
 }

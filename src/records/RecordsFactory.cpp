@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -32,6 +32,7 @@
 
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
+#include "ImageRecordSegment.h"
 #include "src/log/log.h"
 
 namespace iannotator::records
@@ -48,12 +49,7 @@ RecordsFactory::ImageRecordRectPtr RecordsFactory::create_image_rect_record(
 {
   auto rt = std::make_shared<ImageRecordRect>();
 
-  if (ir == nullptr) {
-    rt->name = default_name_record;
-  } else {
-    rt->name =
-        default_numbered_name_record_prefix + std::to_string(ir->rects.size());
-  }
+  rt->name = default_name_of(ir);
 
   return rt;
 }
@@ -63,6 +59,32 @@ RecordsFactory::ImageRecordRectPtr RecordsFactory::create_image_rect_record(
     const int& nheight)
 {
   return std::make_shared<ImageRecordRect>(nname, nx, ny, nwidth, nheight);
+}
+
+RecordsFactory::ImageRecordSegmentPtr
+RecordsFactory::create_image_segment_record(const ImageRecordPtr& ir)
+{
+  auto rt = std::make_shared<ImageRecordSegment>();
+
+  rt->name = default_name_of(ir);
+
+  return rt;
+}
+
+RecordsFactory::ImageRecordSegmentPtr
+RecordsFactory::create_image_segment_record(
+    const std::string& nname, const int& nx, const int& ny, const int& nwidth,
+    const int& nheight, const ImageRecordSegment::Points& npoints)
+{
+  return std::make_shared<ImageRecordSegment>(nname, nx, ny, nwidth, nheight,
+                                              npoints);
+}
+
+std::string RecordsFactory::default_name_of(const ImageRecordPtr& ir)
+{
+  return ir == nullptr ? default_name_record
+                       : default_numbered_name_record_prefix +
+                             std::to_string(ir->rects.size());
 }
 
 RecordsFactoryPtr RecordsFactory::create()

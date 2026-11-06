@@ -18,6 +18,7 @@ set(GENERAL_MOCKS_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/tests/mocks")
 set(IADD_RECORDS_SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/records/ImageRecord.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/records/ImageRecordRect.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/records/ImageRecordSegment.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/records/RecordsFactory.cpp
 )
 

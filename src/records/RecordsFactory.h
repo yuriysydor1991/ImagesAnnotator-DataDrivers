@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,6 +34,7 @@
 #include "IRecordsFactory.h"
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
+#include "ImageRecordSegment.h"
 
 namespace iannotator::records
 {
@@ -54,6 +55,9 @@ class RecordsFactory : public ImagesAnnotatorDataDrivers015::IRecordsFactory
   using ImageRecordPtr = ImagesAnnotatorDataDrivers015::ImageRecordPtr;
   using ImageRecordRect = ImagesAnnotatorDataDrivers015::ImageRecordRect;
   using ImageRecordRectPtr = ImagesAnnotatorDataDrivers015::ImageRecordRectPtr;
+  using ImageRecordSegment = ImagesAnnotatorDataDrivers015::ImageRecordSegment;
+  using ImageRecordSegmentPtr =
+      ImagesAnnotatorDataDrivers015::ImageRecordSegmentPtr;
 
   virtual ~RecordsFactory() = default;
   RecordsFactory() = default;
@@ -91,7 +95,18 @@ class RecordsFactory : public ImagesAnnotatorDataDrivers015::IRecordsFactory
       const std::string& nname, const int& nx, const int& ny, const int& nwidth,
       const int& nheight) override;
 
+  virtual ImageRecordSegmentPtr create_image_segment_record(
+      const ImageRecordPtr& ir = nullptr) override;
+
+  virtual ImageRecordSegmentPtr create_image_segment_record(
+      const std::string& nname, const int& nx, const int& ny, const int& nwidth,
+      const int& nheight, const ImageRecordSegment::Points& npoints) override;
+
   static RecordsFactoryPtr create();
+
+ private:
+  /// @brief The name of an empty annotation about to join the given record
+  static std::string default_name_of(const ImageRecordPtr& ir);
 };
 
 using RecordsFactoryPtr = RecordsFactory::RecordsFactoryPtr;

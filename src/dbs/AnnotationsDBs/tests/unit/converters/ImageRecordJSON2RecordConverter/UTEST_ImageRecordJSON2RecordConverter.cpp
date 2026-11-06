@@ -16,6 +16,8 @@ using iannotator::dbs::annotations::converters::ImageRecordJSON2RecordConverter;
 using ImagesAnnotatorDataDrivers015::ImageRecord;
 using ImagesAnnotatorDataDrivers015::ImageRecordPtr;
 using ImagesAnnotatorDataDrivers015::ImageRecordRectPtr;
+using ImagesAnnotatorDataDrivers015::ImageRecordSegmentPtr;
+using Points = ImagesAnnotatorDataDrivers015::ImageRecordRect::Points;
 using S = iannotator::dbs::annotations::AnnotationsJSONSerializator;
 
 namespace
@@ -33,6 +35,12 @@ class RecordsFactoryMock : public ImagesAnnotatorDataDrivers015::IRecordsFactory
   MOCK_METHOD(ImageRecordRectPtr, create_image_rect_record,
               (const std::string& nname, const int& nx, const int& ny,
                const int& nwidth, const int& nheight),
+              (override));
+  MOCK_METHOD(ImageRecordSegmentPtr, create_image_segment_record,
+              (const ImageRecordPtr& ir), (override));
+  MOCK_METHOD(ImageRecordSegmentPtr, create_image_segment_record,
+              (const std::string& nname, const int& nx, const int& ny,
+               const int& nwidth, const int& nheight, const Points& npoints),
               (override));
 };
 

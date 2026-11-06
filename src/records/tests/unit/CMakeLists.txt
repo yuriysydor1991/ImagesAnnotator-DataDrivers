@@ -5,4 +5,5 @@ add_compile_options(-DNDEBUG=1)
 
 add_subdirectory(ImageRecord)
 add_subdirectory(ImageRecordRect)
+add_subdirectory(ImageRecordSegment)
 add_subdirectory(RecordsFactory)

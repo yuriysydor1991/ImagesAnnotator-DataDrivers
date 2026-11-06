@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -72,6 +72,16 @@ bool ImageRecordRect::equal(const ImageRecordRectSet& l,
   return rt;
 }
 
+ImageRecordRect::Points ImageRecordRect::outline() const
+{
+  const double left = x;
+  const double top = y;
+  const double right = x + width;
+  const double bottom = y + height;
+
+  return {{left, top}, {right, top}, {right, bottom}, {left, bottom}};
+}
+
 bool ImageRecordRect::equal(const ImageRecordRectPtr& l,
                             const ImageRecordRectPtr& r)
 {
@@ -80,18 +90,25 @@ bool ImageRecordRect::equal(const ImageRecordRectPtr& l,
     return true;
   }
 
-  LOGT("Comparing: " << l->name << " ?= " << r->name);
-  LOGT("         : " << l->x << " ?= " << r->x);
-  LOGT("         : " << l->y << " ?= " << r->y);
-  LOGT("         : " << l->width << " ?= " << r->width);
-  LOGT("         : " << l->height << " ?= " << r->height);
-
-  const bool rt = l->name == r->name && l->x == r->x && l->y == r->y &&
-                  l->width == r->width && l->height == r->height;
+  // either side compares the data of its own type, so an annotation never
+  // equals one of another type
+  const bool rt = l->equals(*r) && r->equals(*l);
 
   LOGT("Equality value for " << l->name << " = " << rt);
 
   return rt;
+}
+
+bool ImageRecordRect::equals(const ImageRecordRect& r) const
+{
+  LOGT("Comparing: " << name << " ?= " << r.name);
+  LOGT("         : " << x << " ?= " << r.x);
+  LOGT("         : " << y << " ?= " << r.y);
+  LOGT("         : " << width << " ?= " << r.width);
+  LOGT("         : " << height << " ?= " << r.height);
+
+  return name == r.name && x == r.x && y == r.y && width == r.width &&
+         height == r.height;
 }
 
 }  // namespace ImagesAnnotatorDataDrivers015

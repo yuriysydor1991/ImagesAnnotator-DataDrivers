@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -33,6 +33,7 @@
 
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
+#include "ImageRecordSegment.h"
 
 namespace ImagesAnnotatorDataDrivers015
 {
@@ -94,6 +95,26 @@ class IRecordsFactory
                                                       const int& ny,
                                                       const int& nwidth,
                                                       const int& nheight) = 0;
+
+  /**
+   * @brief Creates an empty segment, named the way the
+   * create_image_rect_record() names an empty rectangle.
+   *
+   * @return Returns the newly created segment.
+   */
+  virtual ImageRecordSegmentPtr create_image_segment_record(
+      const ImageRecordPtr& ir = nullptr) = 0;
+
+  /**
+   * @brief Creates a fully defined segment.
+   *
+   * @param npoints The polygon points in the 0..1 space of the rectangle.
+   *
+   * @return Returns the newly created segment.
+   */
+  virtual ImageRecordSegmentPtr create_image_segment_record(
+      const std::string& nname, const int& nx, const int& ny, const int& nwidth,
+      const int& nheight, const ImageRecordSegment::Points& npoints) = 0;
 };
 
 using IRecordsFactoryPtr = IRecordsFactory::IRecordsFactoryPtr;
