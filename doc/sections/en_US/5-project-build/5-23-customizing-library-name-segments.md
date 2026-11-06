@@ -10,19 +10,19 @@ versions of the library coexist on the same host - e.g.
 
 | Option | Default | Effect |
 |---|---|---|
-| `-DLIB_INCLUDE_MINOR_IN_NAME=OFF` | `ON` | Drops the `.<minor>` the name carries by default |
-| `-DLIB_INCLUDE_MICRO_IN_NAME=ON` | `OFF` | Appends `.<micro>` (implies the minor flag) |
-| `-DLIB_NAME_SUFFIX=-dev` | `""` | Appends an arbitrary trailing tag |
+| `-DIADD_LIB_INCLUDE_MINOR_IN_NAME=OFF` | `ON` | Drops the `.<minor>` the name carries by default |
+| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON` | `OFF` | Appends `.<micro>` (implies the minor flag) |
+| `-DIADD_LIB_NAME_SUFFIX=-dev` | `""` | Appends an arbitrary trailing tag |
 
 Resulting library name examples for this `0.15.0` project:
 
 | Configure flags | Library name |
 |---|---|
 | (none) | `ImagesAnnotatorDataDrivers-0.15` |
-| `-DLIB_INCLUDE_MINOR_IN_NAME=OFF` | `ImagesAnnotatorDataDrivers-0` |
-| `-DLIB_INCLUDE_MICRO_IN_NAME=ON` | `ImagesAnnotatorDataDrivers-0.15.0` |
-| `-DLIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15-dev` |
-| `-DLIB_INCLUDE_MICRO_IN_NAME=ON -DLIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15.0-dev` |
+| `-DIADD_LIB_INCLUDE_MINOR_IN_NAME=OFF` | `ImagesAnnotatorDataDrivers-0` |
+| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON` | `ImagesAnnotatorDataDrivers-0.15.0` |
+| `-DIADD_LIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15-dev` |
+| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON -DIADD_LIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15.0-dev` |
 
 The default - `ImagesAnnotatorDataDrivers-0.15` - is the name every other
 section of this documentation assumes. The minor version is part of it on
@@ -41,8 +41,8 @@ Combined configure example:
 # inside the project root directory
 
 cmake -S . -B build \
-  -DLIB_INCLUDE_MICRO_IN_NAME=ON \
-  -DLIB_NAME_SUFFIX=-dev
+  -DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON \
+  -DIADD_LIB_NAME_SUFFIX=-dev
 cmake --build build
 cmake --install build --prefix /usr/local
 ```
@@ -58,4 +58,4 @@ Note that the C++ namespace of the public API is a separate thing entirely and
 is **not** affected by these options: it stays `ImagesAnnotatorDataDrivers015`,
 with the major and minor version stamped into the identifier itself.
 
-The derivation lives in [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake) and is exposed as the `PROJECT_LIBRARY_NAME` CMake cache entry that the rest of the build system consumes. Asking for `LIB_INCLUDE_MICRO_IN_NAME=ON` together with an explicit `LIB_INCLUDE_MINOR_IN_NAME=OFF` triggers a configure-time warning and the minor flag is turned back on implicitly, to keep the produced name syntactically valid.
+The derivation lives in [cmake/imagesannotator-datadrivers-misc-variables-declare.cmake](/cmake/imagesannotator-datadrivers-misc-variables-declare.cmake) and is exposed as the `IADD_LIBRARY_NAME` CMake cache entry that the rest of the build system consumes. Asking for `IADD_LIB_INCLUDE_MICRO_IN_NAME=ON` together with an explicit `IADD_LIB_INCLUDE_MINOR_IN_NAME=OFF` triggers a configure-time warning and the minor flag is turned back on implicitly, to keep the produced name syntactically valid.

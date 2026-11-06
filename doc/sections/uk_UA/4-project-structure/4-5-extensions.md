@@ -7,7 +7,7 @@
 - **Пакувальники**, побудовані на основі CPack: DEB, RPM, FreeBSD pkg і WIX MSI, усі з яких зберігаються у [cmake/enablers/packagers](/cmake/enablers/packagers).
 - **Контейнери і помічники CI** у [cmake/enablers/dockerers](/cmake/enablers/dockerers), разом із конвеєром [misc/Jenkinsfile](/misc/Jenkinsfile), який будує проект, запускає тести і перевіряє, що кожне markdown-посилання даної документації розв'язується.
 - **Побудова документації** за допомогою Doxygen, за бажанням встановлювана разом із бібліотекою.
-- **Тести**, які є інтеграцією того ж роду: `ENABLE_UNIT_TESTS` і `ENABLE_COMPONENT_TESTS`, обидві за замовчуванням `OFF`. Див. [Тести проекту](/doc/sections/uk_UA/4-project-structure/4-4-project-tests.md).
+- **Тести**, які є інтеграцією того ж роду: `IADD_ENABLE_UNIT_TESTS` і `IADD_ENABLE_COMPONENT_TESTS`, обидві за замовчуванням `OFF`. Див. [Тести проекту](/doc/sections/uk_UA/4-project-structure/4-4-project-tests.md).
 
 Повний перелік із рецептом конфігурації кожного з них знаходиться у розділі [Побудова проекту](/doc/sections/uk_UA/5-project-build/5-project-build.md).
 

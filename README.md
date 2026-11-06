@@ -83,7 +83,9 @@ int main(int argc, char** argv)
 
 The `ImagesAnnotatorDataDrivers015` namespace name carries the library major and minor version numbers on purpose: two library versions may coexist inside a single translation unit without any symbol clash. Alias it, as shown above, and the version bump stays a one line change on your side.
 
-Both `#include <ImagesAnnotatorDataDrivers-0.15/IADataDriversFacade.h>` and a plain `#include <IADataDriversFacade.h>` work for an installed consumer, since the library exports the include root along with its versioned subdirectory. The prefixed form is the recommended one: header names like `ImageRecord.h` or `IRecord.h` are generic enough to collide in a busy include path.
+Both `#include <ImagesAnnotatorDataDrivers-0.15/IADataDriversFacade.h>` and a plain `#include <IADataDriversFacade.h>` work for an installed consumer and for a FetchContent one alike, since the library exports the include root along with its versioned subdirectory (and its build tree forwards that subdirectory to the public headers). The prefixed form is the recommended one: header names like `ImageRecord.h` or `IRecord.h` are generic enough to collide in a busy include path.
+
+The library does not have to be installed beforehand either: a project may take it in by the CMake `FetchContent` and link the very same target, see the [Taking the library in by the FetchContent](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md#taking-the-library-in-by-the-fetchcontent) part of the using the library section.
 
 More on the API and on the file format itself is in the [annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md), the [annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md), the [imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md), the [imgajz2 project format of the segments](/doc/sections/en_US/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md) and the [using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) documentation sections.
 
@@ -93,9 +95,9 @@ All three of the following are **mandatory** for the library to build and all th
 
 | CMake option | Library | Why it is needed |
 | --- | --- | --- |
-| `ENABLE_NLOHMANN_JSON` | [nlohmann/json](https://github.com/nlohmann/json) | the annotations project file is a JSON document |
-| `ENABLE_LIBCURL` | [libcurl](https://curl.se/libcurl/) | its `CURLU` URL API resolves and de-duplicates the image records that point at a web URL instead of a local file |
-| `ENABLE_ZLIB` | [zlib](https://zlib.net/) | the imgajz1 and the imgajz2 project files are gzip compressed |
+| `IADD_ENABLE_NLOHMANN_JSON` | [nlohmann/json](https://github.com/nlohmann/json) | the annotations project file is a JSON document |
+| `IADD_ENABLE_LIBCURL` | [libcurl](https://curl.se/libcurl/) | its `CURLU` URL API resolves and de-duplicates the image records that point at a web URL instead of a local file |
+| `IADD_ENABLE_ZLIB` | [zlib](https://zlib.net/) | the imgajz1 and the imgajz2 project files are gzip compressed |
 
 Each of them is first probed system wide and, when it is not found, is pulled by the CMake `FetchContent` (the nlohmann json at the `v3.11.3` tag, the zlib at the `v1.3.1` one). See the [enabling the nlohmann json library](/doc/sections/en_US/5-project-build/5-18-enabling-the-nlohmann-json-library.md), the [enabling the libcurl](/doc/sections/en_US/5-project-build/5-14-enabling-libcurl.md) and the [enabling the zlib library](/doc/sections/en_US/5-project-build/compression/5-23-enabling-the-zlib-library.md) sections for the source and tag overriding variables.
 
@@ -113,12 +115,12 @@ cmake --build build -j$(nproc)
 The tests are off by default. To build and run them:
 
 ```
-cmake -S . -B build -DENABLE_UNIT_TESTS=ON -DENABLE_COMPONENT_TESTS=ON
+cmake -S . -B build -DIADD_ENABLE_UNIT_TESTS=ON -DIADD_ENABLE_COMPONENT_TESTS=ON
 cmake --build build -j$(nproc)
 cd build && ctest --output-on-failure
 ```
 
-The `ENABLE_UNIT_TESTS` targets are compiled straight from the sources against the gmock stand-ins of [src/tests/mocks](/src/tests/mocks), while the `ENABLE_COMPONENT_TESTS` `CTEST_AnnotationsDirDB` links the real shared library and drives it through the public headers only - exactly the way a downstream project does.
+The `IADD_ENABLE_UNIT_TESTS` targets are compiled straight from the sources against the gmock stand-ins of [src/tests/mocks](/src/tests/mocks), while the `IADD_ENABLE_COMPONENT_TESTS` `CTEST_AnnotationsDirDB` links the real shared library and drives it through the public headers only - exactly the way a downstream project does.
 
 Installing is a usual `sudo cmake --install build`, described in detail in the [installing](/doc/sections/en_US/7-installing/7-installing.md) section.
 

@@ -1,6 +1,6 @@
 ## Вмикання інтеграції libcurl
 
-Бібліотека [libcurl](https://curl.se/libcurl/) є **обов'язковою** залежністю даного проекту, тож CMake-опція `ENABLE_LIBCURL` за замовчуванням має значення `ON`, і проста конфігурація вже приносить бібліотеку:
+Бібліотека [libcurl](https://curl.se/libcurl/) є **обов'язковою** залежністю даного проекту, тож CMake-опція `IADD_ENABLE_LIBCURL` за замовчуванням має значення `ON`, і проста конфігурація вже приносить бібліотеку:
 
 ```
 # в середині кореневої директорії проекту
@@ -8,12 +8,12 @@
 cmake -S . -B build
 ```
 
-Якщо ж колись доведеться передати її явно (CI-скрипт, який виписує кожну опцію, або кеш побудови, перевикористаний зі старішої конфігурації, де змінна збережена як `OFF`), встанови значення `ON` для CMake-змінної `ENABLE_LIBCURL`:
+Якщо ж колись доведеться передати її явно (CI-скрипт, який виписує кожну опцію, або кеш побудови, перевикористаний зі старішої конфігурації, де змінна збережена як `OFF`), встанови значення `ON` для CMake-змінної `IADD_ENABLE_LIBCURL`:
 
 ```
 # в середині кореневої директорії проекту
 
-cmake -S . -B build -DENABLE_LIBCURL=ON
+cmake -S . -B build -DIADD_ENABLE_LIBCURL=ON
 ```
 
 Перемикання її у `OFF` не виробляє стрункішої бібліотеки, воно виробляє таку, що не компілюється. Опція збережена лише тому, що уся машинерія вмикання сторонніх залежностей проекту побудована навколо таких опцій.
@@ -28,21 +28,21 @@ cmake -S . -B build -DENABLE_LIBCURL=ON
 
 Спершу шукається встановлена у системі libcurl за допомогою `find_package(CURL QUIET)`. Якщо система її має - а на типовому хості розробки під GNU/Linux вона її має - використовується та копія і нічого не завантажується. Лише коли пошук провалюється, проект відкочується до `FetchContent`:
 
-- `TEMPLATE_APP_CURL_GIT` - git-репозиторій, за замовчуванням `https://github.com/curl/curl.git`,
-- `TEMPLATE_APP_CURL_GIT_TAG` - git-тег, за замовчуванням `master`. Побудова самого curl з вихідних кодів є повільною і доволі вимогливою справою, тож встановлення системного пакунку (`libcurl4-openssl-dev` у сімействі Debian, `libcurl-devel` у сімействі RPM) є набагато кращим маршрутом. Якщо ж таки опинишся на шляху відкочування, розглянь можливість закріпити ту змінну на обраному тобою тегові релізу.
+- `IADD_CURL_GIT` - git-репозиторій, за замовчуванням `https://github.com/curl/curl.git`,
+- `IADD_CURL_GIT_TAG` - git-тег, за замовчуванням `master`. Побудова самого curl з вихідних кодів є повільною і доволі вимогливою справою, тож встановлення системного пакунку (`libcurl4-openssl-dev` у сімействі Debian, `libcurl-devel` у сімействі RPM) є набагато кращим маршрутом. Якщо ж таки опинишся на шляху відкочування, розглянь можливість закріпити ту змінну на обраному тобою тегові релізу.
 
 ### Розділення модулів активатора і лінкера
 
 Так само як і залежність JSON, ця обробляється **двома** CMake-модулями замість одного:
 
-- [cmake/enablers/template-project-libcurl-enabler.cmake](/cmake/enablers/template-project-libcurl-enabler.cmake) оголошує опцію `ENABLE_LIBCURL` і лише робить залежність *доступною*. Він включається з [cmake/template-project-feature-enabler.cmake](/cmake/template-project-feature-enabler.cmake), який виконується **перед** додаванням `src/` до збірки - виконувані файли тестів, оголошені всередині `src/`, компілюють вихідні коди помічників прямо з дерева проекту і мають бути здатні злінкувати libcurl самостійно, у момент, коли цілі бібліотеки ще не існує.
-- [cmake/enablers/ImagesAnnotator-libcurl-linker.cmake](/cmake/enablers/ImagesAnnotator-libcurl-linker.cmake) виконує справжній `target_link_libraries()` до цілі бібліотеки. Він включається з [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), який виконується **після** того, як `src/` було додано.
+- [cmake/enablers/imagesannotator-datadrivers-libcurl-enabler.cmake](/cmake/enablers/imagesannotator-datadrivers-libcurl-enabler.cmake) оголошує опцію `IADD_ENABLE_LIBCURL` і лише робить залежність *доступною*. Він включається з [cmake/imagesannotator-datadrivers-feature-enabler.cmake](/cmake/imagesannotator-datadrivers-feature-enabler.cmake), який виконується **перед** додаванням `src/` до збірки - виконувані файли тестів, оголошені всередині `src/`, компілюють вихідні коди помічників прямо з дерева проекту і мають бути здатні злінкувати libcurl самостійно, у момент, коли цілі бібліотеки ще не існує.
+- [cmake/enablers/imagesannotator-datadrivers-libcurl-linker.cmake](/cmake/enablers/imagesannotator-datadrivers-libcurl-linker.cmake) виконує справжній `target_link_libraries()` до цілі бібліотеки. Він включається з [cmake/imagesannotator-datadrivers-feature-enabler-post.cmake](/cmake/imagesannotator-datadrivers-feature-enabler-post.cmake), який виконується **після** того, як `src/` було додано.
 
 ### Лінкування є PRIVATE
 
 ```
 target_link_libraries(
-  ${PROJECT_LIBRARY_NAME}
+  ${IADD_LIBRARY_NAME}
   PRIVATE CURL::libcurl
 )
 ```

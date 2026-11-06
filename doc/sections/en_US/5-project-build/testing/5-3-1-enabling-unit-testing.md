@@ -1,11 +1,11 @@
 ### Enabling unit testing
 
-To enable project unit test availability (for building and running) reconfigure it with enabled `ENABLE_UNIT_TESTS` variable as follows (GNU/Linux based):
+To enable project unit test availability (for building and running) reconfigure it with enabled `IADD_ENABLE_UNIT_TESTS` variable as follows (GNU/Linux based):
 
 ```
 # from the project root
 
-cmake -B build -S . -DENABLE_UNIT_TESTS=ON && cmake --build build
+cmake -B build -S . -DIADD_ENABLE_UNIT_TESTS=ON && cmake --build build
 ```
 
 The unit tests do **not** link the produced shared library. They compile the very same translation units straight from the tree and substitute the gmock stand-ins living under [src/tests/mocks](/src/tests/mocks) for the neighbouring components, which is what lets them poke at a single class in isolation.
@@ -31,14 +31,14 @@ The following unit test executables are produced:
 | `UTEST_ImageRecordRectJSON2RecordConverter` | a single JSON element -> rectangle |
 | `UTEST_ImageRecordSegmentJSON2RecordConverter` | a single JSON element -> segment or rectangle |
 
-There is a second, independent switch for the component tests, `ENABLE_COMPONENT_TESTS`. Those go the other way around: `CTEST_AnnotationsDirDB` links the real produced shared library and drives it through the installable public headers only, with no mocks and no access to the internals, exactly the way a downstream consumer would. `CTEST_DefaultLogger` covers the logger compiled into the library.
+There is a second, independent switch for the component tests, `IADD_ENABLE_COMPONENT_TESTS`. Those go the other way around: `CTEST_AnnotationsDirDB` links the real produced shared library and drives it through the installable public headers only, with no mocks and no access to the internals, exactly the way a downstream consumer would. `CTEST_DefaultLogger` covers the logger compiled into the library.
 
 Both switches default to `OFF` and are perfectly happy together - enable both to get the full suite:
 
 ```
 # from the project root
 
-cmake -S . -B build -DENABLE_UNIT_TESTS=ON -DENABLE_COMPONENT_TESTS=ON
+cmake -S . -B build -DIADD_ENABLE_UNIT_TESTS=ON -DIADD_ENABLE_COMPONENT_TESTS=ON
 cmake --build build -j$(nproc)
 cd build && ctest --output-on-failure
 ```

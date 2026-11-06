@@ -7,7 +7,7 @@ Beyond the library itself the project ships a set of optional CMake integrations
 - **The packagers** built on top of CPack: DEB, RPM, FreeBSD pkg and WIX MSI, all of them kept in [cmake/enablers/packagers](/cmake/enablers/packagers).
 - **The containers and the CI helpers** in [cmake/enablers/dockerers](/cmake/enablers/dockerers), together with the [misc/Jenkinsfile](/misc/Jenkinsfile) pipeline which builds the project, runs the tests and verifies that every markdown link of this documentation resolves.
 - **The documentation build** through Doxygen, optionally installable along with the library.
-- **The tests**, which are an integration of the same kind: `ENABLE_UNIT_TESTS` and `ENABLE_COMPONENT_TESTS`, both `OFF` by default. See [Project tests](/doc/sections/en_US/4-project-structure/4-4-project-tests.md).
+- **The tests**, which are an integration of the same kind: `IADD_ENABLE_UNIT_TESTS` and `IADD_ENABLE_COMPONENT_TESTS`, both `OFF` by default. See [Project tests](/doc/sections/en_US/4-project-structure/4-4-project-tests.md).
 
 The full list with the configure recipe of every single one of them is in the [Project build](/doc/sections/en_US/5-project-build/5-project-build.md) section.
 

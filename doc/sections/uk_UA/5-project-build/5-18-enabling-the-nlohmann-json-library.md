@@ -1,6 +1,6 @@
 ## Вмикання інтеграції бібліотеки nlohmann JSON
 
-Файл бази даних проекту анотацій **є** JSON-документом, тож бібліотека JSON [nlohmann](https://github.com/nlohmann/json.git) є **обов'язковою** залежністю даного проекту - без неї не залишається нічого, чим розбирати і серіалізувати. Відповідно CMake-опція `ENABLE_NLOHMANN_JSON` за замовчуванням має значення `ON` і зазвичай робити взагалі нічого не потрібно: проста конфігурація вже приносить бібліотеку.
+Файл бази даних проекту анотацій **є** JSON-документом, тож бібліотека JSON [nlohmann](https://github.com/nlohmann/json.git) є **обов'язковою** залежністю даного проекту - без неї не залишається нічого, чим розбирати і серіалізувати. Відповідно CMake-опція `IADD_ENABLE_NLOHMANN_JSON` за замовчуванням має значення `ON` і зазвичай робити взагалі нічого не потрібно: проста конфігурація вже приносить бібліотеку.
 
 ```
 # в середині кореневої директорії проекту
@@ -8,12 +8,12 @@
 cmake -S . -B build
 ```
 
-Якщо ж колись доведеться передати її явно (CI-скрипт, який виписує кожну опцію, або кеш побудови, перевикористаний зі старішої конфігурації, де змінна збережена як `OFF`), встанови значення `ON` для CMake-змінної `ENABLE_NLOHMANN_JSON`:
+Якщо ж колись доведеться передати її явно (CI-скрипт, який виписує кожну опцію, або кеш побудови, перевикористаний зі старішої конфігурації, де змінна збережена як `OFF`), встанови значення `ON` для CMake-змінної `IADD_ENABLE_NLOHMANN_JSON`:
 
 ```
 # в середині кореневої директорії проекту
 
-cmake -S . -B build -DENABLE_NLOHMANN_JSON=ON
+cmake -S . -B build -DIADD_ENABLE_NLOHMANN_JSON=ON
 ```
 
 Перемикання її у `OFF` не дає тобі меншої бібліотеки, воно дає тобі бібліотеку, що не компілюється. Опція збережена лише тому, що уся машинерія вмикання сторонніх залежностей проекту побудована навколо таких опцій.
@@ -22,8 +22,8 @@ cmake -S . -B build -DENABLE_NLOHMANN_JSON=ON
 
 Спершу шукається встановлена у системі nlohmann JSON за допомогою `find_package(nlohmann_json QUIET)`. Якщо система її має, використовується та копія і нічого не завантажується. Лише коли пошук провалюється, проект відкочується до `FetchContent` і тягне вихідні коди з мережі Інтернет:
 
-- `TEMPLATE_APP_NLOHMANN_GIT` - git-репозиторій, за замовчуванням `https://github.com/nlohmann/json.git`,
-- `TEMPLATE_APP_NLOHMANN_GIT_TAG` - git-тег, за замовчуванням закріплений на `v3.11.3`.
+- `IADD_NLOHMANN_GIT` - git-репозиторій, за замовчуванням `https://github.com/nlohmann/json.git`,
+- `IADD_NLOHMANN_GIT_TAG` - git-тег, за замовчуванням закріплений на `v3.11.3`.
 
 Закріплений тег є навмисним вибором: шлях відкочування має виробляти відтворювані побудови, а не будь-що, що трапиться у типовій гілці першоджерела в день побудови.
 
@@ -31,8 +31,8 @@ cmake -S . -B build -DENABLE_NLOHMANN_JSON=ON
 
 На відміну від необов'язкових залежностей проекту, ця обробляється **двома** CMake-модулями замість одного:
 
-- [cmake/enablers/template-project-nlohmann-json-enabler.cmake](/cmake/enablers/template-project-nlohmann-json-enabler.cmake) оголошує опцію `ENABLE_NLOHMANN_JSON` і лише робить залежність *доступною*. Він включається з [cmake/template-project-feature-enabler.cmake](/cmake/template-project-feature-enabler.cmake), який виконується **перед** додаванням `src/` до збірки. Цей порядок має значення: виконувані файли модульних тестів, оголошені всередині `src/`, компілюють компоненти бібліотеки прямо з дерева проекту і тому мають бути здатні злінкувати бібліотеку JSON самостійно, у момент, коли цілі бібліотеки ще не існує.
-- [cmake/enablers/ImagesAnnotator-nlohmann-json-linker.cmake](/cmake/enablers/ImagesAnnotator-nlohmann-json-linker.cmake) виконує справжній `target_link_libraries()` до цілі бібліотеки. Він включається з [cmake/template-project-feature-enabler-post.cmake](/cmake/template-project-feature-enabler-post.cmake), який виконується **після** того, як `src/` було додано, тож на той момент ціль уже існує, щоб до неї злінкуватись.
+- [cmake/enablers/imagesannotator-datadrivers-nlohmann-json-enabler.cmake](/cmake/enablers/imagesannotator-datadrivers-nlohmann-json-enabler.cmake) оголошує опцію `IADD_ENABLE_NLOHMANN_JSON` і лише робить залежність *доступною*. Він включається з [cmake/imagesannotator-datadrivers-feature-enabler.cmake](/cmake/imagesannotator-datadrivers-feature-enabler.cmake), який виконується **перед** додаванням `src/` до збірки. Цей порядок має значення: виконувані файли модульних тестів, оголошені всередині `src/`, компілюють компоненти бібліотеки прямо з дерева проекту і тому мають бути здатні злінкувати бібліотеку JSON самостійно, у момент, коли цілі бібліотеки ще не існує.
+- [cmake/enablers/imagesannotator-datadrivers-nlohmann-json-linker.cmake](/cmake/enablers/imagesannotator-datadrivers-nlohmann-json-linker.cmake) виконує справжній `target_link_libraries()` до цілі бібліотеки. Він включається з [cmake/imagesannotator-datadrivers-feature-enabler-post.cmake](/cmake/imagesannotator-datadrivers-feature-enabler-post.cmake), який виконується **після** того, як `src/` було додано, тож на той момент ціль уже існує, щоб до неї злінкуватись.
 
 ### Лінкування є PRIVATE
 
@@ -40,7 +40,7 @@ cmake -S . -B build -DENABLE_NLOHMANN_JSON=ON
 
 ```
 target_link_libraries(
-  ${PROJECT_LIBRARY_NAME}
+  ${IADD_LIBRARY_NAME}
   PRIVATE nlohmann_json::nlohmann_json
 )
 ```

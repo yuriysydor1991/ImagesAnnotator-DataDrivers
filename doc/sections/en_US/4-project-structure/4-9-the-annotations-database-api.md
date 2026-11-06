@@ -49,8 +49,8 @@ Each interface header also declares a `...Ptr` alias next to the class - `iadd::
 | `create_records_factory()` | the library default `IRecordsFactory` |
 | `create_db_merger()` | the library default `IDBMerger` |
 | `library_version()` | the version string of the library binary being used |
-| `default_db_root_app_name()` | the compile time `ANNOTATIONS_DB_ROOT_APP_NAME` value |
-| `default_db_app_version()` | the compile time `ANNOTATIONS_DB_APP_VERSION` value |
+| `default_db_root_app_name()` | the compile time `IADD_ANNOTATIONS_DB_ROOT_APP_NAME` value |
+| `default_db_app_version()` | the compile time `IADD_ANNOTATIONS_DB_APP_VERSION` value |
 
 The last three are plain reporting calls, handy for an about box or for a log line at the start-up. The identity pair is explained in the [configuring the annotations database identity](/doc/sections/en_US/5-project-build/5-36-configuring-the-annotations-db-identity.md) section.
 

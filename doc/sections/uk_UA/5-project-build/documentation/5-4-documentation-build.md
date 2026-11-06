@@ -2,12 +2,12 @@
 
 На даний момент доступна побудова документації за допомогою програми Doxygen з наявних коментарів вихідного джерельного коду проекту.
 
-Для того щоб зробити доступною ціль для побудови документації за допомогою Doxygen під час його конфігурації необхідно встановити змінну `ENABLE_DOC_DOXYGEN` у значення `ON` (для ОС на базі GNU/Linux):
+Для того щоб зробити доступною ціль для побудови документації за допомогою Doxygen під час його конфігурації необхідно встановити змінну `IADD_ENABLE_DOC_DOXYGEN` у значення `ON` (для ОС на базі GNU/Linux):
 
 ```
 # всередині кореневої директорії проекту
 
-cmake -B build -S . -DENABLE_DOC_DOXYGEN=ON
+cmake -B build -S . -DIADD_ENABLE_DOC_DOXYGEN=ON
 ```
 
 Яка в свою чергу створить директорію з назвою `build` всередині кореневої директорії проекту і сконфігурує проект з увімкненою ціллю для побудови Doxygen документації.
@@ -20,6 +20,6 @@ cmake -B build -S . -DENABLE_DOC_DOXYGEN=ON
 cmake --build build --target Doxygen-doc
 ```
 
-Яка у свою чергу створює директорію `doc/ImagesAnnotatorDataDrivers-0.15-html` (вже додана до файлу `.gitignore`) що буде містити зібрану документацію у вигляді HTML-сторінок і ресурсів до них. Для того щоб відкрити і оглянути згенеровану документацію необхідно відкрити файл який лежить за шляхом `doc/ImagesAnnotatorDataDrivers-0.15-html/index.html` від кореня проекту. Назва директорії `ImagesAnnotatorDataDrivers-0.15-html` будується як `${PROJECT_LIBRARY_NAME}-html`, отож вона зміниться у разі зміни типової назви бібліотеки проекту - або встановленням нового значення для `PROJECT_NAME` у файлі `CMakeLists.txt`, або через опції складових імені бібліотеки, з яких виводиться змінна `PROJECT_LIBRARY_NAME` у файлі [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake) (див. підрозділ [Налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md)), або перевизначенням змінної `DOXYGEN_OUT_HTML_NAME`, яка у свою чергу визначає ім'я для цілої цільової директорії для згенерованої HTML-документації.
+Яка у свою чергу створює директорію `doc/ImagesAnnotatorDataDrivers-0.15-html` (вже додана до файлу `.gitignore`) що буде містити зібрану документацію у вигляді HTML-сторінок і ресурсів до них. Для того щоб відкрити і оглянути згенеровану документацію необхідно відкрити файл який лежить за шляхом `doc/ImagesAnnotatorDataDrivers-0.15-html/index.html` від кореня проекту. Назва директорії `ImagesAnnotatorDataDrivers-0.15-html` будується як `${IADD_LIBRARY_NAME}-html`, отож вона зміниться у разі зміни типової назви бібліотеки проекту - або встановленням нового значення для `PROJECT_NAME` у файлі `CMakeLists.txt`, або через опції складових імені бібліотеки, з яких виводиться змінна `IADD_LIBRARY_NAME` у файлі [cmake/imagesannotator-datadrivers-misc-variables-declare.cmake](/cmake/imagesannotator-datadrivers-misc-variables-declare.cmake) (див. підрозділ [Налаштування складових імені встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md)), або перевизначенням змінної `IADD_DOXYGEN_OUT_HTML_NAME`, яка у свою чергу визначає ім'я для цілої цільової директорії для згенерованої HTML-документації.
 
 Файл `doc/Doxyfile.in` від кореня проекту містить усі параметри конфігурації які можуть бути зміненими для зміни виводу документації.

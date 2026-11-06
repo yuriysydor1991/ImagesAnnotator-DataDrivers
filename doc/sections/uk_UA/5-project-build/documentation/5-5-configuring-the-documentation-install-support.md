@@ -1,14 +1,14 @@
 ## Вмикання підтримки встановлення документації
 
-Наявна можливість підтримки встановлення документації за допомогою встановлення змінних `ENABLE_DOC_DOXYGEN` і `DOXYGEN_DO_INSTALL` у значення `ON` під час конфігурування проекту за допомогою команди:
+Наявна можливість підтримки встановлення документації за допомогою встановлення змінних `IADD_ENABLE_DOC_DOXYGEN` і `IADD_DOXYGEN_DO_INSTALL` у значення `ON` під час конфігурування проекту за допомогою команди:
 
 ```
 # всередині кореневої директорії проекту
 
-cmake -B build -S . -DENABLE_DOC_DOXYGEN=ON -DDOXYGEN_DO_INSTALL=ON
+cmake -B build -S . -DIADD_ENABLE_DOC_DOXYGEN=ON -DIADD_DOXYGEN_DO_INSTALL=ON
 ```
 
-Змінна `DOXYGEN_OUT_HTML_NAME` сконфігурує назву для директорії HTML документації (передається до файлу `Doxyfile`). Її типовим значенням є `${PROJECT_LIBRARY_NAME}-html`, що для незміненого проекту означає `ImagesAnnotatorDataDrivers-0.15-html`.
+Змінна `IADD_DOXYGEN_OUT_HTML_NAME` сконфігурує назву для директорії HTML документації (передається до файлу `Doxyfile`). Її типовим значенням є `${IADD_LIBRARY_NAME}-html`, що для незміненого проекту означає `ImagesAnnotatorDataDrivers-0.15-html`.
 
 З увімкненими обома змінними згенерована директорія `doc/ImagesAnnotatorDataDrivers-0.15-html` встановлюється цілком у піддиректорію `share/docs` префікса встановлення, під компонентом встановлення `Documentation`:
 

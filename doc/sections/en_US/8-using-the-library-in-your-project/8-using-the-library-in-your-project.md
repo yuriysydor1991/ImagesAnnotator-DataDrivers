@@ -2,7 +2,7 @@
 
 This section is the downstream integration guide: what to install, what to write in your own `CMakeLists.txt`, how to include the headers and what a complete working program looks like. The CMake project and the program shown below were compiled, linked and run against the installed library.
 
-You do not need the library sources to use it. Configure, build and install them once - or install a package built out of them - and your own project only ever sees the installed CMake package.
+You do not need the library sources to use it. Configure, build and install them once - or install a package built out of them - and your own project only ever sees the installed CMake package - or skip the installation and take the sources in by the FetchContent, see the [Taking the library in by the FetchContent](#taking-the-library-in-by-the-fetchcontent) part of the section 2.
 
 ## 1. Install the library
 
@@ -58,11 +58,47 @@ If the library went into a prefix your CMake does not search by itself, point it
 cmake -S . -B build -DCMAKE_PREFIX_PATH="$HOME/.local"
 ```
 
-And a note for the exotic cases: the installed name is not carved in stone. The `LIB_INCLUDE_MINOR_IN_NAME`, `LIB_INCLUDE_MICRO_IN_NAME` and `LIB_NAME_SUFFIX` options of the library build change the binary name, the header sub-directory, the CMake package directory and the imported target namespace all at once - see [customizing the installable library name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md). Build the library with them and the `find_package` name in your project has to follow, e.g. `ImagesAnnotatorDataDrivers-0.15`.
+And a note for the exotic cases: the installed name is not carved in stone. The `IADD_LIB_INCLUDE_MINOR_IN_NAME`, `IADD_LIB_INCLUDE_MICRO_IN_NAME` and `IADD_LIB_NAME_SUFFIX` options of the library build change the binary name, the header sub-directory, the CMake package directory and the imported target namespace all at once - see [customizing the installable library name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md). Build the library with them and the `find_package` name in your project has to follow, e.g. `ImagesAnnotatorDataDrivers-0.15`.
+
+### Taking the library in by the FetchContent
+
+The library does not have to be installed beforehand: a project may take its sources in by the CMake `FetchContent` (or add them by the `add_subdirectory()`) and build the library together with itself. The target to link and the include lines are the very same ones as of the installed package:
+
+```cmake
+cmake_minimum_required(VERSION 3.14)
+
+project(MyTool LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include(FetchContent)
+
+FetchContent_Declare(
+  ImagesAnnotator-DataDrivers
+  GIT_REPOSITORY https://github.com/yuriysydor1991/ImagesAnnotator-DataDrivers.git
+  GIT_TAG        main
+)
+FetchContent_MakeAvailable(ImagesAnnotator-DataDrivers)
+
+add_executable(mytool main.cpp)
+
+target_link_libraries(
+  mytool
+  PRIVATE ImagesAnnotatorDataDrivers-0.15::ImagesAnnotatorDataDrivers-0.15
+)
+```
+
+- **The library builds alone.** Taken in by another project it is not the top level one (see the `IADD_IS_TOP_LEVEL` of its root `CMakeLists.txt`), so it builds the shared library and none of its tests, tools (the `clang-format`, `cppcheck` and the other such targets), packages, Docker images and documentation: those targets of your project stay yours, and so does its CPack.
+- **The options of the library are its own.** Every option and cache variable of the library carries the `IADD_` prefix, so the `ENABLE_*` options of your project (of every project made of the cpp-app-template included) never reach it. Change one by a cache entry: the `-DIADD_MAX_LOG_LEVEL=5` on the command line of your configure, or the `set(IADD_MAX_LOG_LEVEL 5 CACHE STRING "")` before the `FetchContent_MakeAvailable()`.
+- **The names follow the version of the library**, whatever the version of your project: the target, the shared library and the headers directory are the `ImagesAnnotatorDataDrivers-0.15` ones.
+- **Your `cmake --install` installs the library too**: the shared library, its public headers and its CMake package.
+
+The `FetchContent_MakeAvailable()` needs the CMake 3.14 or newer.
 
 ## 3. Including the headers
 
-Both of these work for an installed consumer, because the package exports the include root together with its versioned sub-directory:
+Both of these work for an installed consumer and for a FetchContent one alike, because the package exports the include root together with its versioned sub-directory (and the build tree of the library forwards that sub-directory to the public headers):
 
 ```cpp
 #include <ImagesAnnotatorDataDrivers-0.15/IADataDriversFacade.h>   // recommended

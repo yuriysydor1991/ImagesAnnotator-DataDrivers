@@ -67,7 +67,7 @@ sudo cmake --install . --prefix "/usr"
 
 Файли `*.h` останнього рядка є дванадцятьма публічними заголовковими файлами директорії [src/lib/facade/public](/src/lib/facade/public): `IADataDriversFacade.h`, `IADataDriversContext.h`, `IADataDriversLib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `ImageRecordSegment.h`, `IRecord.h` і `IProvider.h`.
 
-Назва `ImagesAnnotatorDataDrivers-0.15` бінарного файлу, піддиректорії підключаємих файлів і CMake-пакета є значенням `PROJECT_LIBRARY_NAME`, отож усі вони слідують за [налаштованими складовими імені](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md), якщо ти якісь із них сконфігуруєш.
+Назва `ImagesAnnotatorDataDrivers-0.15` бінарного файлу, піддиректорії підключаємих файлів і CMake-пакета є значенням `IADD_LIBRARY_NAME`, отож усі вони слідують за [налаштованими складовими імені](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md), якщо ти якісь із них сконфігуруєш.
 
 Сам бінарний файл бібліотеки встановлюється як компонент `Runtime`, а символьне посилання для розробки `lib...so` - як компонент `Development`, що і потрібно пакувальнику дистрибутиву для розділення пакунків часу виконання і пакунків для розробки.
 
@@ -80,7 +80,7 @@ sudo cmake --install . --prefix "/usr"
 ```
 # з директорії побудови проекту
 
-cmake ../ -DENABLE_DOC_DOXYGEN=ON -DDOXYGEN_DO_INSTALL=ON
+cmake ../ -DIADD_ENABLE_DOC_DOXYGEN=ON -DIADD_DOXYGEN_DO_INSTALL=ON
 ```
 
 Команда інсталяції (наприклад, та яка показана у секції [Встановлення в директорію по замовчуванню](#встановлення-в-директорію-по-замовчуванню)) встановить згенеровану HTML документацію у відповідні директорії.

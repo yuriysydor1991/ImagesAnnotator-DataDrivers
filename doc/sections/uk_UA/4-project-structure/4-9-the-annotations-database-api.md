@@ -49,8 +49,8 @@ namespace iadd = ImagesAnnotatorDataDrivers015;
 | `create_records_factory()` | `IRecordsFactory` бібліотеки за замовчуванням |
 | `create_db_merger()` | `IDBMerger` бібліотеки за замовчуванням |
 | `library_version()` | рядок версії того бінарного файлу бібліотеки, що використовується |
-| `default_db_root_app_name()` | значення `ANNOTATIONS_DB_ROOT_APP_NAME` часу компіляції |
-| `default_db_app_version()` | значення `ANNOTATIONS_DB_APP_VERSION` часу компіляції |
+| `default_db_root_app_name()` | значення `IADD_ANNOTATIONS_DB_ROOT_APP_NAME` часу компіляції |
+| `default_db_app_version()` | значення `IADD_ANNOTATIONS_DB_APP_VERSION` часу компіляції |
 
 Останні три - це прості інформаційні виклики, зручні для вікна "про програму" або для рядка у журналі під час запуску. Пара значень ідентичності пояснюється у секції [налаштування ідентичності бази даних анотацій](/doc/sections/uk_UA/5-project-build/5-36-configuring-the-annotations-db-identity.md).
 

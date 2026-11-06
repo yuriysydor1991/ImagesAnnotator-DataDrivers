@@ -68,7 +68,7 @@ With the `/usr` prefix of the example above the installed tree is:
 
 The `*.h` files of the last line are the twelve public headers of the [src/lib/facade/public](/src/lib/facade/public) directory: `IADataDriversFacade.h`, `IADataDriversContext.h`, `IADataDriversLib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `ImageRecordSegment.h`, `IRecord.h` and `IProvider.h`.
 
-The `ImagesAnnotatorDataDrivers-0.15` name of the binary, of the include sub-directory and of the CMake package is the `PROJECT_LIBRARY_NAME` value, so all of them follow the [customized name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md) should you configure any.
+The `ImagesAnnotatorDataDrivers-0.15` name of the binary, of the include sub-directory and of the CMake package is the `IADD_LIBRARY_NAME` value, so all of them follow the [customized name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md) should you configure any.
 
 The library binary itself is installed as the `Runtime` component and the `lib...so` development symlink as the `Development` one, which is what a distribution packager needs to split the runtime and the development packages apart.
 
@@ -81,7 +81,7 @@ If project was configured to support the documentation install by the command wh
 ```
 # inside the project build directory
 
-cmake ../ -DENABLE_DOC_DOXYGEN=ON -DDOXYGEN_DO_INSTALL=ON
+cmake ../ -DIADD_ENABLE_DOC_DOXYGEN=ON -DIADD_DOXYGEN_DO_INSTALL=ON
 ```
 
 The installation command (for example, described in the [Default installation](#default-installation) section) will install the generated HTML documentation files into appropriate directories.

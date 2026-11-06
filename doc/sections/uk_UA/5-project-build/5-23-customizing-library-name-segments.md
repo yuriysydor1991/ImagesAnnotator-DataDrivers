@@ -10,19 +10,19 @@
 
 | Опція | За замовчуванням | Ефект |
 |---|---|---|
-| `-DLIB_INCLUDE_MINOR_IN_NAME=OFF` | `ON` | Прибирає `.<minor>`, який імʼя несе за замовчуванням |
-| `-DLIB_INCLUDE_MICRO_IN_NAME=ON` | `OFF` | Додає `.<micro>` (вмикає прапорець minor неявно) |
-| `-DLIB_NAME_SUFFIX=-dev` | `""` | Додає довільний завершальний суфікс |
+| `-DIADD_LIB_INCLUDE_MINOR_IN_NAME=OFF` | `ON` | Прибирає `.<minor>`, який імʼя несе за замовчуванням |
+| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON` | `OFF` | Додає `.<micro>` (вмикає прапорець minor неявно) |
+| `-DIADD_LIB_NAME_SUFFIX=-dev` | `""` | Додає довільний завершальний суфікс |
 
 Приклади імен бібліотеки для даного проекту версії `0.15.0`:
 
 | Прапорці конфігурації | Імʼя бібліотеки |
 |---|---|
 | (немає) | `ImagesAnnotatorDataDrivers-0.15` |
-| `-DLIB_INCLUDE_MINOR_IN_NAME=OFF` | `ImagesAnnotatorDataDrivers-0` |
-| `-DLIB_INCLUDE_MICRO_IN_NAME=ON` | `ImagesAnnotatorDataDrivers-0.15.0` |
-| `-DLIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15-dev` |
-| `-DLIB_INCLUDE_MICRO_IN_NAME=ON -DLIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15.0-dev` |
+| `-DIADD_LIB_INCLUDE_MINOR_IN_NAME=OFF` | `ImagesAnnotatorDataDrivers-0` |
+| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON` | `ImagesAnnotatorDataDrivers-0.15.0` |
+| `-DIADD_LIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15-dev` |
+| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON -DIADD_LIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15.0-dev` |
 
 Мінорна версія входить до імені навмисно: простір імен публічного API -
 `ImagesAnnotatorDataDrivers015` - несе ту саму пару з головного і мінорного
@@ -41,8 +41,8 @@
 # всередині кореневої директорії проекту
 
 cmake -S . -B build \
-  -DLIB_INCLUDE_MICRO_IN_NAME=ON \
-  -DLIB_NAME_SUFFIX=-dev
+  -DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON \
+  -DIADD_LIB_NAME_SUFFIX=-dev
 cmake --build build
 cmake --install build --prefix /usr/local
 ```
@@ -58,4 +58,4 @@ cmake --install build --prefix /usr/local
 зазнає впливу цих опцій: він залишається `ImagesAnnotatorDataDrivers015`, з
 головним і другорядним номерами версії, вкарбованими у сам ідентифікатор.
 
-Виведення імʼя реалізоване у [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake) і доступне як CMake cache-змінна `PROJECT_LIBRARY_NAME`, яку використовує решта системи побудови. Запит `LIB_INCLUDE_MICRO_IN_NAME=ON` разом із явним `LIB_INCLUDE_MINOR_IN_NAME=OFF` спричиняє попередження на стадії конфігурування, а прапорець minor вмикається назад неявно щоб згенероване імʼя залишалось синтаксично коректним.
+Виведення імʼя реалізоване у [cmake/imagesannotator-datadrivers-misc-variables-declare.cmake](/cmake/imagesannotator-datadrivers-misc-variables-declare.cmake) і доступне як CMake cache-змінна `IADD_LIBRARY_NAME`, яку використовує решта системи побудови. Запит `IADD_LIB_INCLUDE_MICRO_IN_NAME=ON` разом із явним `IADD_LIB_INCLUDE_MINOR_IN_NAME=OFF` спричиняє попередження на стадії конфігурування, а прапорець minor вмикається назад неявно щоб згенероване імʼя залишалось синтаксично коректним.

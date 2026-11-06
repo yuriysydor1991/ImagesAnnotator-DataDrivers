@@ -6,7 +6,7 @@
 # в середині кореневої директорії проекту
 
 # Конфігурування проекту для підтримки цілей Docker разом з Jenkins
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DENABLE_DOCKER=ON -DENABLE_JENKINS_DOCKER_PIPELINE=ON
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DIADD_ENABLE_DOCKER=ON -DIADD_ENABLE_JENKINS_DOCKER_PIPELINE=ON
 
 # Побудова і запуск контейнера для конвеєрів Jenkins
 # або його перезапуск
@@ -40,9 +40,9 @@ This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 
 Після успішної інсталяції і конфігурації [Jenkins](https://www.jenkins.io/) необхідно створити відповідний конвеєр перевірки проекту всередині Web-панелі [Jenkins](https://www.jenkins.io/).
 
-Усі CMake скрипти побудови контейнера для конвеєрів перевірки [Jenkins](https://www.jenkins.io/) розміщуються у файлі з відносним шляхом cmake/dockerers/template-project-docker-Jenkins-pipeline-runner-target.cmake. Відповідний базовий примірник скрипта конвеєра перевірки шаблонного проекту розміщений за відносним шляхом misc/Jenkinsfile котрий повинен бути вказаним для конфігурації конвеєра побудови у Web-панелі [Jenkins](https://www.jenkins.io/). Порт для Web доступу контейнера Docker до конфігурації конвеєрів перевірки [Jenkins](https://www.jenkins.io/) може бути змінено за допомогою встановлення нового значення для CMake-змінної `JENKINS_PIPELINES_PANEL_HTTP_PORT`.
+Усі CMake скрипти побудови контейнера для конвеєрів перевірки [Jenkins](https://www.jenkins.io/) розміщуються у файлі з відносним шляхом cmake/dockerers/imagesannotator-datadrivers-docker-Jenkins-pipeline-runner-target.cmake. Відповідний базовий примірник скрипта конвеєра перевірки шаблонного проекту розміщений за відносним шляхом misc/Jenkinsfile котрий повинен бути вказаним для конфігурації конвеєра побудови у Web-панелі [Jenkins](https://www.jenkins.io/). Порт для Web доступу контейнера Docker до конфігурації конвеєрів перевірки [Jenkins](https://www.jenkins.io/) може бути змінено за допомогою встановлення нового значення для CMake-змінної `IADD_JENKINS_PIPELINES_PANEL_HTTP_PORT`.
 
-Файл за відносним шляхом cmake/dockerers/template-project-docker-Jenkins-pipeline-runner-target.cmake містить рецепти побудови Docker контейнера для конвеєрів перевірки [Jenkins](https://www.jenkins.io/) що за замовчуванням перезапустить попередньо побудований контейнер для конвеєрів перевірки.
+Файл за відносним шляхом cmake/dockerers/imagesannotator-datadrivers-docker-Jenkins-pipeline-runner-target.cmake містить рецепти побудови Docker контейнера для конвеєрів перевірки [Jenkins](https://www.jenkins.io/) що за замовчуванням перезапустить попередньо побудований контейнер для конвеєрів перевірки.
 
 ### Стартові скрипти
 
@@ -59,7 +59,7 @@ This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 scripts/docker/jenkins-run.sh
 ```
 
-Кожен з них конфігурує директорію `build/release` з параметрами `ENABLE_DOCKER` і `ENABLE_JENKINS_DOCKER_PIPELINE`, встановленими у `ON`, і потім будує потрібну ціль, отож жодної власної команди `docker` не виконується. Ціль CMake `jenkins-pipeline-docker-run` залежить від цілі `jenkins-pipeline-docker-build`, що означає, що скрипт [jenkins-run.sh](/scripts/docker/jenkins-run.sh) будує образ також, а скрипт [jenkins-build.sh](/scripts/docker/jenkins-build.sh) потрібен лише для побудови образу без запуску інтерактивного контейнера.
+Кожен з них конфігурує директорію `build/release` з параметрами `IADD_ENABLE_DOCKER` і `IADD_ENABLE_JENKINS_DOCKER_PIPELINE`, встановленими у `ON`, і потім будує потрібну ціль, отож жодної власної команди `docker` не виконується. Ціль CMake `jenkins-pipeline-docker-run` залежить від цілі `jenkins-pipeline-docker-build`, що означає, що скрипт [jenkins-run.sh](/scripts/docker/jenkins-run.sh) будує образ також, а скрипт [jenkins-build.sh](/scripts/docker/jenkins-build.sh) потрібен лише для побудови образу без запуску інтерактивного контейнера.
 
 Скрипти приймають ті ж самі параметри, що й скрипти секції [Швидкі скрипти побудови](/doc/sections/uk_UA/5-project-build/5-37-quick-build-scripts.md), оскільки є їх викликачами:
 
@@ -67,7 +67,7 @@ scripts/docker/jenkins-run.sh
 # в середині кореневої директорії проекту
 
 # змінює порт Web-панелі Jenkins контейнера
-scripts/docker/jenkins-run.sh -DJENKINS_PIPELINES_PANEL_HTTP_PORT=9090
+scripts/docker/jenkins-run.sh -DIADD_JENKINS_PIPELINES_PANEL_HTTP_PORT=9090
 ```
 
 Чи буде повторно використано вже побудований образ і вже створений контейнер, вирішує скрипт CMake на кроці конфігурації, отож параметр `--no-reconfigure` зберігає рішення попереднього запуску конфігурації.

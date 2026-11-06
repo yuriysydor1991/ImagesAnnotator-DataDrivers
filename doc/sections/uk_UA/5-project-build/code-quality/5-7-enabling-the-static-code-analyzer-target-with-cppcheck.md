@@ -1,11 +1,11 @@
 ## Вмикання підтримки цілі статичного аналізатора коду cppcheck
 
-Для того щоб зробити доступною для виконання ціль статичного аналізу за допомогою `cppcheck` необхідно сконфігурувати проект з увімкненою опцією `ENABLE_CPPCHECK`:
+Для того щоб зробити доступною для виконання ціль статичного аналізу за допомогою `cppcheck` необхідно сконфігурувати проект з увімкненою опцією `IADD_ENABLE_CPPCHECK`:
 
 ```
 # всередині кореневої директорії проекту-шаблону
 
-mkdir -vp build && cd build && cmake ../ -DENABLE_CPPCHECK=ON
+mkdir -vp build && cd build && cmake ../ -DIADD_ENABLE_CPPCHECK=ON
 ```
 
 І для безпосереднього виконання статичного аналізу коду необхідно викликати ціль `cppcheck` для побудови:
@@ -16,4 +16,4 @@ mkdir -vp build && cd build && cmake ../ -DENABLE_CPPCHECK=ON
 cmake --build . --target cppcheck
 ```
 
-Деталі цілі `cppcheck` можна переглянути і/або змінити у файлі `cmake/template-project-cppcheck-target.cmake` системи збірки CMake.
+Деталі цілі `cppcheck` можна переглянути і/або змінити у файлі `cmake/imagesannotator-datadrivers-cppcheck-target.cmake` системи збірки CMake.

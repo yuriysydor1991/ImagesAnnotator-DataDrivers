@@ -83,7 +83,9 @@ int main(int argc, char** argv)
 
 Назва простору імен `ImagesAnnotatorDataDrivers015` навмисне містить головний і другорядний номери версії бібліотеки: дві версії бібліотеки можуть співіснувати в межах однієї одиниці трансляції без жодного конфлікту символів. Створюй для нього псевдонім, як показано вище, і підняття версії залишатиметься зміною в один рядок на твоєму боці.
 
-Для встановленої бібліотеки працюють як `#include <ImagesAnnotatorDataDrivers-0.15/IADataDriversFacade.h>`, так і просте `#include <IADataDriversFacade.h>`, оскільки бібліотека експортує і корінь директорії підключаємих файлів, і її версіоновану піддиректорію. Рекомендованою є форма з префіксом: назви заголовкових файлів на кшталт `ImageRecord.h` чи `IRecord.h` є достатньо загальними, щоб призвести до конфлікту у завантаженому шляху пошуку підключаємих файлів.
+Для встановленої бібліотеки, як і для підключеної через FetchContent, працюють як `#include <ImagesAnnotatorDataDrivers-0.15/IADataDriversFacade.h>`, так і просте `#include <IADataDriversFacade.h>`, оскільки бібліотека експортує і корінь директорії підключаємих файлів, і її версіоновану піддиректорію (а її дерево побудови перенаправляє цю піддиректорію до публічних заголовкових файлів). Рекомендованою є форма з префіксом: назви заголовкових файлів на кшталт `ImageRecord.h` чи `IRecord.h` є достатньо загальними, щоб призвести до конфлікту у завантаженому шляху пошуку підключаємих файлів.
+
+Бібліотеку не обов'язково й встановлювати заздалегідь: проект може підключити її через CMake `FetchContent` і лінкувати ту саму ціль, див. частину [Підключення бібліотеки через FetchContent](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md#підключення-бібліотеки-через-fetchcontent) секції використання бібліотеки.
 
 Більше про API і про сам формат файлу у секціях [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md), [формат JSON-файлу проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md), [стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md), [формат проекту imgajz2 із сегментами](/doc/sections/uk_UA/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md) і [використання бібліотеки у власному проекті](/doc/sections/uk_UA/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md).
 
@@ -93,9 +95,9 @@ int main(int argc, char** argv)
 
 | CMake-параметр | Бібліотека | Для чого потрібна |
 | --- | --- | --- |
-| `ENABLE_NLOHMANN_JSON` | [nlohmann/json](https://github.com/nlohmann/json) | файл проекту анотацій є JSON-документом |
-| `ENABLE_LIBCURL` | [libcurl](https://curl.se/libcurl/) | її URL API `CURLU` розбирає і усуває дублікати записів зображень, які вказують на веб-URL замість локального файлу |
-| `ENABLE_ZLIB` | [zlib](https://zlib.net/) | файли проекту imgajz1 і imgajz2 стиснені gzip |
+| `IADD_ENABLE_NLOHMANN_JSON` | [nlohmann/json](https://github.com/nlohmann/json) | файл проекту анотацій є JSON-документом |
+| `IADD_ENABLE_LIBCURL` | [libcurl](https://curl.se/libcurl/) | її URL API `CURLU` розбирає і усуває дублікати записів зображень, які вказують на веб-URL замість локального файлу |
+| `IADD_ENABLE_ZLIB` | [zlib](https://zlib.net/) | файли проекту imgajz1 і imgajz2 стиснені gzip |
 
 Кожна з них спершу шукається у системі і, якщо її не знайдено, завантажується засобами CMake `FetchContent` (nlohmann json на тезі `v3.11.3`, zlib на тезі `v1.3.1`). Дивись секції [вмикання інтеграції бібліотеки nlohmann JSON](/doc/sections/uk_UA/5-project-build/5-18-enabling-the-nlohmann-json-library.md), [вмикання інтеграції libcurl](/doc/sections/uk_UA/5-project-build/5-14-enabling-libcurl.md) і [вмикання інтеграції zlib](/doc/sections/uk_UA/5-project-build/compression/5-23-enabling-the-zlib-library.md) щодо змінних перевизначення джерела і тегу.
 
@@ -113,12 +115,12 @@ cmake --build build -j$(nproc)
 Тести вимкнені за замовчуванням. Для їх побудови і запуску:
 
 ```
-cmake -S . -B build -DENABLE_UNIT_TESTS=ON -DENABLE_COMPONENT_TESTS=ON
+cmake -S . -B build -DIADD_ENABLE_UNIT_TESTS=ON -DIADD_ENABLE_COMPONENT_TESTS=ON
 cmake --build build -j$(nproc)
 cd build && ctest --output-on-failure
 ```
 
-Цілі `ENABLE_UNIT_TESTS` компілюються безпосередньо з вихідних кодів разом з gmock-замінниками з [src/tests/mocks](/src/tests/mocks), тоді як ціль `CTEST_AnnotationsDirDB` з `ENABLE_COMPONENT_TESTS` лінкує справжню динамічну бібліотеку і працює з нею виключно через публічні заголовкові файли - точно так, як це робить проект-споживач.
+Цілі `IADD_ENABLE_UNIT_TESTS` компілюються безпосередньо з вихідних кодів разом з gmock-замінниками з [src/tests/mocks](/src/tests/mocks), тоді як ціль `CTEST_AnnotationsDirDB` з `IADD_ENABLE_COMPONENT_TESTS` лінкує справжню динамічну бібліотеку і працює з нею виключно через публічні заголовкові файли - точно так, як це робить проект-споживач.
 
 Встановлення виконується звичайним `sudo cmake --install build` і детально описане у секції [встановлення](/doc/sections/uk_UA/7-installing/7-installing.md).
 

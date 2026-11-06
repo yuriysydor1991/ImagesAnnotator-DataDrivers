@@ -11,12 +11,12 @@ Every annotations project file is rooted at an element named after the **applica
 }
 ```
 
-That pair - the root element name and the version string - is what this section calls the *database identity*. Two CMake cache variables set its compile time defaults, and both are declared in [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake):
+That pair - the root element name and the version string - is what this section calls the *database identity*. Two CMake cache variables set its compile time defaults, and both are declared in [cmake/imagesannotator-datadrivers-misc-variables-declare.cmake](/cmake/imagesannotator-datadrivers-misc-variables-declare.cmake):
 
 | CMake variable | Default | What it becomes |
 | --- | --- | --- |
-| `ANNOTATIONS_DB_ROOT_APP_NAME` | `ImagesAnnotator` | the JSON root element name of the produced files, and the name a reader looks the root element up by |
-| `ANNOTATIONS_DB_APP_VERSION` | the project version, currently `0.15.0` | the version string written under that root element and compared against the one found in a file being read |
+| `IADD_ANNOTATIONS_DB_ROOT_APP_NAME` | `ImagesAnnotator` | the JSON root element name of the produced files, and the name a reader looks the root element up by |
+| `IADD_ANNOTATIONS_DB_APP_VERSION` | the project version, currently `0.15.0` | the version string written under that root element and compared against the one found in a file being read |
 
 Both are forwarded into the generated `project-global-decls.h` through [src/project-global-decls.h.in](/src/project-global-decls.h.in), and both are readable from a consuming program through `IADataDriversFacade::default_db_root_app_name()` and `IADataDriversFacade::default_db_app_version()`.
 
@@ -38,8 +38,8 @@ Both are ordinary cache variables, so they go on the `cmake` command line:
 # Inside the source root directory
 
 cmake -S . -B build \
-  -DANNOTATIONS_DB_ROOT_APP_NAME="MyTool" \
-  -DANNOTATIONS_DB_APP_VERSION="2.0"
+  -DIADD_ANNOTATIONS_DB_ROOT_APP_NAME="MyTool" \
+  -DIADD_ANNOTATIONS_DB_APP_VERSION="2.0"
 ```
 
 Every database instance built by that library binary then defaults to the `"MyTool"` root element and the `"2.0"` version stamp. Verify what a built library actually carries without opening a single file:
@@ -57,7 +57,7 @@ std::cout << iadd::IADataDriversFacade::library_version() << " writes '"
 
 Bear in mind that a compile time change is baked into the shared library and therefore affects **every** consumer of that installed binary. A distribution package of the library should ship the defaults. If what you actually need is one differently stamped file out of your own program, use the run time route below instead - it needs no rebuild at all and does not step on anybody else.
 
-`ANNOTATIONS_DB_APP_VERSION` alone is far less dangerous than the name: a version mismatch between the configured value and the one found in a file only produces a warning in the log, and the file loads anyway. See the [annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md) section for that behaviour.
+`IADD_ANNOTATIONS_DB_APP_VERSION` alone is far less dangerous than the name: a version mismatch between the configured value and the one found in a file only produces a warning in the log, and the file loads anyway. See the [annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md) section for that behaviour.
 
 ### Changing them at the run time
 

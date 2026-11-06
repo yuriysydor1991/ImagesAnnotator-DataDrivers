@@ -1,21 +1,21 @@
 ## Вмикання перевірок під час виконання програми (sanitizers)
 
-Для того щоб увімкнути додаткові перевірки під час виконання програми необхідно сконфігурувати проект з увімкнуною змінною `ENABLE_SANITIZERS`:
+Для того щоб увімкнути додаткові перевірки під час виконання програми необхідно сконфігурувати проект з увімкнуною змінною `IADD_ENABLE_SANITIZERS`:
 
 ```
 # в середині кореневої директорії проекту
 
-cmake -S . -B build -DENABLE_SANITIZERS=ON
+cmake -S . -B build -DIADD_ENABLE_SANITIZERS=ON
 ```
 
-Для вмикання загальних перевірок. Деталі і список прапорців перевірок у файлі `cmake/template-project-sanitizers.cmake`.
+Для вмикання загальних перевірок. Деталі і список прапорців перевірок у файлі `cmake/imagesannotator-datadrivers-sanitizers.cmake`.
 
 Також присутня можливість вмикання перевірок виконання потоків на предмет помилок і спотвернення даних (data rises) насутпною командою:
 
 ```
-cmake -S . -B build -DENABLE_SANITIZERS_THREADS=ON
+cmake -S . -B build -DIADD_ENABLE_SANITIZERS_THREADS=ON
 ```
 
-Не слід поєднювати `ENABLE_SANITIZERS` і `ENABLE_SANITIZERS_THREADS`.
+Не слід поєднювати `IADD_ENABLE_SANITIZERS` і `IADD_ENABLE_SANITIZERS_THREADS`.
 
 Будь-які знахідки увімкненими перевірками будуть друкуватись у стандартні потоки вводу програми (stdout/stderr).

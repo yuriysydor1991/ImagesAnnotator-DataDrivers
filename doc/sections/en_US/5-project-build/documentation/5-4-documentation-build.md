@@ -2,12 +2,12 @@
 
 Currently it's possible to auto-generate the project documentation by the Doxygen tool from the available sources comments.
 
-To enable Doxygen documentation CMake-target during the project configure process call a command that sets the `ENABLE_DOC_DOXYGEN` CMake variable to the `ON` value (GNU/Linux based):
+To enable Doxygen documentation CMake-target during the project configure process call a command that sets the `IADD_ENABLE_DOC_DOXYGEN` CMake variable to the `ON` value (GNU/Linux based):
 
 ```
 # inside the project root directory 
 
-cmake -B build -S . -DENABLE_DOC_DOXYGEN=ON
+cmake -B build -S . -DIADD_ENABLE_DOC_DOXYGEN=ON
 ```
 
 Which effectively will create a directory named `build` inside the project root directory, enters it by a `cd` command and configures project to enable Doxygen documentation build.
@@ -20,6 +20,6 @@ Finally build the documentation by executing the command:
 cmake --build build --target Doxygen-doc
 ```
 
-Which in turn will generate the `doc/ImagesAnnotatorDataDrivers-0.15-html` directory (already added to the `.gitignore` file) which will contain the HTML-type documentation. In order to open and examine generated documentation open the `doc/ImagesAnnotatorDataDrivers-0.15-html/index.html` file. The `ImagesAnnotatorDataDrivers-0.15-html` directory name is built as `${PROJECT_LIBRARY_NAME}-html`, so it will change if the default library name for the project changes - either by setting a new value for the `PROJECT_NAME` in the `CMakeLists.txt` file, or through the library name segment options that derive the `PROJECT_LIBRARY_NAME` variable in the [cmake/template-project-misc-variables-declare.cmake](/cmake/template-project-misc-variables-declare.cmake) file (see the [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md) subsection), or by overriding the `DOXYGEN_OUT_HTML_NAME` variable which in turn sets the whole name for the directory.
+Which in turn will generate the `doc/ImagesAnnotatorDataDrivers-0.15-html` directory (already added to the `.gitignore` file) which will contain the HTML-type documentation. In order to open and examine generated documentation open the `doc/ImagesAnnotatorDataDrivers-0.15-html/index.html` file. The `ImagesAnnotatorDataDrivers-0.15-html` directory name is built as `${IADD_LIBRARY_NAME}-html`, so it will change if the default library name for the project changes - either by setting a new value for the `PROJECT_NAME` in the `CMakeLists.txt` file, or through the library name segment options that derive the `IADD_LIBRARY_NAME` variable in the [cmake/imagesannotator-datadrivers-misc-variables-declare.cmake](/cmake/imagesannotator-datadrivers-misc-variables-declare.cmake) file (see the [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md) subsection), or by overriding the `IADD_DOXYGEN_OUT_HTML_NAME` variable which in turn sets the whole name for the directory.
 
 The `doc/Doxyfile.in` file contains all available Doxygen configuration parameters which may be changed in order to change the documentation output.
