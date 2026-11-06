@@ -27,6 +27,8 @@ package "ImagesAnnotatorDataDrivers015 (installed interface)" {
     +{abstract} ImageRecordPtr create_image_record(nirpath, nabsPath)
     +{abstract} ImageRecordRectPtr create_image_rect_record(ir)
     +{abstract} ImageRecordRectPtr create_image_rect_record(nname, nx, ny, nwidth, nheight)
+    +{abstract} ImageRecordSegmentPtr create_image_segment_record(ir)
+    +{abstract} ImageRecordSegmentPtr create_image_segment_record(nname, nx, ny, nwidth, nheight, npoints)
   }
 
   abstract class IDBMerger {
@@ -67,6 +69,15 @@ package "ImagesAnnotatorDataDrivers015 (installed interface)" {
     +int width
     +int height
     +ImageRecordRectPtr duplicate_shared()
+    +Points outline()
+  }
+
+  class ImageRecordSegment {
+    +Points points
+    +{static} min_points
+    +void add_point(const double& px, const double& py)
+    +ImageRecordRectPtr duplicate_shared()
+    +Points outline()
   }
 
   class IADataDriversFacade {
@@ -134,6 +145,8 @@ package "Implementation (not installed)" #F8F8F8 {
     #bool write_text(const std::string& fpath, const std::string& text)
     #bool serialize(const nlohmann::json& json)
     #ImageRecordsSet load_the_irs(const nlohmann::json& json)
+    #std::shared_ptr<ImageRecords2JSONConverter> create_writer()
+    #ImageRecordRectJSON2RecordConverterPtr create_rect_reader()
     #std::string app_name
     #std::string app_version
   }
@@ -146,6 +159,16 @@ package "Implementation (not installed)" #F8F8F8 {
     ..
     #bool read_text(const std::string& fpath, std::string& text)
     #bool write_text(const std::string& fpath, const std::string& text)
+  }
+
+  class Imgajz2LibraryImpl <<iannotator::dbs::annotations>> {
+    +{static} Imgajz2LibraryImplPtr create()
+    +{static} Imgajz2LibraryImplPtr create(const LibraryImpl& like)
+    +{static} bool is_imgajz2_path(const std::string& fpath)
+    +{static} file_extension
+    ..
+    #std::shared_ptr<ImageRecords2JSONConverter> create_writer()
+    #ImageRecordRectJSON2RecordConverterPtr create_rect_reader()
   }
 
   package "src/zlib (iadd0zlibi)" #F8F8F8 {
@@ -167,11 +190,13 @@ package "Implementation (not installed)" #F8F8F8 {
     #bool serialize_annotations_records(const nlohmann::json& json)
   }
 
-  class Converters <<the four JSON converters>> {
+  class Converters <<the six JSON converters>> {
     JSON2ImageRecordsConverter
     ImageRecords2JSONConverter
     ImageRecordJSON2RecordConverter
     ImageRecordRectJSON2RecordConverter
+    ImageRecordSegments2JSONConverter
+    ImageRecordSegmentJSON2RecordConverter
     ..
     +ImageRecordsSet fetch_records(const nlohmann::json& allAJSon)
     +nlohmann::json to_document(const ImageRecordsSet& irs)
@@ -183,6 +208,8 @@ package "Implementation (not installed)" #F8F8F8 {
     +ImageRecordPtr create_image_record(nirpath, nabsPath)
     +ImageRecordRectPtr create_image_rect_record(ir)
     +ImageRecordRectPtr create_image_rect_record(nname, nx, ny, nwidth, nheight)
+    +ImageRecordSegmentPtr create_image_segment_record(ir)
+    +ImageRecordSegmentPtr create_image_segment_record(nname, nx, ny, nwidth, nheight, npoints)
     +{static} RecordsFactoryPtr create()
   }
 
@@ -210,15 +237,19 @@ note Right of LibraryImpl : The project file driver of the JSON format.\nEveryth
 
 note Right of Imgajz1LibraryImpl : The project file driver of the imgajz1 files\nof the .imgajz1 file name extension: the regular\nJSON project file, gzip compressed by the\nZlibController.
 
+note Right of Imgajz2LibraryImpl : The project file driver of the imgajz2 files\nof the .imgajz2 file name extension: the imgajz1\nfile keeping the polygons of the segments and\nthe declaration of its format as well.
+
 note Bottom of DefaultDBMerger : Appends the not yet present records only.\nThe paths are resolved through\nhelpers::ImageRecordUrlAndPathHelper, which\nasks helpers::UrlHelper about the web URLs.
 
 IProvider <|-- IImagesPathsDBProvider : extends
 IImagesPathsDBProvider <|-- IAnnotationsDB : extends
 
 ImageRecord *-- ImageRecordRect : rects
+ImageRecordRect <|-- ImageRecordSegment : extends
 IImagesPathsDBProvider ..> ImageRecord : provides the records set of
 IRecordsFactory ..> ImageRecord : creates
 IRecordsFactory ..> ImageRecordRect : creates
+IRecordsFactory ..> ImageRecordSegment : creates
 
 IADataDriversContext o-- IRecordsFactory : in
 IADataDriversContext o-- IDBMerger : in
@@ -243,6 +274,9 @@ AnnotationsDirDB --> LibraryImpl : reads and writes the project file through
 AnnotationsDirDB ..> Imgajz1LibraryImpl : the driver of the .imgajz1 paths
 LibraryImpl <|-- Imgajz1LibraryImpl : the imgajz1 format
 Imgajz1LibraryImpl --> ZlibController : compresses the JSON text with
+AnnotationsDirDB ..> Imgajz2LibraryImpl : the driver of the .imgajz2 paths
+Imgajz1LibraryImpl <|-- Imgajz2LibraryImpl : the imgajz2 format
+Imgajz2LibraryImpl ..> Converters : creates the converters of the segments
 LibraryImpl --> AnnotationsJSONSerializator : validates the file with
 LibraryImpl --> Converters : converts the JSON with
 AnnotationsDirDB --> IDBMerger : add_images_db merges with
