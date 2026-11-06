@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.13)
 add_executable(
   UTEST_LibFactory
   UTEST_LibFactory.cpp
-  ${CMAKE_SOURCE_DIR}/src/lib/libmain/LibFactory.cpp
-  ${CMAKE_SOURCE_DIR}/src/lib/libmain/LibMain.cpp
-  ${CMAKE_SOURCE_DIR}/src/lib/facade/IADataDriversContext.cpp
+  ${PROJECT_SOURCE_DIR}/src/lib/libmain/LibFactory.cpp
+  ${PROJECT_SOURCE_DIR}/src/lib/libmain/LibMain.cpp
+  ${PROJECT_SOURCE_DIR}/src/lib/facade/IADataDriversContext.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsDirDB.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/Imgajz1LibraryImpl.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/Imgajz2LibraryImpl.cpp
@@ -28,7 +28,7 @@ target_include_directories(
   UTEST_LibFactory
   PRIVATE ${GENERAL_MOCKS_ROOT}/log
   PRIVATE ${GENERAL_MOCKS_ROOT}/project-global-decls
-  PRIVATE ${CMAKE_SOURCE_DIR}
+  PRIVATE ${PROJECT_SOURCE_DIR}
   PRIVATE ${IADD_PUBLIC_INCLUDE_DIR}
 )
 

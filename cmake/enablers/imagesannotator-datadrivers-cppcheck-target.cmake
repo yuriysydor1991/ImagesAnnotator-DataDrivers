@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.13)
 
 option(
-  ENABLE_CPPCHECK
+  IADD_ENABLE_CPPCHECK
   "Set to ON if to enable the cppcheck execution target."
   OFF
 )
 
-if(NOT ENABLE_CPPCHECK)
+if(NOT IADD_ENABLE_CPPCHECK)
   return()
 endif()
 
@@ -30,7 +30,7 @@ add_custom_target (
   cppcheck
   COMMAND ${CPPCHECK_EXEC} --language=c++ --std=c++${CMAKE_CXX_STANDARD} 
     --error-exitcode=1 --inconclusive --enable=all -v 
-    -I${CMAKE_SOURCE_DIR} -I${CMAKE_BINARY_DIR} ${ALLSOURCES}
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    -I${PROJECT_SOURCE_DIR} -I${PROJECT_BINARY_DIR} ${ALLSOURCES}
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
   COMMENT "Executes cppcheck command for all project sources. Just outputs all findings into stdout."
 )

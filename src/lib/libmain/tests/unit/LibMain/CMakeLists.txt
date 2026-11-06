@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 add_executable(
   UTEST_LibMain
   UTEST_LibMain.cpp
-  ${CMAKE_SOURCE_DIR}/src/lib/libmain/LibMain.cpp
+  ${PROJECT_SOURCE_DIR}/src/lib/libmain/LibMain.cpp
 )
 
 target_include_directories(
@@ -11,7 +11,7 @@ target_include_directories(
   PRIVATE ${GENERAL_MOCKS_ROOT}/IADataDriversContext
   PRIVATE ${GENERAL_MOCKS_ROOT}/log
   PRIVATE ${LIBMAIN_MOCK_DIR}/LibFactory
-  PRIVATE ${CMAKE_SOURCE_DIR}
+  PRIVATE ${PROJECT_SOURCE_DIR}
   PRIVATE ${IADD_PUBLIC_INCLUDE_DIR}
 )
 

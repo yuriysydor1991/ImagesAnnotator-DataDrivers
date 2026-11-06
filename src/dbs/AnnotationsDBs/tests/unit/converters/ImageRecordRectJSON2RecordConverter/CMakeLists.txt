@@ -11,7 +11,7 @@ target_include_directories(
   UTEST_ImageRecordRectJSON2RecordConverter
   PRIVATE ${GENERAL_MOCKS_ROOT}/log
   PRIVATE ${GENERAL_MOCKS_ROOT}/project-global-decls
-  PRIVATE ${CMAKE_SOURCE_DIR}
+  PRIVATE ${PROJECT_SOURCE_DIR}
   PRIVATE ${IADD_PUBLIC_INCLUDE_DIR}
 )
 

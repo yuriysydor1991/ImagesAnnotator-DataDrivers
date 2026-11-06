@@ -8,7 +8,7 @@ namespace project_decls
 {
 
   /// @brief Global project' library name
-  const std::string PROJECT_NAME = "${PROJECT_LIBRARY_NAME}";
+  const std::string PROJECT_NAME = "${IADD_LIBRARY_NAME}";
   /// @brief Global project' build version
   const std::string PROJECT_BUILD_VERSION = "${PROJECT_VERSION}";
   /// @brief Global project' configure git commit hash
@@ -25,14 +25,14 @@ namespace project_decls
    * ANNOTATIONS_DB_ROOT_APP_NAME CMake cache variable only when the library
    * is used to drive a differently named application format.
    */
-  const std::string ANNOTATIONS_DB_ROOT_APP_NAME = "${ANNOTATIONS_DB_ROOT_APP_NAME}";
+  const std::string ANNOTATIONS_DB_ROOT_APP_NAME = "${IADD_ANNOTATIONS_DB_ROOT_APP_NAME}";
 
   /**
    * @brief The version string written under the JSON root element and checked
    * against when a project file is read. Controlled by the
    * ANNOTATIONS_DB_APP_VERSION CMake cache variable.
    */
-  const std::string ANNOTATIONS_DB_APP_VERSION = "${ANNOTATIONS_DB_APP_VERSION}";
+  const std::string ANNOTATIONS_DB_APP_VERSION = "${IADD_ANNOTATIONS_DB_APP_VERSION}";
 
 } // namespace project_decls
 

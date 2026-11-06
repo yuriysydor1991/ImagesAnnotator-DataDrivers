@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.13)
 
-# Companion of the template-project-nlohmann-json-enabler module: links the
+# Companion of the imagesannotator-datadrivers-nlohmann-json-enabler module: links the
 # already made available nlohmann json library against the project library
 # target, which only exists once src/ has been added.
 
-if (NOT ENABLE_NLOHMANN_JSON)
+if (NOT IADD_ENABLE_NLOHMANN_JSON)
   return()
 endif()
 
@@ -14,6 +14,6 @@ endif()
 # nlohmann_json target into INTERFACE_LINK_LIBRARIES and break the
 # install(EXPORT) of the library.
 target_link_libraries(
-  ${PROJECT_LIBRARY_NAME}
+  ${IADD_LIBRARY_NAME}
   PRIVATE nlohmann_json::nlohmann_json
 )

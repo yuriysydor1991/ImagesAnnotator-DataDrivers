@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.13)
 add_executable(
   UTEST_IADataDriversFacade
   UTEST_IADataDriversFacade.cpp
-  ${CMAKE_SOURCE_DIR}/src/lib/facade/IADataDriversFacade.cpp
-  ${CMAKE_SOURCE_DIR}/src/log/default-logger/DefaultLogger.cpp
-  ${CMAKE_SOURCE_DIR}/src/log/default-logger/real-default-logger/RealDefaultLogger.cpp
+  ${PROJECT_SOURCE_DIR}/src/lib/facade/IADataDriversFacade.cpp
+  ${PROJECT_SOURCE_DIR}/src/log/default-logger/DefaultLogger.cpp
+  ${PROJECT_SOURCE_DIR}/src/log/default-logger/real-default-logger/RealDefaultLogger.cpp
 )
 
 target_include_directories(
@@ -14,7 +14,7 @@ target_include_directories(
   PRIVATE ${GENERAL_MOCKS_ROOT}/LibMain
   PRIVATE ${GENERAL_MOCKS_ROOT}/project-global-decls
   PRIVATE ${FACADE_MOCK_DIR}/LibFactory
-  PRIVATE ${CMAKE_SOURCE_DIR}
+  PRIVATE ${PROJECT_SOURCE_DIR}
   PRIVATE ${IADD_PUBLIC_INCLUDE_DIR}
 )
 

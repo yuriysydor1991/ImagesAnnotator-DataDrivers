@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.13)
 # JSON deserialization builds them with.
 
 target_sources(
-  ${PROJECT_LIBRARY_NAME}
+  ${IADD_LIBRARY_NAME}
   PRIVATE
     ImageRecord.cpp
     ImageRecordRect.cpp

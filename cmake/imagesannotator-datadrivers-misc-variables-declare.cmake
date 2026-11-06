@@ -7,91 +7,91 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # same pair. Two minor versions then install completely side by side - their
 # binaries, their header directories and their CMake packages all differ.
 option(
-  LIB_INCLUDE_MINOR_IN_NAME
+  IADD_LIB_INCLUDE_MINOR_IN_NAME
   "Append .<minor> to the installable library name (binary, headers subdir, CMake package dir)"
   ON
 )
 
 option(
-  LIB_INCLUDE_MICRO_IN_NAME
-  "Append .<micro> after the minor segment to the installable library name. Implies LIB_INCLUDE_MINOR_IN_NAME."
+  IADD_LIB_INCLUDE_MICRO_IN_NAME
+  "Append .<micro> after the minor segment to the installable library name. Implies IADD_LIB_INCLUDE_MINOR_IN_NAME."
   OFF
 )
 
 set(
-  LIB_NAME_SUFFIX ""
+  IADD_LIB_NAME_SUFFIX ""
   CACHE STRING
   "Optional trailing suffix appended to the installable library name (e.g. '-dev')."
 )
 
-set(_lib_name "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION_MAJOR}")
+set(_lib_name "${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}")
 
-if(LIB_INCLUDE_MICRO_IN_NAME AND NOT LIB_INCLUDE_MINOR_IN_NAME)
+if(IADD_LIB_INCLUDE_MICRO_IN_NAME AND NOT IADD_LIB_INCLUDE_MINOR_IN_NAME)
   message(WARNING
-    "LIB_INCLUDE_MICRO_IN_NAME=ON requires LIB_INCLUDE_MINOR_IN_NAME=ON - "
-    "enabling LIB_INCLUDE_MINOR_IN_NAME implicitly."
+    "IADD_LIB_INCLUDE_MICRO_IN_NAME=ON requires IADD_LIB_INCLUDE_MINOR_IN_NAME=ON - "
+    "enabling IADD_LIB_INCLUDE_MINOR_IN_NAME implicitly."
   )
-  set(LIB_INCLUDE_MINOR_IN_NAME ON CACHE BOOL "" FORCE)
+  set(IADD_LIB_INCLUDE_MINOR_IN_NAME ON CACHE BOOL "" FORCE)
 endif()
 
-if(LIB_INCLUDE_MINOR_IN_NAME)
-  set(_lib_name "${_lib_name}.${CMAKE_PROJECT_VERSION_MINOR}")
+if(IADD_LIB_INCLUDE_MINOR_IN_NAME)
+  set(_lib_name "${_lib_name}.${PROJECT_VERSION_MINOR}")
 endif()
 
-if(LIB_INCLUDE_MICRO_IN_NAME)
-  set(_lib_name "${_lib_name}.${CMAKE_PROJECT_VERSION_PATCH}")
+if(IADD_LIB_INCLUDE_MICRO_IN_NAME)
+  set(_lib_name "${_lib_name}.${PROJECT_VERSION_PATCH}")
 endif()
 
-if(LIB_NAME_SUFFIX)
-  set(_lib_name "${_lib_name}${LIB_NAME_SUFFIX}")
+if(IADD_LIB_NAME_SUFFIX)
+  set(_lib_name "${_lib_name}${IADD_LIB_NAME_SUFFIX}")
 endif()
 
 set(
-  PROJECT_LIBRARY_NAME "${_lib_name}"
+  IADD_LIBRARY_NAME "${_lib_name}"
   CACHE STRING "Project main library name and target"
   FORCE
 )
 
 unset(_lib_name)
 
-message(STATUS "PROJECT_LIBRARY_NAME: ${PROJECT_LIBRARY_NAME}")
+message(STATUS "IADD_LIBRARY_NAME: ${IADD_LIBRARY_NAME}")
 
 set(
-  PROJECT_MAINTAINER "Your Name"
+  IADD_MAINTAINER "Your Name"
   CACHE STRING "Project maintainer name (used for the DEB package)"
 )
 
 set(
-  PROJECT_MAINTAINER_EMAIL "yourname@your.email.org"
+  IADD_MAINTAINER_EMAIL "yourname@your.email.org"
   CACHE STRING "Project maintainer email (used for the DEB package)"
 )
 
 set(
-  ANNOTATIONS_DB_ROOT_APP_NAME "ImagesAnnotator"
+  IADD_ANNOTATIONS_DB_ROOT_APP_NAME "ImagesAnnotator"
   CACHE STRING
   "The JSON root element name of the annotations project files. Keep the default to stay compatible with the ImagesAnnotator application project files."
 )
 
 set(
-  ANNOTATIONS_DB_APP_VERSION "${CMAKE_PROJECT_VERSION}"
+  IADD_ANNOTATIONS_DB_APP_VERSION "${PROJECT_VERSION}"
   CACHE STRING
   "The version string written under the annotations project files JSON root element"
 )
 
 set(
-  MAX_LOG_LEVEL "3"
+  IADD_MAX_LOG_LEVEL "3"
   CACHE STRING
   "Sets the maximum severity of the compiled log messages. Error=0. Trace=5. By default Info=3"
 )
 
 set(
-  DEFAULT_LOG_FILE_PATH ""
+  IADD_DEFAULT_LOG_FILE_PATH ""
   CACHE STRING
   "Sets the default log file path"
 )
 
 option(
-  ENABLE_LOGS_MICROSECONDS_TIME
+  IADD_ENABLE_LOGS_MICROSECONDS_TIME
   "Set to OFF to disable the microseconds fields included into the log messages"
   ON
 )

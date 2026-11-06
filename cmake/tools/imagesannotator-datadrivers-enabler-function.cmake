@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-function(template_project_default_3rdparty_enabler)
+function(iadd_default_3rdparty_enabler)
   set(FCN_KEYWORDS_FLAGS DISABLE_SYSTEM_PROBE)
   set(FCN_KEYWORDS_SINGLE NAME GIT_REPOSITORY GIT_TAG)
   set(FCN_KEYWORDS_MULTI COMPONENTS)

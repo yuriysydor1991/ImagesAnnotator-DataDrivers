@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.13)
 # compressed JSON documents it writes and reads.
 
 target_sources(
-  ${PROJECT_LIBRARY_NAME}
+  ${IADD_LIBRARY_NAME}
   PRIVATE
     GzipFileStreams.cpp
     ZlibController.cpp

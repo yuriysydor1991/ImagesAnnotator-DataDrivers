@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
 
 option(
-  ENABLE_CLANG_TIDY
+  IADD_ENABLE_CLANG_TIDY
   "Set to ON if enable the clang-tidy code check target."
   OFF
 )
 
-if(NOT ENABLE_CLANG_TIDY)
+if(NOT IADD_ENABLE_CLANG_TIDY)
   return()
 endif()
 
@@ -27,8 +27,8 @@ list(TRANSFORM implicitSysIncludes PREPEND "--extra-arg=-I")
 set(
   CTCOMMAND
   ${CLTIDY_EXEC} 
-    --config-file "${CMAKE_SOURCE_DIR}/misc/.clang-tidy"
-    -p "${CMAKE_BINARY_DIR}"
+    --config-file "${PROJECT_SOURCE_DIR}/misc/.clang-tidy"
+    -p "${PROJECT_BINARY_DIR}"
     --extra-arg=-Wno-unused-command-line-argument
     ${implicitSysIncludes}
 )

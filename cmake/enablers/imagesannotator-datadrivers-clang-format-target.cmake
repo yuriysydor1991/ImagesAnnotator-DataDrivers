@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.13)
 
 option(
-  ENABLE_CLANGFORMAT
+  IADD_ENABLE_CLANGFORMAT
   "Set to ON if to enable the clang-format command execution target."
   OFF
 )
 
-if(NOT ENABLE_CLANGFORMAT)
+if(NOT IADD_ENABLE_CLANGFORMAT)
   return()
 endif()
 
@@ -28,5 +28,5 @@ endif()
 add_custom_target (
   clang-format
   COMMAND ${CLANG_FORMAT_EXEC} -style=file:'./misc/.clang-format' --verbose -i ${ALLSOURCES}
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 )

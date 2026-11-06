@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 # The name and the version of the destination operating system, which the
 # package file names of the CPack packagers carry after the destination CPU
 # (e.g. the -amd64-ubuntu-24.04 of a DEB package). Every such packager includes
-# this file and appends the TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX it sets.
+# this file and appends the IADD_PACKAGE_SYSTEM_SUFFIX it sets.
 
 set(packageSystem "")
 
@@ -37,14 +37,14 @@ if(NOT CMAKE_CROSSCOMPILING)
 endif()
 
 set(
-  TEMPLATE_PROJECT_PACKAGE_SYSTEM
+  IADD_PACKAGE_SYSTEM
   "${packageSystem}"
   CACHE STRING
   "The destination operating system name and version the package file names end with (e.g. ubuntu-24.04, fedora-42, freebsd-14.3, windows-10.0.26100), none when empty"
 )
 
-if(TEMPLATE_PROJECT_PACKAGE_SYSTEM)
-  set(TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX -${TEMPLATE_PROJECT_PACKAGE_SYSTEM})
+if(IADD_PACKAGE_SYSTEM)
+  set(IADD_PACKAGE_SYSTEM_SUFFIX -${IADD_PACKAGE_SYSTEM})
 else()
-  set(TEMPLATE_PROJECT_PACKAGE_SYSTEM_SUFFIX "")
+  set(IADD_PACKAGE_SYSTEM_SUFFIX "")
 endif()

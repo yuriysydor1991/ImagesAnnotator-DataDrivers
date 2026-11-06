@@ -3,13 +3,13 @@ cmake_minimum_required(VERSION 3.13)
 add_executable(
   UTEST_ImageRecordRect
   UTEST_ImageRecordRect.cpp
-  ${CMAKE_SOURCE_DIR}/src/records/ImageRecordRect.cpp
+  ${PROJECT_SOURCE_DIR}/src/records/ImageRecordRect.cpp
 )
 
 target_include_directories(
   UTEST_ImageRecordRect
   PRIVATE ${GENERAL_MOCKS_ROOT}/log
-  PRIVATE ${CMAKE_SOURCE_DIR}
+  PRIVATE ${PROJECT_SOURCE_DIR}
   PRIVATE ${IADD_PUBLIC_INCLUDE_DIR}
 )
 

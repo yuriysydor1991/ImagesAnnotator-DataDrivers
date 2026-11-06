@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.13)
 
 add_library(
-  TemplateProjectDefaultLoggerObj OBJECT
+  IADataDriversDefaultLoggerObj OBJECT
   DefaultLogger.cpp
 )
 
 target_include_directories(
-  TemplateProjectDefaultLoggerObj
+  IADataDriversDefaultLoggerObj
   PRIVATE
-    ${CMAKE_SOURCE_DIR}
-    ${CMAKE_BINARY_DIR}
+    ${PROJECT_SOURCE_DIR}
+    ${PROJECT_BINARY_DIR}
 )
 
 # The objects end up inside a shared library, so they must be relocatable and
@@ -19,7 +19,7 @@ target_include_directories(
 # library built from this template, handing this library log file name to the
 # whole process.
 set_target_properties(
-  TemplateProjectDefaultLoggerObj
+  IADataDriversDefaultLoggerObj
   PROPERTIES
   POSITION_INDEPENDENT_CODE ON
   CXX_VISIBILITY_PRESET hidden
@@ -31,8 +31,8 @@ set_target_properties(
 # against it. PRIVATE because the logger is an implementation detail: no
 # installable public header mentions it.
 target_link_libraries(
-  ${PROJECT_LIBRARY_NAME}
-  PRIVATE TemplateProjectDefaultLoggerObj
+  ${IADD_LIBRARY_NAME}
+  PRIVATE IADataDriversDefaultLoggerObj
 )
 
 add_subdirectory(real-default-logger)

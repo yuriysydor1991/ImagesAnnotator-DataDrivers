@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(EXTRA_COMPILE_OPTIONS 
-  ${EXTRA_COMPILE_OPTIONS}   
+set(IADD_EXTRA_COMPILE_OPTIONS 
+  ${IADD_EXTRA_COMPILE_OPTIONS}   
   -fsanitize=undefined 
   -fsanitize=shift 
   -fsanitize=shift-exponent 
@@ -33,7 +33,7 @@ set(EXTRA_COMPILE_OPTIONS
 )
 
 set(
-  EXTRA_LINK_OPTIONS 
-  ${EXTRA_LINK_OPTIONS} 
+  IADD_EXTRA_LINK_OPTIONS 
+  ${IADD_EXTRA_LINK_OPTIONS} 
   -fsanitize=undefined
 )

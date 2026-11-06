@@ -35,7 +35,7 @@ pipeline {
     stage('Code format configure') {
       steps {
         sh '''
-          cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANGFORMAT=ON
+          cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug -DIADD_ENABLE_CLANGFORMAT=ON
         '''
       }
     }
@@ -66,9 +66,9 @@ pipeline {
       steps {
         sh 'rm -fr $BUILDDIR'
         sh '''
-          cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_UNIT_TESTS=ON \
-            -DENABLE_SANITIZERS=ON -DENABLE_CPPCHECK=ON \
-            -DMAX_LOG_LEVEL=5 -DENABLE_COMPONENT_TESTS=ON
+          cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug -DIADD_ENABLE_UNIT_TESTS=ON \
+            -DIADD_ENABLE_SANITIZERS=ON -DIADD_ENABLE_CPPCHECK=ON \
+            -DIADD_MAX_LOG_LEVEL=5 -DIADD_ENABLE_COMPONENT_TESTS=ON
         '''
       }
     }
@@ -228,8 +228,8 @@ pipeline {
       steps {
         sh 'rm -fr $BUILDDIR'
         sh '''
-          cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANG_TIDY=ON \
-            -DMAX_LOG_LEVEL=5
+          cmake -S . -B $BUILDDIR -DCMAKE_BUILD_TYPE=Debug -DIADD_ENABLE_CLANG_TIDY=ON \
+            -DIADD_MAX_LOG_LEVEL=5
         '''
       }
     }
@@ -386,12 +386,12 @@ pipeline {
     stage('Repo check: every enabler is registered') {
       steps {
         sh '''
-          included="$( { cat cmake/template-project-feature-enabler.cmake cmake/template-project-feature-enabler-post.cmake; find cmake/enablers -name "*.cmake" -exec cat {} +; } | grep "include(" | sed "s/.*include(//; s/).*//" | tr -d " " | sort -u )"
+          included="$( { cat cmake/imagesannotator-datadrivers-feature-enabler.cmake cmake/imagesannotator-datadrivers-feature-enabler-post.cmake; find cmake/enablers -name "*.cmake" -exec cat {} +; } | grep "include(" | sed "s/.*include(//; s/).*//" | tr -d " " | sort -u )"
           status=0
           for f in $(find cmake/enablers -name "*.cmake" | sort); do
             mod="$(basename "$f" .cmake)"
             if ! echo "$included" | grep -qx "$mod"; then
-              echo "FAIL: enabler $mod ($f) is not registered in the template-project-feature-enabler files"
+              echo "FAIL: enabler $mod ($f) is not registered in the imagesannotator-datadrivers-feature-enabler files"
               status=1
             fi
           done
@@ -428,7 +428,7 @@ pipeline {
         sh '''
           BD="$BUILDDIR-pkg-deb"
           rm -fr "$BD"
-          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_DEB=ON
+          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DIADD_ENABLE_DEB=ON
           cmake --build "$BD" -j$(nproc)
           ( cd "$BD" && cpack -G DEB )
           if [ -z "$(find "$BD" -maxdepth 2 -name '*.deb' -print -quit)" ]; then
@@ -446,7 +446,7 @@ pipeline {
         sh '''
           BD="$BUILDDIR-pkg-rpm"
           rm -fr "$BD"
-          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_RPM=ON
+          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DIADD_ENABLE_RPM=ON
           cmake --build "$BD" -j$(nproc)
           ( cd "$BD" && cpack -G RPM )
           if [ -z "$(find "$BD" -maxdepth 2 -name '*.rpm' -print -quit)" ]; then
@@ -464,7 +464,7 @@ pipeline {
         sh '''
           BD="$BUILDDIR-pkg-freebsd"
           rm -fr "$BD"
-          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_FREEBSD_PKG=ON
+          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DIADD_ENABLE_FREEBSD_PKG=ON
           cmake --build "$BD" -j$(nproc)
           ( cd "$BD" && cpack -G FREEBSD )
           if [ -z "$(find "$BD" -maxdepth 2 -name '*.pkg' -print -quit)" ]; then
@@ -482,7 +482,7 @@ pipeline {
         sh '''
           BD="$BUILDDIR-pkg-wix"
           rm -fr "$BD"
-          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DENABLE_WIX=ON
+          cmake -S . -B "$BD" -DCMAKE_BUILD_TYPE=Release -DIADD_ENABLE_WIX=ON
           cmake --build "$BD" -j$(nproc)
           ( cd "$BD" && cpack -G WIX )
           if [ -z "$(find "$BD" -maxdepth 2 -name '*.msi' -print -quit)" ]; then

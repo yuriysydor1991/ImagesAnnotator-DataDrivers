@@ -1,0 +1,64 @@
+cmake_minimum_required(VERSION 3.13)
+
+option(
+  IADD_ENABLE_FREEBSD_PKG
+  "Set to ON to enable the FreeBSD pkg package creation from the project build artifacts"
+  OFF
+)
+
+if(NOT IADD_ENABLE_FREEBSD_PKG)
+    return()
+endif()
+
+include(InstallRequiredSystemLibraries)
+
+set(
+  IADD_FREEBSD_PKG_LICENSE
+  "BSD2CLAUSE"
+  CACHE STRING
+  "FreeBSD pkg license tag (e.g. BSD2CLAUSE, BSD3CLAUSE, GPLv3, MIT)"
+)
+
+set(
+  IADD_FREEBSD_PKG_ORIGIN
+  "misc/${PROJECT_BINARY_NAME_lower}"
+  CACHE STRING
+  "FreeBSD pkg origin in <category>/<name> form"
+)
+
+set(
+  IADD_FREEBSD_PKG_CATEGORIES
+  "misc"
+  CACHE STRING
+  "Semicolon-separated list of FreeBSD pkg categories"
+)
+
+set(CPACK_GENERATOR "FREEBSD")
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_PACKAGE_CONTACT ${IADD_MAINTAINER_EMAIL})
+set(CPACK_PACKAGE_VENDOR "${IADD_MAINTAINER}")
+set(CPACK_PACKAGE_DESCRIPTION ${PROJECT_DESCRIPTION})
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY ${PROJECT_DESCRIPTION})
+
+set(CPACK_FREEBSD_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_FREEBSD_PACKAGE_COMMENT ${PROJECT_DESCRIPTION})
+set(CPACK_FREEBSD_PACKAGE_DESCRIPTION ${PROJECT_DESCRIPTION})
+set(CPACK_FREEBSD_PACKAGE_WWW ${PROJECT_HOMEPAGE_URL})
+set(CPACK_FREEBSD_PACKAGE_LICENSE ${IADD_FREEBSD_PKG_LICENSE})
+set(CPACK_FREEBSD_PACKAGE_MAINTAINER "${IADD_MAINTAINER_EMAIL}")
+set(CPACK_FREEBSD_PACKAGE_ORIGIN ${IADD_FREEBSD_PKG_ORIGIN})
+set(CPACK_FREEBSD_PACKAGE_CATEGORIES ${IADD_FREEBSD_PKG_CATEGORIES})
+set(CPACK_FREEBSD_PACKAGE_DEPS "")
+
+# the CPACK_SYSTEM_NAME of the default file name names the system alone, so the
+# destination CPU takes its place (the uname -p one, as in the package ABI),
+# followed by the name and the version of the destination system
+include(imagesannotator-datadrivers-package-system)
+
+set(
+  CPACK_PACKAGE_FILE_NAME
+  ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_PROCESSOR}${IADD_PACKAGE_SYSTEM_SUFFIX}
+)
+
+include(CPack)

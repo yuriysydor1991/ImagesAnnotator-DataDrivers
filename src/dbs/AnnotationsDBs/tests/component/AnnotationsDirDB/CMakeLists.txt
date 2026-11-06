@@ -16,15 +16,15 @@ target_compile_options(
 
 target_include_directories(
   CTEST_AnnotationsDirDB
-  PRIVATE ${CMAKE_SOURCE_DIR}
-  PRIVATE ${CMAKE_BINARY_DIR}
+  PRIVATE ${PROJECT_SOURCE_DIR}
+  PRIVATE ${PROJECT_BINARY_DIR}
   PRIVATE ${IADD_PUBLIC_INCLUDE_DIR}
   PRIVATE ${ANNOTATIONS_DBS_CTESTS_INCLUDE_DIR}
 )
 
 target_link_libraries(
   CTEST_AnnotationsDirDB
-  GTest::gtest_main GTest::gmock ${PROJECT_LIBRARY_NAME}
+  GTest::gtest_main GTest::gmock ${IADD_LIBRARY_NAME}
 )
 
 include(GoogleTest)
