@@ -119,6 +119,11 @@ pipeline {
             sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordRect\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordRect.junit.xml'
           }
         }
+        stage('UTEST_ImageRecordSegment') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordSegment\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordSegment.junit.xml'
+          }
+        }
         stage('UTEST_RecordsFactory') {
           steps {
             sh 'cd $BUILDDIR && ctest -R "UTEST_RecordsFactory\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_RecordsFactory.junit.xml'
@@ -139,6 +144,11 @@ pipeline {
             sh 'cd $BUILDDIR && ctest -R "UTEST_Imgajz1LibraryImpl\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_Imgajz1LibraryImpl.junit.xml'
           }
         }
+        stage('UTEST_Imgajz2LibraryImpl') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_Imgajz2LibraryImpl\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_Imgajz2LibraryImpl.junit.xml'
+          }
+        }
         stage('UTEST_DefaultDBMerger') {
           steps {
             sh 'cd $BUILDDIR && ctest -R "UTEST_DefaultDBMerger\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_DefaultDBMerger.junit.xml'
@@ -157,6 +167,16 @@ pipeline {
         stage('UTEST_ImageRecordJSON2RecordConverter') {
           steps {
             sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordJSON2RecordConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordJSON2RecordConverter.junit.xml'
+          }
+        }
+        stage('UTEST_ImageRecordSegmentJSON2RecordConverter') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordSegmentJSON2RecordConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordSegmentJSON2RecordConverter.junit.xml'
+          }
+        }
+        stage('UTEST_ImageRecordSegments2JSONConverter') {
+          steps {
+            sh 'cd $BUILDDIR && ctest -R "UTEST_ImageRecordSegments2JSONConverter\\." --output-on-failure --output-junit $BDJUNITOUT/UTEST_ImageRecordSegments2JSONConverter.junit.xml'
           }
         }
         stage('UTEST_ImageRecordRectJSON2RecordConverter') {
