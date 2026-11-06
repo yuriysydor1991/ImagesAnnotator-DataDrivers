@@ -48,23 +48,23 @@ namespace iannotator::dbs::annotations
 class AnnotationsDBTypes
 {
  public:
-  using IRecord = ImagesAnnotatorDataDrivers014::IRecord;
-  using ImageRecord = ImagesAnnotatorDataDrivers014::ImageRecord;
-  using ImageRecordPtr = ImagesAnnotatorDataDrivers014::ImageRecordPtr;
-  using ImageRecordsSet = ImagesAnnotatorDataDrivers014::ImageRecordsSet;
-  using ImageRecordRect = ImagesAnnotatorDataDrivers014::ImageRecordRect;
-  using ImageRecordRectPtr = ImagesAnnotatorDataDrivers014::ImageRecordRectPtr;
-  using ImageRecordRectSet = ImagesAnnotatorDataDrivers014::ImageRecordRectSet;
+  using IRecord = ImagesAnnotatorDataDrivers015::IRecord;
+  using ImageRecord = ImagesAnnotatorDataDrivers015::ImageRecord;
+  using ImageRecordPtr = ImagesAnnotatorDataDrivers015::ImageRecordPtr;
+  using ImageRecordsSet = ImagesAnnotatorDataDrivers015::ImageRecordsSet;
+  using ImageRecordRect = ImagesAnnotatorDataDrivers015::ImageRecordRect;
+  using ImageRecordRectPtr = ImagesAnnotatorDataDrivers015::ImageRecordRectPtr;
+  using ImageRecordRectSet = ImagesAnnotatorDataDrivers015::ImageRecordRectSet;
   using IImagesPathsDBProvider =
-      ImagesAnnotatorDataDrivers014::IImagesPathsDBProvider;
+      ImagesAnnotatorDataDrivers015::IImagesPathsDBProvider;
   using IImagesPathsDBProviderPtr =
-      ImagesAnnotatorDataDrivers014::IImagesPathsDBProviderPtr;
-  using IAnnotationsDB = ImagesAnnotatorDataDrivers014::IAnnotationsDB;
-  using IAnnotationsDBPtr = ImagesAnnotatorDataDrivers014::IAnnotationsDBPtr;
-  using IRecordsFactory = ImagesAnnotatorDataDrivers014::IRecordsFactory;
-  using IRecordsFactoryPtr = ImagesAnnotatorDataDrivers014::IRecordsFactoryPtr;
-  using IDBMerger = ImagesAnnotatorDataDrivers014::IDBMerger;
-  using IDBMergerPtr = ImagesAnnotatorDataDrivers014::IDBMergerPtr;
+      ImagesAnnotatorDataDrivers015::IImagesPathsDBProviderPtr;
+  using IAnnotationsDB = ImagesAnnotatorDataDrivers015::IAnnotationsDB;
+  using IAnnotationsDBPtr = ImagesAnnotatorDataDrivers015::IAnnotationsDBPtr;
+  using IRecordsFactory = ImagesAnnotatorDataDrivers015::IRecordsFactory;
+  using IRecordsFactoryPtr = ImagesAnnotatorDataDrivers015::IRecordsFactoryPtr;
+  using IDBMerger = ImagesAnnotatorDataDrivers015::IDBMerger;
+  using IDBMergerPtr = ImagesAnnotatorDataDrivers015::IDBMergerPtr;
 
   AnnotationsDBTypes() = default;
   virtual ~AnnotationsDBTypes() = default;

@@ -35,7 +35,7 @@
 #include "IProvider.h"
 #include "ImageRecord.h"
 
-namespace ImagesAnnotatorDataDrivers014
+namespace ImagesAnnotatorDataDrivers015
 {
 
 /**
@@ -100,6 +100,6 @@ class IImagesPathsDBProvider : virtual public IProvider
 using IImagesPathsDBProviderPtr =
     IImagesPathsDBProvider::IImagesPathsDBProviderPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers014
+}  // namespace ImagesAnnotatorDataDrivers015
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IIMAGESPATHSDBPROVIDER_ABSTRACT_CLASS_H

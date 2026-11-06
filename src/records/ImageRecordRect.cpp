@@ -36,7 +36,7 @@
 #include "IRecord.h"
 #include "src/log/log.h"
 
-namespace ImagesAnnotatorDataDrivers014
+namespace ImagesAnnotatorDataDrivers015
 {
 
 ImageRecordRect::ImageRecordRect() {}
@@ -94,4 +94,4 @@ bool ImageRecordRect::equal(const ImageRecordRectPtr& l,
   return rt;
 }
 
-}  // namespace ImagesAnnotatorDataDrivers014
+}  // namespace ImagesAnnotatorDataDrivers015

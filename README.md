@@ -49,17 +49,17 @@ project(MyTool LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ImagesAnnotatorDataDrivers-0.14 REQUIRED)
+find_package(ImagesAnnotatorDataDrivers-0.15 REQUIRED)
 
 add_executable(mytool main.cpp)
-target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.14::ImagesAnnotatorDataDrivers-0.14)
+target_link_libraries(mytool ImagesAnnotatorDataDrivers-0.15::ImagesAnnotatorDataDrivers-0.15)
 ```
 
 ```cpp
 #include <iostream>
-#include <ImagesAnnotatorDataDrivers-0.14/IADataDriversFacade.h>
+#include <ImagesAnnotatorDataDrivers-0.15/IADataDriversFacade.h>
 
-namespace iadd = ImagesAnnotatorDataDrivers014;
+namespace iadd = ImagesAnnotatorDataDrivers015;
 
 int main(int argc, char** argv)
 {
@@ -77,9 +77,9 @@ int main(int argc, char** argv)
 }
 ```
 
-The `ImagesAnnotatorDataDrivers014` namespace name carries the library major and minor version numbers on purpose: two library versions may coexist inside a single translation unit without any symbol clash. Alias it, as shown above, and the version bump stays a one line change on your side.
+The `ImagesAnnotatorDataDrivers015` namespace name carries the library major and minor version numbers on purpose: two library versions may coexist inside a single translation unit without any symbol clash. Alias it, as shown above, and the version bump stays a one line change on your side.
 
-Both `#include <ImagesAnnotatorDataDrivers-0.14/IADataDriversFacade.h>` and a plain `#include <IADataDriversFacade.h>` work for an installed consumer, since the library exports the include root along with its versioned subdirectory. The prefixed form is the recommended one: header names like `ImageRecord.h` or `IRecord.h` are generic enough to collide in a busy include path.
+Both `#include <ImagesAnnotatorDataDrivers-0.15/IADataDriversFacade.h>` and a plain `#include <IADataDriversFacade.h>` work for an installed consumer, since the library exports the include root along with its versioned subdirectory. The prefixed form is the recommended one: header names like `ImageRecord.h` or `IRecord.h` are generic enough to collide in a busy include path.
 
 More on the API and on the file format itself is in the [annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md), the [annotations project JSON format](/doc/sections/en_US/4-project-structure/4-10-the-annotations-project-json-format.md), the [imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) and the [using the library in your project](/doc/sections/en_US/8-using-the-library-in-your-project/8-using-the-library-in-your-project.md) documentation sections.
 

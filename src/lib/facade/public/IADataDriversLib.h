@@ -32,7 +32,7 @@
 
 #include "IADataDriversContext.h"
 
-namespace ImagesAnnotatorDataDrivers014
+namespace ImagesAnnotatorDataDrivers015
 {
 
 /**
@@ -70,6 +70,6 @@ class IADataDriversLib
 
 using IADataDriversLibPtr = IADataDriversLib::IADataDriversLibPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers014
+}  // namespace ImagesAnnotatorDataDrivers015
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IADATADRIVERSLIB_ABSTRACT_CLASS_H

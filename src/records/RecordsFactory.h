@@ -42,18 +42,18 @@ namespace iannotator::records
  * @brief The default library data records factory implementation.
  *
  * Creates the plain library records. A consuming project may derive from the
- * public ImagesAnnotatorDataDrivers014::IRecordsFactory (or from the current
+ * public ImagesAnnotatorDataDrivers015::IRecordsFactory (or from the current
  * class) in order to obtain its own enriched records out of the JSON
  * deserialization.
  */
-class RecordsFactory : public ImagesAnnotatorDataDrivers014::IRecordsFactory
+class RecordsFactory : public ImagesAnnotatorDataDrivers015::IRecordsFactory
 {
  public:
   using RecordsFactoryPtr = std::shared_ptr<RecordsFactory>;
-  using ImageRecord = ImagesAnnotatorDataDrivers014::ImageRecord;
-  using ImageRecordPtr = ImagesAnnotatorDataDrivers014::ImageRecordPtr;
-  using ImageRecordRect = ImagesAnnotatorDataDrivers014::ImageRecordRect;
-  using ImageRecordRectPtr = ImagesAnnotatorDataDrivers014::ImageRecordRectPtr;
+  using ImageRecord = ImagesAnnotatorDataDrivers015::ImageRecord;
+  using ImageRecordPtr = ImagesAnnotatorDataDrivers015::ImageRecordPtr;
+  using ImageRecordRect = ImagesAnnotatorDataDrivers015::ImageRecordRect;
+  using ImageRecordRectPtr = ImagesAnnotatorDataDrivers015::ImageRecordRectPtr;
 
   virtual ~RecordsFactory() = default;
   RecordsFactory() = default;

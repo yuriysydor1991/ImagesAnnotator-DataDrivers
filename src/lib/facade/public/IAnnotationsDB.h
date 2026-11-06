@@ -34,7 +34,7 @@
 #include "IImagesPathsDBProvider.h"
 #include "ImageRecord.h"
 
-namespace ImagesAnnotatorDataDrivers014
+namespace ImagesAnnotatorDataDrivers015
 {
 
 /**
@@ -136,6 +136,6 @@ class IAnnotationsDB : virtual public IImagesPathsDBProvider
 
 using IAnnotationsDBPtr = IAnnotationsDB::IAnnotationsDBPtr;
 
-}  // namespace ImagesAnnotatorDataDrivers014
+}  // namespace ImagesAnnotatorDataDrivers015
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IANNOTATIONSDB_ABSTRACT_CLASS_H

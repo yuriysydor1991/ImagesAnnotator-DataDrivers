@@ -13,7 +13,7 @@
 #include "src/log/severity-macro-consts.h"
 
 using namespace testing;
-using namespace ImagesAnnotatorDataDrivers014;
+using namespace ImagesAnnotatorDataDrivers015;
 using namespace default_logger;
 
 namespace

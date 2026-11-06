@@ -11,12 +11,12 @@
 namespace lib0impl
 {
 
-class LibMain : public ImagesAnnotatorDataDrivers014::IADataDriversLib
+class LibMain : public ImagesAnnotatorDataDrivers015::IADataDriversLib
 {
  public:
   using LibMainPtr = std::shared_ptr<LibMain>;
   using IADataDriversContextPtr =
-      ImagesAnnotatorDataDrivers014::IADataDriversContextPtr;
+      ImagesAnnotatorDataDrivers015::IADataDriversContextPtr;
 
   virtual ~LibMain() = default;
   LibMain() = default;

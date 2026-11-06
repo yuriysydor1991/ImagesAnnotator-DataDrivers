@@ -35,7 +35,7 @@
 #include "IRecord.h"
 #include "ImageRecordRect.h"
 
-namespace ImagesAnnotatorDataDrivers014
+namespace ImagesAnnotatorDataDrivers015
 {
 
 /**
@@ -146,6 +146,6 @@ class ImageRecord : virtual public IRecord
 using ImageRecordPtr = ImageRecord::ImageRecordPtr;
 using ImageRecordsSet = ImageRecord::ImageRecordsSet;
 
-}  // namespace ImagesAnnotatorDataDrivers014
+}  // namespace ImagesAnnotatorDataDrivers015
 
 #endif  // IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_IMAGERECORD_CLASS_H

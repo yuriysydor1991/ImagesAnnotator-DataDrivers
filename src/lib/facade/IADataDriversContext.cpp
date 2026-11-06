@@ -31,7 +31,7 @@
 
 #include "project-global-decls.h"
 
-namespace ImagesAnnotatorDataDrivers014
+namespace ImagesAnnotatorDataDrivers015
 {
 
 IADataDriversContext::IADataDriversContext()
@@ -45,4 +45,4 @@ IADataDriversContextPtr IADataDriversContext::create()
   return std::make_shared<IADataDriversContext>();
 }
 
-}  // namespace ImagesAnnotatorDataDrivers014
+}  // namespace ImagesAnnotatorDataDrivers015

@@ -9,10 +9,10 @@
 
 using namespace testing;
 using iannotator::dbs::annotations::merger::DefaultDBMerger;
-using ImagesAnnotatorDataDrivers014::IDBMergerPtr;
-using ImagesAnnotatorDataDrivers014::ImageRecord;
-using ImagesAnnotatorDataDrivers014::ImageRecordPtr;
-using ImagesAnnotatorDataDrivers014::ImageRecordsSet;
+using ImagesAnnotatorDataDrivers015::IDBMergerPtr;
+using ImagesAnnotatorDataDrivers015::ImageRecord;
+using ImagesAnnotatorDataDrivers015::ImageRecordPtr;
+using ImagesAnnotatorDataDrivers015::ImageRecordsSet;
 
 namespace
 {

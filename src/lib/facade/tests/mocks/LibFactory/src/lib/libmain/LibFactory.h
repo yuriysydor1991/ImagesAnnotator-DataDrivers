@@ -25,14 +25,14 @@ class LibFactorySynthParent
 {
  public:
   using IADataDriversLibPtr =
-      ImagesAnnotatorDataDrivers014::IADataDriversLibPtr;
+      ImagesAnnotatorDataDrivers015::IADataDriversLibPtr;
   using IADataDriversContextPtr =
-      ImagesAnnotatorDataDrivers014::IADataDriversContextPtr;
+      ImagesAnnotatorDataDrivers015::IADataDriversContextPtr;
   using IADataDriversContext =
-      ImagesAnnotatorDataDrivers014::IADataDriversContext;
-  using IAnnotationsDBPtr = ImagesAnnotatorDataDrivers014::IAnnotationsDBPtr;
-  using IRecordsFactoryPtr = ImagesAnnotatorDataDrivers014::IRecordsFactoryPtr;
-  using IDBMergerPtr = ImagesAnnotatorDataDrivers014::IDBMergerPtr;
+      ImagesAnnotatorDataDrivers015::IADataDriversContext;
+  using IAnnotationsDBPtr = ImagesAnnotatorDataDrivers015::IAnnotationsDBPtr;
+  using IRecordsFactoryPtr = ImagesAnnotatorDataDrivers015::IRecordsFactoryPtr;
+  using IDBMergerPtr = ImagesAnnotatorDataDrivers015::IDBMergerPtr;
 
   virtual ~LibFactorySynthParent() = default;
   LibFactorySynthParent() = default;

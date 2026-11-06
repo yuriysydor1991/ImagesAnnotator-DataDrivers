@@ -9,11 +9,11 @@
 #include "ImageRecordRect.h"
 
 using namespace testing;
-using ImagesAnnotatorDataDrivers014::ImageRecord;
-using ImagesAnnotatorDataDrivers014::ImageRecordPtr;
-using ImagesAnnotatorDataDrivers014::ImageRecordRect;
-using ImagesAnnotatorDataDrivers014::ImageRecordRectPtr;
-using ImagesAnnotatorDataDrivers014::ImageRecordsSet;
+using ImagesAnnotatorDataDrivers015::ImageRecord;
+using ImagesAnnotatorDataDrivers015::ImageRecordPtr;
+using ImagesAnnotatorDataDrivers015::ImageRecordRect;
+using ImagesAnnotatorDataDrivers015::ImageRecordRectPtr;
+using ImagesAnnotatorDataDrivers015::ImageRecordsSet;
 
 namespace
 {
