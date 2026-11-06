@@ -1,8 +1,9 @@
 ## Enabling the zlib library
 
 [zlib](https://zlib.net/) is a mandatory dependency of this library: the
-imgajz1 project files the library writes and reads are the gzip compressed
-JSON documents (see [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md)),
+imgajz1 and the imgajz2 project files the library writes and reads are the gzip
+compressed JSON documents (see [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md)
+and [The imgajz2 project format of the segments](/doc/sections/en_US/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md)),
 which the `ZlibController` of [src/zlib](/src/zlib) compresses and
 decompresses. The controller is the zlib controller component of the
 [cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template) (its

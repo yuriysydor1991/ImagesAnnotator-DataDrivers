@@ -19,13 +19,17 @@ The following unit test executables are produced:
 | `UTEST_LibMain` | the one-shot `libcall(ctx)` entry point |
 | `UTEST_ImageRecord` | a single annotated image record |
 | `UTEST_ImageRecordRect` | a single named rectangle of a record |
+| `UTEST_ImageRecordSegment` | a single segment polygon of a record |
 | `UTEST_RecordsFactory` | the records factory implementation |
 | `UTEST_AnnotationsJSONSerializator` | the project file JSON serializator |
+| `UTEST_Imgajz2LibraryImpl` | the imgajz2 project file driver |
 | `UTEST_DefaultDBMerger` | the default databases merger |
 | `UTEST_ImageRecords2JSONConverter` | image records -> JSON |
+| `UTEST_ImageRecordSegments2JSONConverter` | image records -> imgajz2 JSON of the segments |
 | `UTEST_JSON2ImageRecordsConverter` | JSON -> image records |
 | `UTEST_ImageRecordJSON2RecordConverter` | a single JSON element -> image record |
 | `UTEST_ImageRecordRectJSON2RecordConverter` | a single JSON element -> rectangle |
+| `UTEST_ImageRecordSegmentJSON2RecordConverter` | a single JSON element -> segment or rectangle |
 
 There is a second, independent switch for the component tests, `ENABLE_COMPONENT_TESTS`. Those go the other way around: `CTEST_AnnotationsDirDB` links the real produced shared library and drives it through the installable public headers only, with no mocks and no access to the internals, exactly the way a downstream consumer would. `CTEST_DefaultLogger` covers the logger compiled into the library.
 

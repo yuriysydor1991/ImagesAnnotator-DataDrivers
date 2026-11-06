@@ -6,6 +6,8 @@ Nothing here is a private detail: the format is the whole point of the library, 
 
 The document described here is the whole JSON project file, and the gzip compressed imgajz1 project file - the path of the `.imgajz1` file name extension - is that very JSON file compressed - see [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md).
 
+The two keep the rectangles alone: the `"segment"` polygon of an `ImageRecordSegment` and the root `"format"` declaration belong to the imgajz2 project file - see [The imgajz2 project format of the segments](/doc/sections/en_US/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md). The store of a database holding a segment into the JSON file fails - `store_db()` returns `false` with the file kept as it was - instead of writing the rectangle of the segment alone, and the reader reads an annotation of a `"segment"` key as the rectangle of its `"rect"`, ignoring the key.
+
 ### The shape in one glance
 
 ```
@@ -273,4 +275,5 @@ That last point is the one that bites: load a `0.10.0` file, store it with the d
 - [The annotations database API](/doc/sections/en_US/4-project-structure/4-9-the-annotations-database-api.md) - the calls that read and write all of the above.
 - [Configuring the annotations database identity](/doc/sections/en_US/5-project-build/5-36-configuring-the-annotations-db-identity.md) - the root element name and the version stamp.
 - [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) - the very JSON file, gzip compressed.
+- [The imgajz2 project format of the segments](/doc/sections/en_US/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md) - the imgajz1 file keeping the segment polygons as well.
 - The dataset export formats (plain text, YOLO v4, PyTorch-Vision) are **not** a part of this library and are not described here: they belong to a separate project of their own.

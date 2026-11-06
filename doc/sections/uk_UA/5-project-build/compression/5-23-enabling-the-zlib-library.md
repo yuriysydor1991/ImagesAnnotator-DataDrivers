@@ -1,8 +1,9 @@
 ## Вмикання інтеграції zlib
 
 [zlib](https://zlib.net/) є обов'язковою залежністю цієї бібліотеки: файли
-проекту imgajz1, які бібліотека пише і читає, є стиснутими gzip
-JSON-документами (дивись [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md)),
+проекту imgajz1 і imgajz2, які бібліотека пише і читає, є стиснутими gzip
+JSON-документами (дивись [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md)
+і [Формат проекту imgajz2 із сегментами](/doc/sections/uk_UA/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md)),
 які стискає і розпаковує `ZlibController` з [src/zlib](/src/zlib). Цей
 контролер - це компонент контролера zlib з
 [cpp-app-template](https://github.com/yuriysydor1991/cpp-app-template) (його

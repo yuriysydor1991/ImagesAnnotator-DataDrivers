@@ -65,7 +65,7 @@ sudo cmake --install . --prefix "/usr"
 /usr/include/ImagesAnnotatorDataDrivers-0.15/*.h          публічні заголовкові файли
 ```
 
-Файли `*.h` останнього рядка є одинадцятьма публічними заголовковими файлами директорії [src/lib/facade/public](/src/lib/facade/public): `IADataDriversFacade.h`, `IADataDriversContext.h`, `IADataDriversLib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `IRecord.h` і `IProvider.h`.
+Файли `*.h` останнього рядка є дванадцятьма публічними заголовковими файлами директорії [src/lib/facade/public](/src/lib/facade/public): `IADataDriversFacade.h`, `IADataDriversContext.h`, `IADataDriversLib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `ImageRecordSegment.h`, `IRecord.h` і `IProvider.h`.
 
 Назва `ImagesAnnotatorDataDrivers-0.15` бінарного файлу, піддиректорії підключаємих файлів і CMake-пакета є значенням `PROJECT_LIBRARY_NAME`, отож усі вони слідують за [налаштованими складовими імені](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md), якщо ти якісь із них сконфігуруєш.
 

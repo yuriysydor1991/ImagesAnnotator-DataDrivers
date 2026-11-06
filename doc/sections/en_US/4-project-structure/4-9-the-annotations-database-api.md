@@ -25,13 +25,14 @@ A library version bump then stays a one line change on your side. The rest of th
 | [IImagesPathsDBProvider.h](/src/lib/facade/public/IImagesPathsDBProvider.h) | the read and query half of the database |
 | [ImageRecord.h](/src/lib/facade/public/ImageRecord.h) | one annotated image |
 | [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | one named rectangle drawn over an image |
+| [ImageRecordSegment.h](/src/lib/facade/public/ImageRecordSegment.h) | one segment: the polygon outlining an object inside its rectangle |
 | [IRecordsFactory.h](/src/lib/facade/public/IRecordsFactory.h) | the extension seam of the deserialization |
 | [IDBMerger.h](/src/lib/facade/public/IDBMerger.h) | the extension seam of the merging |
 | [IADataDriversContext.h](/src/lib/facade/public/IADataDriversContext.h) | the in and out parameters holder |
 | [IADataDriversLib.h](/src/lib/facade/public/IADataDriversLib.h) | the one-shot `libcall(ctx)` entry point |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | the empty tagging bases every record and every provider derives from |
 
-Each interface header also declares a `...Ptr` alias next to the class - `iadd::IAnnotationsDBPtr`, `iadd::ImageRecordPtr`, `iadd::ImageRecordRectPtr`, `iadd::IRecordsFactoryPtr`, `iadd::IDBMergerPtr`, `iadd::IADataDriversContextPtr`, `iadd::IADataDriversLibPtr` - and they are all `std::shared_ptr` specializations. Everything the library hands out is shared owned; there is nothing to `delete` and nothing to hand back.
+Each interface header also declares a `...Ptr` alias next to the class - `iadd::IAnnotationsDBPtr`, `iadd::ImageRecordPtr`, `iadd::ImageRecordRectPtr`, `iadd::ImageRecordSegmentPtr`, `iadd::IRecordsFactoryPtr`, `iadd::IDBMergerPtr`, `iadd::IADataDriversContextPtr`, `iadd::IADataDriversLibPtr` - and they are all `std::shared_ptr` specializations. Everything the library hands out is shared owned; there is nothing to `delete` and nothing to hand back.
 
 ### `IADataDriversFacade` - the front door
 
@@ -159,7 +160,7 @@ The loading and storing half, added by `IAnnotationsDB`:
 
 Note that `load_db()` **replaces** rather than appends. Loading a second project file over the first one throws the first one away; `add_images_db()` is the call that combines two sets.
 
-The file name extension of the path tells the project file format to every one of the three: a path of the `.imgajz1` extension (of any letter case) is the gzip compressed imgajz1 project file, any other path is the plain JSON one. So `store_db("project.imgajz1")` of a database loaded out of `project.json` converts the project, and the argument less `store_db()` goes on with the format of the last used path. See [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md).
+The file name extension of the path tells the project file format to every one of the three: a path of the `.imgajz1` extension (of any letter case) is the gzip compressed imgajz1 project file, a path of the `.imgajz2` one the imgajz2 project file, the only one keeping the segments, any other path is the plain JSON one. So `store_db("project.imgajz1")` of a database loaded out of `project.json` converts the project, and the argument less `store_db()` goes on with the format of the last used path - while the store of a database holding a segment into a JSON or an imgajz1 path fails with the file kept as it was. See [The imgajz1 compressed project format](/doc/sections/en_US/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) and [The imgajz2 project format of the segments](/doc/sections/en_US/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md).
 
 ### `get_images_db()` hands out a mutable reference
 
@@ -199,16 +200,18 @@ Need a detached copy to play with instead? `iadd::ImageRecord::duplicate(set)` d
 
 Its methods: `get_full_path()` returns `tmppath` when the image was preloaded from the network and `abs_dir_path` joined with `path` otherwise - that is the value `delete_image_record()` matches against and the value the records are sorted by; `erase_current_rect()` drops the selected rectangle; `scaleStepIn()` / `scaleStepOut()` walk `imageScale` by `defaultScaleStep` within the `minScale` .. `maxScale` bounds; `duplicate_shared()`, `duplicate()` and the two static `equal()` overloads do the deep copying and the value wise comparison.
 
-`ImageRecordRect` is a named rectangle - `name`, `x`, `y`, `width`, `height` - plus the same `duplicate_shared()` and static `equal()` helpers. The coordinates are in the image own pixel space, so they stay valid no matter what preview scale the presentation layer applies.
+`ImageRecordRect` is a named rectangle - `name`, `x`, `y`, `width`, `height` - plus the same `duplicate_shared()` and static `equal()` helpers and the `outline()`, which reports its four corners clockwise from the top left one as the `Points` - the `std::vector` of the `Point` x and y pairs, the `std::tuple<double, double>`. The coordinates are in the image own pixel space, so they stay valid no matter what preview scale the presentation layer applies.
 
-Both types are constructible directly (`iadd::ImageRecord::create(...)` and the `ImageRecordRect` constructors are public), but prefer the factory - see below - so that a custom one stays in charge.
+`ImageRecordSegment` is the `ImageRecordRect` of the segmentation, the polygon outlining an object inside its rectangle. Its `points` keep the polygon in the 0..1 space of the rectangle - the x is the share of the rectangle width from its left edge, the y the share of its height from its top one - so a moved or a resized rectangle carries the polygon along. `add_point(px, py)` appends a point of the image pixel space and makes the rectangle the bounding box of the polygon, skipping a point within a pixel of the last one, and `outline()` reports the polygon in the image pixel space - or the four corners of the rectangle while it has fewer than the `min_points` three points. Its `duplicate_shared()` copies the segment as a segment, and `equal()` never takes a segment and a rectangle for equal. The segments are kept by the [imgajz2 project files](/doc/sections/en_US/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md) alone.
+
+All three types are constructible directly (`iadd::ImageRecord::create(...)` and the `ImageRecordRect` and `ImageRecordSegment` constructors are public), but prefer the factory - see below - so that a custom one stays in charge.
 
 ### The `changed()` / `store_db()` contract
 
 The database keeps a deep copy of the records as they were at the last successful load or store. `changed()` compares the live set against that snapshot **value wise**, record by record and rectangle by rectangle:
 
 - a record counts as equal when its `abs_dir_path`, `path`, `imageScale`, `iwidth`, `iheight` and its whole rectangle sequence match;
-- rectangles must match in name, geometry **and order**;
+- rectangles must match in name, geometry **and order**, and a segment matches only a segment of the same points;
 - `tmppath` and `current_rect` are not part of the comparison. They are presentation state and are never serialized.
 
 Which means `changed()` is honest in both directions: undo an edit by hand and it goes back to reporting `false`. Reorder two rectangles and it reports `true`, because the file would come out different.
@@ -240,7 +243,7 @@ if (!db->store_db("/tmp/new-project.json")) {
 
 Every record the deserialization produces is built through an `IRecordsFactory`. Substitute your own and the JSON converters start handing you your own enriched subclasses - which is how you attach whatever your application needs (a loaded pixbuf, a database id, a dirty flag) to a record without the library knowing a thing about it.
 
-The interface is three methods:
+The interface is five methods:
 
 ```cpp
 virtual ImageRecordPtr create_image_record(const std::string& nirpath = "",
@@ -253,9 +256,16 @@ virtual ImageRecordRectPtr create_image_rect_record(const std::string& nname,
                                                     const int& nx, const int& ny,
                                                     const int& nwidth,
                                                     const int& nheight) = 0;
+
+virtual ImageRecordSegmentPtr create_image_segment_record(
+    const ImageRecordPtr& ir = nullptr) = 0;
+
+virtual ImageRecordSegmentPtr create_image_segment_record(
+    const std::string& nname, const int& nx, const int& ny, const int& nwidth,
+    const int& nheight, const ImageRecordSegment::Points& npoints) = 0;
 ```
 
-The first one takes the path relative to the root and the root itself. The second creates an **empty** rectangle with an auto generated name: with a `nullptr` record it is the `default_name_record` constant (`"rectangle_default"`), otherwise it is `default_numbered_name_record_prefix` followed by the current rectangle count of the given record, so a fresh rectangle for an image that has two already comes out as `rectangle_default_2`. The third one builds a fully defined rectangle, and it is the one the JSON deserialization calls.
+The first one takes the path relative to the root and the root itself. The second creates an **empty** rectangle with an auto generated name: with a `nullptr` record it is the `default_name_record` constant (`"rectangle_default"`), otherwise it is `default_numbered_name_record_prefix` followed by the current rectangle count of the given record, so a fresh rectangle for an image that has two already comes out as `rectangle_default_2`. The third one builds a fully defined rectangle, and it is the one the JSON deserialization calls. The last two build a segment the same two ways: an empty one, named the way the second names an empty rectangle, and a fully defined one of the `npoints` polygon in the 0..1 space of the rectangle, which the deserialization of the imgajz2 files calls for an annotation of a `"segment"` key.
 
 A custom factory does not have to reimplement anything - delegate to the library default one and touch only what you care about:
 
@@ -298,6 +308,21 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
   {
     return defaults->create_image_rect_record(lowered(name), x, y, width,
                                               height);
+  }
+
+  iadd::ImageRecordSegmentPtr create_image_segment_record(
+      const iadd::ImageRecordPtr& ir) override
+  {
+    return defaults->create_image_segment_record(ir);
+  }
+
+  iadd::ImageRecordSegmentPtr create_image_segment_record(
+      const std::string& name, const int& x, const int& y, const int& width,
+      const int& height,
+      const iadd::ImageRecordSegment::Points& points) override
+  {
+    return defaults->create_image_segment_record(lowered(name), x, y, width,
+                                                 height, points);
   }
 
  private:

@@ -15,7 +15,7 @@ cd build && ctest --output-on-failure
 Ці два види відрізняються тим, що саме вони тестують, і ця різниця видима у їхніх файлах `CMakeLists.txt`:
 
 - **Модульні тести** (`-DENABLE_UNIT_TESTS=ON`, назви цілей із префіксом `UTEST_`) взагалі не лінкують вироблену динамічну бібліотеку. Кожен такий виконуваний файл називає саме ті одиниці трансляції компоненту, що тестується, і компілює їх прямо з дерева проекту, тоді як усі його співробітники замінені gmock-замінниками з [src/tests/mocks](/src/tests/mocks) (журналювання, `project-global-decls.h`, `IADataDriversContext` і `LibMain`) або замінниками окремого компоненту, що зберігаються у власній директорії `tests/mocks` того компоненту. Це дає тестам доступ до внутрішніх заголовкових файлів і дозволяє їм ізолювати єдиний клас.
-- **Компонентні тести** (`-DENABLE_COMPONENT_TESTS=ON`, назви цілей із префіксом `CTEST_`) роблять протилежне: `CTEST_AnnotationsDirDB` лінкує справжню динамічну бібліотеку `ImagesAnnotatorDataDrivers-0.15` і дотягується до неї виключно через встановлювані публічні заголовкові файли - жодного замінника і жодного внутрішнього заголовкового файлу немає на його шляху включень. Отже, це тест бібліотеки рівно таким, яким її бачить споживач, який керує справжніми JSON-файлами проектів, узятими з його директорії `ctest_data`, і файлами imgajz1, у які він їх записує.
+- **Компонентні тести** (`-DENABLE_COMPONENT_TESTS=ON`, назви цілей із префіксом `CTEST_`) роблять протилежне: `CTEST_AnnotationsDirDB` лінкує справжню динамічну бібліотеку `ImagesAnnotatorDataDrivers-0.15` і дотягується до неї виключно через встановлювані публічні заголовкові файли - жодного замінника і жодного внутрішнього заголовкового файлу немає на його шляху включень. Отже, це тест бібліотеки рівно таким, яким її бачить споживач, який керує справжніми JSON-файлами проектів, узятими з його директорії `ctest_data`, і файлами imgajz1 та imgajz2, у які він їх записує.
 
 ### Цілі тестів
 
@@ -26,15 +26,19 @@ cd build && ctest --output-on-failure
 | `UTEST_LibMain` | модульний | [src/lib/libmain/tests/unit/LibMain](/src/lib/libmain/tests/unit/LibMain) |
 | `UTEST_ImageRecord` | модульний | [src/records/tests/unit/ImageRecord](/src/records/tests/unit/ImageRecord) |
 | `UTEST_ImageRecordRect` | модульний | [src/records/tests/unit/ImageRecordRect](/src/records/tests/unit/ImageRecordRect) |
+| `UTEST_ImageRecordSegment` | модульний | [src/records/tests/unit/ImageRecordSegment](/src/records/tests/unit/ImageRecordSegment) |
 | `UTEST_RecordsFactory` | модульний | [src/records/tests/unit/RecordsFactory](/src/records/tests/unit/RecordsFactory) |
 | `UTEST_AnnotationsJSONSerializator` | модульний | [src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator](/src/dbs/AnnotationsDBs/tests/unit/AnnotationsJSONSerializator) |
 | `UTEST_LibraryImpl` | модульний | [src/dbs/AnnotationsDBs/tests/unit/LibraryImpl](/src/dbs/AnnotationsDBs/tests/unit/LibraryImpl) |
 | `UTEST_Imgajz1LibraryImpl` | модульний | [src/dbs/AnnotationsDBs/tests/unit/Imgajz1LibraryImpl](/src/dbs/AnnotationsDBs/tests/unit/Imgajz1LibraryImpl) |
+| `UTEST_Imgajz2LibraryImpl` | модульний | [src/dbs/AnnotationsDBs/tests/unit/Imgajz2LibraryImpl](/src/dbs/AnnotationsDBs/tests/unit/Imgajz2LibraryImpl) |
 | `UTEST_DefaultDBMerger` | модульний | [src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger](/src/dbs/AnnotationsDBs/tests/unit/mergers/DefaultDBMerger) |
 | `UTEST_ImageRecords2JSONConverter` | модульний | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecords2JSONConverter) |
+| `UTEST_ImageRecordSegments2JSONConverter` | модульний | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordSegments2JSONConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordSegments2JSONConverter) |
 | `UTEST_JSON2ImageRecordsConverter` | модульний | [src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/JSON2ImageRecordsConverter) |
 | `UTEST_ImageRecordJSON2RecordConverter` | модульний | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordJSON2RecordConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordJSON2RecordConverter) |
 | `UTEST_ImageRecordRectJSON2RecordConverter` | модульний | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordRectJSON2RecordConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordRectJSON2RecordConverter) |
+| `UTEST_ImageRecordSegmentJSON2RecordConverter` | модульний | [src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordSegmentJSON2RecordConverter](/src/dbs/AnnotationsDBs/tests/unit/converters/ImageRecordSegmentJSON2RecordConverter) |
 | `CTEST_AnnotationsDirDB` | компонентний | [src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB](/src/dbs/AnnotationsDBs/tests/component/AnnotationsDirDB) |
 | `CTEST_log` | компонентний | [src/log/tests/component/log](/src/log/tests/component/log) |
 | `CTEST_DefaultLogger` | компонентний | [src/log/default-logger/tests/component/DefaultLogger](/src/log/default-logger/tests/component/DefaultLogger) |

@@ -9,10 +9,11 @@
 | [IADataDriversLib.h](/src/lib/facade/public/IADataDriversLib.h) | Інтерфейс вхідної точки одного пострілу `libcall(ctx)` |
 | [IAnnotationsDB.h](/src/lib/facade/public/IAnnotationsDB.h) | Центральна абстракція: сторона читання з її бази плюс `load_db`, `store_db` (двічі), `add_images_db`, `set_app_info`, `get_app_name` і `get_app_version` |
 | [IImagesPathsDBProvider.h](/src/lib/facade/public/IImagesPathsDBProvider.h) | Сторона читання і запитів: `get_images_db`, `get_db_path`, `get_available_annotations`, `changed` і `delete_image_record` |
-| [IRecordsFactory.h](/src/lib/facade/public/IRecordsFactory.h) | Політика створення записів: `create_image_record` і два перевантаження `create_image_rect_record` |
+| [IRecordsFactory.h](/src/lib/facade/public/IRecordsFactory.h) | Політика створення записів: `create_image_record`, два перевантаження `create_image_rect_record` і два - `create_image_segment_record` |
 | [IDBMerger.h](/src/lib/facade/public/IDBMerger.h) | Політика злиття: єдиний метод `merge(dst, append)` |
 | [ImageRecord.h](/src/lib/facade/public/ImageRecord.h) | Одне анотоване зображення: `abs_dir_path`, `path`, `tmppath`, `rects`, `current_rect`, `iwidth`, `iheight` і `imageScale` |
-| [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | Один іменований прямокутник: `name`, `x`, `y`, `width` і `height` |
+| [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | Один іменований прямокутник: `name`, `x`, `y`, `width` і `height`, з `outline()` його чотирьох кутів |
+| [ImageRecordSegment.h](/src/lib/facade/public/ImageRecordSegment.h) | Один сегмент, `ImageRecordRect` багатокутника: його `points` у просторі 0..1 прямокутника, `add_point()` і `outline()` багатокутника |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | Порожні базові класи-мітки двох ієрархій вище |
 
 Вміст директорії [src/lib/facade/public](/src/lib/facade/public) встановлюється у піддиректорію `include/<назва бібліотеки>` обраного кореня інсталяції, що з поточною назвою проекту і мажорною версією означає `include/ImagesAnnotatorDataDrivers-0.15/` - див. [Зміна назви проекту і назви бібліотеки](/doc/sections/uk_UA/4-project-structure/4-2-changing-the-project-and-executable-name.md) і [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md).

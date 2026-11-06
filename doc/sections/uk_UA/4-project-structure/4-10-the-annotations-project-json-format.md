@@ -6,6 +6,8 @@
 
 Описаний тут документ - це увесь файл проекту JSON, а стиснений gzip файл проекту imgajz1 - шлях з розширенням імені файлу `.imgajz1` - це той самий файл JSON, стиснений, - дивись [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md).
 
+Обидва зберігають лише прямокутники: багатокутник `"segment"` сегмента `ImageRecordSegment` і кореневе оголошення `"format"` належать файлу проекту imgajz2 - дивись [Формат проекту imgajz2 із сегментами](/doc/sections/uk_UA/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md). Запис бази даних, що містить сегмент, у файл JSON зазнає невдачі - `store_db()` повертає `false`, а файл лишається таким, яким був, - замість того щоб записати сам лише прямокутник сегмента, а читач читає анотацію з ключем `"segment"` як прямокутник її `"rect"`, ігноруючи цей ключ.
+
 ### Загальний вигляд одним поглядом
 
 ```
@@ -273,4 +275,5 @@ Current app version and files's ones missmatch: 0.10.0 != 0.15.0
 - [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md) - виклики, які читають і пишуть усе вищеописане.
 - [Налаштування ідентичності бази даних анотацій](/doc/sections/uk_UA/5-project-build/5-36-configuring-the-annotations-db-identity.md) - ім'я кореневого елемента і штамп версії.
 - [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) - той самий файл JSON, стиснений gzip.
+- [Формат проекту imgajz2 із сегментами](/doc/sections/uk_UA/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md) - файл imgajz1, що зберігає ще й багатокутники сегментів.
 - Формати експорту наборів даних (звичайний текст, YOLO v4, PyTorch-Vision) **не** є частиною цієї бібліотеки і тут не описуються: вони належать до окремого власного проекту.

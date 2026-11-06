@@ -11,9 +11,10 @@ The file name extension of the path tells the format, for the load and for the s
 | The path | The format |
 | --- | --- |
 | `*.imgajz1` (of any letter case: `*.IMGAJZ1` too) | the imgajz1 project file, the JSON project file gzip compressed |
+| `*.imgajz2` (of any letter case) | the imgajz2 project file, the imgajz1 one keeping the segments as well - see [The imgajz2 project format of the segments](/doc/sections/en_US/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md) |
 | anything else (`*.json` and the paths of no extension included) | the JSON project file |
 
-So a project opened from a `.json` file and stored into a `.imgajz1` one goes on in the imgajz1 format - the argument less `store_db()` writes the format of the path of the last load or store - and the other way round. Nothing of the API changes: `load_db()`, `store_db()`, `open_annotations_db()` and `IADataDriversLib::libcall()` take either path.
+So a project opened from a `.json` file and stored into a `.imgajz1` one goes on in the imgajz1 format - the argument less `store_db()` writes the format of the path of the last load or store - and the other way round, as long as the project holds no segment: the JSON and the imgajz1 files keep the rectangles alone, so the store of a database holding a segment into either fails with the file kept as it was. Nothing of the API changes: `load_db()`, `store_db()`, `open_annotations_db()` and `IADataDriversLib::libcall()` take either path.
 
 ```cpp
 #include <ImagesAnnotatorDataDrivers-0.15/IADataDriversFacade.h>

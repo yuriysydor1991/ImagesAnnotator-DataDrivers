@@ -9,10 +9,11 @@ The [src/lib/facade/public](/src/lib/facade/public) directory contains the insta
 | [IADataDriversLib.h](/src/lib/facade/public/IADataDriversLib.h) | The `libcall(ctx)` one shot entry point interface |
 | [IAnnotationsDB.h](/src/lib/facade/public/IAnnotationsDB.h) | The central abstraction: the read side of its base plus `load_db`, `store_db` (twice), `add_images_db`, `set_app_info`, `get_app_name` and `get_app_version` |
 | [IImagesPathsDBProvider.h](/src/lib/facade/public/IImagesPathsDBProvider.h) | The read and query side: `get_images_db`, `get_db_path`, `get_available_annotations`, `changed` and `delete_image_record` |
-| [IRecordsFactory.h](/src/lib/facade/public/IRecordsFactory.h) | The records creation policy: `create_image_record` and the two `create_image_rect_record` overloads |
+| [IRecordsFactory.h](/src/lib/facade/public/IRecordsFactory.h) | The records creation policy: `create_image_record`, the two `create_image_rect_record` overloads and the two `create_image_segment_record` ones |
 | [IDBMerger.h](/src/lib/facade/public/IDBMerger.h) | The merge policy: the single `merge(dst, append)` method |
 | [ImageRecord.h](/src/lib/facade/public/ImageRecord.h) | One annotated image: `abs_dir_path`, `path`, `tmppath`, `rects`, `current_rect`, `iwidth`, `iheight` and `imageScale` |
-| [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | One named rectangle: `name`, `x`, `y`, `width` and `height` |
+| [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | One named rectangle: `name`, `x`, `y`, `width` and `height`, with the `outline()` of its four corners |
+| [ImageRecordSegment.h](/src/lib/facade/public/ImageRecordSegment.h) | One segment, the `ImageRecordRect` of a polygon: its `points` in the 0..1 space of the rectangle, `add_point()` and the `outline()` of the polygon |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | The empty tagging base classes of the two hierarchies above |
 
 The contents of the [src/lib/facade/public](/src/lib/facade/public) directory are installed under the `include/<library name>` sub-directory of the chosen install prefix, which with the current project name and major version means `include/ImagesAnnotatorDataDrivers-0.15/` - see [Changing the project and the library name](/doc/sections/en_US/4-project-structure/4-2-changing-the-project-and-executable-name.md) and [Customizing the installable library name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md).

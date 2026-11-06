@@ -66,7 +66,7 @@ With the `/usr` prefix of the example above the installed tree is:
 /usr/include/ImagesAnnotatorDataDrivers-0.15/*.h          the public headers
 ```
 
-The `*.h` files of the last line are the eleven public headers of the [src/lib/facade/public](/src/lib/facade/public) directory: `IADataDriversFacade.h`, `IADataDriversContext.h`, `IADataDriversLib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `IRecord.h` and `IProvider.h`.
+The `*.h` files of the last line are the twelve public headers of the [src/lib/facade/public](/src/lib/facade/public) directory: `IADataDriversFacade.h`, `IADataDriversContext.h`, `IADataDriversLib.h`, `IAnnotationsDB.h`, `IImagesPathsDBProvider.h`, `IRecordsFactory.h`, `IDBMerger.h`, `ImageRecord.h`, `ImageRecordRect.h`, `ImageRecordSegment.h`, `IRecord.h` and `IProvider.h`.
 
 The `ImagesAnnotatorDataDrivers-0.15` name of the binary, of the include sub-directory and of the CMake package is the `PROJECT_LIBRARY_NAME` value, so all of them follow the [customized name segments](/doc/sections/en_US/5-project-build/5-23-customizing-library-name-segments.md) should you configure any.
 

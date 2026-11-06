@@ -25,13 +25,14 @@ namespace iadd = ImagesAnnotatorDataDrivers015;
 | [IImagesPathsDBProvider.h](/src/lib/facade/public/IImagesPathsDBProvider.h) | половина бази даних, що відповідає за читання і запити |
 | [ImageRecord.h](/src/lib/facade/public/ImageRecord.h) | одне анотоване зображення |
 | [ImageRecordRect.h](/src/lib/facade/public/ImageRecordRect.h) | один іменований прямокутник, намальований поверх зображення |
+| [ImageRecordSegment.h](/src/lib/facade/public/ImageRecordSegment.h) | один сегмент - багатокутник, що обводить об'єкт усередині свого прямокутника |
 | [IRecordsFactory.h](/src/lib/facade/public/IRecordsFactory.h) | точка розширення десеріалізації |
 | [IDBMerger.h](/src/lib/facade/public/IDBMerger.h) | точка розширення злиття |
 | [IADataDriversContext.h](/src/lib/facade/public/IADataDriversContext.h) | тримач вхідних і вихідних параметрів |
 | [IADataDriversLib.h](/src/lib/facade/public/IADataDriversLib.h) | одноразова точка входу `libcall(ctx)` |
 | [IRecord.h](/src/lib/facade/public/IRecord.h), [IProvider.h](/src/lib/facade/public/IProvider.h) | порожні маркувальні базові класи, від яких походить кожен запис і кожен постачальник |
 
-Кожен інтерфейсний заголовковий файл також оголошує поряд з класом псевдонім `...Ptr` - `iadd::IAnnotationsDBPtr`, `iadd::ImageRecordPtr`, `iadd::ImageRecordRectPtr`, `iadd::IRecordsFactoryPtr`, `iadd::IDBMergerPtr`, `iadd::IADataDriversContextPtr`, `iadd::IADataDriversLibPtr` - і всі вони є спеціалізаціями `std::shared_ptr`. Усе, що бібліотека видає назовні, перебуває у спільному володінні; немає нічого, що треба було б звільняти через `delete`, і нічого, що треба було б повертати назад.
+Кожен інтерфейсний заголовковий файл також оголошує поряд з класом псевдонім `...Ptr` - `iadd::IAnnotationsDBPtr`, `iadd::ImageRecordPtr`, `iadd::ImageRecordRectPtr`, `iadd::ImageRecordSegmentPtr`, `iadd::IRecordsFactoryPtr`, `iadd::IDBMergerPtr`, `iadd::IADataDriversContextPtr`, `iadd::IADataDriversLibPtr` - і всі вони є спеціалізаціями `std::shared_ptr`. Усе, що бібліотека видає назовні, перебуває у спільному володінні; немає нічого, що треба було б звільняти через `delete`, і нічого, що треба було б повертати назад.
 
 ### `IADataDriversFacade` - парадний вхід
 
@@ -159,7 +160,7 @@ auto db = ctx->db;  // це iadd::IAnnotationsDBPtr
 
 Варто зауважити, що `load_db()` **заміщує**, а не додає. Завантаження другого файлу проекту поверх першого викидає перший геть; `add_images_db()` - ось той виклик, що поєднує два набори.
 
-Формат файлу проекту для кожного з цих трьох викликів визначає розширення імені файлу у шляху: шлях з розширенням `.imgajz1` (будь-якого регістру літер) - це стиснений gzip файл проекту imgajz1, будь-який інший шлях - звичайний файл JSON. Тож `store_db("project.imgajz1")` бази даних, завантаженої з `project.json`, перетворює проект, а `store_db()` без аргументу продовжує з форматом останнього використаного шляху. Дивись [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md).
+Формат файлу проекту для кожного з цих трьох викликів визначає розширення імені файлу у шляху: шлях з розширенням `.imgajz1` (будь-якого регістру літер) - це стиснений gzip файл проекту imgajz1, шлях з розширенням `.imgajz2` - файл проекту imgajz2, єдиний, що зберігає сегменти, будь-який інший шлях - звичайний файл JSON. Тож `store_db("project.imgajz1")` бази даних, завантаженої з `project.json`, перетворює проект, а `store_db()` без аргументу продовжує з форматом останнього використаного шляху, - тоді як запис бази даних, що містить сегмент, за шляхом JSON чи imgajz1 зазнає невдачі, а файл лишається таким, яким був. Дивись [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) і [Формат проекту imgajz2 із сегментами](/doc/sections/uk_UA/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md).
 
 ### `get_images_db()` видає змінюване посилання
 
@@ -199,16 +200,18 @@ db->get_images_db().pop_back();  // і це також
 
 Його методи: `get_full_path()` повертає `tmppath`, коли зображення було попередньо завантажене з мережі, і `abs_dir_path`, з'єднаний із `path`, в іншому випадку - саме за цим значенням `delete_image_record()` шукає збіг і саме за ним записи сортуються; `erase_current_rect()` викидає виділений прямокутник; `scaleStepIn()` / `scaleStepOut()` крокують `imageScale` на `defaultScaleStep` у межах `minScale` .. `maxScale`; `duplicate_shared()`, `duplicate()` і дві статичні перевантажені `equal()` виконують глибоке копіювання і порівняння за значеннями.
 
-`ImageRecordRect` - це іменований прямокутник - `name`, `x`, `y`, `width`, `height` - плюс ті самі помічники `duplicate_shared()` і статичні `equal()`. Координати подані у власному піксельному просторі зображення, тож вони залишаються дійсними незалежно від того, який масштаб попереднього перегляду застосовує шар представлення.
+`ImageRecordRect` - це іменований прямокутник - `name`, `x`, `y`, `width`, `height` - плюс ті самі помічники `duplicate_shared()` і статичні `equal()`, а також `outline()`, що повертає чотири його кути за годинниковою стрілкою від верхнього лівого як `Points` - `std::vector` пар x і y `Point`, тобто `std::tuple<double, double>`. Координати подані у власному піксельному просторі зображення, тож вони залишаються дійсними незалежно від того, який масштаб попереднього перегляду застосовує шар представлення.
 
-Обидва типи можна конструювати напряму (`iadd::ImageRecord::create(...)` і конструктори `ImageRecordRect` є публічними), проте краще користуватися фабрикою - див. нижче - щоб власна фабрика залишалася за головного.
+`ImageRecordSegment` - це `ImageRecordRect` сегментації, багатокутник, що обводить об'єкт усередині свого прямокутника. Його `points` тримають багатокутник у просторі 0..1 прямокутника - x є часткою ширини прямокутника від його лівого краю, y - часткою його висоти від верхнього, - тож переміщений чи змінений у розмірі прямокутник переносить багатокутник із собою. `add_point(px, py)` додає точку піксельного простору зображення і робить прямокутник обмежувальною рамкою багатокутника, пропускаючи точку, ближчу ніж на піксель до останньої, а `outline()` повертає багатокутник у піксельному просторі зображення - або чотири кути прямокутника, доки точок менше за три `min_points`. Його `duplicate_shared()` копіює сегмент як сегмент, а `equal()` ніколи не вважає рівними сегмент і прямокутник. Сегменти зберігають лише [файли проекту imgajz2](/doc/sections/uk_UA/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md).
+
+Усі три типи можна конструювати напряму (`iadd::ImageRecord::create(...)` і конструктори `ImageRecordRect` та `ImageRecordSegment` є публічними), проте краще користуватися фабрикою - див. нижче - щоб власна фабрика залишалася за головного.
 
 ### Контракт `changed()` / `store_db()`
 
 База даних тримає глибоку копію записів у тому вигляді, в якому вони були на момент останнього успішного завантаження чи збереження. `changed()` порівнює живий набір із тим знімком **за значеннями**, запис за записом і прямокутник за прямокутником:
 
 - запис вважається рівним тоді, коли збігаються його `abs_dir_path`, `path`, `imageScale`, `iwidth`, `iheight` і вся його послідовність прямокутників;
-- прямокутники мають збігатися за іменем, геометрією **і порядком**;
+- прямокутники мають збігатися за іменем, геометрією **і порядком**, а сегмент збігається лише із сегментом з тими самими точками;
 - `tmppath` і `current_rect` не є частиною порівняння. Це стан представлення, і він ніколи не серіалізується.
 
 А це означає, що `changed()` чесний в обидва боки: скасуйте зміну вручну - і він знову звітуватиме `false`. Переставте місцями два прямокутники - і він звітує `true`, бо файл вийшов би іншим.
@@ -240,7 +243,7 @@ if (!db->store_db("/tmp/new-project.json")) {
 
 Кожен запис, який виробляє десеріалізація, будується через `IRecordsFactory`. Підставте власну - і JSON-конвертери почнуть видавати вам ваші власні збагачені підкласи, а це і є спосіб причепити до запису все, що потрібно вашому застосунку (завантажений pixbuf, ідентифікатор у базі даних, прапорець змінності), так, що бібліотека про це нічого й не знатиме.
 
-Інтерфейс складається з трьох методів:
+Інтерфейс складається з п'яти методів:
 
 ```cpp
 virtual ImageRecordPtr create_image_record(const std::string& nirpath = "",
@@ -253,9 +256,16 @@ virtual ImageRecordRectPtr create_image_rect_record(const std::string& nname,
                                                     const int& nx, const int& ny,
                                                     const int& nwidth,
                                                     const int& nheight) = 0;
+
+virtual ImageRecordSegmentPtr create_image_segment_record(
+    const ImageRecordPtr& ir = nullptr) = 0;
+
+virtual ImageRecordSegmentPtr create_image_segment_record(
+    const std::string& nname, const int& nx, const int& ny, const int& nwidth,
+    const int& nheight, const ImageRecordSegment::Points& npoints) = 0;
 ```
 
-Перший приймає шлях відносно кореня і сам корінь. Другий створює **порожній** прямокутник з автоматично згенерованим іменем: із записом `nullptr` це константа `default_name_record` (`"rectangle_default"`), інакше це `default_numbered_name_record_prefix`, за яким іде поточна кількість прямокутників наданого запису, тож свіжий прямокутник для зображення, що вже має два, вийде як `rectangle_default_2`. Третій будує повністю визначений прямокутник, і саме його викликає JSON-десеріалізація.
+Перший приймає шлях відносно кореня і сам корінь. Другий створює **порожній** прямокутник з автоматично згенерованим іменем: із записом `nullptr` це константа `default_name_record` (`"rectangle_default"`), інакше це `default_numbered_name_record_prefix`, за яким іде поточна кількість прямокутників наданого запису, тож свіжий прямокутник для зображення, що вже має два, вийде як `rectangle_default_2`. Третій будує повністю визначений прямокутник, і саме його викликає JSON-десеріалізація. Останні два будують сегмент тими самими двома способами: порожній, названий так, як другий називає порожній прямокутник, і повністю визначений, з багатокутником `npoints` у просторі 0..1 прямокутника, - саме його десеріалізація файлів imgajz2 викликає для анотації з ключем `"segment"`.
 
 Власна фабрика не мусить перереалізовувати геть усе - делегуйте бібліотечній фабриці за замовчуванням і торкайтеся лише того, що вас цікавить:
 
@@ -298,6 +308,21 @@ class LowerCaseRecordsFactory : public iadd::IRecordsFactory
   {
     return defaults->create_image_rect_record(lowered(name), x, y, width,
                                               height);
+  }
+
+  iadd::ImageRecordSegmentPtr create_image_segment_record(
+      const iadd::ImageRecordPtr& ir) override
+  {
+    return defaults->create_image_segment_record(ir);
+  }
+
+  iadd::ImageRecordSegmentPtr create_image_segment_record(
+      const std::string& name, const int& x, const int& y, const int& width,
+      const int& height,
+      const iadd::ImageRecordSegment::Points& points) override
+  {
+    return defaults->create_image_segment_record(lowered(name), x, y, width,
+                                                 height, points);
   }
 
  private:

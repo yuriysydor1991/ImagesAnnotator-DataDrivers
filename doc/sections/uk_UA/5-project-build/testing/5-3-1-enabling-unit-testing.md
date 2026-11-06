@@ -19,13 +19,17 @@ mkdir -vp build && cd build && cmake ../ -DENABLE_UNIT_TESTS=ON && cmake --build
 | `UTEST_LibMain` | точку входу одного пострілу `libcall(ctx)` |
 | `UTEST_ImageRecord` | окремий запис анотованого зображення |
 | `UTEST_ImageRecordRect` | окремий іменований прямокутник запису |
+| `UTEST_ImageRecordSegment` | окремий багатокутник-сегмент запису |
 | `UTEST_RecordsFactory` | реалізацію фабрики записів |
 | `UTEST_AnnotationsJSONSerializator` | JSON-серіалізатор файлу проекту |
+| `UTEST_Imgajz2LibraryImpl` | драйвер файлу проекту imgajz2 |
 | `UTEST_DefaultDBMerger` | типовий об'єкт злиття баз даних |
 | `UTEST_ImageRecords2JSONConverter` | записи зображень -> JSON |
+| `UTEST_ImageRecordSegments2JSONConverter` | записи зображень -> JSON imgajz2 із сегментами |
 | `UTEST_JSON2ImageRecordsConverter` | JSON -> записи зображень |
 | `UTEST_ImageRecordJSON2RecordConverter` | окремий елемент JSON -> запис зображення |
 | `UTEST_ImageRecordRectJSON2RecordConverter` | окремий елемент JSON -> прямокутник |
+| `UTEST_ImageRecordSegmentJSON2RecordConverter` | окремий елемент JSON -> сегмент або прямокутник |
 
 Існує другий, незалежний перемикач для компонентних тестів - `ENABLE_COMPONENT_TESTS`. Ті йдуть навпаки: `CTEST_AnnotationsDirDB` лінкує справжню побудовану динамічну бібліотеку і працює з нею виключно через встановлювані публічні заголовкові файли, без жодних замінників і без доступу до нутрощів, точно так, як це робив би проект-споживач. `CTEST_DefaultLogger` покриває логер, вкомпільований у бібліотеку.
 

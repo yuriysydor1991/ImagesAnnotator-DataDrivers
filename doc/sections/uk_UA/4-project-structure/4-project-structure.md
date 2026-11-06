@@ -29,14 +29,15 @@ src/
 │   └── libmain/
 │       ├── LibMain.{h,cpp}              типова реалізація IADataDriversLib           простір імен lib0impl
 │       └── LibFactory.{h,cpp}           фабрика реалізацій                           простір імен lib0impl
-├── records/                             ImageRecord, ImageRecordRect, RecordsFactory
-│                                                        простір імен iannotator::records
+├── records/                             ImageRecord, ImageRecordRect, ImageRecordSegment,
+│                                        RecordsFactory  простір імен iannotator::records
 ├── helpers/                             IHelper, SortHelper, UrlHelper,
 │                                        ImageRecordUrlAndPathHelper    простір імен helpers
 ├── zlib/                                ZlibController, GzipFileStreams шаблону cpp-app-template
 │                                                        простір імен iadd0zlibi
 ├── dbs/AnnotationsDBs/                  AnnotationsDirDB, LibraryImpl, Imgajz1LibraryImpl,
-│   │                                    AnnotationsJSONSerializator, AnnotationsDBTypes
+│   │                                    Imgajz2LibraryImpl, AnnotationsJSONSerializator,
+│   │                                    AnnotationsDBTypes
 │   │                                        простір імен iannotator::dbs::annotations
 │   ├── converters/                      перетворювачі з JSON у записи і назад
 │   └── mergers/                         DefaultDBMerger
@@ -48,7 +49,7 @@ src/
 
 - Усе, що знаходиться у [src/lib/facade/public](/src/lib/facade/public), встановлюється і є єдиним, що коли-небудь включає споживач. Кожне оголошення там належить до простору імен `ImagesAnnotatorDataDrivers015`, назва якого навмисно несе мажорну і мінорну версії бібліотеки - див. [Публічні інтерфейсні файли бібліотеки](/doc/sections/uk_UA/4-project-structure/4-8-the-librarys-installable-include-header-files.md).
 - Усе інше під [src](/src) є реалізацією: [src/lib/libmain](/src/lib/libmain) утримує пару вхідних класів, а компоненти, якими вона керує, лежать поруч як [src/records](/src/records), [src/helpers](/src/helpers), [src/zlib](/src/zlib) і [src/dbs](/src/dbs). Вона живе у власних просторах імен (`lib0impl`, `iannotator::records`, `iannotator::dbs::annotations`, `helpers`, `iadd0zlibi`), жоден з її заголовкових файлів не встановлюється і ніщо поза двійковим файлом бібліотеки не здатне до неї дотягнутись.
-- Два формати файлу проекту - це два драйвери з [src/dbs/AnnotationsDBs](/src/dbs/AnnotationsDBs): `LibraryImpl` файлів JSON і його нащадок `Imgajz1LibraryImpl` стиснених gzip файлів imgajz1, а через котрий із них іде `AnnotationsDirDB`, визначає розширення імені файлу у шляху - дивись [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md). Контролер [src/zlib](/src/zlib), яким стискаються файли imgajz1, - це контролер гілки `appZlib` шаблону cpp-app-template у просторі імен `iadd0zlibi` цієї бібліотеки: сусідні бібліотеки ImagesAnnotator-DataExporters і ImagesAnnotator-DataImporters містять той самий контролер у власних просторах імен.
+- Три формати файлу проекту - це три драйвери з [src/dbs/AnnotationsDBs](/src/dbs/AnnotationsDBs): `LibraryImpl` файлів JSON, його нащадок `Imgajz1LibraryImpl` стиснених gzip файлів imgajz1 і `Imgajz2LibraryImpl` файлів imgajz2 із сегментами - нащадок уже `Imgajz1LibraryImpl`, - а через котрий із них іде `AnnotationsDirDB`, визначає розширення імені файлу у шляху - дивись [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md) і [Формат проекту imgajz2 із сегментами](/doc/sections/uk_UA/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md). Контролер [src/zlib](/src/zlib), яким стискаються файли imgajz1 і imgajz2, - це контролер гілки `appZlib` шаблону cpp-app-template у просторі імен `iadd0zlibi` цієї бібліотеки: сусідні бібліотеки ImagesAnnotator-DataExporters і ImagesAnnotator-DataImporters містять той самий контролер у власних просторах імен.
 - Компонент журналювання [src/log](/src/log) компілюється прямо у вироблену динамічну бібліотеку (його `default-logger` долучається як об'єктна бібліотека), тому споживачеві не потрібно постачати жодної власної реалізації журналювання, щоб злінкуватись із бібліотекою.
 - Вихідні коди тестів розміщені поруч із кодом, який вони покривають, всередині піддиректорій `tests/unit` і `tests/component` кожного компоненту, а спільні для них замінники (mocks) живуть у [src/tests/mocks](/src/tests/mocks). Див. підрозділ [Тести проекту](/doc/sections/uk_UA/4-project-structure/4-4-project-tests.md).
 
@@ -60,6 +61,7 @@ src/
 1. [API бази даних анотацій](/doc/sections/uk_UA/4-project-structure/4-9-the-annotations-database-api.md)
 1. [Формат JSON проекту анотацій](/doc/sections/uk_UA/4-project-structure/4-10-the-annotations-project-json-format.md)
 1. [Стиснений формат проекту imgajz1](/doc/sections/uk_UA/4-project-structure/4-11-the-imgajz1-compressed-project-format.md)
+1. [Формат проекту imgajz2 із сегментами](/doc/sections/uk_UA/4-project-structure/4-12-the-imgajz2-project-format-of-the-segments.md)
 1. [Зміна назви проекту і назви бібліотеки](/doc/sections/uk_UA/4-project-structure/4-2-changing-the-project-and-executable-name.md)
 1. [Версіювання і інші параметри проекту](/doc/sections/uk_UA/4-project-structure/4-3-version-tracking-and-other-project-parameters.md)
 1. [Мінімально можливі версії](/doc/sections/uk_UA/4-project-structure/4-6-minimal-possible-versions.md)
