@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -63,9 +63,9 @@ class IADataDriversContext
   IADataDriversContext();
 
   /// @brief In: the project file IADataDriversLib::libcall is to open, the
-  /// imgajz1 one of the .imgajz1 file name extension, the JSON one of any
-  /// other. When left empty the libcall only creates an empty database
-  /// instance.
+  /// imgajz2 one of the .imgajz2 file name extension, the imgajz1 one of the
+  /// .imgajz1 one, the JSON one of any other. When left empty the libcall only
+  /// creates an empty database instance.
   std::string db_path;
 
   /// @brief In: the JSON root element name of the project files. Defaults to

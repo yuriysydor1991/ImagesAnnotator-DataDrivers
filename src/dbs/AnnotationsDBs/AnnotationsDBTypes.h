@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,6 +37,7 @@
 #include "IRecordsFactory.h"
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
+#include "ImageRecordSegment.h"
 #include "project-global-decls.h"
 
 namespace iannotator::dbs::annotations
@@ -55,6 +56,9 @@ class AnnotationsDBTypes
   using ImageRecordRect = ImagesAnnotatorDataDrivers015::ImageRecordRect;
   using ImageRecordRectPtr = ImagesAnnotatorDataDrivers015::ImageRecordRectPtr;
   using ImageRecordRectSet = ImagesAnnotatorDataDrivers015::ImageRecordRectSet;
+  using ImageRecordSegment = ImagesAnnotatorDataDrivers015::ImageRecordSegment;
+  using ImageRecordSegmentPtr =
+      ImagesAnnotatorDataDrivers015::ImageRecordSegmentPtr;
   using IImagesPathsDBProvider =
       ImagesAnnotatorDataDrivers015::IImagesPathsDBProvider;
   using IImagesPathsDBProviderPtr =

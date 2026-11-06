@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,11 +27,14 @@
 
 #include "src/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.h"
 
+#include <memory>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 #include "IRecordsFactory.h"
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
+#include "ImageRecordSegment.h"
 #include "project-global-decls.h"
 #include "src/dbs/AnnotationsDBs/AnnotationsDBTypes.h"
 #include "src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
@@ -114,21 +117,40 @@ nlohmann::json ImageRecords2JSONConverter::convert(
   nlohmann::json j = nlohmann::json::array();
 
   for (const auto& r : rects) {
-    nlohmann::json jr;
-
-    LOGT("Converting " << r->name << " " << r->x << "/" << r->y << "/"
-                       << r->width << "/" << r->height);
-
-    jr[fname] = r->name;
-    jr[frect][fx] = r->x;
-    jr[frect][fy] = r->y;
-    jr[frect][fwidth] = r->width;
-    jr[frect][fheight] = r->height;
-
-    j.emplace_back(jr);
+    j.emplace_back(convert_rect(r));
   }
 
   return j;
+}
+
+nlohmann::json ImageRecords2JSONConverter::convert_rect(
+    const ImageRecordRectPtr& r)
+{
+  // failing the store keeps the file and the points of the segment instead of
+  // writing the rectangle alone
+  if (std::dynamic_pointer_cast<ImageRecordSegment>(r) != nullptr) {
+    throw std::invalid_argument{"The " + r->name +
+                                " segment needs an imgajz2 project file"};
+  }
+
+  return rect_json(r);
+}
+
+nlohmann::json ImageRecords2JSONConverter::rect_json(
+    const ImageRecordRectPtr& r)
+{
+  nlohmann::json jr;
+
+  LOGT("Converting " << r->name << " " << r->x << "/" << r->y << "/" << r->width
+                     << "/" << r->height);
+
+  jr[fname] = r->name;
+  jr[frect][fx] = r->x;
+  jr[frect][fy] = r->y;
+  jr[frect][fwidth] = r->width;
+  jr[frect][fheight] = r->height;
+
+  return jr;
 }
 
 }  // namespace iannotator::dbs::annotations::converters

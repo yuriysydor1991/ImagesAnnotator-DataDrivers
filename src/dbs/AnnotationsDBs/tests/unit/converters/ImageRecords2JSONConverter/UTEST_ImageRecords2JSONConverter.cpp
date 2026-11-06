@@ -3,10 +3,12 @@
 
 #include <memory>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 #include <string>
 
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
+#include "ImageRecordSegment.h"
 #include "src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
 #include "src/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.h"
 
@@ -132,4 +134,13 @@ TEST(UTEST_ImageRecords2JSONConverter, documents_the_records_of_their_folders)
   ASSERT_TRUE(j[S::annotations_field_name].is_array());
   EXPECT_EQ(j[S::annotations_field_name].size(), 2U);
   EXPECT_EQ(j.size(), 2U);
+}
+
+TEST(UTEST_ImageRecords2JSONConverter, refuses_a_segment)
+{
+  TestableConverter conv;
+  ImageRecordRectSet rects{
+      std::make_shared<ImagesAnnotatorDataDrivers015::ImageRecordSegment>()};
+
+  EXPECT_THROW(conv.convert(rects), std::invalid_argument);
 }

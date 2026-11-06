@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -49,7 +49,8 @@ namespace iannotator::dbs::annotations
  * were read from: the project file reading and writing belongs to the
  * LibraryImpl drivers below, which the load_db() and the store_db() calls are
  * performed through - the driver of the file name extension of the path: the
- * Imgajz1LibraryImpl one of the .imgajz1 files, the impl one of the rest.
+ * Imgajz2LibraryImpl one of the .imgajz2 files, the Imgajz1LibraryImpl one of
+ * the .imgajz1 files, the impl one of the rest.
  */
 class AnnotationsDirDB
     : public virtual AnnotationsDBTypes,
@@ -111,10 +112,10 @@ class AnnotationsDirDB
 
   /**
    * @brief Sets the project file driver the load_db() and the store_db()
-   * calls of the paths of no .imgajz1 file name extension are performed
-   * through, which is what a project file format other than the JSON one is
-   * introduced with. The imgajz1 files take its application identity and its
-   * records factory.
+   * calls of the paths of no .imgajz1 or .imgajz2 file name extension are
+   * performed through, which is what a project file format other than the
+   * JSON one is introduced with. The imgajz1 and the imgajz2 files take its
+   * application identity and its records factory.
    *
    * @param newImpl The driver to use. A nullptr is ignored, since the database
    * has to keep one.
@@ -126,9 +127,10 @@ class AnnotationsDirDB
   void update_current_last_saved_no_check();
 
   /**
-   * @brief The project file driver of the given path: the imgajz1 one of the
-   * application identity and of the records factory of the impl one for the
-   * .imgajz1 file name extension, the impl one for the rest.
+   * @brief The project file driver of the given path: the imgajz2 or the
+   * imgajz1 one of the application identity and of the records factory of the
+   * impl one for the .imgajz2 or the .imgajz1 file name extension, the impl one
+   * for the rest.
    *
    * @param fpath The project file path to read or to write.
    *
@@ -142,9 +144,9 @@ class AnnotationsDirDB
   ImageRecordsSet last_saved_db;
 
   /// @brief The project file driver every load_db() and store_db() of a path
-  /// of no .imgajz1 file name extension goes through. Defaults to the JSON
-  /// format one. Keeps the application identity and the records factory of
-  /// the database.
+  /// of no .imgajz1 or .imgajz2 file name extension goes through. Defaults to
+  /// the JSON format one. Keeps the application identity and the records
+  /// factory of the database.
   LibraryImplPtr impl;
 
   /// @brief The injected databases merger. A nullptr makes the add_images_db()

@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -68,6 +68,12 @@ class ConvertersAliases : public virtual AnnotationsDBTypes
       AnnotationsJSONSerializator::annotation_rect_width;
   inline static const auto& fheight =
       AnnotationsJSONSerializator::annotation_rect_height;
+  inline static const auto& fsegment =
+      AnnotationsJSONSerializator::annotation_segment;
+  inline static const auto& fformat =
+      AnnotationsJSONSerializator::format_field_name;
+  inline static const auto& fformat_types =
+      AnnotationsJSONSerializator::format_types_field_name;
   inline static const auto& fannIScale =
       AnnotationsJSONSerializator::annotation_image_scale_factor;
   inline static const auto& fversion =

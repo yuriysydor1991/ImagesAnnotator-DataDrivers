@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -82,6 +82,17 @@ class ImageRecords2JSONConverter : public virtual AnnotationsDBTypes,
   virtual nlohmann::json convert(const ImageRecordsSet& irs);
   virtual nlohmann::json convert(const ImageRecordPtr& ir);
   virtual nlohmann::json convert(const ImageRecordRectSet& rects);
+
+  /**
+   * @brief Converts a single annotation of a record.
+   *
+   * @throw std::invalid_argument for a segment, whose polygon the JSON and
+   * the imgajz1 project files keep no place for.
+   */
+  virtual nlohmann::json convert_rect(const ImageRecordRectPtr& r);
+
+  /// @brief The name and the rect of an annotation
+  static nlohmann::json rect_json(const ImageRecordRectPtr& r);
 };
 
 }  // namespace iannotator::dbs::annotations::converters

@@ -8,11 +8,14 @@ add_executable(
   ${CMAKE_SOURCE_DIR}/src/lib/facade/IADataDriversContext.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsDirDB.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/Imgajz1LibraryImpl.cpp
+  ${IADD_ANNOTATIONS_DBS_SRC_DIR}/Imgajz2LibraryImpl.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/LibraryImpl.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/AnnotationsJSONSerializator.cpp
   ${IADD_ANNOTATIONS_DBS_SRC_DIR}/mergers/DefaultDBMerger.cpp
   ${IADD_CONVERTERS_SRC_DIR}/ImageRecordJSON2RecordConverter.cpp
   ${IADD_CONVERTERS_SRC_DIR}/ImageRecordRectJSON2RecordConverter.cpp
+  ${IADD_CONVERTERS_SRC_DIR}/ImageRecordSegmentJSON2RecordConverter.cpp
+  ${IADD_CONVERTERS_SRC_DIR}/ImageRecordSegments2JSONConverter.cpp
   ${IADD_CONVERTERS_SRC_DIR}/ImageRecords2JSONConverter.cpp
   ${IADD_CONVERTERS_SRC_DIR}/JSON2ImageRecordsConverter.cpp
   ${IADD_RECORDS_SRC}

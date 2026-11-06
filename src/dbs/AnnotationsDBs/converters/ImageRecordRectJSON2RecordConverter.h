@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,6 +28,7 @@
 #ifndef IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_RECT_JSON_2_IMAGERECORDRECT_CONVERTER_CLASS_H
 #define IMAGES_ANNOTATOR_DATA_DRIVERS_PROJECT_ANNOTATOR_BUSINESS_LOGIC_ANNOTATOR_RECT_JSON_2_IMAGERECORDRECT_CONVERTER_CLASS_H
 
+#include <memory>
 #include <nlohmann/json.hpp>
 
 #include "IRecordsFactory.h"
@@ -56,9 +57,12 @@ class ImageRecordRectJSON2RecordConverter : public virtual AnnotationsDBTypes,
 
   virtual ImageRecordRectPtr convert(const nlohmann::json& rect);
 
- private:
+ protected:
   IRecordsFactoryPtr efactory;
 };
+
+using ImageRecordRectJSON2RecordConverterPtr =
+    std::shared_ptr<ImageRecordRectJSON2RecordConverter>;
 
 }  // namespace iannotator::dbs::annotations::converters
 

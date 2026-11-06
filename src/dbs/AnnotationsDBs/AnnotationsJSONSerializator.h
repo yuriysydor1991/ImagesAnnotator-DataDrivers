@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -85,6 +85,13 @@ class AnnotationsJSONSerializator
   inline static constexpr const char* const annotation_rect_y = "y";
   inline static constexpr const char* const annotation_rect_width = "width";
   inline static constexpr const char* const annotation_rect_height = "height";
+  /// @brief The polygon of a segment, which the imgajz2 project files alone
+  /// keep next to its rect
+  inline static constexpr const char* const annotation_segment = "segment";
+  /// @brief The imgajz2 declaration of the format and of the annotation types
+  /// a file may hold
+  inline static constexpr const char* const format_field_name = "format";
+  inline static constexpr const char* const format_types_field_name = "types";
   inline static constexpr const char* const annotation_image_scale_factor =
       "scale_factor";
 

@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,14 +39,14 @@ namespace iannotator::dbs::annotations::converters
 {
 
 JSON2ImageRecordsConverter::JSON2ImageRecordsConverter()
-    : efactory{iannotator::records::RecordsFactory::create()}
+    : JSON2ImageRecordsConverter(nullptr)
 {
-  assert(efactory != nullptr);
 }
 
 JSON2ImageRecordsConverter::JSON2ImageRecordsConverter(
-    IRecordsFactoryPtr factory)
-    : efactory{factory}
+    IRecordsFactoryPtr factory,
+    ImageRecordRectJSON2RecordConverterPtr rectConverter)
+    : efactory{factory}, rectConv{rectConverter}
 {
   if (efactory == nullptr) {
     efactory = iannotator::records::RecordsFactory::create();
@@ -113,7 +113,7 @@ JSON2ImageRecordsConverter::convert_annotation(const nlohmann::json& fan,
                                                const std::string& absdirpath)
 {
   auto irConverter =
-      std::make_shared<ImageRecordJSON2RecordConverter>(efactory);
+      std::make_shared<ImageRecordJSON2RecordConverter>(efactory, rectConv);
 
   return irConverter->convert(fan, absdirpath);
 }

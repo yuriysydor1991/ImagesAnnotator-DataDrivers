@@ -49,21 +49,26 @@ Imgajz1LibraryImpl::Imgajz1LibraryImplPtr Imgajz1LibraryImpl::create(
 {
   auto impl = create();
 
-  impl->set_app_info(like.get_app_name(), like.get_app_version());
-  impl->set_records_factory(like.get_records_factory());
+  impl->take_settings_of(like);
 
   return impl;
 }
 
 bool Imgajz1LibraryImpl::is_imgajz1_path(const std::string& fpath)
 {
-  std::string extension = std::filesystem::path{fpath}.extension().string();
+  return has_extension(fpath, file_extension);
+}
+
+bool Imgajz1LibraryImpl::has_extension(const std::string& fpath,
+                                       const std::string& extension)
+{
+  std::string fextension = std::filesystem::path{fpath}.extension().string();
 
   std::transform(
-      extension.begin(), extension.end(), extension.begin(),
+      fextension.begin(), fextension.end(), fextension.begin(),
       [](const unsigned char c) { return static_cast<char>(std::tolower(c)); });
 
-  return extension == file_extension;
+  return fextension == extension;
 }
 
 bool Imgajz1LibraryImpl::read_text(const std::string& fpath, std::string& text)

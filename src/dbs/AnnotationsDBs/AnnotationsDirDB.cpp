@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -32,6 +32,7 @@
 #include <memory>
 
 #include "src/dbs/AnnotationsDBs/Imgajz1LibraryImpl.h"
+#include "src/dbs/AnnotationsDBs/Imgajz2LibraryImpl.h"
 #include "src/dbs/AnnotationsDBs/LibraryImpl.h"
 #include "src/dbs/AnnotationsDBs/mergers/DefaultDBMerger.h"
 #include "src/log/log.h"
@@ -206,6 +207,12 @@ void AnnotationsDirDB::set_library_impl(LibraryImplPtr newImpl)
 LibraryImplPtr AnnotationsDirDB::impl_of(const std::string& fpath)
 {
   assert(impl != nullptr);
+
+  if (Imgajz2LibraryImpl::is_imgajz2_path(fpath)) {
+    LOGT("The " << fpath << " path names the imgajz2 project file");
+
+    return Imgajz2LibraryImpl::create(*impl);
+  }
 
   if (!Imgajz1LibraryImpl::is_imgajz1_path(fpath)) {
     return impl;

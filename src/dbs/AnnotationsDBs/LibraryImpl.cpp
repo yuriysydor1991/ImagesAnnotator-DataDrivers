@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -94,8 +94,7 @@ bool LibraryImpl::store(const std::string& fpath, const ImageRecordsSet& irdb)
     return false;
   }
 
-  auto irsConverter = std::make_shared<converters::ImageRecords2JSONConverter>(
-      app_name, app_version);
+  auto irsConverter = create_writer();
 
   LOGD("Trying to store annotations to " << fpath);
 
@@ -175,10 +174,30 @@ LibraryImpl::ImageRecordsSet LibraryImpl::load_the_irs(
 
   assert(json.contains(fannotations));
 
-  auto converter =
-      std::make_shared<converters::JSON2ImageRecordsConverter>(records_factory);
+  auto converter = std::make_shared<converters::JSON2ImageRecordsConverter>(
+      records_factory, create_rect_reader());
 
   return converter->fetch_records(json[fannotations]);
+}
+
+std::shared_ptr<converters::ImageRecords2JSONConverter>
+LibraryImpl::create_writer() const
+{
+  return std::make_shared<converters::ImageRecords2JSONConverter>(app_name,
+                                                                  app_version);
+}
+
+converters::ImageRecordRectJSON2RecordConverterPtr
+LibraryImpl::create_rect_reader() const
+{
+  return std::make_shared<converters::ImageRecordRectJSON2RecordConverter>(
+      records_factory);
+}
+
+void LibraryImpl::take_settings_of(const LibraryImpl& like)
+{
+  set_app_info(like.get_app_name(), like.get_app_version());
+  set_records_factory(like.get_records_factory());
 }
 
 void LibraryImpl::set_app_info(const std::string& name,

@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -45,17 +45,21 @@ namespace iannotator::dbs::annotations::converters
 {
 
 ImageRecordJSON2RecordConverter::ImageRecordJSON2RecordConverter()
-    : efactory{iannotator::records::RecordsFactory::create()}
+    : ImageRecordJSON2RecordConverter(nullptr)
 {
-  assert(efactory != nullptr);
 }
 
 ImageRecordJSON2RecordConverter::ImageRecordJSON2RecordConverter(
-    IRecordsFactoryPtr factory)
-    : efactory{factory}
+    IRecordsFactoryPtr factory,
+    ImageRecordRectJSON2RecordConverterPtr rectConverter)
+    : efactory{factory}, rectConv{rectConverter}
 {
   if (efactory == nullptr) {
     efactory = iannotator::records::RecordsFactory::create();
+  }
+
+  if (rectConv == nullptr) {
+    rectConv = std::make_shared<ImageRecordRectJSON2RecordConverter>(efactory);
   }
 
   assert(efactory != nullptr);
@@ -102,9 +106,6 @@ ImageRecordJSON2RecordConverter::convert(const nlohmann::json& fan,
   }
 
   assert(ir != nullptr);
-
-  auto rectConv =
-      std::make_shared<ImageRecordRectJSON2RecordConverter>(efactory);
 
   ir->rects.reserve(fan[fann].size());
 

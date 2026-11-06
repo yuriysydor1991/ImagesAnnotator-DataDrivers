@@ -89,6 +89,11 @@ class Imgajz1LibraryImpl : public LibraryImpl
   inline static const std::string file_extension{".imgajz1"};
 
  protected:
+  /// @brief Tells the path of the given file name extension, of any letter
+  /// case
+  static bool has_extension(const std::string& fpath,
+                            const std::string& extension);
+
   /// @brief Decompresses the JSON text of the project out of the file.
   virtual bool read_text(const std::string& fpath, std::string& text) override;
 

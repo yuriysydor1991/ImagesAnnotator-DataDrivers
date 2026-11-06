@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,6 +34,8 @@
 
 #include "src/dbs/AnnotationsDBs/AnnotationsDBTypes.h"
 #include "src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
+#include "src/dbs/AnnotationsDBs/converters/ImageRecordRectJSON2RecordConverter.h"
+#include "src/dbs/AnnotationsDBs/converters/ImageRecords2JSONConverter.h"
 
 namespace iannotator::dbs::annotations
 {
@@ -143,6 +145,19 @@ class LibraryImpl : public virtual AnnotationsDBTypes
 
   virtual bool serialize(const nlohmann::json& json);
   virtual ImageRecordsSet load_the_irs(const nlohmann::json& json);
+
+  /// @brief Creates the converter the records are stored with
+  virtual std::shared_ptr<converters::ImageRecords2JSONConverter>
+  create_writer() const;
+
+  /// @brief Creates the converter of the annotations the records are loaded
+  /// with
+  virtual converters::ImageRecordRectJSON2RecordConverterPtr
+  create_rect_reader() const;
+
+  /// @brief Takes the application identity and the records factory of the
+  /// given driver
+  void take_settings_of(const LibraryImpl& like);
 
   /// @brief The JSON root element name of the produced project files
   std::string app_name{AnnotationsJSONSerializator::default_root_app_name};

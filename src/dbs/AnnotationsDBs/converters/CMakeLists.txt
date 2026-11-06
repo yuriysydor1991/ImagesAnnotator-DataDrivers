@@ -7,4 +7,6 @@ target_sources(
     ImageRecords2JSONConverter.cpp
     ImageRecordRectJSON2RecordConverter.cpp
     ImageRecordJSON2RecordConverter.cpp
+    ImageRecordSegmentJSON2RecordConverter.cpp
+    ImageRecordSegments2JSONConverter.cpp
 )

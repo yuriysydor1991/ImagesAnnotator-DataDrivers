@@ -16,6 +16,7 @@
 #include "IRecordsFactory.h"
 #include "ImageRecord.h"
 #include "ImageRecordRect.h"
+#include "ImageRecordSegment.h"
 #include "ctests_decls.h"
 
 using namespace testing;
@@ -492,4 +493,47 @@ TEST_F(CTEST_AnnotationsDirDB, open_annotations_db_of_a_truncated_imgajz1_fails)
 
   EXPECT_EQ(iadd::IADataDriversFacade::open_annotations_db(stored_path),
             nullptr);
+}
+
+TEST_F(CTEST_AnnotationsDirDB, imgajz2_store_and_reopen_keeps_the_segments)
+{
+  auto db = open_plan_db();
+
+  ASSERT_NE(db, nullptr);
+
+  db->get_images_db().front()->rects.emplace_back(
+      iadd::IADataDriversFacade::create_records_factory()
+          ->create_image_segment_record("cat", 1, 2, 30, 40,
+                                        {{0.0, 0.0}, {1.0, 0.5}, {0.5, 1.0}}));
+
+  const std::string stored_path = tmp_data_path("segments-db.IMGAJZ2");
+
+  ASSERT_TRUE(db->store_db(stored_path));
+  EXPECT_TRUE(is_gzip_file(stored_path));
+
+  auto reopened = iadd::IADataDriversFacade::open_annotations_db(stored_path);
+
+  ASSERT_NE(reopened, nullptr);
+  EXPECT_FALSE(reopened->changed());
+  EXPECT_TRUE(
+      iadd::ImageRecord::equal(db->get_images_db(), reopened->get_images_db()));
+}
+
+TEST_F(CTEST_AnnotationsDirDB, older_formats_refuse_to_store_the_segments)
+{
+  auto db = open_plan_db();
+
+  ASSERT_NE(db, nullptr);
+
+  db->get_images_db().front()->rects.emplace_back(
+      std::make_shared<iadd::ImageRecordSegment>());
+
+  for (const auto& name : {"segments-db.json", "segments-db.imgajz1"}) {
+    const std::string stored_path = tmp_data_path(name);
+
+    EXPECT_FALSE(db->store_db(stored_path));
+    EXPECT_FALSE(std::filesystem::exists(stored_path));
+  }
+
+  EXPECT_TRUE(db->changed());
 }

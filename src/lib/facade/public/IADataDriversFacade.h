@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -136,8 +136,9 @@ class IADataDriversFacade
    * @brief Creates an annotations database and immediately loads the given
    * project file into it.
    *
-   * @param fpath The project file path to read: the imgajz1 one of the
-   * .imgajz1 file name extension, the JSON one of any other.
+   * @param fpath The project file path to read: the imgajz2 one of the
+   * .imgajz2 file name extension, the imgajz1 one of the .imgajz1 one, the
+   * JSON one of any other.
    *
    * @return Returns the loaded database or a nullptr when the file could not
    * be read or parsed.

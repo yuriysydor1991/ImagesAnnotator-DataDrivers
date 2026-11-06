@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,6 +37,7 @@
 #include "src/dbs/AnnotationsDBs/AnnotationsDBTypes.h"
 #include "src/dbs/AnnotationsDBs/AnnotationsJSONSerializator.h"
 #include "src/dbs/AnnotationsDBs/converters/ConvertersAliases.h"
+#include "src/dbs/AnnotationsDBs/converters/ImageRecordRectJSON2RecordConverter.h"
 
 namespace iannotator::dbs::annotations::converters
 {
@@ -52,13 +53,21 @@ class ImageRecordJSON2RecordConverter : public virtual AnnotationsDBTypes,
 
   virtual ~ImageRecordJSON2RecordConverter() = default;
   ImageRecordJSON2RecordConverter();
-  explicit ImageRecordJSON2RecordConverter(IRecordsFactoryPtr factory);
+  /**
+   * @param factory The factory the records are built with.
+   * @param rectConverter The converter of the annotations of a record. A
+   * nullptr makes the one of the rectangles alone.
+   */
+  explicit ImageRecordJSON2RecordConverter(
+      IRecordsFactoryPtr factory,
+      ImageRecordRectJSON2RecordConverterPtr rectConverter = nullptr);
 
   virtual ImageRecordPtr convert(const nlohmann::json& fan,
                                  const std::string& absdirpath);
 
  private:
   IRecordsFactoryPtr efactory;
+  ImageRecordRectJSON2RecordConverterPtr rectConv;
 };
 
 }  // namespace iannotator::dbs::annotations::converters

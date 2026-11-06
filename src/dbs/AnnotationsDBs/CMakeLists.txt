@@ -13,6 +13,7 @@ target_sources(
     AnnotationsDirDB.cpp
     AnnotationsJSONSerializator.cpp
     Imgajz1LibraryImpl.cpp
+    Imgajz2LibraryImpl.cpp
     LibraryImpl.cpp
 )
 

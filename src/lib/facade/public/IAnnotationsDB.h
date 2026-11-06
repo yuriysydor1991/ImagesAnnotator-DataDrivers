@@ -1,7 +1,7 @@
 /**
  * The "Simplified BSD License"
  *
- * Copyright (c) 2025, Yurii Sydor (yuriysydor1991@gmail.com)
+ * Copyright (c) 2025, 2026, Yurii Sydor (yuriysydor1991@gmail.com)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -46,9 +46,11 @@ namespace ImagesAnnotatorDataDrivers015
  *
  * The file name extension of the project file path tells its format: the path
  * of the .imgajz1 extension (of any letter case) is the gzip compressed imgajz1
- * file of the JSON project document, any other path is the plain JSON file of
- * it. So storing a database loaded out of a .json file into a .imgajz1 one
- * converts the project, and the other way round.
+ * file of the JSON project document, the path of the .imgajz2 one the imgajz2
+ * file, which keeps the ImageRecordSegment polygons as well, any other path is
+ * the plain JSON file of it. So storing a database loaded out of a .json file
+ * into a .imgajz1 one converts the project, and the other way round, while a
+ * database of segments is stored into the .imgajz2 files alone.
  *
  * Obtain an instance through IADataDriversFacade::create_annotations_db() or
  * IADataDriversFacade::open_annotations_db().
@@ -70,8 +72,9 @@ class IAnnotationsDB : virtual public IImagesPathsDBProvider
    * On success the given path also becomes the default destination of the
    * argument less store_db() overload.
    *
-   * @param fpath The project file path to read: the imgajz1 one of the
-   * .imgajz1 file name extension, the JSON one of any other.
+   * @param fpath The project file path to read: the imgajz2 one of the
+   * .imgajz2 file name extension, the imgajz1 one of the .imgajz1 one, the
+   * JSON one of any other.
    *
    * @return Returns true on the success and false in case of any error.
    */
@@ -89,8 +92,9 @@ class IAnnotationsDB : virtual public IImagesPathsDBProvider
    * @brief Writes the in-memory records into the given project file path,
    * which also becomes the new default destination.
    *
-   * @param fpath The project file path to write: the imgajz1 one of the
-   * .imgajz1 file name extension, the JSON one of any other.
+   * @param fpath The project file path to write: the imgajz2 one of the
+   * .imgajz2 file name extension, the imgajz1 one of the .imgajz1 one, the
+   * JSON one of any other. The latter two refuse a database of segments.
    *
    * @return Returns true on the success and false in case of any error.
    */
