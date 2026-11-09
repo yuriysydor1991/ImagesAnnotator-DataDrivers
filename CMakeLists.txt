@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project(
   ImagesAnnotatorDataDrivers
-  VERSION 0.15.0
+  VERSION 0.15.1
   DESCRIPTION "The ImagesAnnotator project JSON annotations database library"
   HOMEPAGE_URL "http://www.kytok.org.ua/"
   LANGUAGES CXX

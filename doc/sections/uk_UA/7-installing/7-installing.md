@@ -54,7 +54,7 @@ sudo cmake --install . --prefix "/usr"
 Для префікса `/usr` з прикладу вище встановлене дерево виглядає так:
 
 ```
-/usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.0     бінарний файл бібліотеки
+/usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.1     бінарний файл бібліотеки
 /usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0          символьне посилання SOVERSION
 /usr/lib/libImagesAnnotatorDataDrivers-0.15.so            символьне посилання для розробки
 /usr/lib/cmake/ImagesAnnotatorDataDrivers-0.15/

@@ -15,7 +15,7 @@ Which effectively will create a directory named `build` (it's already added to t
 The main build artifact is the shared library itself, produced under the `build/src/lib` directory:
 
 ```
-build/src/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.0    the real library binary
+build/src/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.1    the real library binary
 build/src/lib/libImagesAnnotatorDataDrivers-0.15.so.0         the SONAME symlink
 build/src/lib/libImagesAnnotatorDataDrivers-0.15.so           the linker name symlink
 ```

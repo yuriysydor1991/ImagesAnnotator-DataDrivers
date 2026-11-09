@@ -5,7 +5,7 @@
 імен імпортованої цілі що експортується через `install(EXPORT ...)`) виводиться
 з трьох опціональних CMake-опцій. Вони дозволяють паралельним встановленням
 різних версій бібліотеки співіснувати у системі - наприклад
-`include/ImagesAnnotatorDataDrivers-0.15.0-dev/` поруч з
+`include/ImagesAnnotatorDataDrivers-0.15.1-dev/` поруч з
 `include/ImagesAnnotatorDataDrivers-0.15/`.
 
 | Опція | За замовчуванням | Ефект |
@@ -14,15 +14,15 @@
 | `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON` | `OFF` | Додає `.<micro>` (вмикає прапорець minor неявно) |
 | `-DIADD_LIB_NAME_SUFFIX=-dev` | `""` | Додає довільний завершальний суфікс |
 
-Приклади імен бібліотеки для даного проекту версії `0.15.0`:
+Приклади імен бібліотеки для даного проекту версії `0.15.1`:
 
 | Прапорці конфігурації | Імʼя бібліотеки |
 |---|---|
 | (немає) | `ImagesAnnotatorDataDrivers-0.15` |
 | `-DIADD_LIB_INCLUDE_MINOR_IN_NAME=OFF` | `ImagesAnnotatorDataDrivers-0` |
-| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON` | `ImagesAnnotatorDataDrivers-0.15.0` |
+| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON` | `ImagesAnnotatorDataDrivers-0.15.1` |
 | `-DIADD_LIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15-dev` |
-| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON -DIADD_LIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15.0-dev` |
+| `-DIADD_LIB_INCLUDE_MICRO_IN_NAME=ON -DIADD_LIB_NAME_SUFFIX=-dev` | `ImagesAnnotatorDataDrivers-0.15.1-dev` |
 
 Мінорна версія входить до імені навмисно: простір імен публічного API -
 `ImagesAnnotatorDataDrivers015` - несе ту саму пару з головного і мінорного
@@ -50,7 +50,7 @@ cmake --install build --prefix /usr/local
 Однакове імʼя послідовно використовується для кожного встановлюваного артефакту.
 Із залишеними без змін значеннями за замовчуванням і префіксом `/usr/local` це:
 
-- `/usr/local/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.0` (бінарник спільної бібліотеки, плюс символьне посилання `SOVERSION` `libImagesAnnotatorDataDrivers-0.15.so.0` і символьне посилання імені для лінкувальника `libImagesAnnotatorDataDrivers-0.15.so`),
+- `/usr/local/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.1` (бінарник спільної бібліотеки, плюс символьне посилання `SOVERSION` `libImagesAnnotatorDataDrivers-0.15.so.0` і символьне посилання імені для лінкувальника `libImagesAnnotatorDataDrivers-0.15.so`),
 - `/usr/local/include/ImagesAnnotatorDataDrivers-0.15/*.h` (субдиректорія публічних заголовків, оголошена через `INSTALL_INTERFACE` цілі бібліотеки),
 - `/usr/local/<libdir>/cmake/ImagesAnnotatorDataDrivers-0.15/` + імпортована ціль `ImagesAnnotatorDataDrivers-0.15::ImagesAnnotatorDataDrivers-0.15` згенерована через `install(EXPORT ...)` - проекти-споживачі на CMake використовують `find_package(ImagesAnnotatorDataDrivers-0.15 REQUIRED)`. Частина `<libdir>` є тим, у що `GNUInstallDirs` розвʼязує `CMAKE_INSTALL_LIBDIR` у твоїй системі (звичайне `lib` у поширеному випадку).
 

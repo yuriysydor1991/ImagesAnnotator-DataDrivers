@@ -22,7 +22,7 @@ That leaves the following behind:
 
 | Installed | Path (for the `/usr` prefix above) |
 | --- | --- |
-| the shared library | `/usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.0`, with the `.so.0` soname link and the `.so` development link |
+| the shared library | `/usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.1`, with the `.so.0` soname link and the `.so` development link |
 | the public headers | `/usr/include/ImagesAnnotatorDataDrivers-0.15/` - all twelve of them |
 | the CMake package | `/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.15/` |
 

@@ -15,7 +15,7 @@ cmake -B build -S . && cmake --build build
 Головним артефактом побудови є сама динамічна бібліотека, вироблена у директорії `build/src/lib`:
 
 ```
-build/src/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.0    справжній двійковий файл бібліотеки
+build/src/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.1    справжній двійковий файл бібліотеки
 build/src/lib/libImagesAnnotatorDataDrivers-0.15.so.0         символьне посилання SONAME
 build/src/lib/libImagesAnnotatorDataDrivers-0.15.so           символьне посилання для лінкера
 ```

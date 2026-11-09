@@ -22,7 +22,7 @@ sudo cmake --install build --prefix "/usr"
 
 | Що встановлено | Шлях (для показаного вище префікса `/usr`) |
 | --- | --- |
-| динамічна бібліотека | `/usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.0` разом із посиланням soname `.so.0` і посиланням для розробки `.so` |
+| динамічна бібліотека | `/usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.1` разом із посиланням soname `.so.0` і посиланням для розробки `.so` |
 | публічні заголовкові файли | `/usr/include/ImagesAnnotatorDataDrivers-0.15/` - усі дванадцять |
 | CMake-пакет | `/usr/lib/cmake/ImagesAnnotatorDataDrivers-0.15/` |
 

@@ -13,7 +13,7 @@ find . -name 'libImagesAnnotatorDataDrivers-0.15.so*'
 Which with the default configure options gives three entries, all of them living in the `src/lib` subdirectory of the build tree:
 
 ```
-./src/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.0    the real library binary
+./src/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.1    the real library binary
 ./src/lib/libImagesAnnotatorDataDrivers-0.15.so.0         the SONAME symlink
 ./src/lib/libImagesAnnotatorDataDrivers-0.15.so           the linker name symlink
 ```

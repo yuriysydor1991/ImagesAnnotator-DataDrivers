@@ -13,7 +13,7 @@ find . -name 'libImagesAnnotatorDataDrivers-0.15.so*'
 Що за типових параметрів конфігурації дає три записи, і усі вони знаходяться у піддиректорії `src/lib` дерева побудови:
 
 ```
-./src/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.0    справжній бінарний файл бібліотеки
+./src/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.1    справжній бінарний файл бібліотеки
 ./src/lib/libImagesAnnotatorDataDrivers-0.15.so.0         символьне посилання SONAME
 ./src/lib/libImagesAnnotatorDataDrivers-0.15.so           символьне посилання для лінкувальника
 ```

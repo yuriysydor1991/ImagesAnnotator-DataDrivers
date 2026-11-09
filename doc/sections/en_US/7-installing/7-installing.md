@@ -55,7 +55,7 @@ Alternatively, any path may be specified - a local prefix under your home direct
 With the `/usr` prefix of the example above the installed tree is:
 
 ```
-/usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.0     the library binary
+/usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0.15.1     the library binary
 /usr/lib/libImagesAnnotatorDataDrivers-0.15.so.0          the SOVERSION symlink
 /usr/lib/libImagesAnnotatorDataDrivers-0.15.so            the development symlink
 /usr/lib/cmake/ImagesAnnotatorDataDrivers-0.15/

@@ -33,7 +33,7 @@ class IADataDriversContext
   std::string db_path;
 
   std::string app_name{"ImagesAnnotator"};
-  std::string app_version{"0.15.0"};
+  std::string app_version{"0.15.1"};
 
   IRecordsFactoryPtr records_factory;
   IDBMergerPtr merger;

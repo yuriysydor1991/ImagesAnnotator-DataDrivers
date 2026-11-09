@@ -110,14 +110,14 @@ TEST(UTEST_ImageRecords2JSONConverter, documents_the_configured_app_identity)
   ImageRecords2JSONConverter defaulted;
 
   EXPECT_EQ(defaulted.app_name, "ImagesAnnotator");
-  EXPECT_EQ(defaulted.app_version, "0.15.0");
+  EXPECT_EQ(defaulted.app_version, "0.15.1");
 
   const auto defaultJson = defaulted.to_document(irs);
 
   ASSERT_TRUE(defaultJson.contains("ImagesAnnotator"));
   EXPECT_EQ(defaultJson["ImagesAnnotator"][S::file_version_field_name]
                 .get<std::string>(),
-            "0.15.0");
+            "0.15.1");
   EXPECT_FALSE(defaultJson.contains(customName));
 }
 

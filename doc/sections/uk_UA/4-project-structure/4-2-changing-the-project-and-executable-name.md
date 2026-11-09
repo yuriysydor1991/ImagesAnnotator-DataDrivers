@@ -4,13 +4,13 @@
 
 Назва проекту оголошується викликом `project()` у кореневому файлі [CMakeLists.txt](/CMakeLists.txt) і є `ImagesAnnotatorDataDrivers`. Її зміна там змінює значення `PROJECT_NAME`, на якому побудована уся решта системи збірки.
 
-Назва бібліотеки, придатної до встановлення, є CMake-змінною кешу `IADD_LIBRARY_NAME`, яка виводиться у файлі [cmake/imagesannotator-datadrivers-misc-variables-declare.cmake](/cmake/imagesannotator-datadrivers-misc-variables-declare.cmake). За замовчуванням вона бере значення `PROJECT_NAME` і додає до нього мажорну версію проекту, що для поточної версії `0.15.0` дає назву `ImagesAnnotatorDataDrivers-0.15`. Необов'язкові сегменти (мінорна версія, мікроверсія і довільний хвостовий суфікс) можуть бути додані до неї під час конфігурації - див. підрозділ [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md).
+Назва бібліотеки, придатної до встановлення, є CMake-змінною кешу `IADD_LIBRARY_NAME`, яка виводиться у файлі [cmake/imagesannotator-datadrivers-misc-variables-declare.cmake](/cmake/imagesannotator-datadrivers-misc-variables-declare.cmake). За замовчуванням вона бере значення `PROJECT_NAME` і додає до нього мажорну версію проекту, що для поточної версії `0.15.1` дає назву `ImagesAnnotatorDataDrivers-0.15`. Необов'язкові сегменти (мінорна версія, мікроверсія і довільний хвостовий суфікс) можуть бути додані до неї під час конфігурації - див. підрозділ [Налаштування сегментів назви встановлюваної бібліотеки](/doc/sections/uk_UA/5-project-build/5-23-customizing-library-name-segments.md).
 
 Ця єдина назва одразу керує кожним видимим для користувача артефактом:
 
 | Артефакт | Виводиться з назви | З поточними типовими значеннями |
 |---|---|---|
-| Двійковий файл бібліотеки | `lib<НАЗВА>.so.<версія>` (префікс `lib` додається автоматично) | `libImagesAnnotatorDataDrivers-0.15.so.0.15.0` із `SOVERSION` `0` |
+| Двійковий файл бібліотеки | `lib<НАЗВА>.so.<версія>` (префікс `lib` додається автоматично) | `libImagesAnnotatorDataDrivers-0.15.so.0.15.1` із `SOVERSION` `0` |
 | Директорія встановлення публічних заголовкових файлів | `include/<НАЗВА>/` | `include/ImagesAnnotatorDataDrivers-0.15/` |
 | Директорія CMake-пакунку | `lib/cmake/<НАЗВА>/` | `lib/cmake/ImagesAnnotatorDataDrivers-0.15/` |
 | Назва для `find_package()` | `find_package(<НАЗВА> REQUIRED)` | `find_package(ImagesAnnotatorDataDrivers-0.15 REQUIRED)` |
